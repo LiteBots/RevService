@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevAdmin - Panel Zarządzania</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        dark: {
+                            900: '#050505', // Tło główne
+                            800: '#111111', // Karty, Sidebar
+                            700: '#1a1a1a', // Obramowania
+                            600: '#2a2a2a', // Hover
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: #f3f4f6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+        /* Premium Input Fields */
+        .admin-input {
+            width: 100%;
+            background-color: #050505;
+            border: 1px solid #1a1a1a;
+            color: white;
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            transition: all 0.3s ease;
+        }
+        .admin-input:focus {
+            outline: none;
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        /* Nav Link Hover */
+        .nav-link.active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-right: 3px solid #10b981;
+        }
+
+        /* Status Badges */
+        .badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+        .badge-green { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .badge-yellow { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .badge-blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.2); }
+
+        /* File drop area */
+        .drop-zone {
+            border: 2px dashed #2a2a2a;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: #050505;
+        }
+        .drop-zone:hover {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        /* Modal Animation */
+        .modal-overlay {
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-content {
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-dark-800 border-r border-dark-700 flex flex-col hidden md:flex z-20">
+        <!-- Logo -->
+        <div class="h-20 flex items-center px-6 border-b border-dark-700">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-dark-900 border border-brand-500 rounded-xl flex items-center justify-center text-brand-500 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                    <i class="fa-solid fa-bolt"></i>
+                </div>
+                <h1 class="text-2xl font-black text-white tracking-wide">Rev<span class="text-brand-500">Admin</span></h1>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+            <a href="#" class="nav-link active flex items-center px-4 py-3 rounded-lg text-gray-400 hover:text-white transition-colors">
+                <i class="fa-solid fa-chart-pie w-6"></i>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <a href="#" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700 transition-colors">
+                <i class="fa-solid fa-clipboard-list w-6"></i>
+                <span class="font-medium">Zlecenia</span>
+                <span class="ml-auto bg-brand-500 text-dark-900 text-xs font-bold px-2 py-0.5 rounded-full">12</span>
+            </a>
+            <a href="#" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700 transition-colors">
+                <i class="fa-solid fa-comment-dollar w-6"></i>
+                <span class="font-medium">Wyceny (Leady)</span>
+                <span class="ml-auto bg-yellow-500 text-dark-900 text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+            </a>
+            
+            <div class="pt-4 pb-2">
+                <p class="px-4 text-xs font-bold text-gray-600 uppercase tracking-wider">Zarządzanie</p>
+            </div>
+            
+            <a href="#" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700 transition-colors">
+                <i class="fa-solid fa-users w-6"></i>
+                <span class="font-medium">Pracownicy</span>
+            </a>
+            <a href="#" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700 transition-colors">
+                <i class="fa-solid fa-truck w-6"></i>
+                <span class="font-medium">Flota Pojazdów</span>
+            </a>
+            <a href="#" class="nav-link flex items-center px-4 py-3 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700 transition-colors">
+                <i class="fa-regular fa-calendar-days w-6"></i>
+                <span class="font-medium">Kalendarz</span>
+            </a>
+        </nav>
+
+        <!-- User Info -->
+        <div class="p-4 border-t border-dark-700">
+            <div class="flex items-center gap-3 px-2">
+                <img src="https://ui-avatars.com/api/?name=Admin+Rev&background=10b981&color=050505" alt="Admin" class="w-10 h-10 rounded-full">
+                <div>
+                    <p class="text-sm font-bold text-white">Główny Dyspozytor</p>
+                    <p class="text-xs text-gray-500">admin@revserwis.pl</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative">
+        
+        <!-- Header -->
+        <header class="h-20 bg-dark-800/80 backdrop-blur-md border-b border-dark-700 flex items-center justify-between px-8 z-10">
+            <div class="flex items-center w-96">
+                <div class="relative w-full">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"></i>
+                    <input type="text" placeholder="Szukaj zlecenia, klienta, pracownika..." class="admin-input pl-11 bg-dark-900 border-dark-700 w-full rounded-full text-sm">
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <button class="relative text-gray-400 hover:text-white transition-colors">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 border-2 border-dark-800 rounded-full"></span>
+                </button>
+                <div class="h-8 w-px bg-dark-700"></div>
+                <button onclick="openModal('modal-add-order')" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-5 py-2 rounded-lg text-sm transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center">
+                    <i class="fa-solid fa-plus mr-2"></i> Nowe Zlecenie
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content (Scrollable) -->
+        <main class="flex-1 overflow-y-auto p-8 relative">
+            <!-- Tło ozdobne -->
+            <div class="absolute top-0 right-0 w-1/2 h-96 bg-brand-900/10 blur-[120px] pointer-events-none rounded-full"></div>
+            
+            <div class="flex justify-between items-end mb-8 relative z-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-white mb-1">Przegląd Dnia</h2>
+                    <p class="text-gray-400 text-sm">Wtorek, 14 Lipca 2026</p>
+                </div>
+                <div class="flex gap-3">
+                    <button onclick="openModal('modal-add-employee')" class="bg-dark-800 border border-dark-700 hover:border-brand-500 text-white px-4 py-2 rounded-lg text-sm transition-all flex items-center">
+                        <i class="fa-solid fa-user-plus mr-2 text-brand-500"></i> Dodaj Pracownika
+                    </button>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 relative z-10">
+                <!-- Stat 1 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-brand-500/5 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium mb-1">Zlecenia dzisiaj</p>
+                            <h3 class="text-3xl font-bold text-white">8</h3>
+                        </div>
+                        <div class="w-10 h-10 bg-dark-900 rounded-xl flex items-center justify-center text-brand-500 border border-dark-700">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-brand-400"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +2 względem wczoraj</p>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-yellow-500/5 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium mb-1">Oczekujące wyceny</p>
+                            <h3 class="text-3xl font-bold text-white">3</h3>
+                        </div>
+                        <div class="w-10 h-10 bg-dark-900 rounded-xl flex items-center justify-center text-yellow-500 border border-dark-700">
+                            <i class="fa-solid fa-stopwatch"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-yellow-500">Wymagają kontaktu z klientem</p>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium mb-1">Aktywni Pracownicy</p>
+                            <h3 class="text-3xl font-bold text-white">14<span class="text-lg text-gray-500">/18</span></h3>
+                        </div>
+                        <div class="w-10 h-10 bg-dark-900 rounded-xl flex items-center justify-center text-blue-500 border border-dark-700">
+                            <i class="fa-solid fa-users-gear"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400">4 na urlopie/L4</p>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-purple-500/5 rounded-bl-full transition-transform group-hover:scale-110"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-gray-400 text-sm font-medium mb-1">Flota (W Trasie)</p>
+                            <h3 class="text-3xl font-bold text-white">5<span class="text-lg text-gray-500">/6</span></h3>
+                        </div>
+                        <div class="w-10 h-10 bg-dark-900 rounded-xl flex items-center justify-center text-purple-500 border border-dark-700">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                    </div>
+                    <p class="text-xs text-brand-400">1 auto dostępne (Baza)</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+                
+                <!-- Ostatnie Zlecenia (Tabela) - Zajmuje 2/3 -->
+                <div class="lg:col-span-2 bg-dark-800 border border-dark-700 rounded-2xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-white">Bieżące Zlecenia</h3>
+                        <a href="#" class="text-sm text-brand-500 hover:text-brand-400">Zobacz wszystkie</a>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="text-gray-500 text-xs uppercase tracking-wider border-b border-dark-700">
+                                    <th class="pb-3 font-semibold">Usługa & Klient</th>
+                                    <th class="pb-3 font-semibold">Data / Czas</th>
+                                    <th class="pb-3 font-semibold">Ekipa</th>
+                                    <th class="pb-3 font-semibold">Status</th>
+                                    <th class="pb-3 font-semibold text-right">Akcje</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <!-- Wiersz 1 -->
+                                <tr class="border-b border-dark-700/50 hover:bg-dark-700/30 transition-colors">
+                                    <td class="py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded bg-dark-900 border border-dark-600 flex items-center justify-center text-brand-500">
+                                                <i class="fa-solid fa-box-open"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-white font-bold">Przeprowadzka Domu</p>
+                                                <p class="text-gray-500 text-xs">Jan Kowalski • Słupsk -> Ustka</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <p class="text-gray-300">Dziś, 08:00</p>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex -space-x-2">
+                                            <img class="w-7 h-7 rounded-full border-2 border-dark-800" src="https://ui-avatars.com/api/?name=M+K&background=2a2a2a&color=fff" title="Marcin K.">
+                                            <img class="w-7 h-7 rounded-full border-2 border-dark-800" src="https://ui-avatars.com/api/?name=T+W&background=2a2a2a&color=fff" title="Tomasz W.">
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="badge badge-blue">W trakcie</span>
+                                    </td>
+                                    <td class="py-4 text-right">
+                                        <button class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-gray-400 hover:text-brand-500 p-2"><i class="fa-solid fa-check"></i></button>
+                                    </td>
+                                </tr>
+                                
+                                <!-- Wiersz 2 -->
+                                <tr class="border-b border-dark-700/50 hover:bg-dark-700/30 transition-colors">
+                                    <td class="py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded bg-dark-900 border border-dark-600 flex items-center justify-center text-brand-500">
+                                                <i class="fa-solid fa-broom"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-white font-bold">Opróżnianie Piwnicy</p>
+                                                <p class="text-gray-500 text-xs">Anna Nowak • Koszalin</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <p class="text-gray-300">Dziś, 12:30</p>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex -space-x-2">
+                                            <img class="w-7 h-7 rounded-full border-2 border-dark-800" src="https://ui-avatars.com/api/?name=P+S&background=2a2a2a&color=fff">
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="badge badge-yellow">Oczekuje</span>
+                                    </td>
+                                    <td class="py-4 text-right">
+                                        <button class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                        <button class="text-gray-400 hover:text-brand-500 p-2"><i class="fa-solid fa-check"></i></button>
+                                    </td>
+                                </tr>
+
+                                <!-- Wiersz 3 -->
+                                <tr class="hover:bg-dark-700/30 transition-colors">
+                                    <td class="py-4">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-8 h-8 rounded bg-dark-900 border border-dark-600 flex items-center justify-center text-brand-500">
+                                                <i class="fa-solid fa-dolly"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-white font-bold">Transport Narożnika (Agata)</p>
+                                                <p class="text-gray-500 text-xs">Piotr Z. • Słupsk</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <p class="text-gray-300">Wczoraj, 16:00</p>
+                                    </td>
+                                    <td class="py-4">
+                                        <div class="flex -space-x-2">
+                                            <img class="w-7 h-7 rounded-full border-2 border-dark-800" src="https://ui-avatars.com/api/?name=K+P&background=2a2a2a&color=fff">
+                                        </div>
+                                    </td>
+                                    <td class="py-4">
+                                        <span class="badge badge-green">Zakończone</span>
+                                    </td>
+                                    <td class="py-4 text-right">
+                                        <button class="text-gray-400 hover:text-white p-2"><i class="fa-solid fa-eye"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Ostatnie zapytania o wycenę - Zajmuje 1/3 -->
+                <div class="bg-dark-800 border border-dark-700 rounded-2xl p-6 flex flex-col">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-xl font-bold text-white">Nowe Wyceny z www</h3>
+                        <span class="w-6 h-6 rounded-full bg-red-500/20 text-red-500 text-xs flex items-center justify-center font-bold">3</span>
+                    </div>
+
+                    <div class="space-y-4 flex-1 overflow-y-auto pr-2">
+                        <!-- Lead 1 -->
+                        <div class="p-4 rounded-xl border border-dark-700 bg-dark-900 hover:border-brand-500/50 transition-colors cursor-pointer group">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold text-brand-500 bg-brand-500/10 px-2 py-1 rounded">RevMove</span>
+                                <span class="text-xs text-gray-500">10 min temu</span>
+                            </div>
+                            <p class="text-white font-bold text-sm mb-1">Kamil L. (+48 500 600 700)</p>
+                            <p class="text-gray-400 text-xs mb-3">Słupsk (3 piętro) -> Lębork (dom)</p>
+                            <div class="text-xs text-gray-500 border-t border-dark-700 pt-2 flex items-center justify-between">
+                                <span class="truncate pr-2">"Dużo kartonów, lodówka side-by-side..."</span>
+                                <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-brand-500 transition-colors"></i>
+                            </div>
+                        </div>
+
+                        <!-- Lead 2 -->
+                        <div class="p-4 rounded-xl border border-dark-700 bg-dark-900 hover:border-brand-500/50 transition-colors cursor-pointer group">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded">RevEco</span>
+                                <span class="text-xs text-gray-500">1 godz. temu</span>
+                            </div>
+                            <p class="text-white font-bold text-sm mb-1">Marta W. (+48 601 202 303)</p>
+                            <p class="text-gray-400 text-xs mb-3">Ustka (działka ROD)</p>
+                            <div class="text-xs text-gray-500 border-t border-dark-700 pt-2 flex items-center justify-between">
+                                <span class="truncate pr-2">"Stare deski, gruz w workach do wywozu..."</span>
+                                <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-brand-500 transition-colors"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-4 py-3 rounded-xl border border-dark-600 text-gray-400 hover:text-white hover:bg-dark-700 transition-colors text-sm font-bold">
+                        Zobacz archiwum
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- ================= MODALE ================= -->
+
+    <!-- Modal: Dodaj Zlecenie -->
+    <div id="modal-add-order" class="modal-overlay fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-dark-800 border border-dark-700 rounded-3xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl">
+            
+            <!-- Modal Header -->
+            <div class="px-8 py-5 border-b border-dark-700 flex justify-between items-center bg-dark-900/50">
+                <h3 class="text-xl font-bold text-white flex items-center">
+                    <i class="fa-solid fa-plus-circle text-brand-500 mr-3"></i> Utwórz Nowe Zlecenie
+                </h3>
+                <button onclick="closeModal('modal-add-order')" class="text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body (Scrollable) -->
+            <div class="p-8 overflow-y-auto">
+                <form class="space-y-6">
+                    
+                    <!-- Dział / Typ -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Marka / Dział</label>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="dept" class="peer sr-only" checked>
+                                <div class="text-center p-3 rounded-xl border border-dark-600 bg-dark-900 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 text-gray-400 peer-checked:text-white transition-all text-sm font-bold">
+                                    RevMove
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="dept" class="peer sr-only">
+                                <div class="text-center p-3 rounded-xl border border-dark-600 bg-dark-900 peer-checked:border-brand-500 peer-checked:bg-brand-500/10 text-gray-400 peer-checked:text-white transition-all text-sm font-bold">
+                                    RevTransport
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="dept" class="peer sr-only">
+                                <div class="text-center p-3 rounded-xl border border-dark-600 bg-dark-900 peer-checked:border-green-500 peer-checked:bg-green-500/10 text-gray-400 peer-checked:text-white transition-all text-sm font-bold">
+                                    RevEco
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="dept" class="peer sr-only">
+                                <div class="text-center p-3 rounded-xl border border-dark-600 bg-dark-900 peer-checked:border-blue-500 peer-checked:bg-blue-500/10 text-gray-400 peer-checked:text-white transition-all text-sm font-bold">
+                                    RevBusiness
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Klient / Nazwa Zlecenia</label>
+                            <input type="text" class="admin-input" placeholder="np. Jan Kowalski - Przeprowadzka">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Data i Godzina</label>
+                            <input type="datetime-local" class="admin-input">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Lokalizacja Początkowa (Skąd)</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-location-dot absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                                <input type="text" class="admin-input pl-10" placeholder="Ulica, miasto, piętro...">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Lokalizacja Końcowa (Dokąd)</label>
+                            <div class="relative">
+                                <i class="fa-solid fa-flag-checkered absolute left-3 top-1/2 -translate-y-1/2 text-brand-500"></i>
+                                <input type="text" class="admin-input pl-10" placeholder="Ulica, miasto, piętro...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Opis dla ekipy (co zabrać, na co uważać)</label>
+                        <textarea class="admin-input h-24 resize-none" placeholder="Szczegółowy opis zlecenia..."></textarea>
+                    </div>
+
+                    <!-- Zdjęcia -->
+                    <div>
+                        <label class="block text-sm font-bold text-gray-400 mb-2">Załączniki (Zdjęcia gabarytów od klienta)</label>
+                        <div class="drop-zone cursor-pointer">
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-500 mb-2"></i>
+                            <p class="text-gray-400 text-sm">Przeciągnij zdjęcia tutaj lub <span class="text-brand-500 font-bold">kliknij, aby wybrać</span></p>
+                        </div>
+                    </div>
+
+                    <!-- Przypisanie -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 bg-dark-900 p-4 rounded-xl border border-dark-700">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Przypisz Pracowników</label>
+                            <select class="admin-input" multiple>
+                                <option>Marcin K. (Kierowca)</option>
+                                <option>Tomasz W. (Tragarz)</option>
+                                <option>Piotr S. (Tragarz)</option>
+                                <option>Kamil L. (Kierowca)</option>
+                            </select>
+                            <p class="text-xs text-gray-500 mt-1">Przytrzymaj CTRL aby wybrać wielu</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Wybierz Auto</label>
+                            <select class="admin-input">
+                                <option>Wybierz pojazd...</option>
+                                <option>Iveco Daily (Winda) - GS 12345</option>
+                                <option>Fiat Ducato (Plandeka) - GS 98765</option>
+                                <option>Renault Master (Blaszak) - GS 11223</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-8 py-5 border-t border-dark-700 flex justify-end gap-3 bg-dark-900/50">
+                <button onclick="closeModal('modal-add-order')" class="px-5 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700 transition-colors font-bold text-sm">Anuluj</button>
+                <button onclick="saveAndClose('modal-add-order')" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-6 py-2.5 rounded-lg text-sm transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center">
+                    Zapisz i powiadom ekipę <i class="fa-solid fa-paper-plane ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Dodaj Pracownika -->
+    <div id="modal-add-employee" class="modal-overlay fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+        <div class="modal-content bg-dark-800 border border-dark-700 rounded-3xl w-full max-w-2xl overflow-hidden flex flex-col shadow-2xl">
+            
+            <div class="px-8 py-5 border-b border-dark-700 flex justify-between items-center bg-dark-900/50">
+                <h3 class="text-xl font-bold text-white flex items-center">
+                    <i class="fa-solid fa-user-plus text-brand-500 mr-3"></i> Nowy Pracownik
+                </h3>
+                <button onclick="closeModal('modal-add-employee')" class="text-gray-500 hover:text-white transition-colors">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <div class="p-8">
+                <form class="space-y-5">
+                    
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Imię</label>
+                            <input type="text" class="admin-input" placeholder="Jan">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Nazwisko</label>
+                            <input type="text" class="admin-input" placeholder="Kowalski">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Telefon</label>
+                            <input type="tel" class="admin-input" placeholder="+48 ...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Adres Email (opcjonalnie)</label>
+                            <input type="email" class="admin-input" placeholder="jan@revserwis.pl">
+                        </div>
+                    </div>
+
+                    <div class="border-t border-dark-700 my-4 pt-4"></div>
+
+                    <div class="grid grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Główny Dział</label>
+                            <select class="admin-input">
+                                <option>Uniwersalny (Wszystkie)</option>
+                                <option>RevMove (Przeprowadzki)</option>
+                                <option>RevTransport (Pojedyncze meble)</option>
+                                <option>RevEco (Utylizacje)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-gray-400 mb-2">Stanowisko</label>
+                            <select class="admin-input">
+                                <option>Kierowca / Lider ekipy</option>
+                                <option>Tragarz / Pomocnik</option>
+                                <option>Dyspozytor</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="px-8 py-5 border-t border-dark-700 flex justify-end gap-3 bg-dark-900/50">
+                <button onclick="closeModal('modal-add-employee')" class="px-5 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-700 transition-colors font-bold text-sm">Anuluj</button>
+                <button onclick="saveAndClose('modal-add-employee')" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-6 py-2.5 rounded-lg text-sm transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                    Dodaj pracownika
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Prosty system powiadomień (Toast) -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-dark-800 border-l-4 border-brand-500 text-white px-6 py-4 rounded shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 z-50 flex items-center">
+        <i class="fa-solid fa-circle-check text-brand-500 mr-3 text-xl"></i>
+        <div>
+            <p class="font-bold text-sm" id="toast-title">Sukces</p>
+            <p class="text-xs text-gray-400" id="toast-msg">Akcja wykonana pomyślnie.</p>
+        </div>
+    </div>
+
+    <!-- Skrypty UI -->
+    <script>
+        function openModal(id) {
+            document.getElementById(id).classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        function saveAndClose(id) {
+            // Zamknięcie modala
+            closeModal(id);
+            
+            // Pokazanie toasta
+            const toast = document.getElementById('toast');
+            let msg = id === 'modal-add-order' ? 'Zlecenie zostało dodane i wysłane do ekipy.' : 'Pracownik został dodany do bazy.';
+            
+            document.getElementById('toast-msg').textContent = msg;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        // Zamykanie modali po kliknięciu w tło
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
