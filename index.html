@@ -13,22 +13,20 @@
             theme: {
                 extend: {
                     colors: {
-                        // Bardziej nasycony i profesjonalny zielony, bazujący na logo
                         brand: {
                             400: '#34d399',
-                            500: '#10b981', // Szmaragdowy/zielony pasujący do nowoczesnych stron
+                            500: '#10b981',
                             600: '#059669',
                             700: '#047857',
                         },
                         dark: {
-                            900: '#050505', // Głęboka czerń
-                            800: '#111111', // Ciemny szary dla kart
-                            700: '#1a1a1a', // Obramowania
+                            900: '#050505',
+                            800: '#111111',
+                            700: '#1a1a1a',
                             600: '#2a2a2a',
                         }
                     },
                     fontFamily: {
-                        // Zmiana na Plus Jakarta Sans - bardzo nowoczesny, biznesowy font
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
                     backgroundImage: {
@@ -702,10 +700,14 @@
 
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center">
+            <div class="flex flex-col md:flex-row justify-between items-center w-full">
                 <p class="text-gray-600 text-sm mb-4 md:mb-0">
                     &copy; 2026 RevSerwis. Wszystkie prawa zastrzeżone.
                 </p>
+                <!-- DYSKRETNY LINK DO PANELU ADMINISTRATORA -->
+                <a href="/admin" class="text-gray-700 hover:text-brand-500 text-sm transition-colors flex items-center">
+                    <i class="fa-solid fa-lock text-xs mr-2"></i> Panel Administratora
+                </a>
             </div>
         </div>
     </footer>
