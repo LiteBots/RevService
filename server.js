@@ -8,23 +8,24 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
-const MONGODB_URI = process.env.MONGODB_URI;
+// Zmiana na poprawną nazwę Twojej zmiennej
+const MONGO_URL = process.env.MONGO_URL;
 
 let dbConnected = false;
 
 // Połączenie z MongoDB
-if (MONGODB_URI) {
-    mongoose.connect(MONGODB_URI)
+if (MONGO_URL) {
+    mongoose.connect(MONGO_URL)
         .then(() => {
             dbConnected = true;
             console.log('✅ Połączono z bazą MongoDB');
         })
         .catch(err => console.error('❌ Błąd połączenia z MongoDB:', err));
 } else {
-    console.warn('⚠️ Brak zmiennej MONGODB_URI. System zapisu nie zadziała!');
+    console.warn('⚠️ Brak zmiennej MONGO_URL. System zapisu nie zadziała!');
 }
 
-// Schematy
+// Schematy Bazy Danych
 const PracownikSchema = new mongoose.Schema({
     imie: String,
     rola: String,
@@ -90,7 +91,7 @@ app.get('/api/pracownicy', requireAuth, async (req, res) => {
 });
 
 app.post('/api/pracownicy', requireAuth, async (req, res) => {
-    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź zmienną MONGODB_URI na Railway.' });
+    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź czy zmienna MONGO_URL jest poprawnie dodana.' });
     try {
         const nowy = new Pracownik(req.body);
         await nowy.save();
@@ -108,7 +109,7 @@ app.get('/api/zlecenia', requireAuth, async (req, res) => {
 });
 
 app.post('/api/zlecenia', requireAuth, async (req, res) => {
-    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź zmienną MONGODB_URI na Railway.' });
+    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź czy zmienna MONGO_URL jest poprawnie dodana.' });
     try {
         const nowe = new Zlecenie(req.body);
         await nowe.save();
