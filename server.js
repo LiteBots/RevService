@@ -8,7 +8,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
-// Zmiana na poprawną nazwę Twojej zmiennej
 const MONGO_URL = process.env.MONGO_URL;
 
 let dbConnected = false;
@@ -83,7 +82,7 @@ const requireAuth = (req, res, next) => {
 
 // API: Pracownicy
 app.get('/api/pracownicy', requireAuth, async (req, res) => {
-    if (!dbConnected) return res.json([]); // Zwróć pustą listę jeśli brak bazy
+    if (!dbConnected) return res.json([]); 
     try {
         const pracownicy = await Pracownik.find();
         res.json(pracownicy);
@@ -91,11 +90,27 @@ app.get('/api/pracownicy', requireAuth, async (req, res) => {
 });
 
 app.post('/api/pracownicy', requireAuth, async (req, res) => {
-    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź czy zmienna MONGO_URL jest poprawnie dodana.' });
+    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB!' });
     try {
         const nowy = new Pracownik(req.body);
         await nowy.save();
         res.json({ success: true, pracownik: nowy });
+    } catch(e) { res.status(500).json({ error: e.message }); }
+});
+
+// NOWE API: Dodawanie wypłaty (zwiększanie zarobków)
+app.post('/api/pracownicy/wyplata', requireAuth, async (req, res) => {
+    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB!' });
+    try {
+        const { imie, kwota } = req.body;
+        // Znajdź pracownika po imieniu i zwiększ jego zarobki ($inc)
+        const pracownik = await Pracownik.findOneAndUpdate(
+            { imie: imie },
+            { $inc: { zarobki: Number(kwota) } },
+            { new: true }
+        );
+        if (!pracownik) return res.status(404).json({ error: 'Nie znaleziono pracownika' });
+        res.json({ success: true, pracownik });
     } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
@@ -109,7 +124,7 @@ app.get('/api/zlecenia', requireAuth, async (req, res) => {
 });
 
 app.post('/api/zlecenia', requireAuth, async (req, res) => {
-    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź czy zmienna MONGO_URL jest poprawnie dodana.' });
+    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB!' });
     try {
         const nowe = new Zlecenie(req.body);
         await nowe.save();
