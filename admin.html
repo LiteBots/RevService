@@ -148,7 +148,7 @@
                         <div class="premium-card rounded-2xl p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <p class="text-sm font-medium text-gray-500 mb-1">Przychód (Baza)</p>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Przychód (Zlecenia)</p>
                                     <h3 id="stat-przychod" class="text-3xl font-bold text-white">0 <span class="text-lg text-gray-500">PLN</span></h3>
                                 </div>
                                 <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500 text-xl"><i class="fa-solid fa-wallet"></i></div>
@@ -157,10 +157,10 @@
                         <div class="premium-card rounded-2xl p-6">
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <p class="text-sm font-medium text-gray-500 mb-1">Pojazdy</p>
-                                    <h3 class="text-3xl font-bold text-white">4</h3>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Suma wypłat</p>
+                                    <h3 id="stat-wyplaty" class="text-3xl font-bold text-white">0 <span class="text-lg text-gray-500">PLN</span></h3>
                                 </div>
-                                <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 text-xl"><i class="fa-solid fa-van-shuttle"></i></div>
+                                <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500 text-xl"><i class="fa-solid fa-money-bill-transfer"></i></div>
                             </div>
                         </div>
                     </div>
@@ -224,18 +224,38 @@
 
                 <!-- ================= VIEW: PRACOWNICY ================= -->
                 <div id="view-pracownicy" class="view-section">
-                    <div class="flex justify-between items-end mb-8">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                         <div>
                             <h2 class="text-3xl font-bold text-white mb-2">Kadra Pracownicza</h2>
                             <p class="text-gray-400">Zarządzaj zespołem i stawkami.</p>
                         </div>
-                        <button onclick="document.getElementById('form-pracownik-container').classList.toggle('hidden')" class="bg-dark-800 border border-dark-700 text-white font-bold px-6 py-3 rounded-xl hover:border-brand-500 transition-all">
-                            <i class="fa-solid fa-user-plus mr-2"></i> Dodaj pracownika
-                        </button>
+                        <div class="flex gap-4">
+                            <button onclick="document.getElementById('form-wyplata-container').classList.toggle('hidden'); document.getElementById('form-pracownik-container').classList.add('hidden');" class="bg-brand-500 text-dark-900 font-bold px-6 py-3 rounded-xl hover:bg-brand-400 transition-all">
+                                <i class="fa-solid fa-money-bill-wave mr-2"></i> Dodaj wypłatę
+                            </button>
+                            <button onclick="document.getElementById('form-pracownik-container').classList.toggle('hidden'); document.getElementById('form-wyplata-container').classList.add('hidden');" class="bg-dark-800 border border-dark-700 text-white font-bold px-6 py-3 rounded-xl hover:border-brand-500 transition-all">
+                                <i class="fa-solid fa-user-plus mr-2"></i> Nowy pracownik
+                            </button>
+                        </div>
                     </div>
 
+                    <!-- Formularz dodawania WYPŁATY -->
+                    <div id="form-wyplata-container" class="hidden premium-card rounded-2xl p-6 mb-8 border border-brand-500/30">
+                        <h3 class="text-xl font-bold text-brand-500 mb-4">Ewidencja wypłaty</h3>
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <select id="w-pracownik" class="input-field rounded-xl px-4 py-2 text-white flex-1">
+                                <option value="">Wybierz pracownika...</option>
+                            </select>
+                            <input type="number" id="w-kwota" placeholder="Kwota (PLN)" class="input-field rounded-xl px-4 py-2 text-white flex-1">
+                            <button onclick="dodajWyplate()" type="button" class="bg-brand-500 text-dark-900 font-bold px-8 py-2 rounded-xl hover:bg-brand-400 transition-colors">
+                                Zapisz wypłatę
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Formularz dodawania pracownika -->
                     <div id="form-pracownik-container" class="hidden premium-card rounded-2xl p-6 mb-8 border border-dark-600">
-                        <h3 class="text-xl font-bold text-white mb-4">Nowy pracownik</h3>
+                        <h3 class="text-xl font-bold text-white mb-4">Nowy pracownik w firmie</h3>
                         <div class="flex flex-col md:flex-row gap-4">
                             <input type="text" id="p-imie" placeholder="Imię i nazwisko" class="input-field rounded-xl px-4 py-2 text-white flex-1">
                             <input type="text" id="p-rola" placeholder="Stanowisko (np. Kierowca)" class="input-field rounded-xl px-4 py-2 text-white flex-1">
@@ -244,7 +264,7 @@
                                 <option>Transport</option>
                                 <option>Eko/Utylizacja</option>
                             </select>
-                            <button onclick="dodajPracownika()" type="button" class="bg-brand-500 text-dark-900 font-bold px-8 py-2 rounded-xl">Dodaj</button>
+                            <button onclick="dodajPracownika()" type="button" class="bg-dark-800 border border-dark-600 text-white font-bold px-8 py-2 rounded-xl hover:bg-dark-700 transition-colors">Dodaj</button>
                         </div>
                     </div>
 
@@ -370,11 +390,24 @@
             
             const selectZlecenia = document.getElementById('z-ekipa');
             selectZlecenia.innerHTML = '<option value="">Wybierz pracownika...</option>';
+            
+            const selectWyplata = document.getElementById('w-pracownik');
+            selectWyplata.innerHTML = '<option value="">Wybierz pracownika...</option>';
+
+            let sumaZarobkow = 0;
 
             pracownicy.forEach(p => {
-                const opt = document.createElement('option');
-                opt.value = p.imie; opt.textContent = p.imie;
-                selectZlecenia.appendChild(opt);
+                sumaZarobkow += (p.zarobki || 0);
+
+                // Option dla Zleceń
+                const optZ = document.createElement('option');
+                optZ.value = p.imie; optZ.textContent = p.imie;
+                selectZlecenia.appendChild(optZ);
+
+                // Option dla Wypłat
+                const optW = document.createElement('option');
+                optW.value = p.imie; optW.textContent = p.imie;
+                selectWyplata.appendChild(optW);
 
                 const inicjal = p.imie.charAt(0).toUpperCase();
                 container.innerHTML += `
@@ -389,12 +422,13 @@
                         </div>
                         <div class="space-y-3 pt-4 border-t border-dark-700 text-sm">
                             <div class="flex justify-between"><span class="text-gray-500">Dział</span><span class="font-bold text-white">${p.dzial}</span></div>
-                            <div class="flex justify-between"><span class="text-gray-500">Zarobki</span><span class="font-bold text-brand-400">${p.zarobki} PLN</span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Suma wypłat</span><span class="font-bold text-brand-400">${p.zarobki} PLN</span></div>
                         </div>
                     </div>
                 `;
             });
             document.getElementById('stat-pracownicy').innerText = pracownicy.length;
+            document.getElementById('stat-wyplaty').innerHTML = `${sumaZarobkow} <span class="text-lg text-gray-500">PLN</span>`;
         }
 
         async function dodajPracownika() {
@@ -419,6 +453,33 @@
             document.getElementById('p-imie').value = '';
             document.getElementById('p-rola').value = '';
             document.getElementById('form-pracownik-container').classList.add('hidden');
+            fetchPracownicy();
+        }
+
+        // NOWE: Zapis wypłaty w bazie
+        async function dodajWyplate() {
+            const wData = {
+                imie: document.getElementById('w-pracownik').value,
+                kwota: document.getElementById('w-kwota').value
+            };
+
+            if(!wData.imie || !wData.kwota) return alert('Wybierz pracownika i podaj kwotę!');
+
+            const res = await fetch('/api/pracownicy/wyplata', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(wData)
+            });
+            const info = await res.json();
+
+            if(!res.ok) return alert('Błąd bazy danych: ' + info.error);
+
+            alert('Pieniądze pomyślnie dopisane do konta pracownika!');
+            document.getElementById('w-kwota').value = '';
+            document.getElementById('w-pracownik').value = '';
+            document.getElementById('form-wyplata-container').classList.add('hidden');
+            
+            // Odśwież, by zaktualizować karty z kwotami
             fetchPracownicy();
         }
 
