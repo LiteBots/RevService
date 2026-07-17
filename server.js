@@ -8,19 +8,23 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
-// Zmienna z linkiem do MongoDB z Railway
 const MONGODB_URI = process.env.MONGODB_URI;
+
+let dbConnected = false;
 
 // Połączenie z MongoDB
 if (MONGODB_URI) {
     mongoose.connect(MONGODB_URI)
-        .then(() => console.log('✅ Połączono z MongoDB'))
+        .then(() => {
+            dbConnected = true;
+            console.log('✅ Połączono z bazą MongoDB');
+        })
         .catch(err => console.error('❌ Błąd połączenia z MongoDB:', err));
 } else {
-    console.warn('⚠️ Brak zmiennej MONGODB_URI. Dane nie będą zapisywane w bazie!');
+    console.warn('⚠️ Brak zmiennej MONGODB_URI. System zapisu nie zadziała!');
 }
 
-// Schematy Bazy Danych
+// Schematy
 const PracownikSchema = new mongoose.Schema({
     imie: String,
     rola: String,
@@ -39,7 +43,7 @@ const ZlecenieSchema = new mongoose.Schema({
     skad: String,
     dokad: String,
     opis: String,
-    status: { type: String, default: 'Oczekuje' },
+    status: { type: String, default: 'W trakcie' },
     createdAt: { type: Date, default: Date.now }
 });
 const Zlecenie = mongoose.model('Zlecenie', ZlecenieSchema);
@@ -48,17 +52,17 @@ const Zlecenie = mongoose.model('Zlecenie', ZlecenieSchema);
 app.use(express.json());
 app.use(cookieParser());
 
-// Routing dla plików HTML
+// Routing HTML
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/admin', (req, res) => res.sendFile(path.join(__dirname, 'admin.html')));
 
-// --- AUTORYZACJA ---
+// Logowanie
 app.post('/api/login', (req, res) => {
     if (req.body.pin === ADMIN_PIN) {
         res.cookie('auth_token', 'zalogowano', { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
         return res.status(200).json({ success: true });
     }
-    return res.status(401).json({ success: false, message: 'Błędny kod PIN' });
+    return res.status(401).json({ success: false, message: 'Błędny PIN' });
 });
 
 app.get('/api/check-auth', (req, res) => {
@@ -71,37 +75,45 @@ app.post('/api/logout', (req, res) => {
     return res.status(200).json({ success: true });
 });
 
-// Middleware zabezpieczający endpointy danych (tylko zalogowani mają dostęp)
 const requireAuth = (req, res, next) => {
     if (req.cookies.auth_token === 'zalogowano') next();
     else res.status(401).json({ error: 'Brak autoryzacji' });
 };
 
-// --- API: PRACOWNICY ---
+// API: Pracownicy
 app.get('/api/pracownicy', requireAuth, async (req, res) => {
-    const pracownicy = await Pracownik.find();
-    res.json(pracownicy);
+    if (!dbConnected) return res.json([]); // Zwróć pustą listę jeśli brak bazy
+    try {
+        const pracownicy = await Pracownik.find();
+        res.json(pracownicy);
+    } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 app.post('/api/pracownicy', requireAuth, async (req, res) => {
-    const nowyPracownik = new Pracownik(req.body);
-    await nowyPracownik.save();
-    res.json({ success: true, pracownik: nowyPracownik });
+    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź zmienną MONGODB_URI na Railway.' });
+    try {
+        const nowy = new Pracownik(req.body);
+        await nowy.save();
+        res.json({ success: true, pracownik: nowy });
+    } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-// --- API: ZLECENIA ---
+// API: Zlecenia
 app.get('/api/zlecenia', requireAuth, async (req, res) => {
-    // Pobiera zlecenia sortując od najnowszych
-    const zlecenia = await Zlecenie.find().sort({ createdAt: -1 });
-    res.json(zlecenia);
+    if (!dbConnected) return res.json([]);
+    try {
+        const zlecenia = await Zlecenie.find().sort({ createdAt: -1 });
+        res.json(zlecenia);
+    } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
 app.post('/api/zlecenia', requireAuth, async (req, res) => {
-    const noweZlecenie = new Zlecenie(req.body);
-    await noweZlecenie.save();
-    res.json({ success: true, zlecenie: noweZlecenie });
+    if (!dbConnected) return res.status(500).json({ error: 'Brak połączenia z MongoDB! Sprawdź zmienną MONGODB_URI na Railway.' });
+    try {
+        const nowe = new Zlecenie(req.body);
+        await nowe.save();
+        res.json({ success: true, zlecenie: nowe });
+    } catch(e) { res.status(500).json({ error: e.message }); }
 });
 
-app.listen(PORT, () => {
-    console.log(`Serwer działa na porcie ${PORT}`);
-});
+app.listen(PORT, () => console.log(`Serwer działa na porcie ${PORT}`));
