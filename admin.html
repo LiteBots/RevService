@@ -47,16 +47,13 @@
 
     <!-- Ekran Logowania -->
     <div id="login-overlay" class="fixed inset-0 bg-dark-900 z-50 flex flex-col items-center justify-center transition-opacity duration-500">
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CgkJPHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPgoJCTxwYXRoIGQ9Ik00MCAwaC0xdjQwaDFWMHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMSkiLz4KCQk8cGF0aCBkPSJNMCAzOWg0MHYxaC00MHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMSkiLz4KCTwvc3ZnPg==')] pointer-events-none z-0 opacity-50"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-brand-900/20 blur-[100px] pointer-events-none z-0"></div>
-        
         <div class="relative z-10 glass-panel p-10 rounded-3xl border border-dark-700 shadow-2xl text-center w-full max-w-sm">
             <h1 class="text-3xl font-black tracking-wide text-white mb-2">Rev<span class="text-brand-500 text-glow">Admin</span></h1>
             <p class="text-gray-400 text-sm mb-8">Wprowadź kod dostępu</p>
             
             <form id="login-form" class="space-y-6">
                 <input type="password" id="pin-input" maxlength="4" pattern="\d{4}" autocomplete="off" 
-                    class="w-full bg-dark-800 border-2 border-dark-600 text-white text-center text-4xl tracking-[0.5em] rounded-xl py-4 focus:border-brand-500 focus:outline-none transition-colors" 
+                    class="w-full bg-dark-800 border-2 border-dark-600 text-white text-center text-4xl tracking-[0.5em] rounded-xl py-4 focus:border-brand-500 focus:outline-none" 
                     placeholder="••••">
                 <p id="login-error" class="text-red-500 text-sm font-medium hidden">Błędny kod PIN</p>
                 <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-8 py-4 rounded-xl transition-all">Zaloguj się</button>
@@ -64,8 +61,9 @@
         </div>
     </div>
 
-    <!-- Główny Aplikacja -->
+    <!-- Główna Aplikacja -->
     <div id="app-wrapper" class="flex h-screen opacity-0 invisible transition-opacity duration-500 w-full">
+        
         <!-- Sidebar -->
         <aside class="w-64 glass-panel border-r border-dark-700 flex flex-col z-20 hidden md:flex shrink-0">
             <div class="h-20 flex items-center px-6 border-b border-dark-700">
@@ -74,16 +72,27 @@
             
             <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
                 <p class="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Główne</p>
-                <button onclick="switchView('dashboard')" class="nav-btn w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl text-white bg-brand-500/10 border border-brand-500/20 transition-all" data-target="dashboard">
+                <button onclick="switchView('dashboard')" class="nav-btn bg-brand-500/10 border-brand-500/20 text-white w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="dashboard">
                     <i class="fa-solid fa-chart-pie w-6 text-brand-500"></i> Statystyki
                 </button>
-                <button onclick="switchView('zlecenia')" class="nav-btn w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-400 hover:text-white hover:bg-dark-800 transition-all" data-target="zlecenia">
+                <button onclick="switchView('zlecenia')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="zlecenia">
                     <i class="fa-solid fa-clipboard-list w-6"></i> Zlecenia
+                </button>
+                <button onclick="switchView('wyceny')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="wyceny">
+                    <i class="fa-solid fa-file-invoice-dollar w-6"></i> Wyceny
                 </button>
 
                 <p class="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-2">Zarządzanie</p>
-                <button onclick="switchView('pracownicy')" class="nav-btn w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl text-gray-400 hover:text-white hover:bg-dark-800 transition-all" data-target="pracownicy">
+                <button onclick="switchView('pracownicy')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="pracownicy">
                     <i class="fa-solid fa-users w-6"></i> Pracownicy
+                </button>
+                <button onclick="switchView('flota')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="flota">
+                    <i class="fa-solid fa-truck w-6"></i> Flota
+                </button>
+
+                <p class="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-2">Narzędzia</p>
+                <button onclick="switchView('notatki')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="notatki">
+                    <i class="fa-solid fa-note-sticky w-6"></i> Notatki
                 </button>
             </nav>
 
@@ -98,43 +107,77 @@
             <!-- Topbar -->
             <header class="h-20 glass-panel border-b border-dark-700 flex items-center justify-between px-8 z-10 shrink-0">
                 <div class="w-1/2">
-                    <h2 id="topbar-title" class="text-xl font-bold text-white">Dashboard</h2>
+                    <div class="relative w-full max-w-md">
+                        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+                        <input type="text" placeholder="Szukaj..." class="w-full input-field rounded-full pl-11 pr-4 py-2.5 text-sm text-white placeholder-gray-500">
+                    </div>
                 </div>
                 <div class="flex items-center gap-4">
                     <a href="/" target="_blank" class="text-sm font-medium text-gray-400 hover:text-brand-500 transition-colors mr-4">
-                        <i class="fa-solid fa-globe mr-1"></i> Zobacz stronę
+                        <i class="fa-solid fa-globe mr-1"></i> Strona główna
                     </a>
                 </div>
             </header>
 
             <div class="flex-1 overflow-y-auto p-8 z-10 relative w-full" id="content-area">
                 
-                <!-- DASHBOARD -->
+                <!-- ================= VIEW: DASHBOARD ================= -->
                 <div id="view-dashboard" class="view-section active">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <h2 class="text-3xl font-bold text-white mb-2">Przegląd firmy</h2>
+                    <p class="text-gray-400 mb-8">Podsumowanie działań z bazy danych.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                         <div class="premium-card rounded-2xl p-6">
-                            <p class="text-sm text-gray-500 mb-1">Zlecenia ogółem</p>
-                            <h3 id="stat-zlecenia" class="text-3xl font-bold text-white">0</h3>
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Zlecenia (W bazie)</p>
+                                    <h3 id="stat-zlecenia" class="text-3xl font-bold text-white">0</h3>
+                                </div>
+                                <div class="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500 text-xl"><i class="fa-solid fa-truck-fast"></i></div>
+                            </div>
                         </div>
                         <div class="premium-card rounded-2xl p-6">
-                            <p class="text-sm text-gray-500 mb-1">Liczba pracowników</p>
-                            <h3 id="stat-pracownicy" class="text-3xl font-bold text-white">0</h3>
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Zespół</p>
+                                    <h3 id="stat-pracownicy" class="text-3xl font-bold text-white">0</h3>
+                                </div>
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 text-xl"><i class="fa-solid fa-users"></i></div>
+                            </div>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Przychód (Baza)</p>
+                                    <h3 id="stat-przychod" class="text-3xl font-bold text-white">0 <span class="text-lg text-gray-500">PLN</span></h3>
+                                </div>
+                                <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500 text-xl"><i class="fa-solid fa-wallet"></i></div>
+                            </div>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <p class="text-sm font-medium text-gray-500 mb-1">Pojazdy</p>
+                                    <h3 class="text-3xl font-bold text-white">4</h3>
+                                </div>
+                                <div class="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-500 text-xl"><i class="fa-solid fa-van-shuttle"></i></div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ZLECENIA -->
+                <!-- ================= VIEW: ZLECENIA ================= -->
                 <div id="view-zlecenia" class="view-section">
                     <div class="flex justify-between items-end mb-8">
                         <div>
                             <h2 class="text-3xl font-bold text-white mb-2">Baza Zleceń</h2>
+                            <p class="text-gray-400">Dodawaj nowe przeprowadzki i zarządzaj obecnymi.</p>
                         </div>
                         <button onclick="document.getElementById('form-zlecenie-container').classList.toggle('hidden')" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-6 py-3 rounded-xl transition-all">
                             <i class="fa-solid fa-plus mr-2"></i> Nowe Zlecenie
                         </button>
                     </div>
 
-                    <!-- Formularz zlecenia (ukryty domyślnie) -->
                     <div id="form-zlecenie-container" class="hidden premium-card rounded-2xl p-6 mb-8 border border-brand-500/30">
                         <h3 class="text-xl font-bold text-brand-500 mb-4">Kreator nowego zlecenia</h3>
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
@@ -143,22 +186,24 @@
                             </select>
                             <input type="datetime-local" id="z-data" class="input-field rounded-xl px-4 py-2 text-white">
                             <input type="number" id="z-stawka" placeholder="Stawka PLN" class="input-field rounded-xl px-4 py-2 text-white">
-                            <!-- Select dla ekip zaciągany z bazy -->
                             <select id="z-ekipa" class="input-field rounded-xl px-4 py-2 text-white">
                                 <option value="">Wybierz pracownika...</option>
                             </select>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input type="text" id="z-skad" placeholder="Skąd" class="input-field rounded-xl px-4 py-2 text-white">
-                            <input type="text" id="z-dokad" placeholder="Dokąd" class="input-field rounded-xl px-4 py-2 text-white">
+                            <input type="text" id="z-skad" placeholder="Adres: Skąd" class="input-field rounded-xl px-4 py-2 text-white">
+                            <input type="text" id="z-dokad" placeholder="Adres: Dokąd" class="input-field rounded-xl px-4 py-2 text-white">
                         </div>
-                        <textarea id="z-opis" placeholder="Opis zadania" class="w-full input-field rounded-xl px-4 py-2 text-white resize-none mb-4"></textarea>
+                        <textarea id="z-opis" placeholder="Opis zadania..." class="w-full input-field rounded-xl px-4 py-2 text-white resize-none mb-4"></textarea>
                         
-                        <button onclick="dodajZlecenie()" class="bg-brand-500 text-dark-900 font-bold px-6 py-2 rounded-xl">Zapisz zlecenie</button>
+                        <div class="flex justify-end">
+                            <button onclick="dodajZlecenie()" type="button" class="bg-brand-500 text-dark-900 font-bold px-8 py-3 rounded-xl hover:bg-brand-400 transition-colors">
+                                Zapisz do bazy
+                            </button>
+                        </div>
                     </div>
 
-                    <!-- Tabela zleceń -->
-                    <div class="premium-card rounded-2xl overflow-hidden">
+                    <div class="premium-card rounded-2xl overflow-x-auto">
                         <table class="w-full text-left text-sm text-gray-400">
                             <thead class="text-xs uppercase bg-dark-800 text-gray-500">
                                 <tr>
@@ -171,39 +216,70 @@
                                 </tr>
                             </thead>
                             <tbody id="lista-zlecen-body">
-                                <!-- Zlecenia z bazy -->
+                                <!-- Generowane przez JS -->
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- PRACOWNICY -->
+                <!-- ================= VIEW: PRACOWNICY ================= -->
                 <div id="view-pracownicy" class="view-section">
                     <div class="flex justify-between items-end mb-8">
-                        <h2 class="text-3xl font-bold text-white">Kadra Pracownicza</h2>
+                        <div>
+                            <h2 class="text-3xl font-bold text-white mb-2">Kadra Pracownicza</h2>
+                            <p class="text-gray-400">Zarządzaj zespołem i stawkami.</p>
+                        </div>
                         <button onclick="document.getElementById('form-pracownik-container').classList.toggle('hidden')" class="bg-dark-800 border border-dark-700 text-white font-bold px-6 py-3 rounded-xl hover:border-brand-500 transition-all">
-                            Dodaj pracownika
+                            <i class="fa-solid fa-user-plus mr-2"></i> Dodaj pracownika
                         </button>
                     </div>
 
-                    <!-- Formularz dodawania pracownika -->
                     <div id="form-pracownik-container" class="hidden premium-card rounded-2xl p-6 mb-8 border border-dark-600">
                         <h3 class="text-xl font-bold text-white mb-4">Nowy pracownik</h3>
-                        <div class="flex gap-4">
+                        <div class="flex flex-col md:flex-row gap-4">
                             <input type="text" id="p-imie" placeholder="Imię i nazwisko" class="input-field rounded-xl px-4 py-2 text-white flex-1">
-                            <input type="text" id="p-rola" placeholder="Rola (np. Kierowca)" class="input-field rounded-xl px-4 py-2 text-white flex-1">
+                            <input type="text" id="p-rola" placeholder="Stanowisko (np. Kierowca)" class="input-field rounded-xl px-4 py-2 text-white flex-1">
                             <select id="p-dzial" class="input-field rounded-xl px-4 py-2 text-white flex-1">
                                 <option>Przeprowadzki</option>
                                 <option>Transport</option>
-                                <option>Utylizacja</option>
+                                <option>Eko/Utylizacja</option>
                             </select>
-                            <button onclick="dodajPracownika()" class="bg-brand-500 text-dark-900 font-bold px-6 py-2 rounded-xl">Dodaj</button>
+                            <button onclick="dodajPracownika()" type="button" class="bg-brand-500 text-dark-900 font-bold px-8 py-2 rounded-xl">Dodaj</button>
                         </div>
                     </div>
 
-                    <!-- Karty pracowników renderowane dynamicznie -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="lista-pracownikow">
-                        <!-- Tu pojawią się karty -->
+                        <!-- Generowane przez JS -->
+                    </div>
+                </div>
+
+                <!-- ================= INNE ZAKŁADKI ================= -->
+                <div id="view-wyceny" class="view-section">
+                    <h2 class="text-3xl font-bold text-white mb-2">Wyceny (Z Formularza)</h2>
+                    <p class="text-gray-400 mb-8">Tutaj będą spływać zapytania ze strony głównej.</p>
+                    <div class="premium-card rounded-2xl p-12 text-center text-gray-500">
+                        <i class="fa-solid fa-inbox text-4xl mb-4"></i>
+                        <p>Brak nowych zapytań o wycenę.</p>
+                    </div>
+                </div>
+
+                <div id="view-flota" class="view-section">
+                    <h2 class="text-3xl font-bold text-white mb-2">Flota Pojazdów</h2>
+                    <p class="text-gray-400 mb-8">Zarządzaj ubezpieczeniami, przeglądami i stanem aut.</p>
+                    <div class="premium-card rounded-2xl p-12 text-center text-gray-500">
+                        <i class="fa-solid fa-truck text-4xl mb-4"></i>
+                        <p>Moduł floty czeka na podpięcie pod bazę.</p>
+                    </div>
+                </div>
+
+                <div id="view-notatki" class="view-section">
+                    <h2 class="text-3xl font-bold text-white mb-2">Firmowe Notatki</h2>
+                    <p class="text-gray-400 mb-8">Tablica informacyjna dla zespołu.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="premium-card rounded-2xl p-6 min-h-[200px] border-dashed border-2 border-dark-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-500 group transition-all">
+                            <div class="w-12 h-12 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 group-hover:text-brand-500 group-hover:scale-110 transition-all mb-3"><i class="fa-solid fa-plus text-xl"></i></div>
+                            <span class="text-sm font-medium text-gray-400 group-hover:text-white">Utwórz notatkę</span>
+                        </div>
                     </div>
                 </div>
 
@@ -222,7 +298,7 @@
                 const res = await fetch('/api/check-auth');
                 if (res.ok) {
                     showApp();
-                    wczytajDaneZBazy(); // Załaduj dane jak wejdzie!
+                    wczytajDaneZBazy();
                 }
             } catch (err) {}
         }
@@ -285,33 +361,25 @@
             await fetchZlecenia();
         }
 
-        // PRACOWNICY
         async function fetchPracownicy() {
             const res = await fetch('/api/pracownicy');
             const pracownicy = await res.json();
             
-            // 1. Zbuduj widok kart
             const container = document.getElementById('lista-pracownikow');
             container.innerHTML = '';
             
-            // 2. Dodaj ich do selectora w Zleceniach
             const selectZlecenia = document.getElementById('z-ekipa');
             selectZlecenia.innerHTML = '<option value="">Wybierz pracownika...</option>';
 
             pracownicy.forEach(p => {
-                // Do selektora
                 const opt = document.createElement('option');
-                opt.value = p.imie;
-                opt.textContent = p.imie;
+                opt.value = p.imie; opt.textContent = p.imie;
                 selectZlecenia.appendChild(opt);
 
-                // Do kart
                 const inicjal = p.imie.charAt(0).toUpperCase();
                 container.innerHTML += `
                     <div class="premium-card rounded-2xl p-6 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-4">
-                            <span class="status-badge status-active">${p.status}</span>
-                        </div>
+                        <div class="absolute top-0 right-0 p-4"><span class="status-badge status-active">${p.status}</span></div>
                         <div class="flex items-center gap-4 mb-6">
                             <div class="w-16 h-16 rounded-full bg-dark-700 flex items-center justify-center text-2xl text-gray-400">${inicjal}</div>
                             <div>
@@ -321,43 +389,49 @@
                         </div>
                         <div class="space-y-3 pt-4 border-t border-dark-700 text-sm">
                             <div class="flex justify-between"><span class="text-gray-500">Dział</span><span class="font-bold text-white">${p.dzial}</span></div>
-                            <div class="flex justify-between"><span class="text-gray-500">Suma zarobków</span><span class="font-bold text-brand-400">${p.zarobki} PLN</span></div>
+                            <div class="flex justify-between"><span class="text-gray-500">Zarobki</span><span class="font-bold text-brand-400">${p.zarobki} PLN</span></div>
                         </div>
                     </div>
                 `;
             });
-            
             document.getElementById('stat-pracownicy').innerText = pracownicy.length;
         }
 
         async function dodajPracownika() {
-            const imie = document.getElementById('p-imie').value;
-            const rola = document.getElementById('p-rola').value;
-            const dzial = document.getElementById('p-dzial').value;
+            const zData = {
+                imie: document.getElementById('p-imie').value,
+                rola: document.getElementById('p-rola').value,
+                dzial: document.getElementById('p-dzial').value
+            };
 
-            if(!imie) return alert('Wpisz imię i nazwisko!');
+            if(!zData.imie) return alert('Wpisz imię pracownika!');
 
-            await fetch('/api/pracownicy', {
+            const res = await fetch('/api/pracownicy', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ imie, rola, dzial })
+                body: JSON.stringify(zData)
             });
+            const info = await res.json();
+            
+            if(!res.ok) return alert('Błąd: ' + info.error);
 
+            alert('Pracownik dodany pomyślnie!');
             document.getElementById('p-imie').value = '';
             document.getElementById('p-rola').value = '';
             document.getElementById('form-pracownik-container').classList.add('hidden');
-            fetchPracownicy(); // odśwież widok
+            fetchPracownicy();
         }
 
-        // ZLECENIA
         async function fetchZlecenia() {
             const res = await fetch('/api/zlecenia');
             const zlecenia = await res.json();
             
             const tbody = document.getElementById('lista-zlecen-body');
             tbody.innerHTML = '';
+            let sumaPrzychodow = 0;
 
             zlecenia.forEach(z => {
+                sumaPrzychodow += (z.stawka || 0);
                 let dataFormatowana = z.data ? z.data.replace('T', ' ') : '-';
                 tbody.innerHTML += `
                     <tr class="border-b border-dark-700/50 hover:bg-dark-800/50 transition-colors">
@@ -369,12 +443,13 @@
                         </td>
                         <td class="px-4 py-4 text-brand-400 font-medium">${z.stawka || 0} PLN</td>
                         <td class="px-4 py-4">${z.ekipa || 'Brak'}</td>
-                        <td class="px-4 py-4"><span class="status-badge status-pending">${z.status}</span></td>
+                        <td class="px-4 py-4"><span class="status-badge status-active">${z.status}</span></td>
                     </tr>
                 `;
             });
 
             document.getElementById('stat-zlecenia').innerText = zlecenia.length;
+            document.getElementById('stat-przychod').innerHTML = `${sumaPrzychodow} <span class="text-lg text-gray-500">PLN</span>`;
         }
 
         async function dodajZlecenie() {
@@ -388,17 +463,19 @@
                 opis: document.getElementById('z-opis').value
             };
 
-            await fetch('/api/zlecenia', {
+            const res = await fetch('/api/zlecenia', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(zData)
             });
+            const info = await res.json();
 
-            // Wyczyść formularz
+            if(!res.ok) return alert('Błąd bazy danych: ' + info.error);
+
+            alert('Zlecenie zapisane pomyślnie!');
             ['z-data', 'z-stawka', 'z-skad', 'z-dokad', 'z-opis'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('form-zlecenie-container').classList.add('hidden');
-            
-            fetchZlecenia(); // odśwież listę
+            fetchZlecenia();
         }
     </script>
 </body>
