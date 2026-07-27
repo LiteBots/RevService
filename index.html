@@ -50,7 +50,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Ulepszony glassmorphism dla nawigacji */
         .header-glass {
             background: rgba(5, 5, 5, 0.7);
             backdrop-filter: blur(12px);
@@ -58,7 +57,6 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Profesjonalne animacje wejścia */
         .fade-up {
             opacity: 0;
             transform: translateY(40px);
@@ -69,12 +67,10 @@
             transform: translateY(0);
         }
 
-        /* Akcenty tekstowe */
         .text-glow {
             text-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
         }
 
-        /* Karty usług Premium */
         .premium-card {
             background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
             border: 1px solid #1a1a1a;
@@ -99,7 +95,6 @@
             transform: translateX(100%);
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -114,7 +109,6 @@
             background: #10b981; 
         }
 
-        /* Elementy tła */
         .bg-grid {
             background-size: 40px 40px;
             background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
@@ -125,7 +119,6 @@
             pointer-events: none;
         }
         
-        /* Focus state dla inputów - profesjonalny wygląd */
         .input-field:focus-within {
             border-color: #10b981;
             box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
@@ -139,16 +132,15 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
                 
-                <!-- Zaktualizowane, powiększone Logo -->
                 <div class="flex-shrink-0 cursor-pointer flex items-center" onclick="window.scrollTo(0,0)">
-                    <img class="h-24 md:h-32 lg:h-40 w-auto transition-transform hover:scale-105 duration-300" src="https://i.imgur.com/kzWy5SL.png" alt="RevSerwis Logo">
+                    <img class="h-20 md:h-28 w-auto transition-transform hover:scale-105 duration-300" src="https://i.imgur.com/kzWy5SL.png" alt="RevSerwis Logo">
                 </div>
                 
-                <!-- Menu Desktop -->
-                <nav class="hidden lg:flex space-x-10 items-center">
+                <nav class="hidden lg:flex space-x-8 items-center">
                     <a href="#problemy" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Dla kogo?</a>
                     <a href="#uslugi" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Co robimy</a>
                     <a href="#marki" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Nasze filary</a>
+                    <a href="#opinie" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Opinie</a>
                     <a href="#proces" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Jak działamy</a>
                     
                     <div class="flex items-center space-x-6 border-l border-dark-700 pl-6">
@@ -164,7 +156,6 @@
                     </div>
                 </nav>
                 
-                <!-- Przycisk Menu Mobile -->
                 <div class="lg:hidden flex items-center">
                     <button id="mobile-menu-btn" class="text-white focus:outline-none p-2 bg-dark-800 rounded-lg border border-dark-700">
                         <i class="fa-solid fa-bars text-xl"></i>
@@ -173,12 +164,12 @@
             </div>
         </div>
 
-        <!-- Menu Mobile (rozwijane) -->
         <div id="mobile-menu" class="hidden lg:hidden bg-dark-900 border-b border-dark-700 absolute w-full left-0 top-full shadow-2xl">
             <div class="px-4 pt-4 pb-6 space-y-4">
                 <a href="#problemy" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Dla kogo jesteśmy?</a>
                 <a href="#uslugi" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Nasze usługi</a>
                 <a href="#marki" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Nasze filary</a>
+                <a href="#opinie" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Opinie klientów</a>
                 <a href="#proces" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Jak działamy</a>
                 
                 <div class="pt-4 flex flex-col gap-4">
@@ -195,9 +186,8 @@
 
     <main class="flex-grow">
         
-        <!-- Sekcja Hero - Skupiona na kliencie -->
+        <!-- Sekcja Hero -->
         <section class="relative pt-40 pb-20 lg:pt-48 lg:pb-32 overflow-hidden flex items-center min-h-[90vh]">
-            <!-- Elementy tła przestrzennego -->
             <div class="bg-grid"></div>
             <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-radial from-brand-900/10 to-transparent blur-[120px] pointer-events-none"></div>
             
@@ -205,7 +195,7 @@
                 <div class="max-w-3xl">
                     <div class="inline-flex items-center space-x-2 bg-dark-800 border border-dark-700 rounded-full px-4 py-1.5 mb-8 fade-up">
                         <span class="flex h-2 w-2 rounded-full bg-brand-500 animate-pulse"></span>
-                        <span class="text-xs font-medium text-gray-300 uppercase tracking-wider">Gotowi do wyjazdu 24/7</span>
+                        <span class="text-xs font-medium text-gray-300 uppercase tracking-wider">Gotowi do wyjazdu 24/7 • Ekipa z Pomorza</span>
                     </div>
                     
                     <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white fade-up" style="transition-delay: 100ms;">
@@ -246,8 +236,32 @@
             </div>
         </section>
 
-        <!-- Sekcja "Znasz to uczucie?" - Uderzanie w ból klienta -->
-        <section id="problemy" class="py-24 bg-dark-900 relative border-y border-dark-800">
+        <!-- NOWOŚĆ: Statystyki Na Żywo (Dodaje prestiżu i dynamiki) -->
+        <section class="py-12 bg-dark-900 border-y border-dark-800 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div class="p-6 bg-dark-800/50 rounded-2xl border border-dark-700/50">
+                        <div class="text-4xl font-extrabold text-white mb-2 text-glow">1450+</div>
+                        <p class="text-gray-400 text-sm font-medium">Zrealizowanych przeprowadzek</p>
+                    </div>
+                    <div class="p-6 bg-dark-800/50 rounded-2xl border border-dark-700/50">
+                        <div class="text-4xl font-extrabold text-brand-500 mb-2">99.8%</div>
+                        <p class="text-gray-400 text-sm font-medium">Zadowolonych klientów</p>
+                    </div>
+                    <div class="p-6 bg-dark-800/50 rounded-2xl border border-dark-700/50">
+                        <div class="text-4xl font-extrabold text-white mb-2">100%</div>
+                        <p class="text-gray-400 text-sm font-medium">Bezpieczeństwa (OCP)</p>
+                    </div>
+                    <div class="p-6 bg-dark-800/50 rounded-2xl border border-dark-700/50">
+                        <div class="text-4xl font-extrabold text-brand-500 mb-2">24/7</div>
+                        <p class="text-gray-400 text-sm font-medium">Dostępność pogotowia</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Problemy -->
+        <section id="problemy" class="py-24 bg-dark-900 relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
                     <h2 class="text-brand-500 font-bold uppercase tracking-widest text-sm mb-3">Znamy te problemy</h2>
@@ -256,7 +270,6 @@
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
-                    <!-- Problem 1 -->
                     <div class="bg-dark-800 rounded-2xl p-8 border border-dark-700 fade-up">
                         <div class="w-14 h-14 bg-red-500/10 rounded-full flex items-center justify-center mb-6 text-red-500 text-2xl">
                             <i class="fa-solid fa-couch"></i>
@@ -271,7 +284,6 @@
                         </div>
                     </div>
 
-                    <!-- Problem 2 -->
                     <div class="bg-dark-800 rounded-2xl p-8 border border-dark-700 fade-up" style="transition-delay: 100ms;">
                         <div class="w-14 h-14 bg-red-500/10 rounded-full flex items-center justify-center mb-6 text-red-500 text-2xl">
                             <i class="fa-solid fa-house-crack"></i>
@@ -286,7 +298,6 @@
                         </div>
                     </div>
 
-                    <!-- Problem 3 -->
                     <div class="bg-dark-800 rounded-2xl p-8 border border-dark-700 fade-up" style="transition-delay: 200ms;">
                         <div class="w-14 h-14 bg-red-500/10 rounded-full flex items-center justify-center mb-6 text-red-500 text-2xl">
                             <i class="fa-solid fa-truck-moving"></i>
@@ -305,7 +316,7 @@
         </section>
 
         <!-- Sekcja Usług -->
-        <section id="uslugi" class="py-24 bg-dark-900 relative">
+        <section id="uslugi" class="py-24 bg-dark-800 relative border-t border-dark-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-16 fade-up">
                     <div class="max-w-2xl">
@@ -316,7 +327,6 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     
-                    <!-- Usługa 1 -->
                     <div class="premium-card rounded-2xl p-8 fade-up group">
                         <div class="w-16 h-16 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center mb-6 text-3xl text-gray-400 group-hover:text-brand-400 transition-colors">
                             <i class="fa-solid fa-box-open"></i>
@@ -331,7 +341,6 @@
                         </ul>
                     </div>
 
-                    <!-- Usługa 2 -->
                     <div class="premium-card rounded-2xl p-8 fade-up group" style="transition-delay: 100ms;">
                         <div class="w-16 h-16 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center mb-6 text-3xl text-gray-400 group-hover:text-brand-400 transition-colors">
                             <i class="fa-solid fa-dolly"></i>
@@ -346,7 +355,6 @@
                         </ul>
                     </div>
 
-                    <!-- Usługa 3 -->
                     <div class="premium-card rounded-2xl p-8 fade-up group" style="transition-delay: 200ms;">
                         <div class="w-16 h-16 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center mb-6 text-3xl text-gray-400 group-hover:text-brand-400 transition-colors">
                             <i class="fa-solid fa-broom"></i>
@@ -361,7 +369,6 @@
                         </ul>
                     </div>
 
-                    <!-- Usługa 4 -->
                     <div class="premium-card rounded-2xl p-8 fade-up group">
                         <div class="w-16 h-16 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center mb-6 text-3xl text-gray-400 group-hover:text-brand-400 transition-colors">
                             <i class="fa-solid fa-dumpster"></i>
@@ -376,7 +383,6 @@
                         </ul>
                     </div>
 
-                    <!-- Usługa 5 -->
                     <div class="premium-card rounded-2xl p-8 fade-up group" style="transition-delay: 100ms;">
                         <div class="w-16 h-16 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center mb-6 text-3xl text-gray-400 group-hover:text-brand-400 transition-colors">
                             <i class="fa-solid fa-tree"></i>
@@ -391,7 +397,6 @@
                         </ul>
                     </div>
 
-                    <!-- CTA Mini -->
                     <div class="premium-card rounded-2xl p-8 fade-up flex flex-col justify-center items-center text-center border-brand-500/30" style="background: rgba(16, 185, 129, 0.05); transition-delay: 200ms;">
                         <h4 class="text-xl font-bold text-white mb-2">Potrzebujesz czegoś innego?</h4>
                         <p class="text-gray-400 text-sm mb-6">Zadzwoń do nas, jesteśmy elastyczni. Podejmujemy się nietypowych zleceń (transport pianin, sejfów).</p>
@@ -404,8 +409,8 @@
             </div>
         </section>
 
-        <!-- Zaktualizowana Sekcja Marek / Filarów firmy -->
-        <section id="marki" class="py-24 bg-dark-800 relative border-t border-dark-700">
+        <!-- Sekcja Marek / Filarów firmy -->
+        <section id="marki" class="py-24 bg-dark-900 relative border-t border-dark-700">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
                     <h2 class="text-brand-500 font-bold uppercase tracking-widest text-sm mb-3">Nasze filary</h2>
@@ -415,7 +420,6 @@
 
                 <div class="grid md:grid-cols-2 gap-8">
                     
-                    <!-- RevMove -->
                     <div class="premium-card rounded-2xl p-8 fade-up group">
                         <div class="flex items-center mb-6">
                             <div class="w-14 h-14 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center text-2xl text-gray-400 group-hover:text-brand-500 transition-colors shadow-lg">
@@ -428,7 +432,6 @@
                         </p>
                     </div>
 
-                    <!-- RevTransport -->
                     <div class="premium-card rounded-2xl p-8 fade-up group" style="transition-delay: 100ms;">
                         <div class="flex items-center mb-6">
                             <div class="w-14 h-14 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center text-2xl text-gray-400 group-hover:text-brand-500 transition-colors shadow-lg">
@@ -441,7 +444,6 @@
                         </p>
                     </div>
 
-                    <!-- RevEco -->
                     <div class="premium-card rounded-2xl p-8 fade-up group" style="transition-delay: 200ms;">
                         <div class="flex items-center mb-6">
                             <div class="w-14 h-14 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center text-2xl text-gray-400 group-hover:text-brand-500 transition-colors shadow-lg">
@@ -454,7 +456,6 @@
                         </p>
                     </div>
 
-                    <!-- RevBusiness -->
                     <div class="premium-card rounded-2xl p-8 fade-up group" style="transition-delay: 300ms;">
                         <div class="flex items-center mb-6">
                             <div class="w-14 h-14 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center text-2xl text-gray-400 group-hover:text-brand-500 transition-colors shadow-lg">
@@ -464,33 +465,76 @@
                         </div>
                         <p class="text-gray-300 font-medium mb-4">Kompleksowa obsługa B2B. Co oferujemy?</p>
                         <ul class="text-gray-400 text-sm space-y-3 grid grid-cols-1 sm:grid-cols-2 gap-x-4">
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> 
-                                <span>Opróżnianie biur</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> 
-                                <span>Wywóz wyposażenia</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> 
-                                <span>Transport między oddziałami</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> 
-                                <span>Sprzątanie magazynów</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> 
-                                <span>Pomoc przy relokacji firmy</span>
-                            </li>
-                            <li class="flex items-start">
-                                <i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> 
-                                <span>Regularna obsługa transportowa</span>
-                            </li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> <span>Opróżnianie biur</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> <span>Wywóz wyposażenia</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> <span>Transport między oddziałami</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> <span>Sprzątanie magazynów</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> <span>Pomoc przy relokacji firmy</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-500 mt-1 mr-2 text-xs"></i> <span>Regularna obsługa transportowa</span></li>
                         </ul>
                     </div>
 
+                </div>
+            </div>
+        </section>
+
+        <!-- NOWOŚĆ: Sekcja Opinii Klientów (Dodaje autentyczności) -->
+        <section id="opinie" class="py-24 bg-dark-800 relative border-t border-dark-700">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
+                    <h2 class="text-brand-500 font-bold uppercase tracking-widest text-sm mb-3">Opinie klientów</h2>
+                    <h3 class="text-3xl md:text-5xl font-bold text-white mb-6">Co mówią o nas ci, którym pomogliśmy?</h3>
+                    <p class="text-gray-400 text-lg">Zadowolenie klientów to nasza najlepsza wizytówka. Zobacz autentyczne opinie osób, które skorzystały z RevSerwis.</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-dark-900 border border-dark-700 rounded-2xl p-8 fade-up flex flex-col justify-between">
+                        <div>
+                            <div class="flex text-amber-400 mb-4 space-x-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 italic mb-6">"Ekipa spisała się na medal! Przeprowadzka z 3. piętra bez windy poszła błyskawicznie i bez żadnej rysy na meblach. Ceny dokładnie takie, jak ustaliliśmy przez telefon. Polecam z całego serca!"</p>
+                        </div>
+                        <div class="flex items-center pt-4 border-t border-dark-800">
+                            <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold mr-3">MK</div>
+                            <div>
+                                <h5 class="text-white font-bold text-sm">Magdalena K.</h5>
+                                <span class="text-gray-500 text-xs">Przeprowadzka mieszkania</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-900 border border-dark-700 rounded-2xl p-8 fade-up flex flex-col justify-between" style="transition-delay: 100ms;">
+                        <div>
+                            <div class="flex text-amber-400 mb-4 space-x-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 italic mb-6">"Kupiłem duży narożnik w salonie meblowym, a sklep krzyknął za dostawę za 2 tygodnie. RevSerwis przyjechał po towar tego samego dnia i wniósł go do salonu. Pełen profesjonalizm!"</p>
+                        </div>
+                        <div class="flex items-center pt-4 border-t border-dark-800">
+                            <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold mr-3">TP</div>
+                            <div>
+                                <h5 class="text-white font-bold text-sm">Tomasz P.</h5>
+                                <span class="text-gray-500 text-xs">Transport mebli z wniesieniem</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-dark-900 border border-dark-700 rounded-2xl p-8 fade-up flex flex-col justify-between" style="transition-delay: 200ms;">
+                        <div>
+                            <div class="flex text-amber-400 mb-4 space-x-1">
+                                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            </div>
+                            <p class="text-gray-300 italic mb-6">"Opróżnianie starego domu po dziadkach wydawało się koszmarem. Chłopaki z RevEco uporali się z tym w jeden dzień, a graty legalnie pojechały do utylizacji. Super kontakt i podejście do klienta."</p>
+                        </div>
+                        <div class="flex items-center pt-4 border-t border-dark-800">
+                            <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold mr-3">AR</div>
+                            <div>
+                                <h5 class="text-white font-bold text-sm">Adam R.</h5>
+                                <span class="text-gray-500 text-xs">Opróżnianie i wywóz</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -504,7 +548,6 @@
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8 relative">
-                    <!-- Linia łącząca (widoczna na desktopie) -->
                     <div class="hidden md:block absolute top-1/2 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-dark-700 via-brand-500/30 to-dark-700 -translate-y-1/2 z-0"></div>
 
                     <div class="relative z-10 text-center fade-up">
@@ -536,7 +579,6 @@
 
         <!-- Sekcja Formularza Premium -->
         <section id="wycena" class="py-24 bg-dark-800 relative overflow-hidden border-t border-dark-700">
-            <!-- Tło ozdobne formularza -->
             <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CgkJPHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPgoJCTxwYXRoIGQ9Ik00MCAwaC0xdjQwaDFWMHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMSkiLz4KCQk8cGF0aCBkPSJNMCAzOWg0MHYxaC00MHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMSkiLz4KCTwvc3ZnPg==')] opacity-50"></div>
             
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -549,7 +591,6 @@
 
                     <form id="quote-form" class="space-y-8">
                         
-                        <!-- Grupa 1: Czego potrzebujesz -->
                         <div class="input-field p-6 rounded-2xl bg-dark-800 border border-dark-700 transition-colors">
                             <label class="block text-lg font-bold text-white mb-4">Czego dokładnie dotyczy zlecenie?</label>
                             
@@ -581,7 +622,6 @@
                             </div>
                         </div>
 
-                        <!-- Grupa 2: Szczegóły -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="input-field relative">
                                 <label class="block text-sm font-bold text-gray-300 mb-2">Miejsce załadunku (Skąd?)</label>
@@ -598,7 +638,6 @@
                             <textarea rows="3" placeholder="Co przewozimy? Czy są ciężkie rzeczy (np. lodówka, pianino)? Wymień największe elementy." class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-4 focus:outline-none transition-colors placeholder-gray-600 resize-none"></textarea>
                         </div>
 
-                        <!-- Grupa 3: Kontakt -->
                         <div class="border-t border-dark-700 pt-8 mt-8">
                             <label class="block text-lg font-bold text-white mb-4">Gdzie mamy oddzwonić z wyceną?</label>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -617,11 +656,9 @@
                             </div>
                         </div>
 
-                        <!-- Submit -->
                         <button type="submit" id="submit-btn" class="w-full bg-brand-500 hover:bg-brand-400 text-dark-900 font-extrabold text-lg py-5 rounded-xl transition-all transform hover:-translate-y-1 shadow-[0_0_20px_rgba(16,185,129,0.3)] flex justify-center items-center">
                             <span id="btn-text">Odbierz Darmową Wycenę</span>
                             <i id="btn-icon" class="fa-solid fa-paper-plane ml-3"></i>
-                            <!-- Prosty spinner CSS dla stanu ładowania -->
                             <svg id="btn-spinner" class="animate-spin ml-3 h-5 w-5 text-dark-900 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -630,7 +667,6 @@
                         <p class="text-center text-xs text-gray-500 mt-4">Wysyłając formularz, zgadzasz się na jednorazowy kontakt telefoniczny w celu przedstawienia oferty. Nie spamujemy.</p>
                     </form>
 
-                    <!-- Komunikat sukcesu -->
                     <div id="success-message" class="hidden text-center py-12">
                         <div class="w-20 h-20 bg-brand-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
                             <i class="fa-solid fa-check text-4xl text-brand-500"></i>
@@ -648,7 +684,7 @@
 
     </main>
 
-    <!-- Profesjonalna Stopka -->
+    <!-- Stopka -->
     <footer class="bg-dark-900 border-t border-dark-700 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12 border-b border-dark-800 pb-12">
@@ -704,7 +740,6 @@
                 <p class="text-gray-600 text-sm mb-4 md:mb-0">
                     &copy; 2026 RevSerwis. Wszystkie prawa zastrzeżone.
                 </p>
-                <!-- DYSKRETNY LINK DO PANELU ADMINISTRATORA -->
                 <a href="/admin" class="text-gray-700 hover:text-brand-500 text-sm transition-colors flex items-center">
                     <i class="fa-solid fa-lock text-xs mr-2"></i> Panel Administratora
                 </a>
@@ -714,8 +749,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. Obsługa menu mobilnego
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
             const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -740,7 +773,6 @@
                 });
             });
 
-            // 2. Efekt szkła i zmiana wielkości nagłówka przy scrollu
             const header = document.getElementById('header');
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 20) {
@@ -754,7 +786,6 @@
                 }
             });
 
-            // 3. Profesjonalne animacje wejścia (Fade Up)
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
@@ -765,7 +796,7 @@
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Animuj tylko raz
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
@@ -774,12 +805,10 @@
                 observer.observe(element);
             });
 
-            // 4. Obsługa formularza z interfejsem ładowania
             const form = document.getElementById('quote-form');
             const phoneInput = document.getElementById('phone');
             const successMsg = document.getElementById('success-message');
             
-            // Formatowanie numeru
             phoneInput.addEventListener('input', function (e) {
                 let x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,3})/);
                 e.target.value = !x[2] ? x[1] : x[1] + ' ' + x[2] + (x[3] ? ' ' + x[3] : '');
@@ -788,31 +817,27 @@
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
-                // Prosta walidacja
                 if(phoneInput.value.length < 9) {
                     phoneInput.parentElement.classList.add('border-red-500');
                     setTimeout(() => phoneInput.parentElement.classList.remove('border-red-500'), 2000);
                     return;
                 }
 
-                const btn = document.getElementById('submit-btn');
+                const submitBtn = document.getElementById('submit-btn');
                 const btnText = document.getElementById('btn-text');
                 const btnIcon = document.getElementById('btn-icon');
                 const btnSpinner = document.getElementById('btn-spinner');
 
-                // Stan ładowania
-                btn.disabled = true;
+                submitBtn.disabled = true;
                 btnText.textContent = 'Wysyłanie...';
                 btnIcon.classList.add('hidden');
                 btnSpinner.classList.remove('hidden');
 
-                // Symulacja wysyłki
                 setTimeout(() => {
                     form.classList.add('hidden');
                     successMsg.classList.remove('hidden');
                     
-                    // Reset UI przycisku
-                    btn.disabled = false;
+                    submitBtn.disabled = false;
                     btnText.textContent = 'Odbierz Darmową Wycenę';
                     btnIcon.classList.remove('hidden');
                     btnSpinner.classList.add('hidden');
