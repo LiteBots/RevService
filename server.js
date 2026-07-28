@@ -7,6 +7,17 @@ const mongoose = require('mongoose');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// WYMUSZENIE PRZEKIEROWANIA revserwis.pl -> www.revserwis.pl
+app.use((req, res, next) => {
+    const host = req.hostname;
+
+    if (host === 'revserwis.pl') {
+        return res.redirect(301, `https://www.revserwis.pl${req.originalUrl}`);
+    }
+
+    next();
+});
+
 const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
 const MONGO_URL = process.env.MONGO_URL;
 
