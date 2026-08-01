@@ -1,543 +1,732 @@
 <!DOCTYPE html>
-<html lang="pl" class="scroll-smooth">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RevAdmin - Panel Zarządzania</title>
+    <title>RevMaster - System Zarządzania Flotą</title>
+    <meta name="description" content="Zaawansowany system do zarządzania firmą transportową i spedycją.">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: { 400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857' },
-                        dark: { 900: '#050505', 800: '#111111', 700: '#1a1a1a', 600: '#2a2a2a' }
+                        brand: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        dark: {
+                            900: '#050505',
+                            800: '#111111',
+                            700: '#1a1a1a',
+                            600: '#2a2a2a',
+                        }
                     },
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] }
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
                 }
             }
         }
     </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Biblioteka do wykresów w czystym JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <style>
-        body { background-color: #050505; color: #f3f4f6; -webkit-font-smoothing: antialiased; }
-        .glass-panel { background: rgba(17, 17, 17, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .premium-card { background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%); border: 1px solid #1a1a1a; transition: all 0.3s ease; }
-        .premium-card:hover { border-color: #2a2a2a; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
+        body {
+            background-color: #050505;
+            color: #f3f4f6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .header-glass {
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .premium-card {
+            background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
+            border: 1px solid #1a1a1a;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .premium-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #10b981; }
-        .text-glow { text-shadow: 0 0 20px rgba(16, 185, 129, 0.4); }
-        .input-field { background: #0a0a0a; border: 1px solid #1a1a1a; transition: all 0.2s; }
-        .input-field:focus { border-color: #10b981; box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1); outline: none; }
-        .status-badge { padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
-        .status-active { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
-        .status-pending { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
-        .view-section { display: none; animation: fadeIn 0.4s ease forwards; }
-        .view-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Użyteczności modali */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeIn 0.2s ease-out;
+        }
     </style>
 </head>
-<body class="bg-dark-900 text-gray-100 overflow-hidden selection:bg-brand-500 selection:text-dark-900 font-sans">
+<body class="flex h-screen selection:bg-brand-500/30">
 
-    <!-- Ekran Logowania -->
-    <div id="login-overlay" class="fixed inset-0 bg-dark-900 z-50 flex flex-col items-center justify-center transition-opacity duration-500">
-        <div class="relative z-10 glass-panel p-10 rounded-3xl border border-dark-700 shadow-2xl text-center w-full max-w-sm">
-            <h1 class="text-3xl font-black tracking-wide text-white mb-2">Rev<span class="text-brand-500 text-glow">Admin</span></h1>
-            <p class="text-gray-400 text-sm mb-8">Wprowadź kod dostępu</p>
-            
-            <form id="login-form" class="space-y-6">
-                <input type="password" id="pin-input" maxlength="4" pattern="\d{4}" autocomplete="off" 
-                    class="w-full bg-dark-800 border-2 border-dark-600 text-white text-center text-4xl tracking-[0.5em] rounded-xl py-4 focus:border-brand-500 focus:outline-none" 
-                    placeholder="••••">
-                <p id="login-error" class="text-red-500 text-sm font-medium hidden">Błędny kod PIN</p>
-                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-8 py-4 rounded-xl transition-all">Zaloguj się</button>
-            </form>
+    <!-- Sidebar -->
+    <aside id="sidebar" class="bg-dark-900 text-white w-64 hidden md:flex flex-col h-screen border-r border-dark-700 relative z-20 transition-all duration-300">
+        <div class="h-16 flex items-center justify-center border-b border-dark-700 bg-dark-900">
+            <i class="fa-solid fa-truck-fast text-brand-500 text-2xl"></i>
+            <span id="sidebar-logo-text" class="ml-3 font-extrabold text-xl tracking-wide text-white">Rev<span class="text-brand-500 text-glow">Master</span></span>
         </div>
-    </div>
-
-    <!-- Główna Aplikacja -->
-    <div id="app-wrapper" class="flex h-screen opacity-0 invisible transition-opacity duration-500 w-full">
         
-        <!-- Sidebar -->
-        <aside class="w-64 glass-panel border-r border-dark-700 flex flex-col z-20 hidden md:flex shrink-0">
-            <div class="h-20 flex items-center px-6 border-b border-dark-700">
-                <h1 class="text-2xl font-black tracking-wide text-white">Rev<span class="text-brand-500 text-glow">Admin</span></h1>
-            </div>
-            
-            <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
-                <p class="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Główne</p>
-                <button onclick="switchView('dashboard')" class="nav-btn bg-brand-500/10 border-brand-500/20 text-white w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="dashboard">
-                    <i class="fa-solid fa-chart-pie w-6 text-brand-500"></i> Statystyki
-                </button>
-                <button onclick="switchView('zlecenia')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="zlecenia">
-                    <i class="fa-solid fa-clipboard-list w-6"></i> Zlecenia
-                </button>
-                <button onclick="switchView('wyceny')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="wyceny">
-                    <i class="fa-solid fa-file-invoice-dollar w-6"></i> Wyceny
-                </button>
+        <nav class="flex-1 overflow-y-auto py-6">
+            <ul class="space-y-2 px-4" id="nav-list">
+                <!-- Nav items generowane przez JS -->
+            </ul>
+        </nav>
 
-                <p class="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-2">Zarządzanie</p>
-                <button onclick="switchView('pracownicy')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="pracownicy">
-                    <i class="fa-solid fa-users w-6"></i> Pracownicy
+        <div class="p-4 border-t border-dark-700 bg-dark-900">
+           <button onclick="toggleSidebar()" class="w-full flex justify-center p-2 rounded-lg text-gray-500 hover:bg-dark-800 hover:text-brand-500 transition-all">
+              <i class="fa-solid fa-bars"></i>
+           </button>
+        </div>
+    </aside>
+
+    <!-- Prawa strona (Główna zawartość) -->
+    <div class="flex-1 flex flex-col h-screen overflow-hidden relative w-full">
+        <!-- Topbar -->
+        <header class="header-glass h-16 flex items-center justify-between px-4 sm:px-6 z-10 sticky top-0">
+            <div class="flex items-center flex-1">
+                <button class="md:hidden mr-4 text-gray-400 hover:text-white p-2" onclick="document.getElementById('sidebar').classList.toggle('hidden')">
+                    <i class="fa-solid fa-bars text-xl"></i>
                 </button>
-                <button onclick="switchView('flota')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="flota">
-                    <i class="fa-solid fa-truck w-6"></i> Flota
-                </button>
-
-                <p class="px-2 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-6 mb-2">Narzędzia</p>
-                <button onclick="switchView('notatki')" class="nav-btn text-gray-400 hover:text-white hover:bg-dark-800 border-transparent w-full flex items-center px-4 py-3 text-sm font-medium rounded-xl border transition-all" data-target="notatki">
-                    <i class="fa-solid fa-note-sticky w-6"></i> Notatki
-                </button>
-            </nav>
-
-            <div class="p-4 border-t border-dark-700 flex justify-between items-center px-4">
-                <p class="text-sm font-bold text-white">Administrator</p>
-                <button onclick="logout()" class="text-gray-500 hover:text-red-500"><i class="fa-solid fa-right-from-bracket"></i></button>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 flex flex-col h-screen relative overflow-hidden">
-            <!-- Topbar -->
-            <header class="h-20 glass-panel border-b border-dark-700 flex items-center justify-between px-8 z-10 shrink-0">
-                <div class="w-1/2">
-                    <div class="relative w-full max-w-md">
-                        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
-                        <input type="text" placeholder="Szukaj..." class="w-full input-field rounded-full pl-11 pr-4 py-2.5 text-sm text-white placeholder-gray-500">
-                    </div>
-                </div>
-                <div class="flex items-center gap-4">
-                    <a href="/" target="_blank" class="text-sm font-medium text-gray-400 hover:text-brand-500 transition-colors mr-4">
-                        <i class="fa-solid fa-globe mr-1"></i> Strona główna
-                    </a>
-                </div>
-            </header>
-
-            <div class="flex-1 overflow-y-auto p-8 z-10 relative w-full" id="content-area">
                 
-                <!-- ================= VIEW: DASHBOARD ================= -->
-                <div id="view-dashboard" class="view-section active">
-                    <h2 class="text-3xl font-bold text-white mb-2">Przegląd firmy</h2>
-                    <p class="text-gray-400 mb-8">Podsumowanie działań z bazy danych.</p>
+                <div class="relative w-full max-w-md hidden sm:block group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <i class="fa-solid fa-magnifying-glass text-gray-500 group-focus-within:text-brand-500 transition-colors"></i>
+                    </div>
+                    <input type="text" id="global-search" oninput="handleSearch()" class="block w-full pl-11 pr-4 py-2 bg-dark-800 border border-dark-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-all text-sm" placeholder="Szukaj pojazdów, zleceń, kierowców...">
+                </div>
+            </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <div class="premium-card rounded-2xl p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500 mb-1">Zlecenia (W bazie)</p>
-                                    <h3 id="stat-zlecenia" class="text-3xl font-bold text-white">0</h3>
-                                </div>
-                                <div class="w-12 h-12 rounded-xl bg-brand-500/10 flex items-center justify-center text-brand-500 text-xl"><i class="fa-solid fa-truck-fast"></i></div>
-                            </div>
-                        </div>
-                        <div class="premium-card rounded-2xl p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500 mb-1">Zespół</p>
-                                    <h3 id="stat-pracownicy" class="text-3xl font-bold text-white">0</h3>
-                                </div>
-                                <div class="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500 text-xl"><i class="fa-solid fa-users"></i></div>
-                            </div>
-                        </div>
-                        <div class="premium-card rounded-2xl p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500 mb-1">Przychód (Zlecenia)</p>
-                                    <h3 id="stat-przychod" class="text-3xl font-bold text-white">0 <span class="text-lg text-gray-500">PLN</span></h3>
-                                </div>
-                                <div class="w-12 h-12 rounded-xl bg-yellow-500/10 flex items-center justify-center text-yellow-500 text-xl"><i class="fa-solid fa-wallet"></i></div>
-                            </div>
-                        </div>
-                        <div class="premium-card rounded-2xl p-6">
-                            <div class="flex justify-between items-start mb-4">
-                                <div>
-                                    <p class="text-sm font-medium text-gray-500 mb-1">Suma wypłat</p>
-                                    <h3 id="stat-wyplaty" class="text-3xl font-bold text-white">0 <span class="text-lg text-gray-500">PLN</span></h3>
-                                </div>
-                                <div class="w-12 h-12 rounded-xl bg-red-500/10 flex items-center justify-center text-red-500 text-xl"><i class="fa-solid fa-money-bill-transfer"></i></div>
-                            </div>
-                        </div>
+            <div class="flex items-center space-x-4 sm:space-x-6">
+                <button class="relative p-2 text-gray-400 hover:text-brand-500 transition-all">
+                    <span class="absolute top-1.5 right-1 flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-500"></span>
+                    </span>
+                    <i class="fa-solid fa-bell text-lg"></i>
+                </button>
+                
+                <div class="h-6 w-px bg-dark-700 hidden sm:block"></div>
+
+                <div class="flex items-center gap-3 cursor-pointer hover:bg-dark-800 p-1.5 rounded-xl pr-4 transition-all">
+                    <div class="h-9 w-9 rounded-xl bg-brand-500 flex items-center justify-center text-dark-900 font-extrabold shadow-md">
+                        AD
+                    </div>
+                    <div class="hidden sm:block text-left">
+                        <p class="text-sm font-bold text-white leading-tight">Admin Główny</p>
+                        <p class="text-xs text-brand-500">RevSerwis HQ</p>
                     </div>
                 </div>
-
-                <!-- ================= VIEW: ZLECENIA ================= -->
-                <div id="view-zlecenia" class="view-section">
-                    <div class="flex justify-between items-end mb-8">
-                        <div>
-                            <h2 class="text-3xl font-bold text-white mb-2">Baza Zleceń</h2>
-                            <p class="text-gray-400">Dodawaj nowe przeprowadzki i zarządzaj obecnymi.</p>
-                        </div>
-                        <button onclick="document.getElementById('form-zlecenie-container').classList.toggle('hidden')" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-6 py-3 rounded-xl transition-all">
-                            <i class="fa-solid fa-plus mr-2"></i> Nowe Zlecenie
-                        </button>
-                    </div>
-
-                    <div id="form-zlecenie-container" class="hidden premium-card rounded-2xl p-6 mb-8 border border-brand-500/30">
-                        <h3 class="text-xl font-bold text-brand-500 mb-4">Kreator nowego zlecenia</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-                            <select id="z-typ" class="input-field rounded-xl px-4 py-2 text-white">
-                                <option>Przeprowadzka</option><option>Transport</option><option>Opróżnianie</option>
-                            </select>
-                            <input type="datetime-local" id="z-data" class="input-field rounded-xl px-4 py-2 text-white">
-                            <input type="number" id="z-stawka" placeholder="Stawka PLN" class="input-field rounded-xl px-4 py-2 text-white">
-                            <select id="z-ekipa" class="input-field rounded-xl px-4 py-2 text-white">
-                                <option value="">Wybierz pracownika...</option>
-                            </select>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <input type="text" id="z-skad" placeholder="Adres: Skąd" class="input-field rounded-xl px-4 py-2 text-white">
-                            <input type="text" id="z-dokad" placeholder="Adres: Dokąd" class="input-field rounded-xl px-4 py-2 text-white">
-                        </div>
-                        <textarea id="z-opis" placeholder="Opis zadania..." class="w-full input-field rounded-xl px-4 py-2 text-white resize-none mb-4"></textarea>
-                        
-                        <div class="flex justify-end">
-                            <button onclick="dodajZlecenie()" type="button" class="bg-brand-500 text-dark-900 font-bold px-8 py-3 rounded-xl hover:bg-brand-400 transition-colors">
-                                Zapisz do bazy
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="premium-card rounded-2xl overflow-x-auto">
-                        <table class="w-full text-left text-sm text-gray-400">
-                            <thead class="text-xs uppercase bg-dark-800 text-gray-500">
-                                <tr>
-                                    <th class="px-4 py-3">Data</th>
-                                    <th class="px-4 py-3">Typ</th>
-                                    <th class="px-4 py-3">Trasa</th>
-                                    <th class="px-4 py-3">Kwota</th>
-                                    <th class="px-4 py-3">Ekipa</th>
-                                    <th class="px-4 py-3">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="lista-zlecen-body">
-                                <!-- Generowane przez JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- ================= VIEW: PRACOWNICY ================= -->
-                <div id="view-pracownicy" class="view-section">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
-                        <div>
-                            <h2 class="text-3xl font-bold text-white mb-2">Kadra Pracownicza</h2>
-                            <p class="text-gray-400">Zarządzaj zespołem i stawkami.</p>
-                        </div>
-                        <div class="flex gap-4">
-                            <button onclick="document.getElementById('form-wyplata-container').classList.toggle('hidden'); document.getElementById('form-pracownik-container').classList.add('hidden');" class="bg-brand-500 text-dark-900 font-bold px-6 py-3 rounded-xl hover:bg-brand-400 transition-all">
-                                <i class="fa-solid fa-money-bill-wave mr-2"></i> Dodaj wypłatę
-                            </button>
-                            <button onclick="document.getElementById('form-pracownik-container').classList.toggle('hidden'); document.getElementById('form-wyplata-container').classList.add('hidden');" class="bg-dark-800 border border-dark-700 text-white font-bold px-6 py-3 rounded-xl hover:border-brand-500 transition-all">
-                                <i class="fa-solid fa-user-plus mr-2"></i> Nowy pracownik
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Formularz dodawania WYPŁATY -->
-                    <div id="form-wyplata-container" class="hidden premium-card rounded-2xl p-6 mb-8 border border-brand-500/30">
-                        <h3 class="text-xl font-bold text-brand-500 mb-4">Ewidencja wypłaty</h3>
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <select id="w-pracownik" class="input-field rounded-xl px-4 py-2 text-white flex-1">
-                                <option value="">Wybierz pracownika...</option>
-                            </select>
-                            <input type="number" id="w-kwota" placeholder="Kwota (PLN)" class="input-field rounded-xl px-4 py-2 text-white flex-1">
-                            <button onclick="dodajWyplate()" type="button" class="bg-brand-500 text-dark-900 font-bold px-8 py-2 rounded-xl hover:bg-brand-400 transition-colors">
-                                Zapisz wypłatę
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Formularz dodawania pracownika -->
-                    <div id="form-pracownik-container" class="hidden premium-card rounded-2xl p-6 mb-8 border border-dark-600">
-                        <h3 class="text-xl font-bold text-white mb-4">Nowy pracownik w firmie</h3>
-                        <div class="flex flex-col md:flex-row gap-4">
-                            <input type="text" id="p-imie" placeholder="Imię i nazwisko" class="input-field rounded-xl px-4 py-2 text-white flex-1">
-                            <input type="text" id="p-rola" placeholder="Stanowisko (np. Kierowca)" class="input-field rounded-xl px-4 py-2 text-white flex-1">
-                            <select id="p-dzial" class="input-field rounded-xl px-4 py-2 text-white flex-1">
-                                <option>Przeprowadzki</option>
-                                <option>Transport</option>
-                                <option>Eko/Utylizacja</option>
-                            </select>
-                            <button onclick="dodajPracownika()" type="button" class="bg-dark-800 border border-dark-600 text-white font-bold px-8 py-2 rounded-xl hover:bg-dark-700 transition-colors">Dodaj</button>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="lista-pracownikow">
-                        <!-- Generowane przez JS -->
-                    </div>
-                </div>
-
-                <!-- ================= INNE ZAKŁADKI ================= -->
-                <div id="view-wyceny" class="view-section">
-                    <h2 class="text-3xl font-bold text-white mb-2">Wyceny (Z Formularza)</h2>
-                    <p class="text-gray-400 mb-8">Tutaj będą spływać zapytania ze strony głównej.</p>
-                    <div class="premium-card rounded-2xl p-12 text-center text-gray-500">
-                        <i class="fa-solid fa-inbox text-4xl mb-4"></i>
-                        <p>Brak nowych zapytań o wycenę.</p>
-                    </div>
-                </div>
-
-                <div id="view-flota" class="view-section">
-                    <h2 class="text-3xl font-bold text-white mb-2">Flota Pojazdów</h2>
-                    <p class="text-gray-400 mb-8">Zarządzaj ubezpieczeniami, przeglądami i stanem aut.</p>
-                    <div class="premium-card rounded-2xl p-12 text-center text-gray-500">
-                        <i class="fa-solid fa-truck text-4xl mb-4"></i>
-                        <p>Moduł floty czeka na podpięcie pod bazę.</p>
-                    </div>
-                </div>
-
-                <div id="view-notatki" class="view-section">
-                    <h2 class="text-3xl font-bold text-white mb-2">Firmowe Notatki</h2>
-                    <p class="text-gray-400 mb-8">Tablica informacyjna dla zespołu.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                        <div class="premium-card rounded-2xl p-6 min-h-[200px] border-dashed border-2 border-dark-600 flex flex-col items-center justify-center cursor-pointer hover:border-brand-500 group transition-all">
-                            <div class="w-12 h-12 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 group-hover:text-brand-500 group-hover:scale-110 transition-all mb-3"><i class="fa-solid fa-plus text-xl"></i></div>
-                            <span class="text-sm font-medium text-gray-400 group-hover:text-white">Utwórz notatkę</span>
-                        </div>
-                    </div>
-                </div>
-
+            </div>
+        </header>
+        
+        <!-- Kontener na zawartość podstron -->
+        <main class="flex-1 overflow-y-auto overflow-x-hidden bg-dark-900 pb-20 relative" id="main-scroll">
+            <div class="bg-grid"></div>
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-brand-500/5 to-transparent blur-[120px] pointer-events-none z-0"></div>
+            
+            <div id="view-container" class="relative z-10 w-full">
+                <!-- Tu wstrzykiwany jest HTML przez JS -->
             </div>
         </main>
     </div>
 
+    <!-- Modal: Zlecenie -->
+    <div id="modal-task" class="modal-overlay">
+        <div class="premium-card rounded-3xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-dark-700 flex justify-between items-center bg-dark-800">
+                <h2 class="text-xl font-extrabold text-white">Nowe Zlecenie Transportowe</h2>
+                <button onclick="closeModal('modal-task')" class="text-gray-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="form-task" class="p-6 overflow-y-auto flex-1 space-y-5 bg-dark-900" onsubmit="submitTask(event)">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Tytuł zlecenia / Towar</label><input required name="title" type="text" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all" placeholder="np. Transport mebli"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Klient</label><input required name="client" type="text" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all" placeholder="Imię Nazwisko / Firma"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Załadunek (Skąd)</label><input required name="origin" type="text" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all" placeholder="Miasto"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Rozładunek (Dokąd)</label><input required name="destination" type="text" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all" placeholder="Miasto"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Data realizacji</label><input required name="date" type="date" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all [color-scheme:dark]"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Wartość netto (PLN)</label><input required name="price" type="number" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all" placeholder="0"></div>
+                </div>
+                <div class="pt-6 border-t border-dark-700 flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('modal-task')" class="px-6 py-3 text-gray-300 bg-dark-800 hover:bg-dark-700 rounded-xl font-bold transition-colors">Anuluj</button>
+                    <button type="submit" class="px-6 py-3 text-dark-900 bg-brand-500 hover:bg-brand-400 rounded-xl font-extrabold shadow-[0_0_20px_rgba(16,185,129,0.3)] transition-all">Zapisz Zlecenie</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Pojazd -->
+    <div id="modal-vehicle" class="modal-overlay">
+        <div class="premium-card rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-dark-700 flex justify-between items-center bg-dark-800">
+                <h2 class="text-xl font-extrabold text-white">Nowy Pojazd do Floty</h2>
+                <button onclick="closeModal('modal-vehicle')" class="text-gray-500 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <form id="form-vehicle" class="p-6 space-y-5 bg-dark-900" onsubmit="submitVehicle(event)">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Marka</label><input required name="brand" type="text" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all" placeholder="np. Renault"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Model</label><input required name="model" type="text" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all" placeholder="np. Master"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Rejestracja</label><input required name="reg" type="text" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all uppercase" placeholder="GD 12345"></div>
+                    <div class="space-y-2"><label class="text-sm font-bold text-gray-300">Typ</label><select name="type" class="w-full p-3 bg-dark-800 border border-dark-700 text-white rounded-xl focus:border-brand-500 outline-none transition-all"><option>Dostawczy</option><option>Osobowy (Bus)</option><option>Ciężarowy</option></select></div>
+                </div>
+                <div class="pt-6 border-t border-dark-700 flex justify-end space-x-4">
+                    <button type="button" onclick="closeModal('modal-vehicle')" class="px-6 py-3 text-gray-300 bg-dark-800 hover:bg-dark-700 rounded-xl font-bold transition-colors">Anuluj</button>
+                    <button type="submit" class="px-6 py-3 text-dark-900 bg-brand-500 hover:bg-brand-400 rounded-xl font-extrabold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)]">Dodaj Pojazd</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <script>
-        // --- LOGIKA SPA I AUTORYZACJI ---
-        const loginOverlay = document.getElementById('login-overlay');
-        const appWrapper = document.getElementById('app-wrapper');
-        const errorMsg = document.getElementById('login-error');
+        // --- 1. STAN APLIKACJI (Baza Danych in-memory) ---
+        let state = {
+            activeTab: 'dashboard',
+            sidebarOpen: true,
+            searchQuery: '',
+            
+            vehicles: [
+                { id: 'v1', reg: 'GD 1234A', brand: 'Renault', model: 'Master', type: 'Dostawczy', status: 'available', capacity: '3.5t', mileage: 125000 },
+                { id: 'v2', reg: 'WA 5678B', brand: 'Mercedes', model: 'Sprinter', type: 'Dostawczy', status: 'in_transit', capacity: '3.5t', mileage: 45000 },
+                { id: 'v3', reg: 'KR 9012C', brand: 'Ford', model: 'Transit', type: 'Bus (9 os)', status: 'maintenance', capacity: 'Osobowy', mileage: 210000 },
+                { id: 'v4', reg: 'PO 3456D', brand: 'Iveco', model: 'Daily', type: 'Dostawczy Kontener', status: 'available', capacity: '3.5t', mileage: 89000 }
+            ],
+            
+            tasks: [
+                { id: 't1', title: 'Przeprowadzka Mieszkania', client: 'Jan Kowalski', origin: 'Gdańsk', destination: 'Warszawa', date: '2026-08-05', status: 'todo', vehicleId: null, price: 2500 },
+                { id: 't2', title: 'Transfer Lotnisko', client: 'Firma IT', origin: 'Słupsk', destination: 'Gdańsk Rębiechowo', date: '2026-08-02', status: 'in_progress', vehicleId: 'v2', price: 600 },
+                { id: 't3', title: 'Transport Mebli IKEA', client: 'Anna Nowak', origin: 'Gdańsk', destination: 'Gdynia', date: '2026-08-01', status: 'done', vehicleId: 'v4', price: 400 },
+                { id: 't4', title: 'Opróżnianie piwnicy', client: 'Spółdzielnia', origin: 'Sopot', destination: 'PSZOK', date: '2026-08-10', status: 'todo', vehicleId: null, price: 900 }
+            ],
+            
+            drivers: [
+                { id: 'd1', name: 'Adam Nowak', license: 'B', status: 'available', phone: '+48 123 456 789' },
+                { id: 'd2', name: 'Piotr Wiśniewski', license: 'B, C', status: 'on_route', phone: '+48 987 654 321' },
+                { id: 'd3', name: 'Marek Zając', license: 'B', status: 'sick_leave', phone: '+48 555 444 333' }
+            ],
+            
+            finances: [
+                { id: 'f1', date: '2026-07-28', type: 'income', amount: 2500, category: 'Przeprowadzka' },
+                { id: 'f2', date: '2026-07-29', type: 'expense', amount: 450, category: 'Paliwo (Orlen)' },
+                { id: 'f3', date: '2026-07-30', type: 'expense', amount: 1200, category: 'Serwis (Ford)' },
+                { id: 'f4', date: '2026-08-01', type: 'income', amount: 600, category: 'Transfer lotnisko' }
+            ],
 
-        async function checkAuth() {
-            try {
-                const res = await fetch('/api/check-auth');
-                if (res.ok) {
-                    showApp();
-                    wczytajDaneZBazy();
-                }
-            } catch (err) {}
+            revenueData: [
+                { name: 'Mar', income: 45000, expense: 32000 },
+                { name: 'Kwi', income: 52000, expense: 35000 },
+                { name: 'Maj', income: 48000, expense: 31000 },
+                { name: 'Cze', income: 61000, expense: 39000 },
+                { name: 'Lip', income: 59000, expense: 36000 },
+                { name: 'Sie', income: 65000, expense: 41000 }
+            ]
+        };
+
+        const navItems = [
+            { id: 'dashboard', label: 'Pulpit Analityczny', icon: 'fa-chart-pie' },
+            { id: 'tasks', label: 'Zlecenia / Kanban', icon: 'fa-clipboard-list' },
+            { id: 'fleet', label: 'Flota Pojazdów', icon: 'fa-truck' },
+            { id: 'drivers', label: 'Kadra Pracownicza', icon: 'fa-users' },
+            { id: 'finances', label: 'Finanse', icon: 'fa-wallet' }
+        ];
+
+        let charts = {}; // Przechowywanie instancji wykresów do niszczenia
+
+        // --- 2. FUNKCJE GŁÓWNE (Renderowanie UI) ---
+        
+        function initApp() {
+            renderSidebar();
+            switchTab('dashboard');
+            
+            // Formatowanie dat w formularzach domyślnie na dzisiaj
+            const today = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(el => el.value = today);
         }
 
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const pin = document.getElementById('pin-input').value;
-            const res = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ pin })
-            });
-            if (res.ok) {
-                errorMsg.classList.add('hidden');
-                showApp();
-                wczytajDaneZBazy();
+        function toggleSidebar() {
+            state.sidebarOpen = !state.sidebarOpen;
+            const sidebar = document.getElementById('sidebar');
+            const logoText = document.getElementById('sidebar-logo-text');
+            
+            if(state.sidebarOpen) {
+                sidebar.classList.remove('w-20');
+                sidebar.classList.add('w-64');
+                logoText.style.display = 'inline';
             } else {
-                errorMsg.classList.remove('hidden');
-                document.getElementById('pin-input').value = '';
+                sidebar.classList.remove('w-64');
+                sidebar.classList.add('w-20');
+                logoText.style.display = 'none';
             }
-        });
-
-        async function logout() {
-            await fetch('/api/logout', { method: 'POST' });
-            window.location.reload();
+            renderSidebar();
         }
 
-        function showApp() {
-            loginOverlay.classList.add('opacity-0');
-            setTimeout(() => {
-                loginOverlay.classList.add('hidden');
-                appWrapper.classList.remove('opacity-0', 'invisible');
-                appWrapper.classList.add('opacity-100', 'visible');
-            }, 500);
+        function renderSidebar() {
+            const list = document.getElementById('nav-list');
+            list.innerHTML = navItems.map(item => `
+                <li>
+                    <button onclick="switchTab('${item.id}')" 
+                        class="w-full flex items-center py-3 px-4 rounded-xl transition-all duration-300 group
+                        ${state.activeTab === item.id ? 'bg-brand-500/10 text-white border border-brand-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)]' : 'text-gray-400 hover:bg-dark-800 hover:text-white border border-transparent'}">
+                        <i class="fa-solid ${item.icon} text-lg transition-transform group-hover:scale-110 ${!state.sidebarOpen ? 'mx-auto' : ''} ${state.activeTab === item.id ? 'text-brand-500' : 'text-gray-500 group-hover:text-brand-500'}"></i>
+                        ${state.sidebarOpen ? `<span class="ml-3 font-medium text-sm ${state.activeTab === item.id ? 'text-brand-500' : ''}">${item.label}</span>` : ''}
+                    </button>
+                </li>
+            `).join('');
         }
 
-        function switchView(viewId) {
-            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-            document.getElementById('view-' + viewId).classList.add('active');
+        function switchTab(tabId) {
+            state.activeTab = tabId;
+            renderSidebar();
+            document.getElementById('global-search').value = '';
+            state.searchQuery = '';
             
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                if(btn.dataset.target === viewId) {
-                    btn.classList.add('bg-brand-500/10', 'border-brand-500/20', 'text-white');
-                    btn.classList.remove('text-gray-400', 'border-transparent');
-                    btn.querySelector('i').classList.add('text-brand-500');
-                } else {
-                    btn.classList.remove('bg-brand-500/10', 'border-brand-500/20', 'text-white');
-                    btn.classList.add('text-gray-400', 'border-transparent');
-                    btn.querySelector('i').classList.remove('text-brand-500');
-                }
-            });
+            // Czyszczenie wykresów przed przełączeniem
+            Object.values(charts).forEach(chart => chart.destroy());
+            charts = {};
+
+            const container = document.getElementById('view-container');
+            container.innerHTML = ''; // czyszczenie
+
+            switch(tabId) {
+                case 'dashboard': renderDashboard(container); break;
+                case 'tasks': renderTasks(container); break;
+                case 'fleet': renderFleet(container); break;
+                case 'drivers': renderDrivers(container); break;
+                case 'finances': renderFinances(container); break;
+            }
         }
 
-        checkAuth();
-
-        // --- LOGIKA BAZY DANYCH (FRONTEND) ---
-
-        async function wczytajDaneZBazy() {
-            await fetchPracownicy();
-            await fetchZlecenia();
+        function handleSearch() {
+            state.searchQuery = document.getElementById('global-search').value.toLowerCase();
+            switchTab(state.activeTab); // Re-render aktywnej zakładki
         }
 
-        async function fetchPracownicy() {
-            const res = await fetch('/api/pracownicy');
-            const pracownicy = await res.json();
+        // --- STREAMING_CHUNK:Renderowanie Modułów (Dashboard, Fleet, Tasks) ---
+
+        function getStats() {
+            const activeV = state.vehicles.filter(v => v.status === 'in_transit').length;
+            const availV = state.vehicles.filter(v => v.status === 'available').length;
+            const maintV = state.vehicles.filter(v => v.status === 'maintenance').length;
             
-            const container = document.getElementById('lista-pracownikow');
-            container.innerHTML = '';
+            return {
+                activeV, availV, maintV, totalV: state.vehicles.length,
+                pendingT: state.tasks.filter(t => t.status === 'todo').length,
+                income: state.finances.filter(f => f.type === 'income').reduce((a, b) => a + b.amount, 0),
+                expense: state.finances.filter(f => f.type === 'expense').reduce((a, b) => a + b.amount, 0)
+            };
+        }
+
+        function renderDashboard(container) {
+            const stats = getStats();
             
-            const selectZlecenia = document.getElementById('z-ekipa');
-            selectZlecenia.innerHTML = '<option value="">Wybierz pracownika...</option>';
-            
-            const selectWyplata = document.getElementById('w-pracownik');
-            selectWyplata.innerHTML = '<option value="">Wybierz pracownika...</option>';
-
-            let sumaZarobkow = 0;
-
-            pracownicy.forEach(p => {
-                sumaZarobkow += (p.zarobki || 0);
-
-                // Option dla Zleceń
-                const optZ = document.createElement('option');
-                optZ.value = p.imie; optZ.textContent = p.imie;
-                selectZlecenia.appendChild(optZ);
-
-                // Option dla Wypłat
-                const optW = document.createElement('option');
-                optW.value = p.imie; optW.textContent = p.imie;
-                selectWyplata.appendChild(optW);
-
-                const inicjal = p.imie.charAt(0).toUpperCase();
-                container.innerHTML += `
-                    <div class="premium-card rounded-2xl p-6 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 p-4"><span class="status-badge status-active">${p.status}</span></div>
-                        <div class="flex items-center gap-4 mb-6">
-                            <div class="w-16 h-16 rounded-full bg-dark-700 flex items-center justify-center text-2xl text-gray-400">${inicjal}</div>
-                            <div>
-                                <h3 class="text-xl font-bold text-white">${p.imie}</h3>
-                                <p class="text-sm text-brand-500">${p.rola}</p>
-                            </div>
+            container.innerHTML = `
+                <div class="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto space-y-6 fade-in">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h1 class="text-2xl sm:text-3xl font-extrabold text-white">Pulpit Operacyjny</h1>
+                            <p class="text-gray-400 text-sm mt-1">Szybki przegląd stanu firmy.</p>
                         </div>
-                        <div class="space-y-3 pt-4 border-t border-dark-700 text-sm">
-                            <div class="flex justify-between"><span class="text-gray-500">Dział</span><span class="font-bold text-white">${p.dzial}</span></div>
-                            <div class="flex justify-between"><span class="text-gray-500">Suma wypłat</span><span class="font-bold text-brand-400">${p.zarobki} PLN</span></div>
+                        <button onclick="openModal('modal-task')" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl text-sm font-extrabold transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)]"><i class="fa-solid fa-plus mr-2"></i> Szybkie Zlecenie</button>
+                    </div>
+
+                    <!-- KPI Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="premium-card rounded-2xl p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-3 rounded-xl bg-dark-800 border border-dark-700 text-brand-500"><i class="fa-solid fa-truck text-xl"></i></div>
+                            </div>
+                            <p class="text-3xl font-extrabold text-white">${stats.activeV} <span class="text-lg text-gray-600">/ ${stats.totalV}</span></p>
+                            <p class="text-sm font-medium text-gray-400 mt-1">Pojazdy w trasie</p>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-3 rounded-xl bg-dark-800 border border-dark-700 text-blue-500"><i class="fa-solid fa-clipboard-list text-xl"></i></div>
+                            </div>
+                            <p class="text-3xl font-extrabold text-white">${stats.pendingT}</p>
+                            <p class="text-sm font-medium text-gray-400 mt-1">Oczekujące zlecenia</p>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-3 rounded-xl bg-dark-800 border border-dark-700 text-brand-400"><i class="fa-solid fa-arrow-trend-up text-xl"></i></div>
+                            </div>
+                            <p class="text-3xl font-extrabold text-white">${stats.income.toLocaleString()} <span class="text-lg text-gray-600">PLN</span></p>
+                            <p class="text-sm font-medium text-gray-400 mt-1">Przychód (W tym miesiącu)</p>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6">
+                            <div class="flex justify-between items-start mb-4">
+                                <div class="p-3 rounded-xl bg-dark-800 border border-dark-700 text-red-500"><i class="fa-solid fa-arrow-trend-down text-xl"></i></div>
+                            </div>
+                            <p class="text-3xl font-extrabold text-white">${stats.expense.toLocaleString()} <span class="text-lg text-gray-600">PLN</span></p>
+                            <p class="text-sm font-medium text-gray-400 mt-1">Koszty operacyjne</p>
+                        </div>
+                    </div>
+
+                    <!-- Wykresy -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div class="lg:col-span-2 premium-card rounded-2xl p-6">
+                            <h2 class="text-lg font-bold text-white mb-4">Przychody vs Koszty (6 m-cy)</h2>
+                            <div class="relative h-[300px] w-full"><canvas id="chart-revenue"></canvas></div>
+                        </div>
+                        <div class="premium-card rounded-2xl p-6 flex flex-col items-center">
+                            <h2 class="text-lg font-bold text-white mb-4 w-full">Status Floty</h2>
+                            <div class="relative h-[250px] w-full flex justify-center"><canvas id="chart-fleet"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Inicjalizacja Chart.js po wstrzyknięciu HTML
+            setTimeout(() => {
+                initRevenueChart();
+                initFleetChart(stats);
+            }, 50);
+        }
+
+        function renderTasks(container) {
+            const cols = [
+                { id: 'todo', title: 'Oczekujące', color: 'border-dark-700' },
+                { id: 'in_progress', title: 'W realizacji', color: 'border-blue-500/30' },
+                { id: 'done', title: 'Zakończone', color: 'border-brand-500/30' }
+            ];
+
+            const filteredTasks = state.tasks.filter(t => t.title.toLowerCase().includes(state.searchQuery) || t.client.toLowerCase().includes(state.searchQuery));
+
+            let boardHtml = `<div class="flex gap-6 h-[calc(100vh-200px)] min-w-max pb-4">`;
+            
+            cols.forEach(col => {
+                const tasksInCol = filteredTasks.filter(t => t.status === col.id);
+                boardHtml += `
+                    <div class="w-[350px] flex flex-col rounded-2xl bg-dark-900 border ${col.color} overflow-hidden shadow-xl">
+                        <div class="p-4 border-b ${col.color} font-bold text-white flex justify-between bg-dark-800">
+                            ${col.title} <span class="bg-dark-900 rounded-lg px-2 text-xs border border-dark-700 flex items-center">${tasksInCol.length}</span>
+                        </div>
+                        <div class="p-4 flex-1 overflow-y-auto space-y-4">
+                            ${tasksInCol.map(task => `
+                                <div class="premium-card p-5 rounded-xl border border-dark-700">
+                                    <div class="flex justify-between items-start mb-2">
+                                        <span class="text-[10px] font-extrabold text-brand-500 bg-brand-500/10 px-2 py-1 rounded">${task.id}</span>
+                                        ${col.id === 'todo' ? `<button onclick="changeTaskStatus('${task.id}', 'in_progress')" class="text-xs text-blue-400 bg-blue-500/10 px-2 py-1 rounded hover:bg-blue-500/20">Rozpocznij</button>` : ''}
+                                        ${col.id === 'in_progress' ? `<button onclick="changeTaskStatus('${task.id}', 'done')" class="text-xs text-brand-500 bg-brand-500/10 px-2 py-1 rounded hover:bg-brand-500/20">Zakończ</button>` : ''}
+                                    </div>
+                                    <h3 class="font-bold text-white">${task.title}</h3>
+                                    <p class="text-xs text-gray-400 mb-3"><i class="fa-solid fa-user text-gray-600 mr-1"></i> ${task.client}</p>
+                                    <div class="text-sm text-gray-300 bg-dark-800 p-2 rounded-lg border border-dark-700">
+                                        <div class="flex items-center mb-1"><i class="fa-solid fa-location-dot text-brand-500 w-4"></i> ${task.origin}</div>
+                                        <div class="flex items-center"><i class="fa-solid fa-flag-checkered text-brand-500 w-4"></i> ${task.destination}</div>
+                                    </div>
+                                    <div class="mt-3 font-bold text-brand-400 text-right text-lg">${task.price} zł</div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
                 `;
             });
-            document.getElementById('stat-pracownicy').innerText = pracownicy.length;
-            document.getElementById('stat-wyplaty').innerHTML = `${sumaZarobkow} <span class="text-lg text-gray-500">PLN</span>`;
+            boardHtml += `</div>`;
+
+            container.innerHTML = `
+                <div class="p-4 sm:p-6 lg:p-8 fade-in">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-2xl font-extrabold text-white">Kanban Zleceń</h1>
+                        <button onclick="openModal('modal-task')" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-5 py-2 rounded-xl font-bold"><i class="fa-solid fa-plus"></i> Nowe Zlecenie</button>
+                    </div>
+                    <div class="overflow-x-auto overflow-y-hidden custom-scrollbar">
+                        ${boardHtml}
+                    </div>
+                </div>
+            `;
         }
 
-        async function dodajPracownika() {
-            const zData = {
-                imie: document.getElementById('p-imie').value,
-                rola: document.getElementById('p-rola').value,
-                dzial: document.getElementById('p-dzial').value
-            };
-
-            if(!zData.imie) return alert('Wpisz imię pracownika!');
-
-            const res = await fetch('/api/pracownicy', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(zData)
-            });
-            const info = await res.json();
+        function renderFleet(container) {
+            const filtered = state.vehicles.filter(v => v.reg.toLowerCase().includes(state.searchQuery) || v.brand.toLowerCase().includes(state.searchQuery));
             
-            if(!res.ok) return alert('Błąd: ' + info.error);
-
-            alert('Pracownik dodany pomyślnie!');
-            document.getElementById('p-imie').value = '';
-            document.getElementById('p-rola').value = '';
-            document.getElementById('form-pracownik-container').classList.add('hidden');
-            fetchPracownicy();
+            container.innerHTML = `
+                <div class="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto fade-in">
+                    <div class="flex justify-between items-center mb-6">
+                        <h1 class="text-2xl font-extrabold text-white">Flota Pojazdów</h1>
+                        <button onclick="openModal('modal-vehicle')" class="bg-brand-500 text-dark-900 px-5 py-2 rounded-xl font-bold"><i class="fa-solid fa-plus"></i> Dodaj</button>
+                    </div>
+                    <div class="premium-card rounded-2xl overflow-hidden overflow-x-auto">
+                        <table class="w-full text-left border-collapse whitespace-nowrap">
+                            <thead>
+                                <tr class="bg-dark-800 border-b border-dark-700 text-xs text-gray-400 uppercase">
+                                    <th class="p-4 pl-6">Pojazd</th>
+                                    <th class="p-4">Typ</th>
+                                    <th class="p-4">Przebieg</th>
+                                    <th class="p-4">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-dark-700 text-sm text-gray-300">
+                                ${filtered.map(v => `
+                                    <tr class="hover:bg-dark-800/50">
+                                        <td class="p-4 pl-6 font-bold text-white">
+                                            <div class="flex items-center">
+                                                <i class="fa-solid fa-truck text-brand-500 text-xl mr-3"></i>
+                                                <div><div>${v.reg}</div><div class="text-xs text-gray-500 font-normal">${v.brand} ${v.model}</div></div>
+                                            </div>
+                                        </td>
+                                        <td class="p-4">${v.type}</td>
+                                        <td class="p-4">${v.mileage.toLocaleString()} km</td>
+                                        <td class="p-4">
+                                            <span class="px-3 py-1 rounded text-xs font-bold border 
+                                                ${v.status === 'available' ? 'bg-brand-500/10 text-brand-500 border-brand-500/20' : 
+                                                  v.status === 'in_transit' ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : 
+                                                  'bg-red-500/10 text-red-500 border-red-500/20'}">
+                                                ${v.status === 'available' ? 'Dostępny' : v.status === 'in_transit' ? 'W trasie' : 'Serwis'}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
         }
 
-        // NOWE: Zapis wypłaty w bazie
-        async function dodajWyplate() {
-            const wData = {
-                imie: document.getElementById('w-pracownik').value,
-                kwota: document.getElementById('w-kwota').value
-            };
+        function renderDrivers(container) {
+             const filtered = state.drivers.filter(d => d.name.toLowerCase().includes(state.searchQuery));
+             container.innerHTML = `
+                <div class="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto fade-in">
+                    <h1 class="text-2xl font-extrabold text-white mb-6">Kierowcy i Ekipa</h1>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        ${filtered.map(d => `
+                            <div class="premium-card rounded-2xl p-6 border-l-4 ${d.status === 'available' ? 'border-l-brand-500' : d.status === 'on_route' ? 'border-l-blue-500' : 'border-l-red-500'}">
+                                <h3 class="font-bold text-lg text-white">${d.name}</h3>
+                                <p class="text-sm text-gray-400 mb-4"><i class="fa-solid fa-phone text-brand-500 mr-2"></i> ${d.phone}</p>
+                                <div class="bg-dark-800 p-3 rounded-lg border border-dark-700 mb-4">
+                                    <span class="text-xs text-gray-500 block">Kategoria Prawa Jazdy</span>
+                                    <span class="font-bold text-white">${d.license}</span>
+                                </div>
+                                <span class="text-xs font-bold px-2 py-1 bg-dark-800 rounded border border-dark-700 text-gray-300">
+                                    ${d.status === 'available' ? 'Gotowy do wyjazdu' : d.status === 'on_route' ? 'W trasie' : 'Niedostępny'}
+                                </span>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+             `;
+        }
 
-            if(!wData.imie || !wData.kwota) return alert('Wybierz pracownika i podaj kwotę!');
+        function renderFinances(container) {
+             container.innerHTML = `
+                <div class="p-4 sm:p-6 lg:p-8 max-w-[1600px] mx-auto fade-in">
+                    <h1 class="text-2xl font-extrabold text-white mb-6">Rejestr Finansowy</h1>
+                    <div class="premium-card rounded-2xl overflow-hidden">
+                         <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-dark-800 border-b border-dark-700 text-xs text-gray-400 uppercase">
+                                    <th class="p-4 pl-6">Data</th>
+                                    <th class="p-4">Kategoria</th>
+                                    <th class="p-4 text-right pr-6">Kwota</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-dark-700 text-sm text-gray-300">
+                                ${state.finances.map(f => `
+                                    <tr class="hover:bg-dark-800/50">
+                                        <td class="p-4 pl-6">${f.date}</td>
+                                        <td class="p-4 font-bold">${f.category}</td>
+                                        <td class="p-4 text-right pr-6 font-extrabold ${f.type === 'income' ? 'text-brand-500' : 'text-red-500'}">
+                                            ${f.type === 'income' ? '+' : '-'}${f.amount} zł
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+             `;
+        }
 
-            const res = await fetch('/api/pracownicy/wyplata', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(wData)
-            });
-            const info = await res.json();
+        // --- STREAMING_CHUNK:Logika Chart.js i Akcje ---
 
-            if(!res.ok) return alert('Błąd bazy danych: ' + info.error);
-
-            alert('Pieniądze pomyślnie dopisane do konta pracownika!');
-            document.getElementById('w-kwota').value = '';
-            document.getElementById('w-pracownik').value = '';
-            document.getElementById('form-wyplata-container').classList.add('hidden');
+        function initRevenueChart() {
+            const ctx = document.getElementById('chart-revenue');
+            if(!ctx) return;
             
-            // Odśwież, by zaktualizować karty z kwotami
-            fetchPracownicy();
-        }
+            Chart.defaults.color = '#9ca3af';
+            Chart.defaults.font.family = '"Plus Jakarta Sans", sans-serif';
 
-        async function fetchZlecenia() {
-            const res = await fetch('/api/zlecenia');
-            const zlecenia = await res.json();
-            
-            const tbody = document.getElementById('lista-zlecen-body');
-            tbody.innerHTML = '';
-            let sumaPrzychodow = 0;
-
-            zlecenia.forEach(z => {
-                sumaPrzychodow += (z.stawka || 0);
-                let dataFormatowana = z.data ? z.data.replace('T', ' ') : '-';
-                tbody.innerHTML += `
-                    <tr class="border-b border-dark-700/50 hover:bg-dark-800/50 transition-colors">
-                        <td class="px-4 py-4 text-white">${dataFormatowana}</td>
-                        <td class="px-4 py-4 font-medium text-white">${z.typ}</td>
-                        <td class="px-4 py-4 text-xs">
-                            <span class="text-gray-500">Skąd:</span> ${z.skad || '-'} <br>
-                            <span class="text-gray-500">Dokąd:</span> ${z.dokad || '-'}
-                        </td>
-                        <td class="px-4 py-4 text-brand-400 font-medium">${z.stawka || 0} PLN</td>
-                        <td class="px-4 py-4">${z.ekipa || 'Brak'}</td>
-                        <td class="px-4 py-4"><span class="status-badge status-active">${z.status}</span></td>
-                    </tr>
-                `;
+            charts['revenue'] = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: state.revenueData.map(d => d.name),
+                    datasets: [
+                        {
+                            label: 'Przychód',
+                            data: state.revenueData.map(d => d.income),
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Koszty',
+                            data: state.revenueData.map(d => d.expense),
+                            borderColor: '#ef4444',
+                            backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { grid: { color: '#1a1a1a' }, border: { display: false } },
+                        x: { grid: { display: false }, border: { display: false } }
+                    }
+                }
             });
-
-            document.getElementById('stat-zlecenia').innerText = zlecenia.length;
-            document.getElementById('stat-przychod').innerHTML = `${sumaPrzychodow} <span class="text-lg text-gray-500">PLN</span>`;
         }
 
-        async function dodajZlecenie() {
-            const zData = {
-                typ: document.getElementById('z-typ').value,
-                data: document.getElementById('z-data').value,
-                stawka: document.getElementById('z-stawka').value,
-                ekipa: document.getElementById('z-ekipa').value,
-                skad: document.getElementById('z-skad').value,
-                dokad: document.getElementById('z-dokad').value,
-                opis: document.getElementById('z-opis').value
-            };
+        function initFleetChart(stats) {
+            const ctx = document.getElementById('chart-fleet');
+            if(!ctx) return;
 
-            const res = await fetch('/api/zlecenia', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(zData)
+            charts['fleet'] = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Dostępne', 'W trasie', 'Serwis'],
+                    datasets: [{
+                        data: [stats.availV, stats.activeV, stats.maintV],
+                        backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 20, color: '#fff' } }
+                    }
+                }
             });
-            const info = await res.json();
-
-            if(!res.ok) return alert('Błąd bazy danych: ' + info.error);
-
-            alert('Zlecenie zapisane pomyślnie!');
-            ['z-data', 'z-stawka', 'z-skad', 'z-dokad', 'z-opis'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('form-zlecenie-container').classList.add('hidden');
-            fetchZlecenia();
         }
+
+        // Akcje zmiana statusu zadań
+        function changeTaskStatus(taskId, newStatus) {
+            const task = state.tasks.find(t => t.id === taskId);
+            if(task) {
+                task.status = newStatus;
+                
+                // Jeśli zakończone, dodaj do finansów
+                if(newStatus === 'done') {
+                    state.finances.unshift({
+                        id: 'f' + Date.now(),
+                        date: new Date().toISOString().split('T')[0],
+                        type: 'income',
+                        amount: task.price,
+                        category: `Zlecenie: ${task.title}`
+                    });
+                }
+                switchTab(state.activeTab); // Re-render
+            }
+        }
+
+        // Obsługa Modali
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // Formularze
+        function submitTask(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            state.tasks.push({
+                id: 't' + (state.tasks.length + 1),
+                title: fd.get('title'),
+                client: fd.get('client'),
+                origin: fd.get('origin'),
+                destination: fd.get('destination'),
+                date: fd.get('date'),
+                price: Number(fd.get('price')),
+                status: 'todo'
+            });
+            e.target.reset();
+            closeModal('modal-task');
+            if(state.activeTab === 'tasks') switchTab('tasks');
+        }
+
+        function submitVehicle(e) {
+            e.preventDefault();
+            const fd = new FormData(e.target);
+            state.vehicles.push({
+                id: 'v' + (state.vehicles.length + 1),
+                brand: fd.get('brand'),
+                model: fd.get('model'),
+                reg: fd.get('reg').toUpperCase(),
+                type: fd.get('type'),
+                capacity: 'N/A',
+                mileage: 0,
+                status: 'available'
+            });
+            e.target.reset();
+            closeModal('modal-vehicle');
+            if(state.activeTab === 'fleet') switchTab('fleet');
+        }
+
+        // Start aplikacji po załadowaniu
+        window.onload = initApp;
     </script>
 </body>
 </html>
