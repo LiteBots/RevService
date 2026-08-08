@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RevControl - Panel Administratora</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        dark: {
+                            900: '#050505',
+                            800: '#111111',
+                            700: '#1a1a1a',
+                            600: '#2a2a2a',
+                        },
+                        accent: {
+                            red: '#ef4444',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: #f3f4f6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+        .premium-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            transition: all 0.3s ease;
+        }
+        .premium-card:hover { border-color: #2a2a2a; }
+
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            position: absolute; inset: 0; z-index: 0; pointer-events: none;
+        }
+        
+        .input-field:focus-within { border-color: #10b981; }
+
+        .dropzone {
+            border: 2px dashed #2a2a2a;
+            transition: all 0.3s ease;
+        }
+        .dropzone.dragover, .dropzone:hover {
+            border-color: #10b981;
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .menu-active {
+            background-color: rgba(16, 185, 129, 0.1) !important;
+            color: #10b981 !important;
+            border-right: 3px solid #10b981;
+        }
+
+        .view-section { display: none; animation: fadeIn 0.4s ease forwards; }
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .image-preview-item {
+            position: relative; width: 80px; height: 80px;
+            border-radius: 8px; overflow: hidden; border: 1px solid #2a2a2a;
+        }
+        .image-preview-item img { width: 100%; height: 100%; object-fit: cover; }
+        .remove-img-btn {
+            position: absolute; top: 2px; right: 2px;
+            background: rgba(239,68,68,0.9); color: white;
+            border-radius: 50%; width: 20px; height: 20px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px; cursor: pointer;
+        }
+        
+        /* Styl dla Kanbanu CRM */
+        .kanban-col { min-height: 400px; }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden selection:bg-brand-500 selection:text-dark-900">
+
+    <!-- Pasek boczny -->
+    <aside id="sidebar" class="w-72 bg-dark-900 border-r border-dark-700 flex-shrink-0 flex flex-col absolute lg:relative z-30 h-full transition-transform duration-300 -translate-x-full lg:translate-x-0">
+        <!-- ZWIĘKSZONE LOGO -->
+        <div class="h-28 flex flex-col justify-center px-6 border-b border-dark-800 relative">
+            <img class="h-16 w-auto object-contain object-left mb-2" src="https://i.imgur.com/kzWy5SL.png" alt="Logo">
+            <span class="text-xl font-extrabold tracking-wide text-white">Rev<span class="text-brand-500">Control</span></span>
+            <button id="close-mobile-menu" class="lg:hidden absolute top-6 right-6 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-2xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto py-6 px-4 flex flex-col gap-1" id="main-menu">
+            <p class="px-3 text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">Panel Główny</p>
+            
+            <a href="#" data-target="view-wycena" class="menu-link menu-active flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-solid fa-calculator w-5 text-center"></i> Wycena Zleceń
+            </a>
+            <a href="#" data-target="view-zlecenia" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-solid fa-clipboard-list w-5 text-center"></i> Twoje Zlecenia
+            </a>
+            <a href="#" data-target="view-flota" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-solid fa-truck w-5 text-center"></i> Twoja Flota
+            </a>
+            <a href="#" data-target="view-grafik" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-regular fa-calendar-days w-5 text-center"></i> Grafik
+            </a>
+            <a href="#" data-target="view-pracownicy" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-solid fa-users-gear w-5 text-center"></i> Pracownicy
+            </a>
+
+            <p class="px-3 text-xs font-bold text-gray-500 uppercase tracking-widest mt-6 mb-2">Rozwój</p>
+            
+            <a href="#" data-target="view-pozyskaj" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-solid fa-magnet w-5 text-center"></i> Pozyskaj Klienta
+            </a>
+            <a href="#" data-target="view-analityka" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-solid fa-chart-pie w-5 text-center"></i> Analityka Biznesowa
+            </a>
+            <a href="#" data-target="view-crm" class="menu-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
+                <i class="fa-solid fa-handshake w-5 text-center"></i> CRM
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-dark-800 bg-dark-900/50">
+            <div class="flex flex-col gap-1">
+                <a href="#" data-target="view-konto" class="menu-link flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors text-sm">
+                    <i class="fa-solid fa-gear w-4 text-center"></i> Twoje konto
+                </a>
+                <a href="#" data-target="view-subskrypcje" class="menu-link flex items-center justify-between px-3 py-2 rounded-lg text-gray-400 hover:text-brand-400 hover:bg-dark-800 transition-colors text-sm">
+                    <div class="flex items-center gap-3"><i class="fa-solid fa-crown w-4 text-center"></i> Subskrypcje</div>
+                    <span class="bg-brand-500/20 text-brand-500 text-[10px] font-bold px-2 py-0.5 rounded-full">PRO</span>
+                </a>
+                <a href="#" data-target="view-wsparcie" class="menu-link flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-dark-800 transition-colors text-sm">
+                    <i class="fa-solid fa-headset w-4 text-center"></i> Wsparcie Techniczne
+                </a>
+                <a href="#" onclick="alert('Wylogowano pomyślnie!');" class="flex items-center gap-3 px-3 py-2 mt-2 rounded-lg text-accent-red hover:bg-red-500/10 transition-colors text-sm font-bold">
+                    <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> Wyloguj się
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/50 z-20 hidden lg:hidden"></div>
+
+    <div class="flex-1 flex flex-col relative h-full bg-[#030303]">
+        <div class="bg-grid opacity-30"></div>
+        
+        <header class="h-20 bg-dark-900/80 backdrop-blur-md border-b border-dark-800 flex items-center justify-between px-6 md:px-10 z-10 sticky top-0">
+            <div class="flex items-center gap-4">
+                <button id="open-mobile-menu" class="lg:hidden text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                <div>
+                    <h1 id="topbar-title" class="text-xl font-bold text-white">Wycena Zleceń</h1>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <button class="text-gray-400 hover:text-brand-400 transition-colors relative">
+                    <i class="fa-regular fa-bell text-xl"></i>
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-accent-red rounded-full border-2 border-dark-900"></span>
+                </button>
+                <div class="h-8 w-px bg-dark-700"></div>
+                <div class="flex items-center gap-3 cursor-pointer group" onclick="document.querySelector('[data-target=\'view-konto\']').click()">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-bold text-white group-hover:text-brand-400 transition-colors">Daniel Mamrot</p>
+                        <p class="text-xs text-gray-500">DANMET / RevSerwis</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-dark-800 border border-dark-600 flex items-center justify-center text-gray-400 group-hover:border-brand-500 transition-colors">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 overflow-y-auto p-6 md:p-10 z-10 relative">
+            
+            <!-- 1. WIDOK: WYCENA ZLECEŃ (PEŁNA WERSJA MAX) -->
+            <div id="view-wycena" class="view-section active">
+                <div class="bg-dark-900 p-1 md:p-8 rounded-3xl border border-dark-800 shadow-2xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-dark-800 via-brand-500 to-dark-800"></div>
+                    <div class="mb-8 px-5 pt-5 md:px-0 md:pt-0">
+                        <h2 class="text-2xl font-extrabold text-white mb-2">Rozbudowany Kreator Wyceny</h2>
+                        <p class="text-gray-400 text-sm">Wprowadź wszystkie parametry, aby system idealnie dopasował cenę zlecenia.</p>
+                    </div>
+
+                    <form id="quote-form" class="space-y-6 px-5 pb-5 md:px-0 md:pb-0" onsubmit="event.preventDefault(); alert('Wycena zapisana!');">
+                        
+                        <!-- Logistyka -->
+                        <div class="bg-dark-800/50 p-6 rounded-2xl border border-dark-700">
+                            <h3 class="text-white font-bold mb-4 flex items-center text-sm"><span class="text-brand-500 mr-2"><i class="fa-solid fa-route"></i></span> Trasa i Dystans</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                                <div class="input-field md:col-span-2">
+                                    <label class="block text-xs font-bold text-gray-400 mb-2">Klient (Imię / Telefon)</label>
+                                    <input type="text" placeholder="Jan Kowalski - 500 600 700" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                                </div>
+                                <div class="input-field">
+                                    <label class="block text-xs font-bold text-gray-400 mb-2">Adres Załadunku (A)</label>
+                                    <input type="text" placeholder="Gdańsk, Długa 1" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                                </div>
+                                <div class="input-field">
+                                    <label class="block text-xs font-bold text-gray-400 mb-2">Adres Rozładunku (B)</label>
+                                    <input type="text" placeholder="Gdynia, Świętojańska" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Parametry Fizyczne -->
+                        <div class="bg-dark-800/50 p-6 rounded-2xl border border-dark-700">
+                            <h3 class="text-white font-bold mb-4 flex items-center text-sm"><span class="text-brand-500 mr-2"><i class="fa-solid fa-building"></i></span> Parametry Obiektów</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-5 items-end">
+                                <div class="input-field md:col-span-1">
+                                    <label class="block text-xs font-bold text-brand-400 mb-2">Dystans (km)</label>
+                                    <input type="number" placeholder="Np. 150" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm font-bold">
+                                </div>
+                                
+                                <div class="input-field">
+                                    <label class="block text-xs font-bold text-gray-400 mb-2">Piętro (A)</label>
+                                    <input type="number" placeholder="0" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm text-center">
+                                </div>
+                                <div class="flex items-center pb-3">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer">
+                                        <div class="w-9 h-5 bg-dark-700 peer-focus:outline-none rounded-full peer peer-checked:bg-brand-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                                        <span class="ml-2 text-xs font-medium text-gray-400">Winda (A)</span>
+                                    </label>
+                                </div>
+
+                                <div class="input-field">
+                                    <label class="block text-xs font-bold text-gray-400 mb-2">Piętro (B)</label>
+                                    <input type="number" placeholder="0" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm text-center">
+                                </div>
+                                <div class="flex items-center pb-3">
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" class="sr-only peer">
+                                        <div class="w-9 h-5 bg-dark-700 peer-focus:outline-none rounded-full peer peer-checked:bg-brand-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                                        <span class="ml-2 text-xs font-medium text-gray-400">Winda (B)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Ekipa i Opis -->
+                        <div class="bg-dark-800/50 p-6 rounded-2xl border border-dark-700">
+                            <h3 class="text-white font-bold mb-4 flex items-center text-sm"><span class="text-brand-500 mr-2"><i class="fa-solid fa-users-gear"></i></span> Ekipa, Usługi i Zdjęcia</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-5">
+                                    <div class="input-field">
+                                        <label class="block text-xs font-bold text-gray-400 mb-2">Wielkość ekipy</label>
+                                        <select class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                                            <option value="1">1 (Tylko kierowca)</option>
+                                            <option value="2" selected>2 osoby (Standard)</option>
+                                            <option value="3">3 osoby</option>
+                                            <option value="4">4 osoby (Gabaryty)</option>
+                                        </select>
+                                    </div>
+                                    <div class="input-field">
+                                        <label class="block text-xs font-bold text-gray-400 mb-2">Dodatkowe usługi</label>
+                                        <div class="flex flex-wrap gap-2">
+                                            <label class="flex items-center bg-dark-900 px-3 py-2 rounded-lg border border-dark-600 cursor-pointer text-xs"><input type="checkbox" class="accent-brand-500 mr-2"> Pakowanie</label>
+                                            <label class="flex items-center bg-dark-900 px-3 py-2 rounded-lg border border-dark-600 cursor-pointer text-xs"><input type="checkbox" class="accent-brand-500 mr-2"> Demontaż</label>
+                                            <label class="flex items-center bg-dark-900 px-3 py-2 rounded-lg border border-dark-600 cursor-pointer text-xs"><input type="checkbox" class="accent-brand-500 mr-2"> Utylizacja</label>
+                                        </div>
+                                    </div>
+                                    <div class="input-field">
+                                        <label class="block text-xs font-bold text-gray-400 mb-2">Opis i utrudnienia</label>
+                                        <textarea rows="3" placeholder="Opisz utrudnienia (sejf, wąska klatka schodowa)..." class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm resize-none"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-4 h-full flex flex-col">
+                                    <label class="block text-xs font-bold text-gray-400">Zdjęcia Mienia (Opcjonalnie)</label>
+                                    <div id="dropzone" class="dropzone w-full flex-1 rounded-xl p-6 flex flex-col items-center justify-center cursor-pointer bg-dark-900 text-gray-500 min-h-[150px]">
+                                        <i class="fa-solid fa-cloud-arrow-up text-3xl mb-3"></i>
+                                        <p class="text-sm font-medium">Przeciągnij zdjęcia lub kliknij</p>
+                                        <input type="file" id="file-input" multiple accept="image/*" class="hidden">
+                                    </div>
+                                    <div id="image-preview-container" class="flex flex-wrap gap-2 empty:hidden"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel Akcji -->
+                        <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div class="flex items-center gap-4 w-full sm:w-auto">
+                                <div class="input-field relative w-full sm:w-48">
+                                    <label class="absolute -top-2 left-3 bg-dark-900 px-1 text-[10px] text-gray-500 font-bold">Ręczna korekta ceny</label>
+                                    <input type="text" placeholder="Auto" class="w-full bg-dark-800 border border-dark-700 text-white rounded-lg px-3 py-3 focus:outline-none text-sm font-bold text-center">
+                                </div>
+                            </div>
+                            
+                            <div class="flex gap-3 w-full sm:w-auto">
+                                <button type="button" onclick="document.getElementById('quote-form').reset(); document.getElementById('image-preview-container').innerHTML='';" class="w-full sm:w-auto bg-dark-800 border border-dark-600 text-white font-bold text-sm px-6 py-3 rounded-xl hover:bg-dark-700">Czyść</button>
+                                <button type="submit" class="w-full sm:w-auto bg-brand-500 hover:bg-brand-400 text-dark-900 font-extrabold text-sm px-6 py-3 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.3)]">Zapisz Wycenę <i class="fa-solid fa-arrow-right ml-2"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 2. WIDOK: TWOJE ZLECENIA -->
+            <div id="view-zlecenia" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">Lista Zleceń</h2>
+                <div class="bg-dark-900 border border-dark-800 rounded-2xl overflow-x-auto">
+                    <table class="w-full text-left whitespace-nowrap">
+                        <thead class="bg-dark-800 text-gray-400 text-xs uppercase border-b border-dark-700">
+                            <tr>
+                                <th class="p-4">ID</th><th class="p-4">Klient</th><th class="p-4">Trasa</th><th class="p-4">Status</th><th class="p-4">Kwota</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-dark-800 hover:bg-dark-800/50">
+                                <td class="p-4"><span class="font-bold text-white">#1024</span></td>
+                                <td class="p-4 text-white">Jan Kowalski<br><span class="text-xs text-gray-500">500 600 700</span></td>
+                                <td class="p-4 text-gray-300">Gdańsk <i class="fa-solid fa-arrow-right text-brand-500 mx-1"></i> Warszawa</td>
+                                <td class="p-4"><span class="bg-brand-500/20 text-brand-500 px-2 py-1 rounded text-xs">W realizacji</span></td>
+                                <td class="p-4 font-bold text-white">1,450 zł</td>
+                            </tr>
+                            <tr class="border-b border-dark-800 hover:bg-dark-800/50">
+                                <td class="p-4"><span class="font-bold text-white">#1025</span></td>
+                                <td class="p-4 text-white">Biuro Nieruchomości<br><span class="text-xs text-gray-500">601 202 303</span></td>
+                                <td class="p-4 text-gray-300">Słupsk <i class="fa-solid fa-arrow-right text-brand-500 mx-1"></i> Berlin</td>
+                                <td class="p-4"><span class="bg-yellow-500/20 text-yellow-500 px-2 py-1 rounded text-xs">Zaplanowane</span></td>
+                                <td class="p-4 font-bold text-white">3,200 zł</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 3. WIDOK: TWOJA FLOTA -->
+            <div id="view-flota" class="view-section">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-extrabold text-white">Zarządzanie Flotą</h2>
+                    <button class="bg-brand-500 text-dark-900 font-bold px-4 py-2 rounded-lg text-sm"><i class="fa-solid fa-plus mr-2"></i>Dodaj Pojazd</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="premium-card rounded-2xl p-5">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-12 h-12 bg-dark-800 rounded-xl flex items-center justify-center text-xl text-gray-300"><i class="fa-solid fa-truck-moving"></i></div>
+                            <span class="bg-brand-500/20 text-brand-500 text-xs px-2 py-1 rounded">Dostępny</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white">Mercedes Sprinter</h3>
+                        <p class="text-sm text-gray-400 mb-4">Rej: GD 12345 • Meblowóz</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. WIDOK: GRAFIK -->
+            <div id="view-grafik" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">Grafik Zleceń</h2>
+                <div class="bg-dark-900 border border-dark-800 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-bold text-white">Wrzesień 2026</h3>
+                        <div class="flex gap-2">
+                            <button class="bg-dark-800 px-3 py-1 rounded text-white">&lt;</button>
+                            <button class="bg-dark-800 px-3 py-1 rounded text-white">&gt;</button>
+                        </div>
+                    </div>
+                    <!-- Prosty kalendarz tygodniowy (Mockup) -->
+                    <div class="grid grid-cols-7 gap-2 text-center text-xs text-gray-400 mb-2 font-bold">
+                        <div>Pon</div><div>Wt</div><div>Śr</div><div>Czw</div><div>Pt</div><div>Sob</div><div>Ndz</div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-2">
+                        <!-- Komórki kalendarza -->
+                        <div class="bg-dark-800 h-24 rounded border border-dark-700 p-1"><span class="text-gray-500">28</span></div>
+                        <div class="bg-dark-800 h-24 rounded border border-dark-700 p-1"><span class="text-white font-bold">1</span>
+                            <div class="mt-1 bg-brand-500 text-dark-900 text-[10px] rounded px-1 truncate">Przeprowadzka</div>
+                        </div>
+                        <div class="bg-dark-800 h-24 rounded border border-dark-700 p-1"><span class="text-white font-bold">2</span></div>
+                        <div class="bg-dark-800 h-24 rounded border border-dark-700 p-1"><span class="text-white font-bold">3</span>
+                            <div class="mt-1 bg-blue-500 text-white text-[10px] rounded px-1 truncate">Transfer Lotnisko</div>
+                        </div>
+                        <div class="bg-dark-800 h-24 rounded border border-dark-700 p-1"><span class="text-white font-bold">4</span></div>
+                        <div class="bg-dark-800 h-24 rounded border border-dark-700 p-1"><span class="text-white font-bold">5</span></div>
+                        <div class="bg-dark-800 h-24 rounded border border-dark-700 p-1"><span class="text-white font-bold">6</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. WIDOK: PRACOWNICY -->
+            <div id="view-pracownicy" class="view-section">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-extrabold text-white">Ekipa i Pracownicy</h2>
+                    <button class="bg-brand-500 text-dark-900 font-bold px-4 py-2 rounded-lg text-sm"><i class="fa-solid fa-plus mr-2"></i>Dodaj Pracownika</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <div class="premium-card rounded-2xl p-5 text-center">
+                        <div class="w-20 h-20 bg-dark-800 rounded-full mx-auto mb-3 flex items-center justify-center text-3xl text-gray-500 border-2 border-brand-500"><i class="fa-solid fa-user-tie"></i></div>
+                        <h3 class="text-lg font-bold text-white">Marek Z.</h3>
+                        <p class="text-xs text-brand-500 font-bold mb-3">Kierowca / Lider</p>
+                        <div class="flex justify-center gap-2">
+                            <button class="bg-dark-800 hover:bg-dark-700 p-2 rounded text-gray-300"><i class="fa-solid fa-phone"></i></button>
+                            <button class="bg-dark-800 hover:bg-dark-700 p-2 rounded text-gray-300"><i class="fa-solid fa-pen"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. WIDOK: POZYSKAJ KLIENTA -->
+            <div id="view-pozyskaj" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">Marketing i Lead'y</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-dark-900 p-6 rounded-2xl border border-dark-800">
+                        <h3 class="text-white font-bold mb-4">Kampania SMS</h3>
+                        <textarea rows="4" placeholder="Treść wiadomości do bazy klientów..." class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 text-sm mb-4"></textarea>
+                        <button class="w-full bg-brand-500 text-dark-900 font-bold py-3 rounded-xl">Wyślij do 450 kontaktów</button>
+                    </div>
+                    <div class="bg-dark-900 p-6 rounded-2xl border border-dark-800 flex flex-col justify-center text-center">
+                        <i class="fa-solid fa-link text-4xl text-gray-500 mb-4"></i>
+                        <h3 class="text-white font-bold mb-2">Twój unikalny link do wycen:</h3>
+                        <div class="bg-dark-800 p-3 rounded-xl border border-dark-700 text-brand-500 font-mono text-sm mb-4">revserwis.pl/wycena/ref=admin</div>
+                        <button class="text-gray-400 hover:text-white"><i class="fa-solid fa-copy mr-2"></i>Kopiuj link</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. WIDOK: ANALITYKA -->
+            <div id="view-analityka" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">Analityka Biznesowa</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-dark-900 p-5 rounded-2xl border border-dark-800">
+                        <p class="text-xs text-gray-400 mb-1">Miesięczny Koszt Floty</p>
+                        <h3 class="text-2xl font-black text-white">4,200 zł</h3>
+                    </div>
+                    <div class="bg-dark-900 p-5 rounded-2xl border border-dark-800">
+                        <p class="text-xs text-gray-400 mb-1">Średnia wartość zlecenia</p>
+                        <h3 class="text-2xl font-black text-white">1,850 zł</h3>
+                    </div>
+                </div>
+                <div class="bg-dark-900 p-6 rounded-2xl border border-dark-800">
+                    <h3 class="text-white font-bold mb-6">Przychody (Ostatnie 6 miesięcy)</h3>
+                    <!-- Wykres CSS Mockup -->
+                    <div class="flex items-end gap-4 h-48 border-b border-dark-700 pb-2">
+                        <div class="flex-1 bg-brand-500/20 hover:bg-brand-500 transition-colors h-[40%] rounded-t relative group"><span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100">Kwi</span></div>
+                        <div class="flex-1 bg-brand-500/40 hover:bg-brand-500 transition-colors h-[55%] rounded-t relative group"><span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100">Maj</span></div>
+                        <div class="flex-1 bg-brand-500/60 hover:bg-brand-500 transition-colors h-[80%] rounded-t relative group"><span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100">Cze</span></div>
+                        <div class="flex-1 bg-brand-500 h-[100%] rounded-t relative group shadow-[0_0_15px_rgba(16,185,129,0.5)]"><span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100">Lip</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. WIDOK: CRM -->
+            <div id="view-crm" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">CRM - Lejek Sprzedaży</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 kanban-col overflow-x-auto">
+                    <!-- Kolumna 1 -->
+                    <div class="bg-dark-900 rounded-2xl border border-dark-800 p-4 h-full">
+                        <h3 class="text-white font-bold mb-4 flex justify-between">Nowe Zapytania <span class="bg-dark-800 px-2 rounded">2</span></h3>
+                        <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 mb-3 cursor-pointer hover:border-brand-500">
+                            <p class="text-sm font-bold text-white">Anna Nowak</p>
+                            <p class="text-xs text-gray-400 mt-1">Przeprowadzka biura</p>
+                        </div>
+                        <div class="bg-dark-800 p-4 rounded-xl border border-dark-700 mb-3 cursor-pointer hover:border-brand-500">
+                            <p class="text-sm font-bold text-white">Piotr Kowal</p>
+                            <p class="text-xs text-gray-400 mt-1">Opróżnianie mieszkania</p>
+                        </div>
+                    </div>
+                    <!-- Kolumna 2 -->
+                    <div class="bg-dark-900 rounded-2xl border border-dark-800 p-4 h-full">
+                        <h3 class="text-white font-bold mb-4 flex justify-between">Wysłano Wycenę <span class="bg-dark-800 px-2 rounded">1</span></h3>
+                        <div class="bg-dark-800 p-4 rounded-xl border-l-2 border-l-yellow-500 border-dark-700 mb-3">
+                            <p class="text-sm font-bold text-white">Firma XYZ</p>
+                            <p class="text-xs text-gray-400 mt-1">Transport maszyn (4,500 zł)</p>
+                        </div>
+                    </div>
+                    <!-- Kolumna 3 -->
+                    <div class="bg-dark-900 rounded-2xl border border-dark-800 p-4 h-full">
+                        <h3 class="text-white font-bold mb-4 flex justify-between">Akceptacja (Wygrane) <span class="bg-dark-800 px-2 rounded">1</span></h3>
+                        <div class="bg-dark-800 p-4 rounded-xl border-l-2 border-l-brand-500 border-dark-700 mb-3">
+                            <p class="text-sm font-bold text-white">Jan Kowalski</p>
+                            <p class="text-xs text-gray-400 mt-1">Gdańsk -> Warszawa</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. WIDOK: TWOJE KONTO -->
+            <div id="view-konto" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">Ustawienia Profilu</h2>
+                <div class="bg-dark-900 p-8 rounded-3xl border border-dark-800 max-w-2xl">
+                    <form onsubmit="event.preventDefault(); alert('Dane zapisane!');">
+                        <div class="flex items-center gap-6 mb-8">
+                            <div class="w-24 h-24 bg-dark-800 rounded-full flex items-center justify-center text-3xl text-gray-500 border border-dark-700"><i class="fa-solid fa-user"></i></div>
+                            <button type="button" class="bg-dark-800 px-4 py-2 rounded-lg text-sm text-white">Zmień zdjęcie</button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div class="input-field">
+                                <label class="block text-xs font-bold text-gray-400 mb-2">Imię i Nazwisko</label>
+                                <input type="text" value="Daniel Mamrot" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                            </div>
+                            <div class="input-field">
+                                <label class="block text-xs font-bold text-gray-400 mb-2">Firma</label>
+                                <input type="text" value="DANMET / RevSerwis" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                            </div>
+                            <div class="input-field">
+                                <label class="block text-xs font-bold text-gray-400 mb-2">Email logowania</label>
+                                <input type="email" value="admin@revserwis.pl" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                            </div>
+                            <div class="input-field">
+                                <label class="block text-xs font-bold text-gray-400 mb-2">Zmiana Hasła</label>
+                                <input type="password" placeholder="••••••••" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 focus:outline-none text-sm">
+                            </div>
+                        </div>
+                        <button type="submit" class="bg-brand-500 text-dark-900 font-bold px-8 py-3 rounded-xl hover:bg-brand-400">Zapisz zmiany</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 10. WIDOK: SUBSKRYPCJE -->
+            <div id="view-subskrypcje" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">Twój Plan: <span class="text-brand-500">PRO</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-dark-900 border border-dark-800 p-6 rounded-2xl opacity-50">
+                        <h3 class="text-lg font-bold text-white mb-2">Starter</h3>
+                        <p class="text-3xl font-black text-white mb-4">29.99 <span class="text-sm text-gray-500">zł</span></p>
+                        <p class="text-xs text-gray-400">30 wycen / miesiąc</p>
+                    </div>
+                    <div class="bg-dark-900 border-2 border-brand-500 p-6 rounded-2xl relative shadow-[0_0_30px_rgba(16,185,129,0.15)]">
+                        <span class="absolute top-0 right-0 bg-brand-500 text-dark-900 text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-xl">Aktywny</span>
+                        <h3 class="text-lg font-bold text-white mb-2">Pro</h3>
+                        <p class="text-3xl font-black text-white mb-4">75.00 <span class="text-sm text-gray-500">zł</span></p>
+                        <p class="text-xs text-gray-400 mb-4">100 wycen / miesiąc, pełny CRM, własne logo na PDF.</p>
+                        <button class="w-full bg-dark-800 text-white text-sm py-2 rounded-lg border border-dark-700">Zarządzaj płatnością</button>
+                    </div>
+                    <div class="bg-dark-900 border border-dark-800 p-6 rounded-2xl">
+                        <h3 class="text-lg font-bold text-white mb-2">Enterprise</h3>
+                        <p class="text-3xl font-black text-white mb-4">199.00 <span class="text-sm text-gray-500">zł</span></p>
+                        <p class="text-xs text-gray-400 mb-4">Bez limitu, multikonto dla pracowników.</p>
+                        <button class="w-full bg-brand-500 text-dark-900 font-bold text-sm py-2 rounded-lg">Rozszerz (Upgrade)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. WIDOK: WSPARCIE -->
+            <div id="view-wsparcie" class="view-section">
+                <h2 class="text-2xl font-extrabold text-white mb-6">Wsparcie Techniczne</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-dark-900 p-8 rounded-3xl border border-dark-800">
+                        <h3 class="text-white font-bold mb-4">Otwórz nowe zgłoszenie</h3>
+                        <form onsubmit="event.preventDefault(); alert('Zgłoszenie wysłane. Support odpowie w ciągu 2h.');">
+                            <input type="text" placeholder="Temat zgłoszenia" class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 mb-4 focus:outline-none text-sm">
+                            <textarea rows="4" placeholder="Opisz problem lub pomysł na nową funkcję..." class="w-full bg-dark-800 border border-dark-700 text-white rounded-xl px-4 py-3 mb-4 focus:outline-none text-sm resize-none"></textarea>
+                            <button class="bg-white text-dark-900 font-bold px-6 py-3 rounded-xl hover:bg-gray-200">Wyślij wiadomość</button>
+                        </form>
+                    </div>
+                    <div class="bg-dark-900 p-8 rounded-3xl border border-dark-800 flex flex-col justify-center items-center text-center">
+                        <i class="fa-solid fa-phone text-4xl text-brand-500 mb-4"></i>
+                        <h3 class="text-white font-bold mb-2">Infolinia dla planu PRO</h3>
+                        <p class="text-gray-400 text-sm mb-4">Jesteś naszym priorytetem. Zadzwoń bezpośrednio do swojego opiekuna.</p>
+                        <p class="text-2xl font-black text-white">+48 800 000 000</p>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Nawigacja
+            const menuLinks = document.querySelectorAll('.menu-link');
+            const views = document.querySelectorAll('.view-section');
+            const topbarTitle = document.getElementById('topbar-title');
+            const sidebar = document.getElementById('sidebar');
+            const mobileOverlay = document.getElementById('mobile-overlay');
+
+            menuLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    menuLinks.forEach(l => l.classList.remove('menu-active', 'text-white'));
+                    link.classList.add('menu-active', 'text-white');
+                    
+                    const titleStr = link.innerText.trim();
+                    const cleanTitle = titleStr.replace(/^PRO\s+/i, ''); // Usunięcie tagu PRO jeśli się sklei
+                    topbarTitle.innerText = cleanTitle;
+
+                    views.forEach(view => view.classList.remove('active'));
+                    const targetId = link.getAttribute('data-target');
+                    const targetView = document.getElementById(targetId);
+                    if(targetView) targetView.classList.add('active');
+
+                    if(window.innerWidth < 1024) {
+                        sidebar.classList.add('-translate-x-full');
+                        mobileOverlay.classList.add('hidden');
+                    }
+                });
+            });
+
+            // 2. Menu mobilne
+            const toggleMenu = () => {
+                sidebar.classList.toggle('-translate-x-full');
+                mobileOverlay.classList.toggle('hidden');
+            };
+            document.getElementById('open-mobile-menu').addEventListener('click', toggleMenu);
+            document.getElementById('close-mobile-menu').addEventListener('click', toggleMenu);
+            mobileOverlay.addEventListener('click', toggleMenu);
+
+            // 3. Drag & Drop (Zdjęcia - Moduł Wyceny)
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('file-input');
+            const previewContainer = document.getElementById('image-preview-container');
+
+            if(dropzone) {
+                dropzone.addEventListener('click', () => fileInput.click());
+
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
+                });
+
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover'), false);
+                });
+
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover'), false);
+                });
+
+                dropzone.addEventListener('drop', e => handleFiles(e.dataTransfer.files), false);
+                fileInput.addEventListener('change', e => handleFiles(e.target.files));
+            }
+
+            function handleFiles(files) {
+                ([...files]).forEach(file => {
+                    if (!file.type.startsWith('image/')) return;
+                    const reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onloadend = () => {
+                        const div = document.createElement('div');
+                        div.className = 'image-preview-item';
+                        div.innerHTML = `<img src="${reader.result}"><div class="remove-img-btn"><i class="fa-solid fa-xmark"></i></div>`;
+                        div.querySelector('.remove-img-btn').onclick = (e) => { e.stopPropagation(); div.remove(); };
+                        previewContainer.appendChild(div);
+                    };
+                });
+            }
+        });
+    </script>
+</body>
+</html>
