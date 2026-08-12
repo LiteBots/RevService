@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RevControl - Zaawansowany Panel Zarządzania</title>
+    <title>RevControl - Panel SaaS</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -13,22 +13,15 @@
                 extend: {
                     colors: {
                         brand: {
-                            400: '#34d399',
-                            500: '#10b981', // Główny zielony
-                            600: '#059669',
-                            700: '#047857',
+                            500: '#dc2626', // Czerwony główny (Red 600)
+                            600: '#b91c1c', // Czerwony hover (Red 700)
                         },
                         dark: {
-                            950: '#030303', // Tło główne
-                            900: '#0a0a0a', // Tło paneli
-                            800: '#141414', // Elementy klikalne, tła inputów
-                            700: '#1f1f1f', // Obramowania (Border)
-                            600: '#2a2a2a', // Obramowania hover
-                        },
-                        accent: {
-                            red: '#ef4444', // Czerwony akcent
-                            redHover: '#dc2626',
-                            redLight: 'rgba(239, 68, 68, 0.1)',
+                            bg: '#050505', // Tło główne (prawie czarne)
+                            panel: '#0f0f0f', // Tła paneli
+                            border: '#1f1f1f', // Obramowania
+                            input: '#141414', // Tła inputów
+                            hover: '#1a1a1a',
                         }
                     },
                     fontFamily: {
@@ -41,992 +34,581 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         body {
-            background-color: #030303;
-            color: #f3f4f6;
+            background-color: #050505;
+            color: #e5e5e5;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Scrollbar Flat Design */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
+        /* Scrollbar - Flat Design */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #1f1f1f; }
-        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+        ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
 
-        /* Komponenty Flat Design */
+        /* Komponenty Flat Design - Zawsze ostre, bez cieni */
         .flat-panel {
-            background: #0a0a0a;
+            background: #0f0f0f;
             border: 1px solid #1f1f1f;
         }
         
         .flat-input {
             background: #141414;
             border: 1px solid #1f1f1f;
-            transition: border-color 0.2s;
+            color: #ffffff;
+            transition: border-color 0.15s ease-in-out;
         }
         .flat-input:focus {
-            border-color: #10b981;
+            border-color: #dc2626;
             outline: none;
         }
-        .flat-input.error {
-            border-color: #ef4444;
-        }
-
+        
         .flat-btn {
-            transition: all 0.2s;
+            background: #141414;
+            border: 1px solid #1f1f1f;
+            color: #e5e5e5;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
         }
         .flat-btn:hover {
-            transform: translateY(-1px);
+            background: #1a1a1a;
+            border-color: #333333;
         }
-        .flat-btn:active {
-            transform: translateY(1px);
+        .flat-btn-primary {
+            background: #dc2626;
+            border: 1px solid #dc2626;
+            color: #ffffff;
+            font-weight: 600;
         }
-
-        /* Nawigacja */
-        .menu-active {
-            background-color: #141414 !important;
-            color: #10b981 !important;
-            border-right: 4px solid #10b981;
-        }
-
-        /* Animacje przejść */
-        .view-section { display: none; opacity: 0; }
-        .view-section.active { 
-            display: block; 
-            animation: fadeInFlat 0.3s ease-out forwards;
+        .flat-btn-primary:hover {
+            background: #b91c1c;
+            border-color: #b91c1c;
         }
 
-        @keyframes fadeInFlat {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Drag & Drop Upload */
-        .dropzone {
-            border: 2px dashed #1f1f1f;
-            background: #0a0a0a;
-            transition: all 0.2s ease;
-        }
-        .dropzone.dragover, .dropzone:hover {
-            border-color: #10b981;
-            background-color: rgba(16, 185, 129, 0.05);
-        }
-
-        /* Kanban Flat */
-        .kanban-col { min-height: 500px; display: flex; flex-direction: column; gap: 12px; }
-        .kanban-card { cursor: grab; transition: border-color 0.2s; }
-        .kanban-card:active { cursor: grabbing; }
-        .kanban-card.sortable-ghost { opacity: 0.4; }
-
-        /* Tabela rozwijana */
-        .table-row-expandable { cursor: pointer; }
-        .table-details { display: none; background: #0a0a0a; border-bottom: 1px solid #1f1f1f; }
-        .table-details.open { display: table-row; }
-        
-        /* Checkboxy Flat */
+        /* Checkboxy */
         .flat-checkbox {
             appearance: none;
-            width: 18px;
-            height: 18px;
-            border: 1px solid #2a2a2a;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #333333;
             background: #141414;
             display: inline-block;
             position: relative;
             cursor: pointer;
+            vertical-align: middle;
         }
-        .flat-checkbox:checked { background: #10b981; border-color: #10b981; }
-        .flat-checkbox:checked::after {
-            content: '\f00c';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            color: #030303;
-            font-size: 10px;
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+        .flat-checkbox:checked { 
+            background: #dc2626; 
+            border-color: #dc2626; 
         }
+
+        /* Nawigacja */
+        .menu-link {
+            border-left: 2px solid transparent;
+        }
+        .menu-active {
+            background-color: #0f0f0f;
+            color: #ffffff !important;
+            border-left: 2px solid #dc2626;
+        }
+
+        /* Animacja widoków */
+        .view-section { display: none; }
+        .view-section.active { display: block; animation: fadeIn 0.2s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Kanban */
+        .kanban-col { min-height: 400px; display: flex; flex-direction: column; gap: 8px; }
+        .kanban-card { cursor: grab; border-left: 3px solid #333333; }
+        .kanban-card:active { cursor: grabbing; }
+
+        /* Drag & Drop */
+        .dropzone {
+            border: 1px dashed #333333;
+            background: #0a0a0a;
+            transition: border-color 0.2s;
+        }
+        .dropzone:hover, .dropzone.dragover { border-color: #dc2626; }
     </style>
 </head>
-<body class="h-screen flex overflow-hidden selection:bg-brand-500 selection:text-dark-950">
-
-    <!-- MODAL - Uniwersalny (ukryty domyślnie) -->
-    <div id="app-modal" class="fixed inset-0 bg-black/80 z-50 hidden flex items-center justify-center backdrop-blur-sm">
-        <div class="flat-panel w-full max-w-lg p-6 relative">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-500 hover:text-accent-red"><i class="fa-solid fa-xmark text-xl"></i></button>
-            <h3 id="modal-title" class="text-xl font-bold text-white mb-4">Tytuł Modala</h3>
-            <div id="modal-body" class="text-sm text-gray-400 mb-6">Treść modala.</div>
-            <div id="modal-footer" class="flex justify-end gap-3">
-                <button onclick="closeModal()" class="px-4 py-2 bg-dark-800 text-white font-medium hover:bg-dark-700">Anuluj</button>
-                <button class="px-4 py-2 bg-brand-500 text-dark-950 font-bold hover:bg-brand-400 flat-btn">Potwierdź</button>
-            </div>
-        </div>
-    </div>
+<body class="h-screen flex overflow-hidden selection:bg-brand-500 selection:text-white">
 
     <!-- Pasek boczny -->
-    <aside id="sidebar" class="w-72 bg-dark-900 border-r border-dark-700 flex-shrink-0 flex flex-col absolute lg:relative z-40 h-full transition-transform duration-300 -translate-x-full lg:translate-x-0">
-        <div class="h-24 flex flex-col justify-center px-6 border-b border-dark-700 relative">
-            <span class="text-2xl font-black tracking-tighter text-white">Rev<span class="text-brand-500">Control</span><span class="text-xs text-gray-500 ml-2 font-normal">v2.0</span></span>
-            <button id="close-mobile-menu" class="lg:hidden absolute top-6 right-6 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-2xl"></i>
+    <aside id="sidebar" class="w-64 bg-dark-bg border-r border-dark-border flex-shrink-0 flex flex-col absolute lg:relative z-40 h-full transition-transform duration-300 -translate-x-full lg:translate-x-0">
+        <div class="h-16 flex items-center px-6 border-b border-dark-border relative">
+            <span class="text-xl font-bold tracking-tight text-white">Rev<span class="text-brand-500">Control</span></span>
+            <button id="close-mobile-menu" class="lg:hidden absolute right-4 text-gray-500 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
             </button>
         </div>
 
-        <nav class="flex-1 overflow-y-auto py-6 px-3 flex flex-col gap-1" id="main-menu">
-            <p class="px-3 text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-2">Operacje</p>
-            
-            <a href="#" data-target="view-wycena" class="menu-link menu-active flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-solid fa-calculator w-5 text-center"></i> Wycena Zleceń</div>
+        <nav class="flex-1 overflow-y-auto py-6 flex flex-col gap-1" id="main-menu">
+            <p class="px-6 text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-2">Operacje</p>
+            <a href="#" data-target="view-wycena" class="menu-link menu-active flex items-center px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                <i class="fa-solid fa-calculator w-6"></i> Kalkulator Wycen
             </a>
-            <a href="#" data-target="view-zlecenia" class="menu-link flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-solid fa-clipboard-list w-5 text-center"></i> Baza Zleceń</div>
-                <span class="bg-brand-500/10 text-brand-500 text-[10px] px-2 py-0.5 rounded font-bold">12</span>
+            <a href="#" data-target="view-zlecenia" class="menu-link flex items-center justify-between px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                <div class="flex items-center"><i class="fa-solid fa-list w-6"></i> Baza Zleceń</div>
             </a>
-            <a href="#" data-target="view-flota" class="menu-link flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-solid fa-truck w-5 text-center"></i> Zarządzanie Flotą</div>
-                <i class="fa-solid fa-triangle-exclamation text-accent-red text-xs" title="Wymagany przegląd"></i>
+            <a href="#" data-target="view-crm" class="menu-link flex items-center justify-between px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                <div class="flex items-center"><i class="fa-solid fa-kanban w-6"></i> CRM (Leady)</div>
+                <span class="bg-brand-500 text-white text-[9px] px-1.5 py-0.5 font-bold">NOWE</span>
             </a>
-            <a href="#" data-target="view-grafik" class="menu-link flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-regular fa-calendar-days w-5 text-center"></i> Harmonogram</div>
-            </a>
-            <a href="#" data-target="view-pracownicy" class="menu-link flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-solid fa-users-gear w-5 text-center"></i> Ekipa</div>
+            <a href="#" data-target="view-flota" class="menu-link flex items-center px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                <i class="fa-solid fa-truck w-6"></i> Flota i Zasoby
             </a>
 
-            <p class="px-3 text-[10px] font-bold text-gray-600 uppercase tracking-widest mt-6 mb-2">Sprzedaż & Rozwój</p>
-            
-            <a href="#" data-target="view-crm" class="menu-link flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-solid fa-kanban w-5 text-center"></i> CRM Leady</div>
-                <span class="bg-dark-700 text-gray-300 text-[10px] px-2 py-0.5 rounded font-bold">4 Nowe</span>
+            <p class="px-6 text-[10px] font-bold text-gray-600 uppercase tracking-widest mt-8 mb-2">Administracja</p>
+            <a href="#" data-target="view-subskrypcje" class="menu-link flex items-center px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                <i class="fa-solid fa-file-invoice w-6"></i> Subskrypcje
             </a>
-            <a href="#" data-target="view-pozyskaj" class="menu-link flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-solid fa-bullseye w-5 text-center"></i> Kampanie SMS/Email</div>
-            </a>
-            <a href="#" data-target="view-analityka" class="menu-link flex items-center justify-between px-3 py-3 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors font-medium">
-                <div class="flex items-center gap-3"><i class="fa-solid fa-chart-simple w-5 text-center"></i> Raporty i Finanse</div>
+            <a href="#" data-target="view-ustawienia" class="menu-link flex items-center px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                <i class="fa-solid fa-gear w-6"></i> Ustawienia
             </a>
         </nav>
 
-        <div class="p-4 border-t border-dark-700 bg-dark-900">
-            <div class="flex flex-col gap-1">
-                <a href="#" data-target="view-konto" class="menu-link flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors text-sm">
-                    <i class="fa-solid fa-gear w-4 text-center"></i> Ustawienia Systemu
-                </a>
-                <a href="#" data-target="view-subskrypcje" class="menu-link flex items-center justify-between px-3 py-2 text-gray-400 hover:text-brand-400 hover:bg-dark-800 transition-colors text-sm">
-                    <div class="flex items-center gap-3"><i class="fa-solid fa-file-invoice w-4 text-center"></i> Rozliczenia</div>
-                    <span class="text-brand-500 text-[10px] font-black border border-brand-500 px-1 py-0.5">PRO</span>
-                </a>
-                <a href="#" data-target="view-wsparcie" class="menu-link flex items-center gap-3 px-3 py-2 text-gray-400 hover:text-white hover:bg-dark-800 transition-colors text-sm">
-                    <i class="fa-solid fa-life-ring w-4 text-center"></i> Centrum Pomocy
-                </a>
-                <div class="h-px w-full bg-dark-700 my-2"></div>
-                <a href="#" onclick="alert('Trwa wylogowywanie (Backend Auth)...');" class="flex items-center gap-3 px-3 py-2 text-accent-red hover:bg-accent-redLight transition-colors text-sm font-bold">
-                    <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> Wyloguj
-                </a>
-            </div>
+        <div class="p-4 border-t border-dark-border">
+            <a href="#" class="flex items-center gap-3 px-2 py-2 text-gray-500 hover:text-brand-500 transition-colors text-sm font-medium">
+                <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> Wyloguj się
+            </a>
         </div>
     </aside>
 
-    <div id="mobile-overlay" class="fixed inset-0 bg-black/60 z-30 hidden lg:hidden backdrop-blur-sm"></div>
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/80 z-30 hidden lg:hidden"></div>
 
-    <div class="flex-1 flex flex-col relative h-full bg-dark-950 overflow-hidden">
+    <div class="flex-1 flex flex-col relative h-full bg-dark-bg">
         
-        <!-- Topbar -->
-        <header class="h-20 bg-dark-900 border-b border-dark-700 flex items-center justify-between px-6 md:px-10 z-20 flex-shrink-0">
+        <!-- Pasek górny -->
+        <header class="h-16 bg-dark-panel border-b border-dark-border flex items-center justify-between px-6 z-20 flex-shrink-0">
             <div class="flex items-center gap-4">
                 <button id="open-mobile-menu" class="lg:hidden text-gray-400 hover:text-white">
-                    <i class="fa-solid fa-bars text-xl"></i>
+                    <i class="fa-solid fa-bars text-lg"></i>
                 </button>
-                <div>
-                    <h1 id="topbar-title" class="text-xl font-bold text-white tracking-tight">Wycena Zleceń</h1>
-                    <p id="topbar-subtitle" class="text-xs text-gray-500">System kalkulacji kosztów RevSerwis</p>
-                </div>
+                <h1 id="topbar-title" class="text-base font-semibold text-white">Kalkulator Wycen</h1>
             </div>
 
-            <div class="flex items-center gap-6">
-                <!-- Szybkie akcje -->
-                <button class="hidden md:flex flat-btn bg-dark-800 hover:bg-dark-700 border border-dark-700 text-white text-xs px-3 py-1.5 items-center gap-2" onclick="document.querySelector('[data-target=\'view-wycena\']').click()">
-                    <i class="fa-solid fa-plus text-brand-500"></i> Nowa Wycena
+            <div class="flex items-center gap-5">
+                <button class="flat-btn-primary px-4 py-1.5 text-xs" onclick="document.querySelector('[data-target=\'view-wycena\']').click()">
+                    Nowa wycena
                 </button>
-                
-                <div class="relative cursor-pointer group">
-                    <i class="fa-solid fa-bell text-gray-400 group-hover:text-white text-lg transition-colors"></i>
-                    <span class="absolute -top-1.5 -right-1.5 w-3 h-3 bg-accent-red rounded-full border-2 border-dark-900"></span>
-                </div>
-                
-                <div class="h-8 w-px bg-dark-700"></div>
-                
-                <div class="flex items-center gap-3 cursor-pointer group" onclick="document.querySelector('[data-target=\'view-konto\']').click()">
-                    <div class="text-right hidden sm:block">
-                        <p class="text-sm font-bold text-white group-hover:text-brand-400 transition-colors">Daniel Mamrot</p>
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider">Administrator</p>
-                    </div>
-                    <div class="w-10 h-10 bg-dark-800 border border-dark-600 flex items-center justify-center text-gray-400 group-hover:border-brand-500 transition-colors">
-                        <i class="fa-solid fa-user-astronaut"></i>
+                <div class="h-4 w-px bg-dark-border"></div>
+                <div class="flex items-center gap-3 text-sm">
+                    <span class="text-gray-400 font-medium hidden sm:block">Firma Transportowa (PRO)</span>
+                    <div class="w-8 h-8 bg-dark-input border border-dark-border flex items-center justify-center text-gray-400 text-xs">
+                        <i class="fa-solid fa-user"></i>
                     </div>
                 </div>
             </div>
         </header>
 
-        <!-- Główny kontener na widoki -->
-        <main class="flex-1 overflow-y-auto p-6 md:p-8 relative scroll-smooth">
+        <!-- Główna przestrzeń robocza -->
+        <main class="flex-1 overflow-y-auto p-6 relative">
             
-            <!-- 1. WIDOK: WYCENA ZLECEŃ -->
-            <div id="view-wycena" class="view-section active h-full">
-                <div class="flex flex-col lg:flex-row gap-6 h-full">
+            <!-- WIDOK: WYCENA (KALKULATOR) -->
+            <div id="view-wycena" class="view-section active h-full max-w-7xl mx-auto">
+                <div class="flex flex-col xl:flex-row gap-6">
                     
-                    <!-- Formularz wyceny -->
+                    <!-- Formularz (Lewa strona) -->
                     <div class="flex-1 space-y-6">
-                        <!-- Typ Usługi -->
+                        
+                        <!-- Sekcja 1: Typ usługi (Uwzględnia Przewóz Osób Kraj/Zagranica) -->
                         <div class="flat-panel p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center text-sm border-b border-dark-700 pb-2"><span class="text-brand-500 mr-2"><i class="fa-solid fa-layer-group"></i></span> 1. Rodzaj Usługi</h3>
+                            <h3 class="text-white text-sm font-semibold mb-4">1. Rodzaj realizowanej usługi</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                <label class="flat-panel p-3 border border-brand-500 cursor-pointer text-center relative group">
-                                    <input type="radio" name="service_type" class="hidden" checked onchange="updateCalc()">
-                                    <i class="fa-solid fa-truck-moving text-xl text-brand-500 mb-2 block"></i>
-                                    <span class="text-xs font-bold text-white">Przeprowadzka</span>
+                                <label class="flat-input p-3 border-brand-500 cursor-pointer text-center group">
+                                    <input type="radio" name="srv" class="hidden" checked onchange="updateColors(this)">
+                                    <span class="text-xs font-semibold text-white">Przeprowadzka</span>
                                 </label>
-                                <label class="flat-panel p-3 border border-dark-700 hover:border-dark-600 cursor-pointer text-center relative group">
-                                    <input type="radio" name="service_type" class="hidden" onchange="updateCalc()">
-                                    <i class="fa-solid fa-dumpster text-xl text-gray-400 group-hover:text-white mb-2 block transition-colors"></i>
-                                    <span class="text-xs font-bold text-gray-400 group-hover:text-white transition-colors">Opróżnianie</span>
+                                <label class="flat-input p-3 cursor-pointer text-center group">
+                                    <input type="radio" name="srv" class="hidden" onchange="updateColors(this)">
+                                    <span class="text-xs font-semibold text-gray-400 group-hover:text-white">Opróżnianie</span>
                                 </label>
-                                <label class="flat-panel p-3 border border-dark-700 hover:border-dark-600 cursor-pointer text-center relative group">
-                                    <input type="radio" name="service_type" class="hidden" onchange="updateCalc()">
-                                    <i class="fa-solid fa-globe text-xl text-gray-400 group-hover:text-white mb-2 block transition-colors"></i>
-                                    <span class="text-xs font-bold text-gray-400 group-hover:text-white transition-colors">Transport Zagranica</span>
+                                <label class="flat-input p-3 cursor-pointer text-center group">
+                                    <input type="radio" name="srv" class="hidden" onchange="updateColors(this)">
+                                    <span class="text-xs font-semibold text-gray-400 group-hover:text-white">Transport Zwykły</span>
                                 </label>
-                                <label class="flat-panel p-3 border border-dark-700 hover:border-dark-600 cursor-pointer text-center relative group">
-                                    <input type="radio" name="service_type" class="hidden" onchange="updateCalc()">
-                                    <i class="fa-solid fa-people-group text-xl text-gray-400 group-hover:text-white mb-2 block transition-colors"></i>
-                                    <span class="text-xs font-bold text-gray-400 group-hover:text-white transition-colors">Przewóz Osób</span>
+                                <label class="flat-input p-3 cursor-pointer text-center group">
+                                    <input type="radio" name="srv" class="hidden" onchange="updateColors(this)">
+                                    <span class="text-xs font-semibold text-gray-400 group-hover:text-white">Przewóz Osób (Kraj/Zagranica)</span>
                                 </label>
                             </div>
                         </div>
 
-                        <!-- Trasa -->
+                        <!-- Sekcja 2: Trasa -->
                         <div class="flat-panel p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center text-sm border-b border-dark-700 pb-2"><span class="text-brand-500 mr-2"><i class="fa-solid fa-route"></i></span> 2. Trasa i Punkty</h3>
-                            <div class="space-y-4">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label class="block text-xs font-bold text-gray-500 mb-1">Punkt A (Załadunek)</label>
-                                        <div class="relative">
-                                            <i class="fa-solid fa-location-dot absolute left-3 top-3.5 text-gray-500"></i>
-                                            <input type="text" placeholder="Wpisz adres startowy..." class="flat-input w-full text-white px-9 py-2.5 text-sm">
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label class="block text-xs font-bold text-gray-500 mb-1">Punkt B (Rozładunek)</label>
-                                        <div class="relative">
-                                            <i class="fa-solid fa-flag-checkered absolute left-3 top-3.5 text-gray-500"></i>
-                                            <input type="text" placeholder="Wpisz adres docelowy..." class="flat-input w-full text-white px-9 py-2.5 text-sm">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 border-t border-dark-800 pt-4">
-                                    <div class="w-1/3">
-                                        <label class="block text-xs font-bold text-brand-500 mb-1">Dystans (km)</label>
-                                        <input type="number" id="calc-distance" value="50" oninput="updateCalc()" class="flat-input w-full text-white px-3 py-2 text-sm font-bold bg-dark-900 border-brand-500">
-                                    </div>
-                                    <button class="flat-btn text-xs bg-dark-800 border border-dark-700 text-white px-3 py-2 mt-4 hover:bg-dark-700"><i class="fa-solid fa-plus text-brand-500 mr-1"></i> Dodaj punkt C</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Parametry Obiektu -->
-                        <div class="flat-panel p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center text-sm border-b border-dark-700 pb-2"><span class="text-brand-500 mr-2"><i class="fa-solid fa-building"></i></span> 3. Warunki Fizyczne</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <h3 class="text-white text-sm font-semibold mb-4">2. Logistyka trasy</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 mb-1">Piętro Załadunku</label>
-                                    <select class="flat-input w-full text-white px-3 py-2 text-sm" id="calc-floor-a" onchange="updateCalc()">
-                                        <option value="0">Parter / Dom</option>
-                                        <option value="1">1 Piętro</option>
-                                        <option value="2">2 Piętro</option>
-                                        <option value="3">3 Piętro</option>
-                                        <option value="4">4+ Piętro</option>
-                                    </select>
-                                </div>
-                                <div class="flex items-end pb-2">
-                                    <label class="flex items-center cursor-pointer">
-                                        <input type="checkbox" class="flat-checkbox mr-2" id="calc-elevator-a" onchange="updateCalc()">
-                                        <span class="text-xs text-gray-300 font-medium">Jest winda (A)</span>
-                                    </label>
+                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Adres Początkowy</label>
+                                    <input type="text" placeholder="Np. Gdańsk, Długa 1" class="flat-input w-full px-3 py-2 text-sm">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 mb-1">Piętro Rozładunku</label>
-                                    <select class="flat-input w-full text-white px-3 py-2 text-sm" id="calc-floor-b" onchange="updateCalc()">
-                                        <option value="0">Parter / Dom</option>
-                                        <option value="1">1 Piętro</option>
-                                        <option value="2">2 Piętro</option>
-                                        <option value="4">3+ Piętro</option>
-                                    </select>
+                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Adres Docelowy</label>
+                                    <input type="text" placeholder="Np. Berlin, Alexanderplatz" class="flat-input w-full px-3 py-2 text-sm">
                                 </div>
-                                <div class="flex items-end pb-2">
-                                    <label class="flex items-center cursor-pointer">
-                                        <input type="checkbox" class="flat-checkbox mr-2" id="calc-elevator-b" onchange="updateCalc()">
-                                        <span class="text-xs text-gray-300 font-medium">Jest winda (B)</span>
-                                    </label>
-                                </div>
+                            </div>
+                            <div class="w-1/3">
+                                <label class="block text-[10px] text-brand-500 font-bold uppercase tracking-wider mb-1">Dystans Całkowity (km)</label>
+                                <input type="number" id="calc-dist" value="120" class="flat-input w-full px-3 py-2 text-sm" oninput="calcTotal()">
                             </div>
                         </div>
 
-                        <!-- Ekipa i Dodatki -->
+                        <!-- Sekcja 3: Parametry i Opcje -->
                         <div class="flat-panel p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center text-sm border-b border-dark-700 pb-2"><span class="text-brand-500 mr-2"><i class="fa-solid fa-users-gear"></i></span> 4. Realizacja i Opcje</h3>
+                            <h3 class="text-white text-sm font-semibold mb-4">3. Warunki techniczne i Ekipa</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 mb-1">Wielkość ekipy</label>
-                                    <div class="flex bg-dark-800 border border-dark-700 p-1">
-                                        <button class="flex-1 py-1.5 text-xs text-gray-400 hover:text-white" onclick="selectTeam(this, 1)">1 (Kierowca)</button>
-                                        <button class="flex-1 py-1.5 text-xs bg-dark-700 text-brand-500 font-bold" onclick="selectTeam(this, 2)">2 Osoby</button>
-                                        <button class="flex-1 py-1.5 text-xs text-gray-400 hover:text-white" onclick="selectTeam(this, 3)">3 Osoby</button>
-                                        <button class="flex-1 py-1.5 text-xs text-gray-400 hover:text-white" onclick="selectTeam(this, 4)">4 Osoby</button>
+                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Załadunek (Piętro)</label>
+                                    <div class="flex gap-2">
+                                        <select id="calc-floor" class="flat-input w-full px-3 py-2 text-sm" onchange="calcTotal()">
+                                            <option value="0">Parter / Dom jednorodzinny</option>
+                                            <option value="1">1 Piętro</option>
+                                            <option value="2">2 Piętro</option>
+                                            <option value="3">3 Piętro lub wyżej</option>
+                                        </select>
+                                        <label class="flex items-center gap-2 flat-input px-3 py-2 cursor-pointer whitespace-nowrap">
+                                            <input type="checkbox" id="calc-lift" class="flat-checkbox" onchange="calcTotal()">
+                                            <span class="text-xs">Winda</span>
+                                        </label>
                                     </div>
-                                    <input type="hidden" id="calc-team" value="2">
                                 </div>
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 mb-1">Usługi Dodatkowe</label>
-                                    <div class="flex flex-wrap gap-2">
-                                        <label class="flex items-center bg-dark-800 px-2 py-1.5 border border-dark-700 cursor-pointer text-xs text-gray-300 hover:border-dark-600">
-                                            <input type="checkbox" class="flat-checkbox mr-2" id="calc-packing" onchange="updateCalc()"> Pakowanie (Folia/Kartony)
-                                        </label>
-                                        <label class="flex items-center bg-dark-800 px-2 py-1.5 border border-dark-700 cursor-pointer text-xs text-gray-300 hover:border-dark-600">
-                                            <input type="checkbox" class="flat-checkbox mr-2" id="calc-dismantle" onchange="updateCalc()"> Demontaż mebli
-                                        </label>
-                                        <label class="flex items-center bg-dark-800 px-2 py-1.5 border border-dark-700 cursor-pointer text-xs text-gray-300 hover:border-dark-600">
-                                            <input type="checkbox" class="flat-checkbox mr-2" id="calc-insurance" onchange="updateCalc()"> Dodatkowe Ubezpieczenie (OC)
-                                        </label>
-                                    </div>
+                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Wielkość ekipy</label>
+                                    <select id="calc-team" class="flat-input w-full px-3 py-2 text-sm" onchange="calcTotal()">
+                                        <option value="1">Tylko kierowca</option>
+                                        <option value="2" selected>2 osoby (Standard)</option>
+                                        <option value="3">3 osoby</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 pt-4 border-t border-dark-border">
+                                <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-2">Usługi Dodatkowe (Węzeł rozszerzeń)</label>
+                                <div class="flex flex-wrap gap-4">
+                                    <label class="flex items-center gap-2 cursor-pointer group">
+                                        <input type="checkbox" id="opt-pack" class="flat-checkbox" onchange="calcTotal()">
+                                        <span class="text-xs text-gray-400 group-hover:text-white transition-colors">Pakowanie mienia</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 cursor-pointer group">
+                                        <input type="checkbox" id="opt-demont" class="flat-checkbox" onchange="calcTotal()">
+                                        <span class="text-xs text-gray-400 group-hover:text-white transition-colors">Demontaż / Montaż mebli</span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Media -->
+                        <!-- Sekcja 4: Zdjęcia (Zgodnie z wymaganiami - tylko zdjęcia bez opisów) -->
                         <div class="flat-panel p-6">
-                            <h3 class="text-white font-bold mb-4 flex items-center text-sm border-b border-dark-700 pb-2"><span class="text-brand-500 mr-2"><i class="fa-solid fa-camera"></i></span> 5. Zdjęcia Mienia (Opcjonalne)</h3>
-                            <div id="dropzone" class="dropzone w-full p-6 flex flex-col items-center justify-center cursor-pointer text-gray-500">
-                                <i class="fa-solid fa-cloud-arrow-up text-3xl mb-2"></i>
-                                <p class="text-xs font-medium">Przeciągnij zdjęcia tutaj lub kliknij, aby dodać</p>
+                            <h3 class="text-white text-sm font-semibold mb-4">4. Galeria zdjęć obiektu</h3>
+                            <div id="dropzone" class="dropzone w-full p-8 flex flex-col items-center justify-center cursor-pointer mb-4 text-gray-500">
+                                <i class="fa-solid fa-camera text-2xl mb-2"></i>
+                                <span class="text-xs">Kliknij lub przeciągnij zdjęcia (Maks 10 szt.)</span>
                                 <input type="file" id="file-input" multiple accept="image/*" class="hidden">
                             </div>
-                            <div id="image-preview-container" class="flex flex-wrap gap-3 mt-4 empty:hidden"></div>
+                            <div id="gallery-preview" class="flex flex-wrap gap-2 empty:hidden"></div>
                         </div>
+
                     </div>
 
-                    <!-- Prawy Panel - Podsumowanie -->
-                    <div class="w-full lg:w-80 flex-shrink-0">
+                    <!-- Podsumowanie (Prawa strona) -->
+                    <div class="w-full xl:w-80 flex-shrink-0">
                         <div class="flat-panel p-6 sticky top-6">
-                            <h3 class="text-white font-bold mb-4 border-b border-dark-700 pb-2">Podsumowanie Kosztów</h3>
+                            <h3 class="text-white text-sm font-semibold mb-4 border-b border-dark-border pb-2">Dokument Wyceny</h3>
                             
-                            <div class="space-y-3 text-sm mb-6">
-                                <div class="flex justify-between text-gray-400">
-                                    <span>Baza (Auto)</span><span class="text-white" id="sum-base">150 zł</span>
+                            <div class="space-y-2 mb-6">
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Baza transportowa</span><span class="text-white">150.00 zł</span>
                                 </div>
-                                <div class="flex justify-between text-gray-400">
-                                    <span>Dystans (<span id="sum-dist-label">50</span> km)</span><span class="text-white" id="sum-dist">125 zł</span>
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Trasa (<span id="sum-km">120</span> km)</span><span class="text-white" id="sum-dist-cost">300.00 zł</span>
                                 </div>
-                                <div class="flex justify-between text-gray-400">
-                                    <span>Ekipa (<span id="sum-team-label">2</span> os.)</span><span class="text-white" id="sum-team">300 zł</span>
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Robocizna (<span id="sum-team">2</span> os.)</span><span class="text-white" id="sum-team-cost">150.00 zł</span>
                                 </div>
-                                <div class="flex justify-between text-gray-400">
-                                    <span>Utrudnienia (Piętra)</span><span class="text-accent-red" id="sum-floors">+ 50 zł</span>
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Utrudnienia (Piętra)</span><span class="text-brand-500" id="sum-floor-cost">0.00 zł</span>
                                 </div>
-                                <div class="flex justify-between text-gray-400 border-t border-dark-700 pt-2">
-                                    <span>Opcje dodatkowe</span><span class="text-brand-500" id="sum-extras">0 zł</span>
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Opcje dodatkowe</span><span class="text-white" id="sum-opts-cost">0.00 zł</span>
                                 </div>
                             </div>
 
-                            <div class="bg-dark-950 p-4 border border-dark-700 mb-6 text-center">
-                                <p class="text-[10px] text-gray-500 uppercase tracking-widest mb-1">Szacowana Wycena Netto</p>
-                                <p class="text-3xl font-black text-brand-500" id="sum-total">625 PLN</p>
+                            <div class="bg-dark-input p-4 mb-6 text-center border border-dark-border">
+                                <p class="text-[9px] text-gray-500 uppercase tracking-widest mb-1">Całkowita wartość Netto</p>
+                                <p class="text-3xl font-bold text-white" id="sum-total">600.00 <span class="text-sm text-brand-500">PLN</span></p>
                             </div>
 
                             <div class="space-y-3">
                                 <div>
-                                    <label class="block text-xs font-bold text-gray-500 mb-1">Przypisz do klienta (Email/Tel)</label>
-                                    <input type="text" placeholder="jan@kowalski.pl" class="flat-input w-full text-white px-3 py-2 text-sm border-dark-600">
+                                    <input type="text" placeholder="Adres email klienta" class="flat-input w-full px-3 py-2 text-sm mb-2">
                                 </div>
-                                <button onclick="saveQuote()" class="flat-btn w-full bg-brand-500 text-dark-950 font-bold py-3 text-sm">Zapisz Wycenę / Generuj Link</button>
-                                <button class="flat-btn w-full bg-dark-800 text-white font-bold py-2 border border-dark-700 text-sm hover:bg-dark-700">Utwórz Dokument PDF</button>
+                                <button class="flat-btn-primary w-full py-2.5 text-sm" onclick="alert('Wycena zapisana w CRM.')">Zapisz do CRM</button>
+                                <button class="flat-btn w-full py-2 text-xs">Generuj czysty PDF</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
-            <!-- 2. WIDOK: BAZA ZLECEŃ -->
-            <div id="view-zlecenia" class="view-section">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                    <h2 class="text-xl font-bold text-white">Rejestr Zleceń</h2>
-                    <div class="flex gap-2 w-full sm:w-auto">
-                        <input type="text" placeholder="Szukaj ID, Klienta..." class="flat-input flex-1 sm:w-64 text-white px-3 py-2 text-sm">
-                        <button class="flat-btn bg-dark-800 border border-dark-700 px-3 py-2 text-gray-300 hover:text-white"><i class="fa-solid fa-filter"></i></button>
+            <!-- WIDOK: BAZA ZLECEŃ -->
+            <div id="view-zlecenia" class="view-section max-w-7xl mx-auto">
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold text-white mb-1">Rejestr Zleceń</h2>
+                        <p class="text-xs text-gray-500">Pełna lista zrealizowanych i planowanych operacji.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="Szukaj ID, NIP..." class="flat-input px-3 py-1.5 text-sm w-64">
+                        <button class="flat-btn px-3 py-1.5 text-sm"><i class="fa-solid fa-search"></i></button>
                     </div>
                 </div>
 
                 <div class="flat-panel overflow-x-auto">
                     <table class="w-full text-left whitespace-nowrap">
-                        <thead class="bg-dark-800/50 text-gray-400 text-[10px] uppercase tracking-widest border-b border-dark-700">
+                        <thead class="bg-dark-input text-gray-500 text-[10px] uppercase tracking-wider border-b border-dark-border">
                             <tr>
-                                <th class="p-4 font-bold">ID / Data</th>
-                                <th class="p-4 font-bold">Klient</th>
-                                <th class="p-4 font-bold">Trasa / Usługa</th>
-                                <th class="p-4 font-bold">Wartość</th>
-                                <th class="p-4 font-bold">Status</th>
-                                <th class="p-4 text-right font-bold">Akcje</th>
+                                <th class="px-4 py-3 font-semibold">ID / Utworzono</th>
+                                <th class="px-4 py-3 font-semibold">Klient</th>
+                                <th class="px-4 py-3 font-semibold">Usługa i Trasa</th>
+                                <th class="px-4 py-3 font-semibold text-right">Kwota</th>
+                                <th class="px-4 py-3 font-semibold text-center">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="text-sm border-t border-dark-700">
-                            <!-- Wiersz 1 -->
-                            <tr class="table-row-expandable border-b border-dark-800 hover:bg-dark-800/30 transition-colors" onclick="toggleDetails('det-1')">
-                                <td class="p-4"><span class="font-bold text-white">#RVS-1024</span><br><span class="text-xs text-gray-500">12.08.2026</span></td>
-                                <td class="p-4 text-white">Jan Kowalski<br><span class="text-xs text-gray-500">500 600 700</span></td>
-                                <td class="p-4"><span class="text-gray-300">Gdańsk <i class="fa-solid fa-arrow-right text-brand-500 mx-1 text-[10px]"></i> Warszawa</span><br><span class="text-xs text-brand-500">Przeprowadzka</span></td>
-                                <td class="p-4 font-black text-white">1,450 zł</td>
-                                <td class="p-4"><span class="bg-brand-500/10 border border-brand-500/30 text-brand-500 px-2 py-1 text-[10px] font-bold uppercase tracking-wider">W Realizacji</span></td>
-                                <td class="p-4 text-right">
-                                    <button class="text-gray-400 hover:text-white px-2"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                                </td>
+                        <tbody class="text-sm">
+                            <tr class="border-b border-dark-border hover:bg-dark-hover transition-colors cursor-pointer">
+                                <td class="px-4 py-3"><span class="text-white font-mono">#RC-1042</span><br><span class="text-[10px] text-gray-500">12.08.2026</span></td>
+                                <td class="px-4 py-3 text-white">Jan Kowalski<br><span class="text-[10px] text-gray-500">j.kowalski@mail.pl</span></td>
+                                <td class="px-4 py-3 text-gray-400">Przeprowadzka<br><span class="text-[10px] text-brand-500">Gdańsk -> Warszawa</span></td>
+                                <td class="px-4 py-3 text-right text-white font-semibold">1,450 zł</td>
+                                <td class="px-4 py-3 text-center"><span class="text-[10px] text-white border border-white px-2 py-0.5">W Trakcie</span></td>
                             </tr>
-                            <tr id="det-1" class="table-details">
-                                <td colspan="6" class="p-0">
-                                    <div class="p-4 flex gap-6 bg-dark-900 border-l-2 border-brand-500">
-                                        <div class="flex-1">
-                                            <p class="text-xs text-gray-500 mb-1">Przypisana Ekipa:</p>
-                                            <p class="text-sm text-white"><i class="fa-solid fa-user-tie text-brand-500 mr-2"></i>Marek Z. (Kierowca) + 1 Pomocnik</p>
-                                        </div>
-                                        <div class="flex-1">
-                                            <p class="text-xs text-gray-500 mb-1">Pojazd:</p>
-                                            <p class="text-sm text-white"><i class="fa-solid fa-truck text-brand-500 mr-2"></i>GD 12345 (Mercedes Sprinter)</p>
-                                        </div>
-                                        <div class="flex gap-2 items-center">
-                                            <button class="flat-btn bg-dark-800 text-xs px-3 py-1.5 border border-dark-700 text-white hover:bg-dark-700">Wystaw Fakturę</button>
-                                            <button class="flat-btn bg-brand-500 text-dark-950 text-xs font-bold px-3 py-1.5 hover:bg-brand-400">Zakończ Zlecenie</button>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <!-- Wiersz 2 -->
-                            <tr class="table-row-expandable border-b border-dark-800 hover:bg-dark-800/30 transition-colors" onclick="toggleDetails('det-2')">
-                                <td class="p-4"><span class="font-bold text-white">#RVS-1025</span><br><span class="text-xs text-gray-500">15.08.2026</span></td>
-                                <td class="p-4 text-white">Firma XYZ Sp. z o.o.<br><span class="text-xs text-gray-500">NIP: 8391234567</span></td>
-                                <td class="p-4"><span class="text-gray-300">Słupsk <i class="fa-solid fa-arrow-right text-brand-500 mx-1 text-[10px]"></i> Berlin (DE)</span><br><span class="text-xs text-blue-400">Transport Zagranica</span></td>
-                                <td class="p-4 font-black text-white">3,200 zł</td>
-                                <td class="p-4"><span class="bg-yellow-500/10 border border-yellow-500/30 text-yellow-500 px-2 py-1 text-[10px] font-bold uppercase tracking-wider">Planowane</span></td>
-                                <td class="p-4 text-right">
-                                    <button class="text-gray-400 hover:text-white px-2"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                                </td>
-                            </tr>
-                            <tr id="det-2" class="table-details">
-                                <td colspan="6" class="p-0">
-                                    <div class="p-4 flex gap-6 bg-dark-900 border-l-2 border-yellow-500">
-                                        <p class="text-sm text-gray-400">Brak przypisanej ekipy i pojazdu.</p>
-                                        <button class="flat-btn bg-dark-800 text-xs px-3 py-1.5 border border-dark-700 text-brand-500 hover:bg-dark-700 font-bold">Przypisz Zasoby</button>
-                                    </div>
-                                </td>
-                            </tr>
-                            
-                            <!-- Wiersz 3 (Anulowane - Czerwony akcent) -->
-                            <tr class="border-b border-dark-800 bg-accent-redLight/30">
-                                <td class="p-4"><span class="font-bold text-gray-400 line-through">#RVS-1026</span><br><span class="text-xs text-gray-600">18.08.2026</span></td>
-                                <td class="p-4 text-gray-500">Piotr N.</td>
-                                <td class="p-4 text-gray-500">Gdynia <i class="fa-solid fa-arrow-right mx-1 text-[10px]"></i> Gdynia</td>
-                                <td class="p-4 font-bold text-gray-500">450 zł</td>
-                                <td class="p-4"><span class="text-accent-red px-2 py-1 text-[10px] font-bold uppercase tracking-wider border border-accent-red/30">Anulowane</span></td>
-                                <td class="p-4 text-right"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div class="p-4 border-t border-dark-700 flex justify-between items-center text-xs text-gray-500">
-                        <span>Pokazano 3 z 142 zleceń</span>
-                        <div class="flex gap-1">
-                            <button class="px-2 py-1 border border-dark-700 hover:text-white disabled:opacity-50" disabled>&lt; Poprzednia</button>
-                            <button class="px-2 py-1 bg-dark-800 border border-dark-700 text-white font-bold">1</button>
-                            <button class="px-2 py-1 border border-dark-700 hover:text-white">2</button>
-                            <button class="px-2 py-1 border border-dark-700 hover:text-white">Następna &gt;</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. WIDOK: FLOTA -->
-            <div id="view-flota" class="view-section">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold text-white">Zarządzanie Flotą</h2>
-                    <button class="flat-btn bg-brand-500 text-dark-950 font-bold px-4 py-2 text-sm hover:bg-brand-400"><i class="fa-solid fa-plus mr-2"></i>Dodaj Pojazd</button>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    <!-- Karta Pojazdu 1 -->
-                    <div class="flat-panel p-5 relative group">
-                        <div class="flex justify-between items-start mb-4 border-b border-dark-700 pb-4">
-                            <div class="flex gap-4 items-center">
-                                <div class="w-12 h-12 bg-dark-800 flex items-center justify-center text-xl text-brand-500 border border-dark-700"><i class="fa-solid fa-truck-moving"></i></div>
-                                <div>
-                                    <h3 class="text-base font-bold text-white">Mercedes Sprinter</h3>
-                                    <p class="text-xs text-gray-500 font-mono">GD 12345</p>
-                                </div>
-                            </div>
-                            <span class="bg-brand-500/10 text-brand-500 text-[10px] font-bold px-2 py-1 uppercase border border-brand-500/30">W Trasie</span>
-                        </div>
-                        
-                        <div class="space-y-2 text-xs text-gray-400 mb-4">
-                            <div class="flex justify-between"><span>Kierowca:</span><span class="text-white">Marek Z.</span></div>
-                            <div class="flex justify-between"><span>Spalanie:</span><span class="text-white">11.5 l/100km</span></div>
-                            <div class="flex justify-between"><span>Przegląd:</span><span class="text-white">12.11.2026</span></div>
-                            <div class="flex justify-between items-center pt-2">
-                                <span>Ubezpieczenie OC/AC:</span>
-                                <span class="text-white bg-dark-800 px-2 py-0.5 border border-dark-700">Ważne (2 msc)</span>
-                            </div>
-                        </div>
-                        
-                        <div class="flex gap-2">
-                            <button class="flex-1 flat-btn bg-dark-800 text-gray-300 text-xs py-2 border border-dark-700 hover:bg-dark-700 hover:text-white">Historia tras</button>
-                            <button class="flat-btn bg-dark-800 text-gray-300 px-3 border border-dark-700 hover:bg-dark-700 hover:text-white"><i class="fa-solid fa-pen"></i></button>
-                        </div>
-                    </div>
-                    
-                    <!-- Karta Pojazdu 2 (Problem) -->
-                    <div class="flat-panel p-5 relative border-accent-red">
-                        <div class="absolute top-0 right-0 w-3 h-3 bg-accent-red rounded-bl-lg"></div>
-                        <div class="flex justify-between items-start mb-4 border-b border-dark-700 pb-4">
-                            <div class="flex gap-4 items-center">
-                                <div class="w-12 h-12 bg-accent-redLight flex items-center justify-center text-xl text-accent-red border border-accent-red/30"><i class="fa-solid fa-wrench"></i></div>
-                                <div>
-                                    <h3 class="text-base font-bold text-white">Fiat Ducato Max</h3>
-                                    <p class="text-xs text-gray-500 font-mono">GA 98765</p>
-                                </div>
-                            </div>
-                            <span class="bg-accent-redLight text-accent-red text-[10px] font-bold px-2 py-1 uppercase border border-accent-red/30">Serwis</span>
-                        </div>
-                        
-                        <div class="space-y-2 text-xs text-gray-400 mb-4">
-                            <div class="flex justify-between"><span>Kierowca:</span><span class="text-gray-500">Brak</span></div>
-                            <div class="flex justify-between"><span>Powód:</span><span class="text-accent-red font-bold">Awaria sprzęgła</span></div>
-                            <div class="flex justify-between"><span>Przegląd:</span><span class="text-white">05.01.2027</span></div>
-                        </div>
-                        
-                        <div class="flex gap-2">
-                            <button class="flex-1 flat-btn bg-dark-800 text-gray-300 text-xs py-2 border border-dark-700 hover:bg-dark-700 hover:text-white">Kosztorys naprawy</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. WIDOK: CRM KANBAN -->
-            <div id="view-crm" class="view-section">
-                <div class="flex justify-between items-center mb-6">
-                    <div>
-                        <h2 class="text-xl font-bold text-white">CRM - Lejek Sprzedaży</h2>
-                        <p class="text-xs text-gray-500">Przeciągaj zapytania między kolumnami aby zmienić status.</p>
-                    </div>
-                    <button class="flat-btn bg-dark-800 text-white font-bold px-4 py-2 text-sm border border-dark-700 hover:bg-dark-700">Dodaj Leada ręcznie</button>
-                </div>
-                
-                <div class="flex gap-4 overflow-x-auto pb-4 kanban-col-container h-[calc(100vh-250px)]">
-                    
-                    <!-- Kolumna 1: Nowe -->
-                    <div class="w-80 flex-shrink-0 flex flex-col bg-dark-900 border border-dark-700 p-3 h-full">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-white font-bold text-sm">Nowe Zapytania</h3>
-                            <span class="bg-dark-800 px-2 py-0.5 text-xs text-gray-400 border border-dark-700">2</span>
-                        </div>
-                        <div class="kanban-col" id="kanban-new" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <div class="kanban-card flat-panel p-3 border-l-4 border-l-gray-500" draggable="true" ondragstart="drag(event)" id="card-1">
-                                <p class="text-xs font-bold text-white mb-1">Anna Nowak</p>
-                                <p class="text-[10px] text-gray-400 mb-2">Przeprowadzka biura (3 pokoje)</p>
-                                <div class="flex justify-between items-center mt-2 pt-2 border-t border-dark-700">
-                                    <span class="text-[9px] text-gray-500">Dziś 10:45 (Formularz)</span>
-                                </div>
-                            </div>
-                            <div class="kanban-card flat-panel p-3 border-l-4 border-l-gray-500" draggable="true" ondragstart="drag(event)" id="card-2">
-                                <p class="text-xs font-bold text-white mb-1">Piotr Kowal</p>
-                                <p class="text-[10px] text-gray-400 mb-2">Opróżnianie piwnicy po zalaniu</p>
-                                <div class="flex justify-between items-center mt-2 pt-2 border-t border-dark-700">
-                                    <span class="text-[9px] text-gray-500">Wczoraj (Telefon)</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kolumna 2: Kontakt / Wycena -->
-                    <div class="w-80 flex-shrink-0 flex flex-col bg-dark-900 border border-dark-700 p-3 h-full">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-white font-bold text-sm">Wysłano Wycenę</h3>
-                            <span class="bg-dark-800 px-2 py-0.5 text-xs text-gray-400 border border-dark-700">1</span>
-                        </div>
-                        <div class="kanban-col" id="kanban-quote" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <div class="kanban-card flat-panel p-3 border-l-4 border-l-yellow-500" draggable="true" ondragstart="drag(event)" id="card-3">
-                                <div class="flex justify-between">
-                                    <p class="text-xs font-bold text-white mb-1">Firma BUD-MAX</p>
-                                    <span class="text-[10px] font-bold text-yellow-500">4,500 zł</span>
-                                </div>
-                                <p class="text-[10px] text-gray-400 mb-2">Transport maszyn budowlanych na teren Niemiec.</p>
-                                <div class="flex justify-between items-center mt-2 pt-2 border-t border-dark-700">
-                                    <button class="text-[9px] bg-dark-800 px-2 py-1 text-gray-300 hover:text-white">Przypomnij SMS</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Kolumna 3: Akceptacja -->
-                    <div class="w-80 flex-shrink-0 flex flex-col bg-dark-900 border border-dark-700 p-3 h-full">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-white font-bold text-sm">Akceptacja (Do realizacji)</h3>
-                            <span class="bg-dark-800 px-2 py-0.5 text-xs text-gray-400 border border-dark-700">0</span>
-                        </div>
-                        <div class="kanban-col" id="kanban-won" ondrop="drop(event)" ondragover="allowDrop(event)">
-                            <!-- Puste na start -->
-                        </div>
-                    </div>
-                    
-                    <!-- Kolumna 4: Odrzucone -->
-                    <div class="w-80 flex-shrink-0 flex flex-col bg-dark-900 border border-dark-700 p-3 h-full opacity-60 hover:opacity-100 transition-opacity">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-gray-400 font-bold text-sm">Odrzucone</h3>
-                        </div>
-                        <div class="kanban-col" id="kanban-lost" ondrop="drop(event)" ondragover="allowDrop(event)">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <!-- 5. WIDOK: ANALITYKA -->
-            <div id="view-analityka" class="view-section">
-                <h2 class="text-xl font-bold text-white mb-6">Raporty i Finanse (BETA)</h2>
-                
-                <!-- KPI Widgets -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <div class="flat-panel p-5 border-l-2 border-l-brand-500">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Przychód Netto (Msc)</p>
-                        <h3 class="text-2xl font-black text-white mb-2">24,500 <span class="text-sm text-gray-500">PLN</span></h3>
-                        <p class="text-xs text-brand-500"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +12% r/r</p>
-                    </div>
-                    <div class="flat-panel p-5 border-l-2 border-l-accent-red">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Koszty Floty (Paliwo+Serwis)</p>
-                        <h3 class="text-2xl font-black text-white mb-2">8,200 <span class="text-sm text-gray-500">PLN</span></h3>
-                        <p class="text-xs text-accent-red"><i class="fa-solid fa-arrow-trend-up mr-1"></i> +5% (Serwis Ducato)</p>
-                    </div>
-                    <div class="flat-panel p-5 border-l-2 border-l-gray-600">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Ilość Zleceń (Msc)</p>
-                        <h3 class="text-2xl font-black text-white mb-2">34</h3>
-                        <p class="text-xs text-gray-400">Średnia wartość: 720 PLN</p>
-                    </div>
-                    <div class="flat-panel p-5 border-l-2 border-l-brand-500 bg-brand-500/5">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Konwersja z wycen (CRM)</p>
-                        <h3 class="text-2xl font-black text-brand-500 mb-2">68%</h3>
-                        <p class="text-xs text-gray-400">Bardzo wysoka skuteczność</p>
-                    </div>
-                </div>
-
-                <!-- Wykres CSS (Prosty Mockup) -->
-                <div class="flat-panel p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-white font-bold text-sm">Przychody z 6 miesięcy (PLN)</h3>
-                        <select class="flat-input text-xs text-gray-300 py-1 px-2 border-dark-700">
-                            <option>Ostatnie 6 miesięcy</option>
-                            <option>Ten Rok</option>
-                        </select>
-                    </div>
-                    
-                    <div class="flex items-end gap-2 sm:gap-6 h-64 border-b border-dark-700 pb-2 pt-10">
-                        <!-- Słupki wykresu -->
-                        <div class="flex-1 bg-dark-800 hover:bg-brand-500/20 transition-colors h-[40%] relative group border border-dark-700 border-b-0">
-                            <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 bg-dark-900 px-2 py-1 border border-dark-700 z-10">12k</span>
-                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-500">Mar</span>
-                        </div>
-                        <div class="flex-1 bg-dark-800 hover:bg-brand-500/20 transition-colors h-[45%] relative group border border-dark-700 border-b-0">
-                            <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 bg-dark-900 px-2 py-1 border border-dark-700 z-10">14k</span>
-                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-500">Kwi</span>
-                        </div>
-                        <div class="flex-1 bg-dark-800 hover:bg-brand-500/20 transition-colors h-[30%] relative group border border-dark-700 border-b-0">
-                            <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 bg-dark-900 px-2 py-1 border border-dark-700 z-10">9k</span>
-                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-500">Maj</span>
-                        </div>
-                        <div class="flex-1 bg-dark-800 hover:bg-brand-500/20 transition-colors h-[60%] relative group border border-dark-700 border-b-0">
-                            <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 bg-dark-900 px-2 py-1 border border-dark-700 z-10">18k</span>
-                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-500">Cze</span>
-                        </div>
-                        <div class="flex-1 bg-dark-800 hover:bg-brand-500/20 transition-colors h-[75%] relative group border border-dark-700 border-b-0">
-                            <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-white opacity-0 group-hover:opacity-100 bg-dark-900 px-2 py-1 border border-dark-700 z-10">21k</span>
-                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-gray-500">Lip</span>
-                        </div>
-                        <div class="flex-1 bg-brand-500/20 border border-brand-500 border-b-0 h-[85%] relative group">
-                            <span class="absolute -top-7 left-1/2 -translate-x-1/2 text-xs text-brand-500 font-bold">24.5k</span>
-                            <span class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs text-white font-bold">Sie</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 6. WIDOK: SUBSKRYPCJE -->
-            <div id="view-subskrypcje" class="view-section">
-                <h2 class="text-xl font-bold text-white mb-2">Zarządzanie Subskrypcją RevControl</h2>
-                <p class="text-sm text-gray-500 mb-6">Obecny plan: <strong class="text-brand-500">PRO</strong> (Opłacono do 15.09.2026)</p>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-                    <!-- Zużycie zasobów -->
-                    <div class="lg:col-span-2 flat-panel p-6">
-                        <h3 class="text-white font-bold text-sm mb-4">Użycie limitów w tym miesiącu</h3>
-                        
-                        <div class="space-y-4">
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-gray-400">Wygenerowane wyceny i PDF</span>
-                                    <span class="text-white">45 / 100</span>
-                                </div>
-                                <div class="w-full bg-dark-800 h-2 border border-dark-700">
-                                    <div class="bg-brand-500 h-full w-[45%]"></div>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-gray-400">Wysłane SMS z systemu</span>
-                                    <span class="text-white">480 / 500</span>
-                                </div>
-                                <div class="w-full bg-dark-800 h-2 border border-dark-700">
-                                    <div class="bg-yellow-500 h-full w-[96%]"></div>
-                                </div>
-                                <p class="text-[10px] text-yellow-500 mt-1">Zbliżasz się do limitu SMS.</p>
-                            </div>
-                            
-                            <div>
-                                <div class="flex justify-between text-xs mb-1">
-                                    <span class="text-gray-400">Dodane Pojazdy do Floty</span>
-                                    <span class="text-white">2 / 5</span>
-                                </div>
-                                <div class="w-full bg-dark-800 h-2 border border-dark-700">
-                                    <div class="bg-gray-500 h-full w-[40%]"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Karta -->
-                    <div class="flat-panel p-6 border-brand-500">
-                        <h3 class="text-white font-bold text-sm mb-4">Dane Płatności</h3>
-                        <div class="bg-dark-950 border border-dark-700 p-4 mb-4">
-                            <div class="flex justify-between items-center">
-                                <div class="flex gap-2 items-center">
-                                    <i class="fa-brands fa-cc-visa text-2xl text-gray-400"></i>
-                                    <div>
-                                        <p class="text-sm text-white font-mono">**** **** **** 4242</p>
-                                        <p class="text-[10px] text-gray-500">Wygasa: 12/28</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="flat-btn w-full bg-dark-800 text-white text-xs py-2 border border-dark-700 hover:bg-dark-700">Zmień kartę</button>
-                    </div>
-                </div>
-
-                <div class="flat-panel p-6">
-                    <h3 class="text-white font-bold text-sm mb-4">Historia Faktur VAT (za system RevControl)</h3>
-                    <table class="w-full text-left text-sm">
-                        <thead class="text-gray-500 border-b border-dark-700 text-xs">
-                            <tr><th class="pb-2">Data</th><th class="pb-2">Kwota</th><th class="pb-2">Status</th><th class="pb-2 text-right">Pobierz</th></tr>
-                        </thead>
-                        <tbody class="text-gray-300">
-                            <tr class="border-b border-dark-800">
-                                <td class="py-3">15.08.2026</td>
-                                <td>75.00 PLN</td>
-                                <td><span class="text-brand-500 text-[10px] uppercase font-bold">Opłacona</span></td>
-                                <td class="text-right"><button class="text-gray-500 hover:text-white"><i class="fa-solid fa-download"></i></button></td>
-                            </tr>
-                            <tr class="border-b border-dark-800">
-                                <td class="py-3">15.07.2026</td>
-                                <td>75.00 PLN</td>
-                                <td><span class="text-brand-500 text-[10px] uppercase font-bold">Opłacona</span></td>
-                                <td class="text-right"><button class="text-gray-500 hover:text-white"><i class="fa-solid fa-download"></i></button></td>
+                            <tr class="border-b border-dark-border hover:bg-dark-hover transition-colors cursor-pointer">
+                                <td class="px-4 py-3"><span class="text-white font-mono">#RC-1041</span><br><span class="text-[10px] text-gray-500">11.08.2026</span></td>
+                                <td class="px-4 py-3 text-white">Firma Budowlana S.A.</td>
+                                <td class="px-4 py-3 text-gray-400">Opróżnianie<br><span class="text-[10px] text-brand-500">Słupsk (Lokalny)</span></td>
+                                <td class="px-4 py-3 text-right text-white font-semibold">850 zł</td>
+                                <td class="px-4 py-3 text-center"><span class="text-[10px] text-brand-500 border border-brand-500 px-2 py-0.5">Zakończone</span></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- INNE WIDOKI (Grafik, Pracownicy, Pozyskaj, Konto, Wsparcie) - Puste z informacją -->
-            <div id="view-grafik" class="view-section">
-                <div class="flat-panel p-10 text-center border-dashed border-dark-600">
-                    <i class="fa-regular fa-calendar-days text-4xl text-gray-600 mb-4"></i>
-                    <h2 class="text-lg font-bold text-white mb-2">Moduł Harmonogramu w budowie</h2>
-                    <p class="text-sm text-gray-500">Ta sekcja zostanie połączona z API w następnym etapie.</p>
+            <!-- WIDOK: CRM (LEADY) -->
+            <div id="view-crm" class="view-section h-full max-w-full">
+                <h2 class="text-xl font-bold text-white mb-6">Kanban (Zarządzanie zapytaniami)</h2>
+                
+                <div class="flex gap-4 overflow-x-auto h-[calc(100vh-200px)]">
+                    <!-- Kolumna 1 -->
+                    <div class="w-80 flex-shrink-0 flex flex-col flat-panel p-3">
+                        <div class="flex justify-between items-center mb-4 pb-2 border-b border-dark-border">
+                            <span class="text-xs font-semibold text-white uppercase tracking-wider">Nowe Zapytania</span>
+                            <span class="text-xs text-gray-500 font-mono">2</span>
+                        </div>
+                        <div class="kanban-col" id="kb-nowe" ondrop="drop(event)" ondragover="allowDrop(event)">
+                            <div class="flat-panel p-3 kanban-card" draggable="true" ondragstart="drag(event)" id="card-1">
+                                <p class="text-sm font-semibold text-white mb-1">Anna Nowak</p>
+                                <p class="text-xs text-gray-400 mb-3">Transport mebli, Słupsk -> Koszalin</p>
+                                <p class="text-[10px] text-gray-500 text-right">Tel: 500 600 700</p>
+                            </div>
+                            <div class="flat-panel p-3 kanban-card" draggable="true" ondragstart="drag(event)" id="card-2">
+                                <p class="text-sm font-semibold text-white mb-1">Przewóz pracowniczy</p>
+                                <p class="text-xs text-gray-400 mb-3">Zapytanie o wycenę przewozu osób do Niemiec.</p>
+                                <p class="text-[10px] text-gray-500 text-right">Formularz WWW</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kolumna 2 -->
+                    <div class="w-80 flex-shrink-0 flex flex-col flat-panel p-3">
+                        <div class="flex justify-between items-center mb-4 pb-2 border-b border-dark-border">
+                            <span class="text-xs font-semibold text-brand-500 uppercase tracking-wider">Wycenione</span>
+                            <span class="text-xs text-gray-500 font-mono">0</span>
+                        </div>
+                        <div class="kanban-col" id="kb-wycenione" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div>
+                    </div>
+                    
+                    <!-- Kolumna 3 -->
+                    <div class="w-80 flex-shrink-0 flex flex-col flat-panel p-3">
+                        <div class="flex justify-between items-center mb-4 pb-2 border-b border-dark-border">
+                            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Wygrane / Do Realizacji</span>
+                        </div>
+                        <div class="kanban-col" id="kb-wygrane" ondrop="drop(event)" ondragover="allowDrop(event)">
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Pozostałe puste sekcje wygenerowane analogicznie ukryłem dla czytelności kodu... -->
+
+            <!-- WIDOK: SUBSKRYPCJE -->
+            <div id="view-subskrypcje" class="view-section max-w-6xl mx-auto">
+                <div class="mb-10 text-center">
+                    <h2 class="text-2xl font-bold text-white mb-2">Subskrypcje RevControl</h2>
+                    <p class="text-sm text-gray-500">Wybierz pakiet dopasowany do wielkości Twojej floty i zapotrzebowania.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    
+                    <!-- Pakiet 1: 29.99 -->
+                    <div class="flat-panel p-8 flex flex-col">
+                        <h3 class="text-lg font-bold text-white mb-1">Starter</h3>
+                        <p class="text-xs text-gray-500 mb-6">Dla jednoosobowych działalności.</p>
+                        <div class="mb-8 border-b border-dark-border pb-6">
+                            <span class="text-4xl font-bold text-white">29.99</span>
+                            <span class="text-sm text-gray-500">zł / msc</span>
+                        </div>
+                        <ul class="text-sm text-gray-400 space-y-4 mb-8 flex-1">
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Do 30 wycen miesięcznie</li>
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Podstawowy rejestr zleceń</li>
+                            <li><i class="fa-solid fa-xmark text-gray-600 w-5"></i> Brak modułu CRM</li>
+                            <li><i class="fa-solid fa-xmark text-gray-600 w-5"></i> 1 użytkownik</li>
+                        </ul>
+                        <button class="flat-btn w-full py-3 text-sm font-semibold">Wybierz Starter</button>
+                    </div>
+
+                    <!-- Pakiet 2: 50.00 (Akcent Czerwony) -->
+                    <div class="flat-panel p-8 flex flex-col border-brand-500 relative bg-dark-hover">
+                        <div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-500 text-white text-[10px] font-bold px-3 py-1 tracking-widest uppercase">
+                            Najpopularniejszy
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1">Pro</h3>
+                        <p class="text-xs text-gray-500 mb-6">Dla małych i średnich firm transportowych.</p>
+                        <div class="mb-8 border-b border-dark-border pb-6">
+                            <span class="text-4xl font-bold text-brand-500">50.00</span>
+                            <span class="text-sm text-gray-500">zł / msc</span>
+                        </div>
+                        <ul class="text-sm text-gray-300 space-y-4 mb-8 flex-1">
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Do 200 wycen miesięcznie</li>
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> System zarządzania flotą</li>
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Kanban CRM (Leady)</li>
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Do 3 użytkowników</li>
+                        </ul>
+                        <button class="flat-btn-primary w-full py-3 text-sm">Wybierz Pro</button>
+                    </div>
+
+                    <!-- Pakiet 3: 199.00 -->
+                    <div class="flat-panel p-8 flex flex-col">
+                        <h3 class="text-lg font-bold text-white mb-1">Enterprise</h3>
+                        <p class="text-xs text-gray-500 mb-6">Brak jakichkolwiek limitów.</p>
+                        <div class="mb-8 border-b border-dark-border pb-6">
+                            <span class="text-4xl font-bold text-white">199.00</span>
+                            <span class="text-sm text-gray-500">zł / msc</span>
+                        </div>
+                        <ul class="text-sm text-gray-400 space-y-4 mb-8 flex-1">
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Nielimitowane wyceny</li>
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Nielimitowana flota</li>
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> API dla zewnętrznych systemów</li>
+                            <li><i class="fa-solid fa-check text-brand-500 w-5"></i> Nielimitowani użytkownicy</li>
+                        </ul>
+                        <button class="flat-btn w-full py-3 text-sm font-semibold">Wybierz Enterprise</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INNE PUSTE WIDOKI (Dla zachowania logiki nawigacji) -->
+            <div id="view-flota" class="view-section text-center pt-20">
+                <p class="text-gray-500 text-sm">Moduł zarządzania flotą (w przygotowaniu).</p>
+            </div>
+            <div id="view-ustawienia" class="view-section text-center pt-20">
+                <p class="text-gray-500 text-sm">Moduł ustawień profilu.</p>
+            </div>
 
         </main>
     </div>
 
-    <!-- SKRYPTY LOGIKI FRONTENDOWEJ -->
     <script>
-        // 1. NAWIGACJA
+        // --- Nawigacja Frontendowa ---
         const menuLinks = document.querySelectorAll('.menu-link');
         const views = document.querySelectorAll('.view-section');
         const topbarTitle = document.getElementById('topbar-title');
-        const sidebar = document.getElementById('sidebar');
-        const mobileOverlay = document.getElementById('mobile-overlay');
 
         menuLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                // Usunięcie aktywnych stanów z panelu głównego (menu boczne)
                 if(link.closest('#main-menu')) {
-                    document.querySelectorAll('#main-menu .menu-link').forEach(l => l.classList.remove('menu-active', 'text-white'));
+                    document.querySelectorAll('#main-menu .menu-link').forEach(l => {
+                        l.classList.remove('menu-active', 'text-white');
+                        l.classList.add('text-gray-400');
+                    });
                     link.classList.add('menu-active', 'text-white');
+                    link.classList.remove('text-gray-400');
                 }
                 
-                // Zmiana Tytułu
-                const textDiv = link.querySelector('div');
-                let titleStr = textDiv ? textDiv.innerText.trim() : link.innerText.trim();
-                topbarTitle.innerText = titleStr;
+                topbarTitle.innerText = link.innerText.trim().replace('NOWE', '');
 
-                // Zmiana widoku
                 views.forEach(view => view.classList.remove('active'));
                 const targetId = link.getAttribute('data-target');
-                const targetView = document.getElementById(targetId);
-                if(targetView) targetView.classList.add('active');
+                document.getElementById(targetId)?.classList.add('active');
 
-                // Zamknij mobile menu
-                if(window.innerWidth < 1024) { toggleMobileMenu(); }
+                if(window.innerWidth < 1024) toggleMobileMenu();
             });
         });
 
         const toggleMobileMenu = () => {
-            sidebar.classList.toggle('-translate-x-full');
-            mobileOverlay.classList.toggle('hidden');
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.toggle('hidden');
         };
         document.getElementById('open-mobile-menu').addEventListener('click', toggleMobileMenu);
         document.getElementById('close-mobile-menu').addEventListener('click', toggleMobileMenu);
-        mobileOverlay.addEventListener('click', toggleMobileMenu);
+        document.getElementById('mobile-overlay').addEventListener('click', toggleMobileMenu);
 
-
-        // 2. LOGIKA WYCENY (KALKULATOR)
-        function updateCalc() {
-            // Pobranie wartości
-            const distance = parseFloat(document.getElementById('calc-distance').value) || 0;
-            const team = parseInt(document.getElementById('calc-team').value) || 2;
-            const floorA = parseInt(document.getElementById('calc-floor-a').value) || 0;
-            const floorB = parseInt(document.getElementById('calc-floor-b').value) || 0;
-            const elevA = document.getElementById('calc-elevator-a').checked;
-            const elevB = document.getElementById('calc-elevator-b').checked;
-            
-            const packing = document.getElementById('calc-packing').checked;
-            const dismantle = document.getElementById('calc-dismantle').checked;
-            const insurance = document.getElementById('calc-insurance').checked;
-
-            // Obliczenia (Mockup stawek RevSerwis)
-            let base = 150; // Podstawienie auta
-            let distCost = distance * 2.5; // 2.5zł za km
-            let teamCost = (team === 1) ? 0 : (team * 150); // Kierowca w bazie, pomocnicy płatni
-            
-            // Piętra (jeśli brak windy, liczymy schody)
-            let floorCost = 0;
-            if(!elevA && floorA > 0) floorCost += floorA * 25;
-            if(!elevB && floorB > 0) floorCost += floorB * 25;
-
-            // Ekstrasy
-            let extrasCost = 0;
-            if(packing) extrasCost += 100;
-            if(dismantle) extrasCost += 150;
-            if(insurance) extrasCost += 50;
-
-            let total = base + distCost + teamCost + floorCost + extrasCost;
-
-            // Aktualizacja UI
-            document.getElementById('sum-dist-label').innerText = distance;
-            document.getElementById('sum-dist').innerText = distCost + ' zł';
-            document.getElementById('sum-team-label').innerText = team;
-            document.getElementById('sum-team').innerText = teamCost + ' zł';
-            document.getElementById('sum-floors').innerText = '+' + floorCost + ' zł';
-            document.getElementById('sum-extras').innerText = extrasCost + ' zł';
-            document.getElementById('sum-total').innerText = total + ' PLN';
-        }
-
-        function selectTeam(btn, val) {
-            // Reset styli przycisków ekipy
-            const parent = btn.parentElement;
-            parent.querySelectorAll('button').forEach(b => {
-                b.className = "flex-1 py-1.5 text-xs text-gray-400 hover:text-white";
+        // --- Logika Kalkulatora (Flat Form) ---
+        function updateColors(radioBtn) {
+            // Zmiana ramki wybranego typu usługi
+            const labels = radioBtn.closest('.grid').querySelectorAll('label');
+            labels.forEach(l => {
+                l.classList.remove('border-brand-500');
+                l.classList.add('border-dark-border');
+                l.querySelector('span').classList.remove('text-white');
+                l.querySelector('span').classList.add('text-gray-400');
             });
-            // Aktywacja klikniętego
-            btn.className = "flex-1 py-1.5 text-xs bg-dark-700 text-brand-500 font-bold border border-dark-600";
-            document.getElementById('calc-team').value = val;
-            updateCalc();
+            const activeLabel = radioBtn.closest('label');
+            activeLabel.classList.remove('border-dark-border');
+            activeLabel.classList.add('border-brand-500');
+            activeLabel.querySelector('span').classList.remove('text-gray-400');
+            activeLabel.querySelector('span').classList.add('text-white');
+            calcTotal();
         }
 
-        function saveQuote() {
-            showModal('Wycena Zapisana', 'Wycena została wygenerowana. Link do akceptacji dla klienta został skopiowany do schowka: <br><br> <span class="text-brand-500">revserwis.pl/wycena/id=1027</span>');
-        }
-
-
-        // 3. TABELE ROZWIJANE
-        function toggleDetails(id) {
-            const row = document.getElementById(id);
-            if(row.classList.contains('open')) {
-                row.classList.remove('open');
-            } else {
-                // Zamknij inne
-                document.querySelectorAll('.table-details').forEach(el => el.classList.remove('open'));
-                row.classList.add('open');
-            }
-        }
-
-
-        // 4. KANBAN DRAG & DROP
-        function allowDrop(ev) { ev.preventDefault(); }
-        
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-            ev.target.classList.add('sortable-ghost');
-        }
-        
-        function drop(ev) {
-            ev.preventDefault();
-            const data = ev.dataTransfer.getData("text");
-            const element = document.getElementById(data);
-            element.classList.remove('sortable-ghost');
+        function calcTotal() {
+            const dist = parseFloat(document.getElementById('calc-dist').value) || 0;
+            const team = parseInt(document.getElementById('calc-team').value) || 1;
+            const floor = parseInt(document.getElementById('calc-floor').value) || 0;
+            const lift = document.getElementById('calc-lift').checked;
             
-            // Upewnij się, że upuszczamy na kontener kolumny, a nie na inną kartę
-            const dropzone = ev.target.closest('.kanban-col');
-            if (dropzone) {
-                dropzone.appendChild(element);
-                updateKanbanColors(element, dropzone.id);
-            }
-        }
+            const optPack = document.getElementById('opt-pack').checked;
+            const optDemont = document.getElementById('opt-demont').checked;
 
-        function updateKanbanColors(card, colId) {
-            // Zmiana obramowania lewego w zależności od statusu (kolumny)
-            card.classList.remove('border-l-gray-500', 'border-l-yellow-500', 'border-l-brand-500', 'border-l-accent-red');
-            if(colId === 'kanban-new') card.classList.add('border-l-gray-500');
-            if(colId === 'kanban-quote') card.classList.add('border-l-yellow-500');
-            if(colId === 'kanban-won') card.classList.add('border-l-brand-500');
-            if(colId === 'kanban-lost') card.classList.add('border-l-accent-red');
+            const baseCost = 150;
+            const distCost = dist * 2.5; // 2.5 zł za km
+            const teamCost = (team - 1) * 150; // Kierowca w bazie
             
-            // Tu można dodać strzał do API (np. fetch PUT /api/lead/:id)
-            console.log(`Zaktualizowano status karty ${card.id} na ${colId}`);
+            // Dopłata za piętra tylko jeśli nie ma windy
+            let floorCost = (!lift && floor > 0) ? (floor * 30) : 0; 
+
+            let optsCost = 0;
+            if(optPack) optsCost += 100;
+            if(optDemont) optsCost += 120;
+
+            const total = baseCost + distCost + teamCost + floorCost + optsCost;
+
+            document.getElementById('sum-km').innerText = dist;
+            document.getElementById('sum-dist-cost').innerText = distCost.toFixed(2) + ' zł';
+            document.getElementById('sum-team').innerText = team;
+            document.getElementById('sum-team-cost').innerText = teamCost.toFixed(2) + ' zł';
+            document.getElementById('sum-floor-cost').innerText = floorCost.toFixed(2) + ' zł';
+            document.getElementById('sum-opts-cost').innerText = optsCost.toFixed(2) + ' zł';
+            document.getElementById('sum-total').innerHTML = total.toFixed(2) + ' <span class="text-sm text-brand-500">PLN</span>';
         }
 
-        document.addEventListener('dragend', (ev) => {
-            if(ev.target.classList.contains('kanban-card')) {
-                ev.target.classList.remove('sortable-ghost');
-            }
-        });
-
-
-        // 5. DRAG & DROP UPLOAD (WYCENA)
+        // --- Drag & Drop Zdjęcia ---
         const dropzone = document.getElementById('dropzone');
         const fileInput = document.getElementById('file-input');
-        const previewContainer = document.getElementById('image-preview-container');
+        const gallery = document.getElementById('gallery-preview');
 
         if(dropzone) {
             dropzone.addEventListener('click', () => fileInput.click());
@@ -1034,10 +616,10 @@
                 dropzone.addEventListener(eventName, e => { e.preventDefault(); e.stopPropagation(); }, false);
             });
             ['dragenter', 'dragover'].forEach(eventName => {
-                dropzone.addEventListener(eventName, () => dropzone.classList.add('dragover', 'border-brand-500'));
+                dropzone.addEventListener(eventName, () => dropzone.classList.add('border-brand-500'));
             });
             ['dragleave', 'drop'].forEach(eventName => {
-                dropzone.addEventListener(eventName, () => dropzone.classList.remove('dragover', 'border-brand-500'));
+                dropzone.addEventListener(eventName, () => dropzone.classList.remove('border-brand-500'));
             });
             dropzone.addEventListener('drop', e => handleFiles(e.dataTransfer.files), false);
             fileInput.addEventListener('change', e => handleFiles(e.target.files));
@@ -1049,31 +631,32 @@
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
                 reader.onloadend = () => {
-                    const div = document.createElement('div');
-                    div.className = 'relative w-16 h-16 bg-dark-800 border border-dark-700 p-1 group';
-                    div.innerHTML = `
-                        <img src="${reader.result}" class="w-full h-full object-cover">
-                        <div class="absolute -top-2 -right-2 bg-accent-red text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity remove-img-btn"><i class="fa-solid fa-xmark"></i></div>
-                    `;
-                    div.querySelector('.remove-img-btn').onclick = (e) => { e.stopPropagation(); div.remove(); };
-                    previewContainer.appendChild(div);
+                    const img = document.createElement('img');
+                    img.src = reader.result;
+                    img.className = 'w-16 h-16 object-cover border border-dark-border';
+                    gallery.appendChild(img);
                 };
             });
         }
 
-        // 6. MODAL SYSTEM
-        const modal = document.getElementById('app-modal');
-        function showModal(title, bodyHtml) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-body').innerHTML = bodyHtml;
-            modal.classList.remove('hidden');
+        // --- Kanban Drag & Drop ---
+        function allowDrop(ev) { ev.preventDefault(); }
+        function drag(ev) { ev.dataTransfer.setData("text", ev.target.id); }
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const element = document.getElementById(data);
+            const targetCol = ev.target.closest('.kanban-col');
+            if (targetCol) {
+                targetCol.appendChild(element);
+                
+                // Zmiana borderu karty w zaleznosci od kolumny
+                element.classList.remove('border-brand-500', 'border-gray-500', 'border-dark-border');
+                if(targetCol.id === 'kb-wycenione') element.style.borderColor = '#dc2626';
+                else if (targetCol.id === 'kb-wygrane') element.style.borderColor = '#333333';
+                else element.style.borderColor = '#333333';
+            }
         }
-        function closeModal() {
-            modal.classList.add('hidden');
-        }
-
-        // Init
-        updateCalc();
     </script>
 </body>
 </html>
