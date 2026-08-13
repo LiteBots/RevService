@@ -13,14 +13,14 @@
                 extend: {
                     colors: {
                         brand: {
-                            500: '#dc2626', 
-                            600: '#b91c1c', 
+                            500: '#dc2626', // Czerwony główny (Red 600)
+                            600: '#b91c1c', // Czerwony hover (Red 700)
                         },
                         dark: {
-                            bg: '#050505', 
-                            panel: '#0f0f0f', 
-                            border: '#1f1f1f', 
-                            input: '#141414', 
+                            bg: '#050505', // Tło główne (prawie czarne)
+                            panel: '#0f0f0f', // Tła paneli
+                            border: '#1f1f1f', // Obramowania
+                            input: '#141414', // Tła inputów
                             hover: '#1a1a1a',
                         }
                     },
@@ -38,30 +38,88 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body { background-color: #050505; color: #e5e5e5; -webkit-font-smoothing: antialiased; }
+        body {
+            background-color: #050505;
+            color: #e5e5e5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Scrollbar - Flat Design */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: #050505; }
         ::-webkit-scrollbar-thumb { background: #1f1f1f; }
         ::-webkit-scrollbar-thumb:hover { background: #dc2626; }
 
-        .flat-panel { background: #0f0f0f; border: 1px solid #1f1f1f; }
-        .flat-input { background: #141414; border: 1px solid #1f1f1f; color: #ffffff; transition: border-color 0.15s; }
-        .flat-input:focus { border-color: #dc2626; outline: none; }
+        /* Komponenty Flat Design - Zawsze ostre, bez cieni */
+        .flat-panel {
+            background: #0f0f0f;
+            border: 1px solid #1f1f1f;
+        }
         
-        .flat-btn { background: #141414; border: 1px solid #1f1f1f; color: #e5e5e5; transition: all 0.15s; cursor: pointer; }
-        .flat-btn:hover { background: #1a1a1a; border-color: #333333; }
-        .flat-btn-primary { background: #dc2626; border: 1px solid #dc2626; color: #ffffff; font-weight: 600; }
-        .flat-btn-primary:hover { background: #b91c1c; border-color: #b91c1c; }
+        .flat-input {
+            background: #141414;
+            border: 1px solid #1f1f1f;
+            color: #ffffff;
+            transition: border-color 0.15s ease-in-out;
+        }
+        .flat-input:focus {
+            border-color: #dc2626;
+            outline: none;
+        }
+        
+        .flat-btn {
+            background: #141414;
+            border: 1px solid #1f1f1f;
+            color: #e5e5e5;
+            transition: all 0.15s ease-in-out;
+            cursor: pointer;
+        }
+        .flat-btn:hover {
+            background: #1a1a1a;
+            border-color: #333333;
+        }
+        .flat-btn-primary {
+            background: #dc2626;
+            border: 1px solid #dc2626;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .flat-btn-primary:hover {
+            background: #b91c1c;
+            border-color: #b91c1c;
+        }
 
-        .menu-link { border-left: 2px solid transparent; }
-        .menu-active { background-color: #0f0f0f; color: #ffffff !important; border-left: 2px solid #dc2626; }
+        /* Checkboxy */
+        .flat-checkbox {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #333333;
+            background: #141414;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        .flat-checkbox:checked { 
+            background: #dc2626; 
+            border-color: #dc2626; 
+        }
 
+        /* Nawigacja */
+        .menu-link {
+            border-left: 2px solid transparent;
+        }
+        .menu-active {
+            background-color: #0f0f0f;
+            color: #ffffff !important;
+            border-left: 2px solid #dc2626;
+        }
+
+        /* Animacja widoków */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeIn 0.2s ease-out; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Style dla tabeli kosztorysu */
-        .table-row-input:focus-within { background-color: #1a1a1a; }
     </style>
 </head>
 <body class="h-screen flex overflow-hidden selection:bg-brand-500 selection:text-white">
@@ -70,15 +128,18 @@
     <aside id="sidebar" class="w-64 bg-dark-bg border-r border-dark-border flex-shrink-0 flex flex-col absolute lg:relative z-40 h-full transition-transform duration-300 -translate-x-full lg:translate-x-0">
         <div class="h-16 flex items-center px-6 border-b border-dark-border relative">
             <span class="text-xl font-bold tracking-tight text-white">Rev<span class="text-brand-500">Estimator</span></span>
+            <button id="close-mobile-menu" class="lg:hidden absolute right-4 text-gray-500 hover:text-white">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
         </div>
 
         <nav class="flex-1 overflow-y-auto py-6 flex flex-col gap-1" id="main-menu">
-            <p class="px-6 text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-2">Wyceny</p>
+            <p class="px-6 text-[10px] font-bold text-gray-600 uppercase tracking-widest mb-2">Operacje</p>
             <a href="#" data-target="view-wycena" class="menu-link menu-active flex items-center px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
                 <i class="fa-solid fa-file-invoice-dollar w-6"></i> Nowy Kosztorys
             </a>
-            <a href="#" data-target="view-baza" class="menu-link flex items-center px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                <i class="fa-solid fa-folder-open w-6"></i> Baza Wycen
+            <a href="#" data-target="view-baza" class="menu-link flex items-center justify-between px-6 py-2.5 text-gray-400 hover:text-white transition-colors text-sm font-medium">
+                <div class="flex items-center"><i class="fa-solid fa-folder-open w-6"></i> Baza Wycen</div>
             </a>
 
             <p class="px-6 text-[10px] font-bold text-gray-600 uppercase tracking-widest mt-8 mb-2">Planowanie</p>
@@ -86,132 +147,134 @@
                 <i class="fa-solid fa-calendar-days w-6"></i> Grafik Zleceń
             </a>
         </nav>
+
+        <div class="p-4 border-t border-dark-border">
+            <a href="#" class="flex items-center gap-3 px-2 py-2 text-gray-500 hover:text-brand-500 transition-colors text-sm font-medium">
+                <i class="fa-solid fa-arrow-right-from-bracket w-4 text-center"></i> Wyloguj się
+            </a>
+        </div>
     </aside>
+
+    <div id="mobile-overlay" class="fixed inset-0 bg-black/80 z-30 hidden lg:hidden"></div>
 
     <div class="flex-1 flex flex-col relative h-full bg-dark-bg">
         
-        <!-- Pasek górny -->
+        <!-- Pasek górny (Zgodnie z oryginałem) -->
         <header class="h-16 bg-dark-panel border-b border-dark-border flex items-center justify-between px-6 z-20 flex-shrink-0">
-            <h1 id="topbar-title" class="text-base font-semibold text-white">Nowy Kosztorys</h1>
-            <div class="flex items-center gap-3 text-sm">
-                <span class="text-gray-400 font-medium">Operator Systemu</span>
+            <div class="flex items-center gap-4">
+                <button id="open-mobile-menu" class="lg:hidden text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <h1 id="topbar-title" class="text-base font-semibold text-white">Nowy Kosztorys</h1>
+            </div>
+
+            <div class="flex items-center gap-5">
+                <button class="flat-btn-primary px-4 py-1.5 text-xs" onclick="document.querySelector('[data-target=\'view-wycena\']').click()">
+                    Nowa wycena
+                </button>
+                <div class="h-4 w-px bg-dark-border"></div>
+                <div class="flex items-center gap-3 text-sm">
+                    <span class="text-gray-400 font-medium hidden sm:block">Operator (PRO)</span>
+                    <div class="w-8 h-8 bg-dark-input border border-dark-border flex items-center justify-center text-gray-400 text-xs">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
             </div>
         </header>
 
         <!-- Główna przestrzeń robocza -->
         <main class="flex-1 overflow-y-auto p-6 relative">
             
-            <!-- WIDOK: ZAAWANSOWANA WYCENA -->
-            <div id="view-wycena" class="view-section active h-full max-w-full mx-auto">
+            <!-- WIDOK: WYCENA (Zgodny z Flat Design) -->
+            <div id="view-wycena" class="view-section active h-full max-w-7xl mx-auto">
                 <div class="flex flex-col xl:flex-row gap-6">
                     
                     <!-- Edytor Kosztorysu (Lewa strona) -->
                     <div class="flex-1 space-y-6">
                         
-                        <!-- Dane Klienta -->
+                        <!-- Sekcja 1: Dane Zlecenia -->
                         <div class="flat-panel p-6">
-                            <h3 class="text-white text-sm font-semibold mb-4">Dane Zlecenia i Klienta</h3>
+                            <h3 class="text-white text-sm font-semibold mb-4">1. Dane Zlecenia i Klienta</h3>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
-                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Nazwa / Imię i nazwisko</label>
-                                    <input type="text" class="flat-input w-full px-3 py-2 text-sm">
+                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Klient (Nazwa / Imię)</label>
+                                    <input type="text" placeholder="Wprowadź dane klienta" class="flat-input w-full px-3 py-2 text-sm">
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Adres inwestycji / realizacji</label>
-                                    <input type="text" class="flat-input w-full px-3 py-2 text-sm">
+                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Adres inwestycji</label>
+                                    <input type="text" placeholder="Lokalizacja prac" class="flat-input w-full px-3 py-2 text-sm">
                                 </div>
                                 <div>
-                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Data ważności wyceny</label>
-                                    <input type="date" class="flat-input w-full px-3 py-2 text-sm text-gray-400">
+                                    <label class="block text-[10px] text-gray-500 uppercase tracking-wider mb-1">Data wyceny</label>
+                                    <input type="date" class="flat-input w-full px-3 py-2 text-sm">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Pozycje kosztorysowe -->
-                        <div class="flat-panel p-0 overflow-hidden">
-                            <div class="p-6 border-b border-dark-border flex justify-between items-center">
-                                <h3 class="text-white text-sm font-semibold">Pozycje Kosztorysu (Usługi i Materiały)</h3>
+                        <!-- Sekcja 2: Pozycje Kosztorysowe w Stylu Flat -->
+                        <div class="flat-panel p-6">
+                            <div class="flex justify-between items-center mb-4">
+                                <h3 class="text-white text-sm font-semibold">2. Elementy Kosztorysu</h3>
                                 <button class="flat-btn-primary px-3 py-1.5 text-xs flex items-center gap-2">
                                     <i class="fa-solid fa-plus"></i> Dodaj pozycję
                                 </button>
                             </div>
                             
-                            <table class="w-full text-left">
-                                <thead class="bg-dark-input text-gray-500 text-[10px] uppercase tracking-wider border-b border-dark-border">
-                                    <tr>
-                                        <th class="px-6 py-3 w-12">#</th>
-                                        <th class="px-6 py-3 w-1/2">Opis Usługi / Przedmiaru</th>
-                                        <th class="px-4 py-3 w-24 text-center">J.m.</th>
-                                        <th class="px-4 py-3 w-32 text-right">Ilość</th>
-                                        <th class="px-4 py-3 w-32 text-right">Cena jedn.</th>
-                                        <th class="px-6 py-3 w-32 text-right">Wartość</th>
-                                        <th class="px-4 py-3 w-12"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="text-sm">
-                                    <!-- Wiersz 1 -->
-                                    <tr class="border-b border-dark-border table-row-input">
-                                        <td class="px-6 py-3 text-gray-500 font-mono text-xs">1</td>
-                                        <td class="px-6 py-2"><input type="text" value="Kompleksowe opróżnienie budynku z załadunkiem" class="w-full bg-transparent border-none text-white focus:outline-none focus:border-b border-brand-500 py-1"></td>
-                                        <td class="px-4 py-2 text-center"><input type="text" value="kpl" class="w-full bg-transparent border-none text-center text-gray-400 focus:outline-none focus:text-white"></td>
-                                        <td class="px-4 py-2"><input type="number" value="1" class="w-full bg-transparent border-none text-right text-white focus:outline-none"></td>
-                                        <td class="px-4 py-2"><input type="number" value="4500.00" class="w-full bg-transparent border-none text-right text-white focus:outline-none"></td>
-                                        <td class="px-6 py-3 text-right font-medium text-white">4 500.00 zł</td>
-                                        <td class="px-4 py-3 text-center"><button class="text-gray-600 hover:text-brand-500"><i class="fa-solid fa-trash"></i></button></td>
-                                    </tr>
-                                    <!-- Wiersz 2 -->
-                                    <tr class="border-b border-dark-border table-row-input">
-                                        <td class="px-6 py-3 text-gray-500 font-mono text-xs">2</td>
-                                        <td class="px-6 py-2"><input type="text" value="Utylizacja odpadów gabarytowych" class="w-full bg-transparent border-none text-white focus:outline-none focus:border-b border-brand-500 py-1"></td>
-                                        <td class="px-4 py-2 text-center"><input type="text" value="t" class="w-full bg-transparent border-none text-center text-gray-400 focus:outline-none focus:text-white"></td>
-                                        <td class="px-4 py-2"><input type="number" value="3.5" class="w-full bg-transparent border-none text-right text-white focus:outline-none"></td>
-                                        <td class="px-4 py-2"><input type="number" value="800.00" class="w-full bg-transparent border-none text-right text-white focus:outline-none"></td>
-                                        <td class="px-6 py-3 text-right font-medium text-white">2 800.00 zł</td>
-                                        <td class="px-4 py-3 text-center"><button class="text-gray-600 hover:text-brand-500"><i class="fa-solid fa-trash"></i></button></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="p-6 bg-dark-input flex justify-end">
-                                <div class="w-64">
-                                    <div class="flex justify-between text-xs text-gray-400 mb-2"><span>Suma Netto:</span><span class="text-white">7 300.00 zł</span></div>
-                                    <div class="flex justify-between text-xs text-gray-400 mb-4 border-b border-dark-border pb-2"><span>VAT (23%):</span><span class="text-white">1 679.00 zł</span></div>
-                                    <div class="flex justify-between text-base font-bold text-white"><span>RAZEM:</span><span class="text-brand-500">8 979.00 zł</span></div>
+                            <div class="space-y-3">
+                                <!-- Wiersz 1 używający flat-input -->
+                                <div class="flex items-center gap-2 bg-dark-input p-2 border border-dark-border">
+                                    <span class="text-xs text-gray-500 font-mono w-6 text-center">1</span>
+                                    <input type="text" value="Kompleksowe opróżnienie budynku z załadunkiem" class="flat-input flex-1 px-3 py-2 text-sm">
+                                    <input type="text" value="kpl" class="flat-input w-16 px-2 py-2 text-sm text-center" title="Jednostka">
+                                    <input type="number" value="1" class="flat-input w-20 px-2 py-2 text-sm text-right" title="Ilość">
+                                    <input type="number" value="4500.00" class="flat-input w-28 px-3 py-2 text-sm text-right" title="Cena jednostkowa">
+                                    <div class="w-28 text-right px-3 text-sm font-medium text-white">4500.00 zł</div>
+                                    <button class="flat-btn w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-500"><i class="fa-solid fa-trash text-xs"></i></button>
+                                </div>
+                                
+                                <!-- Wiersz 2 używający flat-input -->
+                                <div class="flex items-center gap-2 bg-dark-input p-2 border border-dark-border">
+                                    <span class="text-xs text-gray-500 font-mono w-6 text-center">2</span>
+                                    <input type="text" value="Utylizacja odpadów gabarytowych" class="flat-input flex-1 px-3 py-2 text-sm">
+                                    <input type="text" value="t" class="flat-input w-16 px-2 py-2 text-sm text-center" title="Jednostka">
+                                    <input type="number" value="3.5" class="flat-input w-20 px-2 py-2 text-sm text-right" title="Ilość">
+                                    <input type="number" value="800.00" class="flat-input w-28 px-3 py-2 text-sm text-right" title="Cena jednostkowa">
+                                    <div class="w-28 text-right px-3 text-sm font-medium text-white">2800.00 zł</div>
+                                    <button class="flat-btn w-8 h-8 flex items-center justify-center text-gray-400 hover:text-brand-500"><i class="fa-solid fa-trash text-xs"></i></button>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    <!-- Podgląd i Generowanie PDF (Prawa strona) -->
-                    <div class="w-full xl:w-96 flex-shrink-0">
+                    <!-- Podsumowanie i PDF (Prawa strona wg oryginalnego układu) -->
+                    <div class="w-full xl:w-80 flex-shrink-0">
                         <div class="flat-panel p-6 sticky top-6">
                             <h3 class="text-white text-sm font-semibold mb-4 border-b border-dark-border pb-2 flex justify-between">
-                                <span>Podgląd PDF</span>
+                                <span>Dokument Wyceny</span>
                                 <i class="fa-regular fa-file-pdf text-gray-500"></i>
                             </h3>
                             
-                            <!-- Miniatura dokumentu -->
-                            <div class="bg-white p-4 aspect-[1/1.4] mb-6 relative shadow-lg">
-                                <!-- Zoptymalizowany nagłówek (pusty prawy róg) -->
-                                <div class="border-b border-gray-200 pb-2 mb-4">
-                                    <div class="w-24 h-6 bg-gray-200 mb-2"></div>
-                                    <div class="h-2 w-32 bg-gray-100 mb-1"></div>
-                                    <div class="h-2 w-24 bg-gray-100"></div>
-                                    <!-- Prawy róg celowo pusty -->
+                            <div class="space-y-2 mb-6">
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Suma Netto</span><span class="text-white">7 300.00 zł</span>
                                 </div>
-                                <div class="h-4 w-48 bg-gray-200 mb-6 mx-auto"></div>
-                                <div class="space-y-2 mb-4">
-                                    <div class="flex justify-between"><div class="h-2 w-3/4 bg-gray-200"></div><div class="h-2 w-8 bg-gray-300"></div></div>
-                                    <div class="flex justify-between"><div class="h-2 w-1/2 bg-gray-100"></div><div class="h-2 w-8 bg-gray-200"></div></div>
+                                <div class="flex justify-between text-xs text-gray-400">
+                                    <span>Stawka VAT (23%)</span><span class="text-white">1 679.00 zł</span>
                                 </div>
-                                <div class="absolute bottom-4 right-4 h-3 w-24 bg-red-600/80"></div>
+                            </div>
+
+                            <div class="bg-dark-input p-4 mb-6 text-center border border-dark-border">
+                                <p class="text-[9px] text-gray-500 uppercase tracking-widest mb-1">Całkowita wartość Brutto</p>
+                                <p class="text-3xl font-bold text-white">8979.00 <span class="text-sm text-brand-500">PLN</span></p>
                             </div>
 
                             <div class="space-y-3">
                                 <button class="flat-btn-primary w-full py-2.5 text-sm flex justify-center items-center gap-2">
-                                    <i class="fa-solid fa-download"></i> Generuj Kosztorys PDF
+                                    <i class="fa-solid fa-download"></i> Generuj PDF dla Klienta
                                 </button>
-                                <button class="flat-btn w-full py-2.5 text-sm flex justify-center items-center gap-2">
-                                    <i class="fa-solid fa-calendar-plus"></i> Zaplanuj w grafiku
+                                <button class="flat-btn w-full py-2.5 text-sm flex justify-center items-center gap-2" onclick="document.querySelector('[data-target=\'view-grafik\']').click()">
+                                    <i class="fa-solid fa-calendar-plus"></i> Przejdź do Grafiku
                                 </button>
                             </div>
                         </div>
@@ -223,16 +286,15 @@
             <div id="view-grafik" class="view-section h-full max-w-full flex flex-col">
                 <div class="flex justify-between items-end mb-6 flex-shrink-0">
                     <div>
-                        <h2 class="text-xl font-bold text-white mb-1">Grafik Zleceń</h2>
-                        <p class="text-xs text-gray-500">Zarządzaj harmonogramem i alokacją zespołów na obiektach.</p>
+                        <h2 class="text-xl font-bold text-white mb-1">Harmonogram Zleceń</h2>
+                        <p class="text-xs text-gray-500">Zarządzaj zasobami floty i ekipami na osi czasu.</p>
                     </div>
-                    <div class="flex gap-2 bg-dark-input p-1 rounded-sm border border-dark-border">
-                        <button class="px-4 py-1.5 text-xs text-white bg-dark-hover">Oś Czasu (Gantt)</button>
-                        <button class="px-4 py-1.5 text-xs text-gray-500 hover:text-white transition-colors">Kalendarz (Miesiąc)</button>
+                    <div class="flex gap-2">
+                        <button class="flat-btn px-4 py-1.5 text-xs text-white bg-dark-hover">Oś Czasu (Gantt)</button>
+                        <button class="flat-btn px-4 py-1.5 text-xs text-gray-400">Kalendarz (Miesiąc)</button>
                     </div>
                 </div>
 
-                <!-- Przykładowy Timeline (Gantt) -->
                 <div class="flat-panel flex-1 overflow-x-auto relative">
                     <div class="min-w-[1000px]">
                         <!-- Nagłówek dni -->
@@ -249,35 +311,33 @@
                             </div>
                         </div>
                         
-                        <!-- Wiersze z zasobami -->
+                        <!-- Wiersz 1 -->
                         <div class="flex border-b border-dark-border relative group">
                             <div class="w-48 flex-shrink-0 border-r border-dark-border p-4 bg-dark-panel">
                                 <p class="text-sm text-white font-medium">Ekipa A (Demontaż)</p>
-                                <p class="text-[10px] text-gray-500">Bus #1 (Rejestracja)</p>
+                                <p class="text-[10px] text-gray-500">Bus #1</p>
                             </div>
-                            <div class="flex-1 grid grid-cols-7 relative">
-                                <!-- Paski siatki w tle -->
+                            <div class="flex-1 grid grid-cols-7 relative bg-dark-panel">
                                 <div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20 bg-brand-500/5"></div><div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20 bg-dark-bg"></div><div class="bg-dark-bg opacity-20"></div>
                                 
-                                <!-- Blok Zlecenia wstawiony absolutnie (Trwa 2 dni: Pon-Wto) -->
-                                <div class="absolute top-3 bottom-3 left-2 w-[calc(28.5%-4px)] bg-dark-hover border border-gray-600 rounded-sm p-2 cursor-pointer hover:border-brand-500 transition-colors z-0">
+                                <div class="absolute top-3 bottom-3 left-2 w-[calc(28.5%-4px)] bg-dark-input border border-dark-border rounded-sm p-2 cursor-pointer hover:border-brand-500 transition-colors z-0">
                                     <p class="text-xs text-white font-semibold truncate">Opróżnianie magazynu</p>
                                     <p class="text-[9px] text-gray-400">Gdańsk, ul. Długa</p>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Wiersz 2 -->
                         <div class="flex border-b border-dark-border relative group">
                             <div class="w-48 flex-shrink-0 border-r border-dark-border p-4 bg-dark-panel">
                                 <p class="text-sm text-white font-medium">Ekipa B (Ciężka)</p>
                                 <p class="text-[10px] text-gray-500">Kontenery</p>
                             </div>
-                            <div class="flex-1 grid grid-cols-7 relative">
+                            <div class="flex-1 grid grid-cols-7 relative bg-dark-panel">
                                 <div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20 bg-brand-500/5"></div><div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20"></div><div class="border-r border-dark-border border-dashed opacity-20 bg-dark-bg"></div><div class="bg-dark-bg opacity-20"></div>
                                 
-                                <!-- Blok Zlecenia (Trwa 3 dni: Śro-Pią) -->
-                                <div class="absolute top-3 bottom-3 left-[28.5%] w-[calc(42.8%-4px)] ml-2 bg-brand-500/20 border border-brand-500 rounded-sm p-2 cursor-pointer z-0">
-                                    <p class="text-xs text-brand-500 font-semibold truncate">Wyburzanie i wywóz gruzu</p>
+                                <div class="absolute top-3 bottom-3 left-[28.5%] w-[calc(42.8%-4px)] ml-2 bg-dark-input border border-brand-500 rounded-sm p-2 cursor-pointer z-0">
+                                    <p class="text-xs text-brand-500 font-semibold truncate">Wyburzanie i wywóz</p>
                                     <p class="text-[9px] text-brand-500/70">Wycena: 8 979 zł</p>
                                 </div>
                             </div>
@@ -286,11 +346,16 @@
                 </div>
             </div>
 
+            <!-- WIDOK: BAZA WYCEN (Pusty, do rozbudowy) -->
+            <div id="view-baza" class="view-section text-center pt-20">
+                <p class="text-gray-500 text-sm">Moduł historii wycen (w przygotowaniu).</p>
+            </div>
+
         </main>
     </div>
 
     <script>
-        // Prosta logika przełączania widoków
+        // --- Nawigacja Frontendowa ---
         const menuLinks = document.querySelectorAll('.menu-link');
         const views = document.querySelectorAll('.view-section');
         const topbarTitle = document.getElementById('topbar-title');
@@ -298,20 +363,33 @@
         menuLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
-                document.querySelectorAll('.menu-link').forEach(l => {
-                    l.classList.remove('menu-active', 'text-white');
-                    l.classList.add('text-gray-400');
-                });
-                link.classList.add('menu-active', 'text-white');
-                link.classList.remove('text-gray-400');
+                if(link.closest('#main-menu')) {
+                    document.querySelectorAll('#main-menu .menu-link').forEach(l => {
+                        l.classList.remove('menu-active', 'text-white');
+                        l.classList.add('text-gray-400');
+                    });
+                    link.classList.add('menu-active', 'text-white');
+                    link.classList.remove('text-gray-400');
+                }
                 
                 topbarTitle.innerText = link.innerText.trim();
 
                 views.forEach(view => view.classList.remove('active'));
                 const targetId = link.getAttribute('data-target');
                 document.getElementById(targetId)?.classList.add('active');
+
+                if(window.innerWidth < 1024) toggleMobileMenu();
             });
         });
+
+        const toggleMobileMenu = () => {
+            document.getElementById('sidebar').classList.toggle('-translate-x-full');
+            document.getElementById('mobile-overlay').classList.toggle('hidden');
+        };
+        
+        document.getElementById('open-mobile-menu').addEventListener('click', toggleMobileMenu);
+        document.getElementById('close-mobile-menu').addEventListener('click', toggleMobileMenu);
+        document.getElementById('mobile-overlay').addEventListener('click', toggleMobileMenu);
     </script>
 </body>
 </html>
