@@ -6,7 +6,6 @@
     <title>Kompleksowe Przeprowadzki - Polska i Europa | RevSerwis</title>
     <meta name="description" content="Bezstresowe przeprowadzki lokalne, krajowe oraz zagraniczne. Zapewniamy pakowanie, zabezpieczenie mienia, demontaż mebli i bezpieczny transport.">
     
-    <!-- Ikona strony -->
     <link rel="icon" href="/favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="/favicon.png">
 
@@ -33,8 +32,16 @@
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
                     }
                 }
             }
@@ -56,9 +63,17 @@
 
         .header-glass {
             background: rgba(5, 5, 5, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-panel {
+            background: rgba(17, 17, 17, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
         }
 
         .fade-up {
@@ -76,33 +91,40 @@
             text-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
         }
 
-        .premium-card {
+        /* Bento Grid Cards */
+        .bento-card {
             background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
             border: 1px solid #1a1a1a;
-            transition: all 0.4s ease;
+            border-radius: 1.5rem;
             position: relative;
             overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .premium-card::before {
+        .bento-card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, #10b981, transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-        
-        .premium-card:hover {
-            border-color: #2a2a2a;
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-        
-        .premium-card:hover::before {
-            transform: translateX(100%);
+            inset: 0;
+            border-radius: 1.5rem;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(16,185,129,0.5), transparent 50%, rgba(16,185,129,0.1));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
+        .bento-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 30px 60px -12px rgba(16, 185, 129, 0.15);
+        }
+
+        .bento-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -118,19 +140,36 @@
         }
 
         .bg-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             position: absolute;
             inset: 0;
             z-index: 0;
             pointer-events: none;
         }
+
+        /* Timeline Styles */
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #10b981 0%, #1a1a1a 100%);
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
     </style>
 </head>
-<body class="flex flex-col min-h-screen relative">
+<body class="flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- Nawigacja (Zmienione linki, aby prowadziły do strony głównej) -->
+    <!-- Nawigacja -->
     <header class="fixed w-full z-50 transition-all duration-300 header-glass" id="header">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center py-4">
@@ -149,14 +188,12 @@
                         <a href="/login" class="hidden xl:flex items-center justify-center bg-dark-800 border border-brand-500/50 hover:bg-brand-500/10 text-brand-500 font-bold px-5 py-2.5 rounded-lg transition-all shadow-[0_0_15px_rgba(16,185,129,0.15)] hover:shadow-[0_0_20px_rgba(16,185,129,0.3)]">
                             <i class="fa-solid fa-microchip mr-2"></i> RevControl
                         </a>
-
                         <div class="flex flex-col items-end">
                             <span class="text-xs text-gray-400">Zadzwoń teraz</span>
                             <a href="tel:+48735396534" class="text-white font-bold text-lg hover:text-brand-400 transition-colors">
                                 735396534
                             </a>
                         </div>
-                        <!-- Link kierujący do formularza na głównej -->
                         <a href="/index.html#wycena" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-6 py-3 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)]">
                             Darmowa Wycena
                         </a>
@@ -170,176 +207,298 @@
                 </div>
             </div>
         </div>
-
-        <div id="mobile-menu" class="hidden lg:hidden bg-dark-900 border-b border-dark-700 absolute w-full left-0 top-full shadow-2xl">
-            <div class="px-4 pt-4 pb-6 space-y-4">
-                <a href="/index.html#problemy" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Dla kogo jesteśmy?</a>
-                <a href="/index.html#uslugi" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Nasze usługi</a>
-                <a href="/index.html#marki" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Nasze filary</a>
-                <a href="/index.html#proces" class="mobile-link block text-gray-300 text-lg font-medium py-2 border-b border-dark-800">Jak działamy</a>
-                
-                <div class="pt-4 flex flex-col gap-4">
-                    <a href="/login" class="mobile-link flex items-center justify-center w-full bg-dark-800 border border-brand-500/50 text-brand-500 font-bold py-3 rounded-lg shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-                        <i class="fa-solid fa-microchip mr-2"></i> Logowanie RevControl
-                    </a>
-                    <a href="tel:+48735396534" class="flex items-center justify-center w-full bg-dark-800 border border-dark-700 text-white font-bold py-3 rounded-lg">
-                        <i class="fa-solid fa-phone mr-2 text-brand-500"></i> Zadzwoń: 735396534
-                    </a>
-                    <!-- Link kierujący do formularza na głównej -->
-                    <a href="/index.html#wycena" class="mobile-link flex items-center justify-center w-full bg-brand-500 text-dark-900 font-bold py-3 rounded-lg">
-                        Zamów bezpłatną wycenę
-                    </a>
-                </div>
-            </div>
-        </div>
     </header>
 
     <main class="flex-grow">
         
-        <!-- Sekcja Hero dla Przeprowadzek -->
-        <section class="relative pt-40 pb-20 lg:pt-48 lg:pb-24 overflow-hidden border-b border-dark-800">
+        <!-- Hero Section - Dynamiczna asymetria -->
+        <section class="relative pt-32 lg:pt-48 pb-20 overflow-hidden min-h-[90vh] flex items-center border-b border-dark-800">
             <div class="bg-grid"></div>
-            <div class="absolute top-0 right-0 w-full h-full bg-gradient-radial from-brand-900/10 to-transparent blur-[120px] pointer-events-none"></div>
             
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
-                <div class="max-w-4xl mx-auto">
-                    <div class="inline-flex items-center justify-center space-x-2 bg-dark-800 border border-dark-700 rounded-full px-4 py-1.5 mb-8 fade-up">
-                        <i class="fa-solid fa-truck-moving text-brand-500 text-sm"></i>
-                        <span class="text-xs font-medium text-gray-300 uppercase tracking-wider">Filary RevSerwis: RevMove</span>
-                    </div>
-                    
-                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white fade-up" style="transition-delay: 100ms;">
-                        Przeprowadzki, które nie spędzają snu z powiek. <br>
-                        <span class="text-brand-500 text-glow">Polska i cała Europa.</span>
-                    </h1>
-                    
-                    <p class="text-xl sm:text-2xl text-gray-400 mb-10 leading-relaxed mx-auto max-w-3xl fade-up" style="transition-delay: 200ms;">
-                        Pakowanie, wynoszenie, transport, wnoszenie i rozpakowanie. Zajmujemy się wszystkim kompleksowo. Niezależnie czy zmieniasz mieszkanie w tym samym mieście, czy przeprowadzasz się do Niemiec.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Co zawiera nasza usługa (Proces/Szczegóły) -->
-        <section class="py-24 bg-dark-900 relative">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center max-w-3xl mx-auto mb-16 fade-up">
-                    <h2 class="text-brand-500 font-bold uppercase tracking-widest text-sm mb-3">Jak to robimy?</h2>
-                    <h3 class="text-3xl md:text-5xl font-bold text-white mb-6">Pełne zabezpieczenie i logistyka na każdym etapie</h3>
-                </div>
-
-                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
-                    
-                    <!-- Karta 1 -->
-                    <div class="premium-card rounded-2xl p-10 fade-up group">
-                        <div class="w-16 h-16 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center mb-6 text-3xl text-brand-500 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                            <i class="fa-solid fa-box"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold text-white mb-4">Materiały i Zabezpieczenie</h4>
-                        <p class="text-gray-400 text-base leading-relaxed mb-4">
-                            Nie musisz kupować kartonów i szukać folii w sklepach budowlanych. Na życzenie dostarczamy własne profesjonalne materiały pakowe. Zabezpieczamy delikatne przedmioty:
-                        </p>
-                        <ul class="text-gray-300 space-y-2 font-medium">
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Gruba folia bąbelkowa i stretch</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Specjalistyczne koce transportowe</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Pasy mocujące w przestrzeni ładunkowej</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Wzmocnione kartony na szkło i książki</li>
-                        </ul>
-                    </div>
-
-                    <!-- Karta 2 -->
-                    <div class="premium-card rounded-2xl p-10 fade-up group" style="transition-delay: 100ms;">
-                        <div class="w-16 h-16 bg-dark-800 border border-dark-700 rounded-xl flex items-center justify-center mb-6 text-3xl text-brand-500 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-                            <i class="fa-solid fa-tools"></i>
-                        </div>
-                        <h4 class="text-2xl font-bold text-white mb-4">Demontaż i Montaż Mebli</h4>
-                        <p class="text-gray-400 text-base leading-relaxed mb-4">
-                            Wielka szafa z IKEA nie mieści się w futrynie? Łóżko sypialniane jest za ciężkie? Nasza ekipa posiada niezbędne narzędzia (wkrętarki, zestawy kluczy), aby sprawnie pomóc:
-                        </p>
-                        <ul class="text-gray-300 space-y-2 font-medium">
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Rozkręcanie dużych gabarytów przed załadunkiem</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Odłączanie sprzętu AGD (pralki, zmywarki)</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Ponowny montaż mebli na nowym mieszkaniu</li>
-                            <li class="flex items-center"><i class="fa-solid fa-check text-brand-500 mr-3"></i> Ustawianie mebli we wskazanych przez Ciebie miejscach</li>
-                        </ul>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- Transport Międzynarodowy -->
-        <section class="py-24 bg-dark-800 relative border-t border-dark-700 overflow-hidden">
-            <!-- Akcent w tle -->
-            <div class="absolute -left-40 top-20 w-96 h-96 bg-brand-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+            <!-- Świecące kule w tle -->
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-500/20 rounded-full blur-[120px] pointer-events-none animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-brand-500/10 rounded-full blur-[100px] pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
             
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="flex flex-col lg:flex-row items-center gap-16">
-                    <div class="lg:w-1/2 fade-up">
-                        <div class="inline-flex items-center space-x-2 bg-dark-900 border border-brand-500/30 rounded-full px-4 py-1.5 mb-6">
-                            <span class="flex h-2 w-2 rounded-full bg-brand-500 animate-pulse text-glow"></span>
-                            <span class="text-xs font-bold text-brand-400 uppercase tracking-wider">Trasy Zagraniczne</span>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+                <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+                    
+                    <!-- Lewa strona - Tekst -->
+                    <div class="max-w-2xl fade-up z-20">
+                        <div class="inline-flex items-center space-x-3 bg-dark-800/80 backdrop-blur-md border border-brand-500/30 rounded-full px-5 py-2 mb-8 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+                            <span class="flex h-2.5 w-2.5 rounded-full bg-brand-500 animate-ping absolute"></span>
+                            <span class="flex h-2.5 w-2.5 rounded-full bg-brand-500 relative"></span>
+                            <span class="text-xs font-bold text-gray-200 uppercase tracking-widest">RevMove: Logistyka Premium</span>
                         </div>
-                        <h2 class="text-4xl lg:text-5xl font-extrabold text-white mb-6">
-                            Przeprowadzki <br> <span class="text-brand-500">Międzynarodowe</span>
-                        </h2>
-                        <p class="text-gray-400 text-lg leading-relaxed mb-6">
-                            Wyjazd za granicę to ogromny stres. Zdjęcie z Twojej głowy problemu przewozu całego dobytku to nasza specjalność. Organizujemy bezpieczne i legalne transporty międzynarodowe na terenie niemal całej Europy.
-                        </p>
-                        <p class="text-gray-400 text-lg leading-relaxed mb-8">
-                            Najczęściej obsługujemy kierunki: <strong class="text-white">Niemcy, Holandia, Belgia, Dania i Szwecja</strong>. Gwarantujemy bezpośredni transport z punktu A do punktu B bez zbędnych przeładunków po drodze, co minimalizuje ryzyko uszkodzeń.
+                        
+                        <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white">
+                            Przeprowadzki, <br>
+                            <span class="text-brand-500 text-glow">bez chaosu.</span>
+                        </h1>
+                        
+                        <p class="text-lg sm:text-xl text-gray-400 mb-10 leading-relaxed border-l-2 border-brand-500 pl-6">
+                            Zapomnij o stresie, uszkodzonych meblach i przedłużających się terminach. Organizujemy kompleksowe przeprowadzki w Polsce oraz szybkie trasy międzynarodowe w całej Europie.
                         </p>
                         
-                        <div class="flex items-center space-x-6">
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-dark-900 border border-dark-700 rounded-full flex items-center justify-center text-xl text-brand-500 mr-4">
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="/index.html#wycena" class="inline-flex justify-center items-center px-8 py-4 text-lg font-bold rounded-xl text-dark-900 bg-brand-500 hover:bg-brand-400 transition-all transform hover:-translate-y-1 shadow-[0_0_30px_rgba(16,185,129,0.4)]">
+                                Odbierz Wycenę
+                                <i class="fa-solid fa-arrow-right ml-3"></i>
+                            </a>
+                            <a href="#proces" class="inline-flex justify-center items-center px-8 py-4 text-lg font-bold rounded-xl text-white bg-dark-800/50 backdrop-blur-md border border-dark-600 hover:bg-dark-700 transition-all">
+                                Zobacz jak działamy
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Prawa strona - Pływające elementy (Glassmorphism) -->
+                    <div class="relative h-[500px] hidden lg:block fade-up" style="transition-delay: 200ms;">
+                        <!-- Główna karta wizualna -->
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-md h-[400px] rounded-3xl overflow-hidden border border-dark-700 shadow-2xl animate-float">
+                            <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Przeprowadzka" class="w-full h-full object-cover opacity-60 mix-blend-luminosity">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent"></div>
+                        </div>
+
+                        <!-- Pływająca statystyka 1 -->
+                        <div class="absolute -left-12 top-20 glass-panel rounded-2xl p-5 w-64 animate-float-delayed z-20">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-brand-500/20 rounded-full flex items-center justify-center text-brand-500 text-xl">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-lg">100% Ochrony</p>
+                                    <p class="text-xs text-gray-400">Ubezpieczenie OCP</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pływająca statystyka 2 -->
+                        <div class="absolute right-10 -bottom-10 glass-panel rounded-2xl p-5 w-72 animate-float z-20" style="animation-delay: 1.5s;">
+                            <div class="flex items-center space-x-4">
+                                <div class="w-12 h-12 bg-brand-500 rounded-full flex items-center justify-center text-dark-900 text-xl">
                                     <i class="fa-solid fa-earth-europe"></i>
                                 </div>
                                 <div>
-                                    <h5 class="text-white font-bold">Cała UE</h5>
-                                    <p class="text-xs text-gray-500">Brak ukrytych kosztów</p>
+                                    <p class="text-white font-bold text-lg">Trasy Międzynarodowe</p>
+                                    <p class="text-xs text-brand-400">Niemcy, Holandia, Skandynawia</p>
                                 </div>
                             </div>
-                            <div class="flex items-center">
-                                <div class="w-12 h-12 bg-dark-900 border border-dark-700 rounded-full flex items-center justify-center text-xl text-brand-500 mr-4">
-                                    <i class="fa-solid fa-file-contract"></i>
-                                </div>
-                                <div>
-                                    <h5 class="text-white font-bold">Pełna papierologia</h5>
-                                    <p class="text-xs text-gray-500">Legalnie i bezpiecznie</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="lg:w-1/2 w-full fade-up" style="transition-delay: 200ms;">
-                        <div class="relative rounded-3xl overflow-hidden border border-dark-700 shadow-2xl group">
-                            <div class="absolute inset-0 bg-brand-500/20 mix-blend-overlay group-hover:opacity-0 transition-opacity duration-500"></div>
-                            <!-- Ilustracja zastępcza (stylizowana mapa Europy lub flota) -->
-                            <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Transport międzynarodowy - ciężarówka" class="w-full h-[500px] object-cover grayscale hover:grayscale-0 transition-all duration-700">
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA Call To Action (Kierujące na główną) -->
-        <section class="py-24 bg-dark-900 relative overflow-hidden">
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-900/10 via-dark-900 to-dark-900 pointer-events-none"></div>
+        <!-- Pasek Statystyk -->
+        <section class="border-b border-dark-800 bg-dark-900 relative z-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-dark-700/50">
+                    <div class="text-center px-4 fade-up">
+                        <div class="text-4xl lg:text-5xl font-black text-white mb-2 tracking-tight">100<span class="text-brand-500">+</span></div>
+                        <div class="text-sm text-gray-400 font-medium uppercase tracking-wider">Zrealizowanych Przeprowadzek</div>
+                    </div>
+                    <div class="text-center px-4 fade-up" style="transition-delay: 100ms;">
+                        <div class="text-4xl lg:text-5xl font-black text-white mb-2 tracking-tight">24<span class="text-brand-500">/7</span></div>
+                        <div class="text-sm text-gray-400 font-medium uppercase tracking-wider">Dostępność Floty</div>
+                    </div>
+                    <div class="text-center px-4 fade-up" style="transition-delay: 200ms;">
+                        <div class="text-4xl lg:text-5xl font-black text-white mb-2 tracking-tight">100<span class="text-brand-500">%</span></div>
+                        <div class="text-sm text-gray-400 font-medium uppercase tracking-wider">Zabezpieczonego Mienia</div>
+                    </div>
+                    <div class="text-center px-4 fade-up" style="transition-delay: 300ms;">
+                        <div class="text-4xl lg:text-5xl font-black text-white mb-2 tracking-tight">Cała <span class="text-brand-500">UE</span></div>
+                        <div class="text-sm text-gray-400 font-medium uppercase tracking-wider">Zasięg Operacyjny</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bento Grid: Zakres Usług -->
+        <section class="py-24 bg-dark-800 relative">
+            <div class="absolute inset-0 bg-gradient-to-b from-dark-900 to-transparent opacity-50"></div>
             
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center fade-up">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">Wyceniamy szybko. <span class="text-brand-500">I za darmo.</span></h2>
-                <p class="text-gray-400 text-xl mb-10 max-w-2xl mx-auto">
-                    Kliknij poniżej, aby przejść do formularza kontaktowego na naszej stronie głównej. Opisz nam krótko, co, skąd i dokąd chcesz przewieźć, a my zadzwonimy z konkretną ceną.
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="mb-16 max-w-3xl fade-up">
+                    <h2 class="text-brand-500 font-bold uppercase tracking-widest text-sm mb-3"><i class="fa-solid fa-layer-group mr-2"></i> Ekosystem RevMove</h2>
+                    <h3 class="text-4xl md:text-5xl font-extrabold text-white">Co obejmuje nasza usługa?</h3>
+                </div>
+
+                <!-- Bento Grid Container -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[minmax(250px,_auto)]">
+                    
+                    <!-- Karta 1: Duża (Międzynarodowe) -->
+                    <div class="bento-card md:col-span-2 md:row-span-2 p-8 lg:p-12 flex flex-col justify-end fade-up relative group">
+                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1524661135-423995f22d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-700 mix-blend-luminosity"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent"></div>
+                        
+                        <div class="relative z-10">
+                            <div class="w-14 h-14 bg-brand-500 rounded-xl flex items-center justify-center text-dark-900 text-2xl mb-6 shadow-lg shadow-brand-500/20">
+                                <i class="fa-solid fa-map-location-dot"></i>
+                            </div>
+                            <h4 class="text-3xl font-bold text-white mb-4">Trasy Międzynarodowe</h4>
+                            <p class="text-gray-400 text-lg max-w-lg mb-6">
+                                Eksperci w logistyce zagranicznej. Przewozimy dobytek całego życia z Polski do Niemiec, Holandii, Belgii, Szwecji czy Danii. Bezpośrednio, bez przeładunków na magazynach.
+                            </p>
+                            <div class="flex flex-wrap gap-3">
+                                <span class="bg-dark-900/80 backdrop-blur border border-dark-600 text-gray-300 text-sm px-4 py-2 rounded-lg">Bez pośredników</span>
+                                <span class="bg-dark-900/80 backdrop-blur border border-dark-600 text-gray-300 text-sm px-4 py-2 rounded-lg">Pełna dokumentacja</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Karta 2: Średnia (Pakowanie) -->
+                    <div class="bento-card p-8 flex flex-col justify-between fade-up" style="transition-delay: 100ms;">
+                        <div class="w-12 h-12 bg-dark-800 border border-dark-600 rounded-xl flex items-center justify-center text-brand-500 text-xl mb-6">
+                            <i class="fa-solid fa-box-open"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-3">Materiały & Pakowanie</h4>
+                            <p class="text-gray-400 text-sm">
+                                Dostarczamy kartony, folie bąbelkowe, koce transportowe i taśmy. Prawidłowe zabezpieczenie to 90% sukcesu bezszkodowej przeprowadzki.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Karta 3: Średnia (Demontaż) -->
+                    <div class="bento-card p-8 flex flex-col justify-between fade-up" style="transition-delay: 200ms;">
+                        <div class="w-12 h-12 bg-dark-800 border border-dark-600 rounded-xl flex items-center justify-center text-brand-500 text-xl mb-6">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-bold text-white mb-3">Demontaż i Montaż</h4>
+                            <p class="text-gray-400 text-sm">
+                                Rozkręcamy wielkogabarytowe szafy, łóżka i stoły przed załadunkiem, a w nowym miejscu montujemy je z powrotem. Mamy własne elektronarzędzia.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Karta 4: Długa pozioma (Wnoszenie) -->
+                    <div class="bento-card md:col-span-3 p-8 flex flex-col md:flex-row items-center gap-8 fade-up" style="transition-delay: 300ms;">
+                        <div class="w-20 h-20 shrink-0 bg-brand-500/10 border border-brand-500/30 rounded-2xl flex items-center justify-center text-brand-500 text-3xl">
+                            <i class="fa-solid fa-people-carry-box"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-2xl font-bold text-white mb-2">Noszenie po schodach? To nasz problem.</h4>
+                            <p class="text-gray-400">
+                                4 piętro bez windy? Brak podjazdu pod samą klatkę? Ekipa RevSerwis poradzi sobie z najcięższym sprzętem AGD (lodówki side-by-side, pralki) oraz ciężkimi meblami z litego drewna. Skupiamy się na pracy, oszczędzając Twoje zdrowie.
+                            </p>
+                        </div>
+                        <a href="/index.html#wycena" class="shrink-0 w-full md:w-auto text-center bg-dark-900 border border-dark-600 hover:border-brand-500 hover:text-brand-500 text-white font-bold py-4 px-8 rounded-xl transition-all mt-4 md:mt-0">
+                            Wyceń to zlecenie
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sekcja Osi Czasu (Proces) -->
+        <section id="proces" class="py-24 bg-dark-900 relative">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                
+                <div class="text-center mb-20 fade-up">
+                    <h2 class="text-brand-500 font-bold uppercase tracking-widest text-sm mb-3">Krok po kroku</h2>
+                    <h3 class="text-4xl md:text-5xl font-extrabold text-white">Proces przeprowadzki</h3>
+                </div>
+
+                <div class="relative">
+                    <!-- Linia osi czasu -->
+                    <div class="timeline-line"></div>
+
+                    <!-- Krok 1 -->
+                    <div class="relative flex items-center mb-16 md:mb-24 fade-up group">
+                        <div class="hidden md:block w-1/2 pr-16 text-right">
+                            <h4 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-500 transition-colors">Konsultacja i Wycena</h4>
+                            <p class="text-gray-400">Podajesz nam adresy, listę największych gabarytów i termin. Na tej podstawie ustalamy wielkość auta, liczbę pracowników i ostateczną cenę. Brak ukrytych kosztów.</p>
+                        </div>
+                        <div class="absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2 w-12 h-12 rounded-full bg-dark-900 border-4 border-brand-500 flex items-center justify-center z-10 shadow-[0_0_15px_rgba(16,185,129,0.5)]">
+                            <span class="text-white font-black">1</span>
+                        </div>
+                        <div class="md:hidden pl-20 w-full">
+                            <h4 class="text-xl font-bold text-white mb-2">Konsultacja i Wycena</h4>
+                            <p class="text-gray-400 text-sm">Podajesz nam adresy, listę największych gabarytów i termin. Ustalimy ostateczną cenę.</p>
+                        </div>
+                        <div class="hidden md:block w-1/2 pl-16">
+                            <div class="glass-panel p-4 rounded-xl border-l-4 border-l-brand-500 text-gray-300 text-sm italic">
+                                <i class="fa-solid fa-quote-left text-brand-500/50 mr-2"></i>"Rezerwacja zajmuje 5 minut przez nasz formularz."
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok 2 -->
+                    <div class="relative flex items-center mb-16 md:mb-24 fade-up group">
+                        <div class="hidden md:flex w-1/2 pr-16 justify-end">
+                            <div class="w-24 h-24 bg-dark-800 rounded-2xl flex items-center justify-center text-3xl text-gray-500 border border-dark-700">
+                                <i class="fa-solid fa-box-open"></i>
+                            </div>
+                        </div>
+                        <div class="absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2 w-12 h-12 rounded-full bg-dark-900 border-4 border-dark-700 group-hover:border-brand-500 transition-colors flex items-center justify-center z-10">
+                            <span class="text-white font-black">2</span>
+                        </div>
+                        <div class="pl-20 md:pl-16 md:w-1/2">
+                            <h4 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-500 transition-colors">Zabezpieczenie i Załadunek</h4>
+                            <p class="text-gray-400 text-sm md:text-base">Ekipa przyjeżdża na miejsce. Demontujemy to, co konieczne, owijamy meble folią, wynosimy po schodach i precyzyjnie układamy na pace auta transportowego, mocując pasami.</p>
+                        </div>
+                    </div>
+
+                    <!-- Krok 3 -->
+                    <div class="relative flex items-center mb-16 md:mb-24 fade-up group">
+                        <div class="hidden md:block w-1/2 pr-16 text-right">
+                            <h4 class="text-2xl font-bold text-white mb-2 group-hover:text-brand-500 transition-colors">Bezpieczny Transport</h4>
+                            <p class="text-gray-400">Jedziemy prosto pod wskazany adres. Nasza flota (np. VW Crafter) jest przystosowana do transportu gabarytów. Kierowcy posiadają doświadczenie na trasach krajowych i europejskich.</p>
+                        </div>
+                        <div class="absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2 w-12 h-12 rounded-full bg-dark-900 border-4 border-dark-700 group-hover:border-brand-500 transition-colors flex items-center justify-center z-10">
+                            <span class="text-white font-black">3</span>
+                        </div>
+                        <div class="md:hidden pl-20 w-full">
+                            <h4 class="text-xl font-bold text-white mb-2">Bezpieczny Transport</h4>
+                            <p class="text-gray-400 text-sm">Jedziemy prosto pod wskazany adres, bezpiecznie i płynnie.</p>
+                        </div>
+                        <div class="hidden md:flex w-1/2 pl-16 justify-start">
+                             <div class="w-24 h-24 bg-dark-800 rounded-2xl flex items-center justify-center text-3xl text-gray-500 border border-dark-700">
+                                <i class="fa-solid fa-truck-fast"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok 4 -->
+                    <div class="relative flex items-center fade-up group">
+                        <div class="hidden md:block w-1/2 pr-16">
+                            <!-- Puste dla layoutu -->
+                        </div>
+                        <div class="absolute left-0 md:left-1/2 transform -translate-x-0 md:-translate-x-1/2 w-16 h-16 rounded-full bg-brand-500 border-4 border-dark-900 flex items-center justify-center z-10 shadow-[0_0_20px_rgba(16,185,129,0.8)]">
+                            <i class="fa-solid fa-check text-dark-900 text-2xl"></i>
+                        </div>
+                        <div class="pl-24 md:pl-20 md:w-1/2">
+                            <h4 class="text-2xl font-bold text-white mb-2">Rozładunek i Montaż</h4>
+                            <p class="text-gray-400 text-sm md:text-base">Wnosimy mienie do nowego lokalu. Skręcamy zdemontowane wcześniej meble i ustawiamy je dokładnie tam, gdzie nam wskażesz. Oddajemy gotowe wnętrze.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Call To Action -->
+        <section class="py-24 bg-dark-800 relative overflow-hidden border-t border-brand-500/20 z-20">
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-900/15 via-dark-800 to-dark-900 pointer-events-none"></div>
+            
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center fade-up">
+                <div class="inline-block mb-6">
+                    <i class="fa-solid fa-clock-rotate-left text-4xl text-brand-500 mb-4 block"></i>
+                </div>
+                <h2 class="text-4xl md:text-6xl font-extrabold text-white mb-6">Szkoda Twoich pleców. <br><span class="text-brand-500 text-glow">Zleć to zawodowcom.</span></h2>
+                <p class="text-gray-400 text-xl mb-12 max-w-2xl mx-auto">
+                    Odblokuj swój czas. Wypełnij prosty formularz na stronie głównej, a my oddzwonimy z gwarantowaną, niezmienną ceną za całą usługę.
                 </p>
                 
                 <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                    <a href="/index.html#wycena" class="group flex items-center justify-center w-full sm:w-auto bg-brand-500 hover:bg-brand-400 text-dark-900 font-extrabold text-xl py-5 px-10 rounded-xl transition-all duration-300 transform hover:-translate-y-1 shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:shadow-[0_0_40px_rgba(16,185,129,0.5)]">
-                        Przejdź do Formularza Wyceny
-                        <i class="fa-solid fa-arrow-right ml-3 group-hover:translate-x-2 transition-transform"></i> 
+                    <a href="/index.html#wycena" class="group relative inline-flex items-center justify-center w-full sm:w-auto bg-brand-500 text-dark-900 font-black text-xl py-5 px-12 rounded-xl transition-all overflow-hidden">
+                        <!-- Hover efekt dla przycisku -->
+                        <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-full group-hover:h-56 opacity-10"></span>
+                        <span class="relative">Formularz Wyceny</span>
+                        <i class="fa-solid fa-arrow-right ml-3 relative group-hover:translate-x-2 transition-transform"></i> 
                     </a>
-                    <a href="tel:+48735396534" class="flex items-center justify-center w-full sm:w-auto text-white hover:text-brand-400 font-bold text-lg py-5 px-8 transition-colors">
-                        <i class="fa-solid fa-phone mr-3 text-brand-500"></i> Albo zadzwoń: 735 396 534
+                    <a href="tel:+48735396534" class="flex items-center justify-center w-full sm:w-auto bg-dark-900 border border-dark-600 hover:border-brand-500 text-white font-bold text-lg py-5 px-8 rounded-xl transition-colors">
+                        <i class="fa-solid fa-phone mr-3 text-brand-500"></i> +48 735 396 534
                     </a>
                 </div>
             </div>
@@ -347,7 +506,7 @@
 
     </main>
 
-    <!-- Stopka (Zgodna ze stroną główną, linki prowadzące do index.html) -->
+    <!-- Stopka -->
     <footer class="bg-dark-900 border-t border-dark-700 pt-16 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12 border-b border-dark-800 pb-12">
@@ -355,10 +514,10 @@
                 <div class="md:col-span-5">
                     <img class="h-14 w-auto mb-6" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis">
                     <p class="text-gray-400 text-sm leading-relaxed mb-6 pr-4">
-                        RevSerwis to zaufany partner w transporcie, przewozach osób i przeprowadzkach. Świadczymy usługi na najwyższym poziomie, odciążając naszych klientów z trudnych i wymagających zadań. Ty wskazujesz cel, my działamy.
+                        RevSerwis to zaufany partner w transporcie, przewozach osób i przeprowadzkach. Świadczymy usługi na najwyższym poziomie, odciążając naszych klientów z trudnych i wymagających zadań.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="https://www.facebook.com/profile.php?id=61591448955070&locale=pl_PL" target="_blank" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61591448955070" target="_blank" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
                         <a href="#" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-instagram"></i></a>
                     </div>
                 </div>
@@ -367,10 +526,9 @@
                     <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Usługi</h4>
                     <ul class="space-y-3">
                         <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Przewozy Osób & Transfery</a></li>
-                        <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Przeprowadzki</a></li>
+                        <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm text-brand-400 font-medium">Przeprowadzki</a></li>
                         <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Transport Mebli z wniesieniem</a></li>
                         <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Opróżnianie i Utylizacja</a></li>
-                        <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Oczyszczanie działek/posesji</a></li>
                     </ul>
                 </div>
 
@@ -397,12 +555,11 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
             
             <div class="flex flex-col md:flex-row justify-between items-center w-full">
                 <p class="text-gray-600 text-sm mb-4 md:mb-0">
-                    &copy; 2026 RevSerwis. Wszystkie prawa zastrzeżone.
+                    &copy; 2026 RevSerwis. Wszystkie prawa zastrzeżone. | <a href="/prywatnosc.html" class="hover:text-gray-400 transition-colors">Polityka Prywatności</a>
                 </p>
             </div>
         </div>
@@ -453,7 +610,7 @@
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.1
+                threshold: 0.15
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
