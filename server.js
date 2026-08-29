@@ -19,7 +19,33 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'index.html'));
 });
 
-// Zdefiniowane ścieżki dla czystych linków (przyjazne URL)
+// ==========================================
+// PRZYJAZNE LINKI DLA PODSTRON USŁUGOWYCH
+// ==========================================
+app.get('/przeprowadzki', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'przeprowadzki.html'));
+});
+
+app.get('/przewozy-osob', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'przewozy-osob.html'));
+});
+
+app.get('/utylizacja', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'utylizacja.html'));
+});
+
+app.get('/transport', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'transport.html'));
+});
+
+// Polityka prywatności
+app.get('/prywatnosc', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'prywatnosc.html'));
+});
+
+// ==========================================
+// SYSTEMY ZARZĄDZANIA (RevMi / RevControl)
+// ==========================================
 app.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'login.html'));
 });
@@ -30,6 +56,11 @@ app.get('/panel', (req, res) => {
 
 app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'admin.html'));
+});
+
+// Nowa aplikacja PWA RevMi
+app.get('/revmi', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'revmi.html'));
 });
 
 // Start serwera
