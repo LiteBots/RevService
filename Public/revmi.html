@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>RevMi - System Zarządzania | RevSerwis</title>
     
-    <!-- Ikona (PWA) -->
     <link rel="icon" href="/favicon.png" type="image/png">
     <meta name="theme-color" content="#050505">
 
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <script>
         tailwind.config = {
@@ -59,7 +59,6 @@
             overflow-x: hidden;
         }
 
-        /* LIQUID GLASS EFFECT */
         .liquid-glass {
             background: rgba(17, 17, 17, 0.45);
             backdrop-filter: blur(24px);
@@ -84,7 +83,6 @@
 
         .text-glow { text-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
         
-        /* Ukrywanie paska przewijania dla estetyki aplikacji */
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 10px; }
@@ -93,10 +91,9 @@
         .app-container {
             display: flex;
             height: 100vh;
-            height: 100dvh; /* Mobile fix */
+            height: 100dvh; 
         }
 
-        /* Tło z płynnymi, rozmytymi kolorami (Liquid Background) */
         .bg-liquid-container {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -131,15 +128,13 @@
 
     <div class="app-container flex-col md:flex-row">
         
-        <!-- ================= SIDEBAR (DESKTOP) / BOTTOM NAV (MOBILE) ================= -->
+        <!-- SIDEBAR -->
         <aside class="liquid-glass border-r border-dark-700/50 w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col justify-between fixed bottom-0 md:relative z-50 md:h-full order-2 md:order-1">
             
-            <!-- Logo (Tylko desktop) -->
             <div class="hidden md:flex items-center justify-center py-8 border-b border-dark-700/50">
                 <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             </div>
 
-            <!-- Nawigacja -->
             <nav class="flex md:flex-col justify-around md:justify-start w-full px-2 py-3 md:py-6 md:px-4 md:space-y-2 flex-grow">
                 <button onclick="switchTab('dashboard')" class="nav-btn active flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-brand-500 bg-brand-500/10 font-bold">
                     <i class="fa-solid fa-chart-pie text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
@@ -151,47 +146,45 @@
                 </button>
                 <button onclick="switchTab('wyceny')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 relative">
                     <i class="fa-solid fa-envelope-open-text text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
-                    <span class="text-[10px] md:text-sm">Wyceny (Ze strony)</span>
+                    <span class="text-[10px] md:text-sm">Wyceny (Z www)</span>
                     <span class="absolute top-1 right-2 md:top-auto md:right-4 flex h-3 w-3">
                         <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                         <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
                     </span>
                 </button>
                 <button onclick="switchTab('flota')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
-                    <i class="fa-solid fa-van-shuttle text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
-                    <span class="text-[10px] md:text-sm">Flota & Pracownicy</span>
+                    <i class="fa-solid fa-users-gear text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
+                    <span class="text-[10px] md:text-sm">Pracownicy & Flota</span>
                 </button>
             </nav>
 
-            <!-- Profil (Tylko desktop) -->
             <div class="hidden md:flex items-center px-6 py-6 border-t border-dark-700/50">
                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-lg shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-                    DM
+                    GB
                 </div>
                 <div class="ml-3">
-                    <p class="text-white font-bold text-sm">Daniel Mamrot</p>
-                    <p class="text-brand-500 text-xs">Administrator / Szef</p>
+                    <p class="text-white font-bold text-sm">Gracjan Błachnio</p>
+                    <p class="text-brand-500 text-xs">Główny Administrator</p>
                 </div>
             </div>
         </aside>
 
-        <!-- ================= MAIN CONTENT ================= -->
+        <!-- MAIN CONTENT -->
         <main class="flex-grow relative overflow-y-auto overflow-x-hidden pb-20 md:pb-0 order-1 md:order-2">
             
-            <!-- Mobile Header -->
             <header class="md:hidden liquid-glass sticky top-0 z-40 px-4 py-3 flex justify-between items-center">
                 <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-8">
                 <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-xs">
-                    DM
+                    GB
                 </div>
             </header>
 
             <div class="p-4 md:p-8 lg:p-10 max-w-7xl mx-auto">
                 
-                <!-- TOP BAR (DATA I SZYBKIE AKCJE) -->
+                <!-- TOP BAR -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Cześć, Daniel <span class="wave">👋</span></h1>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Cześć, Gracjan <span class="wave">👋</span></h1>
                         <p class="text-gray-400 text-sm flex items-center">
                             <i class="fa-regular fa-calendar text-brand-500 mr-2"></i> Okres rozliczeniowy: <strong class="text-white ml-1"> 1 Sierpnia - 1 Września</strong>
                         </p>
@@ -209,10 +202,7 @@
                 <!-- ================= TAB: DASHBOARD ================= -->
                 <div id="tab-dashboard" class="tab-content block">
                     
-                    <!-- KARTY FINANSOWE (LIQUID GLASS) -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
-                        
-                        <!-- Zysk Na Czysto (Najważniejsza) -->
                         <div class="liquid-glass-accent p-6 rounded-2xl relative overflow-hidden group">
                             <div class="absolute right-[-20px] top-[-20px] text-brand-500/10 text-8xl transition-transform group-hover:scale-110">
                                 <i class="fa-solid fa-wallet"></i>
@@ -222,12 +212,8 @@
                                 <span id="stat-profit" class="text-3xl md:text-4xl font-black text-white text-glow">0</span>
                                 <span class="text-brand-400 font-bold mb-1">PLN</span>
                             </div>
-                            <div class="mt-4 text-xs text-brand-300 flex items-center relative z-10">
-                                <i class="fa-solid fa-arrow-trend-up mr-1"></i> Po odliczeniu kosztów
-                            </div>
                         </div>
 
-                        <!-- Przychód (Miesiąc) -->
                         <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-brand-500/50">
                             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Przychód (Bieżący mies.)</h3>
                             <div class="flex items-end gap-1">
@@ -236,7 +222,6 @@
                             </div>
                         </div>
 
-                        <!-- Koszty (Miesiąc) -->
                         <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-red-500/50">
                             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Koszty (Bieżący mies.)</h3>
                             <div class="flex items-end gap-1">
@@ -245,7 +230,6 @@
                             </div>
                         </div>
 
-                        <!-- Przychód Całkowity (All-time) -->
                         <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-blue-500/50">
                             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Całkowity Przychód (All-time)</h3>
                             <div class="flex items-end gap-1">
@@ -255,31 +239,33 @@
                         </div>
                     </div>
 
-                    <!-- SEKCJA: OSTATNIE AKTYWNOŚCI -->
+                    <!-- WYKRES LIVE -->
+                    <div class="liquid-glass rounded-2xl p-5 md:p-6 mb-8 relative">
+                        <div class="flex justify-between items-center mb-4">
+                            <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-chart-line text-brand-500 mr-2"></i> Wykres Finansowy Live</h2>
+                            <span class="bg-brand-500/20 text-brand-500 text-xs font-bold px-2 py-1 rounded flex items-center">
+                                <span class="h-2 w-2 rounded-full bg-brand-500 animate-pulse mr-2"></span> Na żywo
+                            </span>
+                        </div>
+                        <div class="h-64 w-full">
+                            <canvas id="financeChart"></canvas>
+                        </div>
+                    </div>
+
                     <div class="grid lg:grid-cols-3 gap-6">
-                        <!-- Aktywne Zlecenia do wykonania -->
                         <div class="lg:col-span-2 liquid-glass rounded-2xl p-5 md:p-6">
                             <div class="flex justify-between items-center mb-6">
                                 <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-brand-500 mr-2"></i> Bieżące Zlecenia w toku</h2>
                                 <button onclick="switchTab('zlecenia')" class="text-xs text-brand-500 hover:text-white transition-colors">Wszystkie <i class="fa-solid fa-arrow-right"></i></button>
                             </div>
-                            
-                            <div id="dashboard-tasks-container" class="space-y-3">
-                                <!-- Zlecenia generowane przez JS -->
-                            </div>
+                            <div id="dashboard-tasks-container" class="space-y-3"></div>
                         </div>
 
-                        <!-- Ostatnie Koszty / Notatki -->
                         <div class="liquid-glass rounded-2xl p-5 md:p-6">
                             <h2 class="text-lg font-bold text-white mb-6"><i class="fa-solid fa-receipt text-red-400 mr-2"></i> Rejestr Kosztów</h2>
-                            
-                            <div id="dashboard-expenses-container" class="space-y-4">
-                                <!-- Koszty generowane przez JS -->
-                                <p class="text-gray-500 text-sm text-center py-4 italic">Brak kosztów w tym miesiącu.</p>
-                            </div>
+                            <div id="dashboard-expenses-container" class="space-y-4"></div>
                         </div>
                     </div>
-
                 </div>
 
                 <!-- ================= TAB: ZLECENIA ================= -->
@@ -287,25 +273,18 @@
                     <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
                         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                             <h2 class="text-xl font-bold text-white">Zarządzanie Zleceniami</h2>
-                            <div class="flex gap-2 w-full sm:w-auto">
-                                <input type="text" placeholder="Szukaj zlecenia..." class="px-4 py-2 rounded-lg text-sm w-full sm:w-64">
-                            </div>
+                            <input type="text" placeholder="Szukaj zlecenia..." class="px-4 py-2 rounded-lg text-sm w-full sm:w-64">
                         </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" id="all-tasks-container">
-                            <!-- Zlecenia wpada tutaj -->
-                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" id="all-tasks-container"></div>
                     </div>
                 </div>
 
-                <!-- ================= TAB: WYCENY (LEADY Z FORMULARZA STRONY) ================= -->
+                <!-- ================= TAB: WYCENY ================= -->
                 <div id="tab-wyceny" class="tab-content hidden">
                     <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
                         <h2 class="text-xl font-bold text-white mb-2">Skrzynka Wycen (Leady z www)</h2>
                         <p class="text-gray-400 text-sm mb-6">Wiadomości wysłane przez klientów z formularza na stronach RevSerwis.</p>
-                        
                         <div class="space-y-4">
-                            <!-- Przykładowy Lead -->
                             <div class="bg-dark-800/50 border border-brand-500/30 rounded-xl p-5 relative overflow-hidden group">
                                 <div class="absolute left-0 top-0 w-1 h-full bg-brand-500"></div>
                                 <div class="flex flex-col md:flex-row justify-between gap-4">
@@ -334,19 +313,47 @@
                     </div>
                 </div>
 
+                <!-- ================= TAB: PRACOWNICY I FLOTA ================= -->
+                <div id="tab-flota" class="tab-content hidden">
+                    <div class="grid lg:grid-cols-2 gap-6">
+                        
+                        <!-- PRACOWNICY -->
+                        <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-users text-brand-500 mr-2"></i> Zespół</h2>
+                                <button onclick="openModal('employeeModal')" class="bg-dark-700 hover:bg-dark-600 text-white px-4 py-2 rounded-lg text-sm transition-colors border border-dark-600 flex items-center">
+                                    <i class="fa-solid fa-user-plus mr-2 text-brand-500"></i> Dodaj
+                                </button>
+                            </div>
+                            <div id="employees-container" class="space-y-3"></div>
+                        </div>
+
+                        <!-- FLOTA -->
+                        <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
+                            <div class="flex justify-between items-center mb-6">
+                                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-truck text-brand-500 mr-2"></i> Flota Pojazdów</h2>
+                                <button onclick="openModal('fleetModal')" class="bg-dark-700 hover:bg-dark-600 text-white px-4 py-2 rounded-lg text-sm transition-colors border border-dark-600 flex items-center">
+                                    <i class="fa-solid fa-plus mr-2 text-brand-500"></i> Dodaj auto
+                                </button>
+                            </div>
+                            <div id="fleet-container" class="space-y-3"></div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
 
-    <!-- ================= MODALE (POPUPY) ================= -->
+    <!-- ================= MODALE ================= -->
     
-    <!-- Modal: Dodaj Zlecenie -->
+    <!-- Modal Zlecenia -->
     <dialog id="taskModal" class="bg-transparent w-full max-w-2xl backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
         <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative">
             <button onclick="closeModal('taskModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            
             <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-plus-circle text-brand-500 mr-2"></i> Kreator Zlecenia</h2>
             
             <form id="addTaskForm" class="space-y-4">
@@ -360,53 +367,36 @@
                         <input type="number" id="t-price" required placeholder="np. 1500" class="w-full px-4 py-3 rounded-xl text-sm text-brand-400 font-bold">
                     </div>
                 </div>
-
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Trasa / Adres</label>
-                    <input type="text" id="t-address" required placeholder="Skąd -> Dokąd (lub adres zlecenia)" class="w-full px-4 py-3 rounded-xl text-sm">
+                    <input type="text" id="t-address" required placeholder="Skąd -> Dokąd (lub adres)" class="w-full px-4 py-3 rounded-xl text-sm">
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Ilu pracowników?</label>
                         <input type="number" id="t-people" value="2" min="1" class="w-full px-4 py-3 rounded-xl text-sm">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Przydzielony do:</label>
-                        <select id="t-worker" class="w-full px-4 py-3 rounded-xl text-sm">
-                            <option>Daniel (Szef)</option>
-                            <option>Kamil</option>
-                            <option>Piotrek</option>
-                            <option>Ekipa Zewnętrzna</option>
-                        </select>
+                        <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Kto jedzie?</label>
+                        <select id="t-worker" class="w-full px-4 py-3 rounded-xl text-sm"></select>
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Auto</label>
-                        <select id="t-car" class="w-full px-4 py-3 rounded-xl text-sm">
-                            <option>VW Crafter (Blaszak)</option>
-                            <option>VW T5 (Bus)</option>
-                            <option>VW T5 #2 (Osobowy)</option>
-                        </select>
+                        <select id="t-car" class="w-full px-4 py-3 rounded-xl text-sm"></select>
                     </div>
                 </div>
-                
                 <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3">
                     <button type="button" onclick="closeModal('taskModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button>
-                    <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">
-                        Zapisz Zlecenie
-                    </button>
+                    <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Zapisz Zlecenie</button>
                 </div>
             </form>
         </div>
     </dialog>
 
-    <!-- Modal: Dodaj Koszt -->
+    <!-- Modal Kosztu -->
     <dialog id="expenseModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
         <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.15)] relative">
-            <button onclick="closeModal('expenseModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            
+            <button onclick="closeModal('expenseModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-minus-circle text-red-500 mr-2"></i> Rejestruj Koszt</h2>
             
             <form id="addExpenseForm" class="space-y-4">
@@ -417,7 +407,7 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Czego dotyczy?</label>
                     <select id="e-category" class="w-full px-4 py-3 rounded-xl text-sm">
-                        <option>Paliwo (Orlen)</option>
+                        <option>Paliwo (Orlen / Inne)</option>
                         <option>Naprawa auta / Części</option>
                         <option>Wypłata dla pracownika</option>
                         <option>Materiały (Kartony, Folia)</option>
@@ -428,46 +418,178 @@
                     <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Krótki opis (Opcjonalnie)</label>
                     <input type="text" id="e-desc" placeholder="np. Tankowanie VW Crafter" class="w-full px-4 py-3 rounded-xl text-sm">
                 </div>
-                
                 <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3">
                     <button type="button" onclick="closeModal('expenseModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button>
-                    <button type="submit" class="bg-red-500 hover:bg-red-400 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(239,68,68,0.4)] text-sm">
-                        Odejmij od zysku
-                    </button>
+                    <button type="submit" class="bg-red-500 hover:bg-red-400 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(239,68,68,0.4)] text-sm">Odejmij od zysku</button>
                 </div>
             </form>
         </div>
     </dialog>
 
-    <!-- Skrypty logiki aplikacji -->
+    <!-- Modal Pracownika -->
+    <dialog id="employeeModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
+        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative">
+            <button onclick="closeModal('employeeModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-user-plus text-brand-500 mr-2"></i> Nowy Pracownik</h2>
+            
+            <form id="addEmployeeForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Imię i Nazwisko</label>
+                    <input type="text" id="emp-name" required placeholder="np. Jan Kowalski" class="w-full px-4 py-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Rola / Stanowisko</label>
+                    <input type="text" id="emp-role" required placeholder="np. Kierowca / Tragarz" class="w-full px-4 py-3 rounded-xl text-sm">
+                </div>
+                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal('employeeModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button>
+                    <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Dodaj</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
+    <!-- Modal Floty -->
+    <dialog id="fleetModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
+        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative">
+            <button onclick="closeModal('fleetModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-truck text-brand-500 mr-2"></i> Dodaj Pojazd</h2>
+            
+            <form id="addFleetForm" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Model pojazdu</label>
+                    <input type="text" id="fl-name" required placeholder="np. VW Crafter (Blaszak)" class="w-full px-4 py-3 rounded-xl text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Numer Rejestracyjny</label>
+                    <input type="text" id="fl-plates" required placeholder="np. GS 12345" class="w-full px-4 py-3 rounded-xl text-sm uppercase">
+                </div>
+                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal('fleetModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button>
+                    <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Dodaj</button>
+                </div>
+            </form>
+        </div>
+    </dialog>
+
     <script>
-        // === STAN APLIKACJI (FINANSE) ===
-        let finances = {
-            income: 0,
-            expense: 0,
-            profit: 0,
-            totalIncome: 12450 // Dane historyczne
-        };
-
-        // Tablica zleceń
+        // === DANE APLIKACJI ===
+        let finances = { income: 0, expense: 0, profit: 0, totalIncome: 12450 };
+        
         let tasks = [
-            { id: 1, name: 'Przeprowadzka do Niemiec', price: 3200, address: 'Słupsk -> Berlin', people: 2, worker: 'Daniel (Szef)', car: 'VW Crafter', completed: false },
-            { id: 2, name: 'Wniesienie AGD', price: 250, address: 'MediaExpert -> ul. Morska 2', people: 1, worker: 'Kamil', car: 'VW T5', completed: false }
+            { id: 1, name: 'Przeprowadzka do Niemiec', price: 3200, address: 'Słupsk -> Berlin', people: 2, worker: 'Gracjan Błachnio (Szef)', car: 'VW Crafter', completed: false }
         ];
-
+        
         let expensesList = [];
 
-        // === AKTUALIZACJA UI ===
+        let employees = [
+            { id: 1, name: 'Gracjan Błachnio', role: 'Szef / Admin' },
+            { id: 2, name: 'Kamil', role: 'Kierowca' }
+        ];
+
+        let fleet = [
+            { id: 1, name: 'VW Crafter', plates: 'GS 12345' },
+            { id: 2, name: 'VW T5', plates: 'GS 54321' }
+        ];
+
+        // === WYKRES (CHART.JS) ===
+        let chartInstance = null;
+        let chartTimeLabels = [];
+        let chartProfitData = [];
+        let chartIncomeData = [];
+        let chartExpenseData = [];
+
+        function initChart() {
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            
+            // Inicjalizujemy punkt zerowy
+            const now = new Date();
+            chartTimeLabels.push(now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0'));
+            chartProfitData.push(finances.profit);
+            chartIncomeData.push(finances.income);
+            chartExpenseData.push(finances.expense);
+
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartTimeLabels,
+                    datasets: [
+                        {
+                            label: 'Zysk',
+                            data: chartProfitData,
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            tension: 0.4,
+                            fill: true
+                        },
+                        {
+                            label: 'Przychód',
+                            data: chartIncomeData,
+                            borderColor: '#3b82f6',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Koszty',
+                            data: chartExpenseData,
+                            borderColor: '#ef4444',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { color: '#9ca3af' } }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } },
+                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } }
+                    }
+                }
+            });
+
+            // Symulacja "rzeczywistego" aktualizowania co parę minut (tu dla dema co 60 sekund)
+            setInterval(() => {
+                pushChartData();
+            }, 60000);
+        }
+
+        function pushChartData() {
+            if(!chartInstance) return;
+            const now = new Date();
+            const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            // Max 10 punktów na wykresie
+            if(chartTimeLabels.length > 10) {
+                chartTimeLabels.shift();
+                chartProfitData.shift();
+                chartIncomeData.shift();
+                chartExpenseData.shift();
+            }
+
+            chartTimeLabels.push(timeStr);
+            chartProfitData.push(finances.profit);
+            chartIncomeData.push(finances.income);
+            chartExpenseData.push(finances.expense);
+
+            chartInstance.update();
+        }
+
+        // === UI UPDATES ===
         function updateFinancesUI() {
             finances.profit = finances.income - finances.expense;
             
-            // Animacja licznika
             document.getElementById('stat-income').innerText = finances.income.toLocaleString('pl-PL');
             document.getElementById('stat-expense').innerText = finances.expense.toLocaleString('pl-PL');
             document.getElementById('stat-profit').innerText = finances.profit.toLocaleString('pl-PL');
             document.getElementById('stat-total').innerText = (finances.totalIncome + finances.income).toLocaleString('pl-PL');
 
-            // Zmiana koloru zysku jeśli jest na minusie
             const profitEl = document.getElementById('stat-profit');
             if(finances.profit < 0) {
                 profitEl.classList.replace('text-white', 'text-red-400');
@@ -476,82 +598,77 @@
                 profitEl.classList.replace('text-red-400', 'text-white');
                 profitEl.classList.add('text-glow');
             }
+
+            pushChartData(); // Aktualizuj wykres na bieżąco po akcji
+        }
+
+        function populateSelects() {
+            const workerSelect = document.getElementById('t-worker');
+            const carSelect = document.getElementById('t-car');
+            
+            workerSelect.innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
+            carSelect.innerHTML = fleet.map(f => `<option value="${f.name}">${f.name}</option>`).join('');
+        }
+
+        function renderLists() {
+            // Pracownicy
+            const empCont = document.getElementById('employees-container');
+            empCont.innerHTML = employees.map(e => `
+                <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-500 flex items-center justify-center font-bold text-xs">${e.name.substring(0,2).toUpperCase()}</div>
+                        <div><p class="text-white font-bold text-sm">${e.name}</p><p class="text-gray-400 text-xs">${e.role}</p></div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Flota
+            const flCont = document.getElementById('fleet-container');
+            flCont.innerHTML = fleet.map(f => `
+                <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-dark-900 border border-dark-600 text-gray-400 flex items-center justify-center text-xs"><i class="fa-solid fa-truck"></i></div>
+                        <div><p class="text-white font-bold text-sm">${f.name}</p><p class="text-brand-400 text-xs">${f.plates}</p></div>
+                    </div>
+                </div>
+            `).join('');
+            
+            populateSelects();
         }
 
         function renderTasks() {
             const dashContainer = document.getElementById('dashboard-tasks-container');
             const allContainer = document.getElementById('all-tasks-container');
-            
-            dashContainer.innerHTML = '';
-            allContainer.innerHTML = '';
+            dashContainer.innerHTML = ''; allContainer.innerHTML = '';
 
-            if(tasks.length === 0) {
-                dashContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Brak aktywnych zleceń.</p>';
-            }
+            if(tasks.length === 0) dashContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Brak aktywnych zleceń.</p>';
 
-            // Render w odwróconej kolejności (najnowsze na górze)
             [...tasks].reverse().forEach(task => {
                 const isDone = task.completed;
-                
-                // HTML dla pojedynczej karty zlecenia
-                const taskHTML = `
+                const html = `
                     <div class="bg-dark-800/80 border ${isDone ? 'border-brand-500/20 opacity-60' : 'border-dark-600'} rounded-xl p-4 transition-all hover:border-brand-500/50">
                         <div class="flex justify-between items-start mb-2">
-                            <span class="${isDone ? 'bg-brand-500/20 text-brand-500' : 'bg-blue-500/20 text-blue-400'} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
-                                ${isDone ? 'ZREALIZOWANE' : 'W TOKU'}
-                            </span>
+                            <span class="${isDone ? 'bg-brand-500/20 text-brand-500' : 'bg-blue-500/20 text-blue-400'} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${isDone ? 'ZREALIZOWANE' : 'W TOKU'}</span>
                             <span class="text-white font-black text-lg">${task.price} PLN</span>
                         </div>
-                        <h3 class="text-white font-bold mb-1 truncate" title="${task.name}">${task.name}</h3>
+                        <h3 class="text-white font-bold mb-1 truncate">${task.name}</h3>
                         <p class="text-gray-400 text-xs mb-3 truncate"><i class="fa-solid fa-location-dot mr-1"></i> ${task.address}</p>
-                        
                         <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center"><i class="fa-solid fa-user text-gray-500 mr-1.5"></i> ${task.worker}</span>
-                            <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center"><i class="fa-solid fa-van-shuttle text-gray-500 mr-1.5"></i> ${task.car}</span>
-                            <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded flex items-center"><i class="fa-solid fa-users text-gray-500 mr-1.5"></i> Osób: ${task.people}</span>
+                            <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${task.worker}</span>
+                            <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-van-shuttle text-gray-500 mr-1"></i> ${task.car}</span>
                         </div>
-                        
-                        ${!isDone ? `
-                            <button onclick="completeTask(${task.id})" class="w-full bg-dark-700 hover:bg-brand-500 hover:text-dark-900 text-white py-2 rounded-lg text-sm font-bold transition-colors border border-dark-600 hover:border-brand-500">
-                                <i class="fa-solid fa-check mr-1"></i> Oznacz jako Zrealizowane
-                            </button>
-                        ` : `
-                            <button disabled class="w-full bg-dark-900 text-brand-500/50 py-2 rounded-lg text-sm font-bold border border-brand-500/10 cursor-not-allowed">
-                                Zakończono i rozliczono
-                            </button>
-                        `}
-                    </div>
-                `;
-
-                // Dodaj na Dashboard (tylko w toku, max 3)
-                if(!isDone && dashContainer.children.length < 3) {
-                    dashContainer.innerHTML += taskHTML;
-                }
-                
-                // Dodaj do zakładki "Zlecenia" (wszystkie)
-                allContainer.innerHTML += taskHTML;
+                        ${!isDone ? `<button onclick="completeTask(${task.id})" class="w-full bg-dark-700 hover:bg-brand-500 hover:text-dark-900 text-white py-2 rounded-lg text-sm font-bold transition-colors border border-dark-600">Oznacz jako Zrealizowane</button>` : `<button disabled class="w-full bg-dark-900 text-brand-500/50 py-2 rounded-lg text-sm font-bold border border-brand-500/10 cursor-not-allowed">Zakończono i rozliczono</button>`}
+                    </div>`;
+                if(!isDone && dashContainer.children.length < 3) dashContainer.innerHTML += html;
+                allContainer.innerHTML += html;
             });
         }
 
         function renderExpenses() {
             const container = document.getElementById('dashboard-expenses-container');
-            container.innerHTML = '';
-            
-            if(expensesList.length === 0) {
-                container.innerHTML = '<p class="text-gray-500 text-sm text-center py-4 italic">Brak kosztów w tym miesiącu.</p>';
-                return;
-            }
-
+            container.innerHTML = expensesList.length === 0 ? '<p class="text-gray-500 text-sm text-center py-4 italic">Brak kosztów w tym miesiącu.</p>' : '';
             [...expensesList].reverse().forEach(exp => {
-                container.innerHTML += `
-                    <div class="flex justify-between items-center bg-dark-800/50 p-3 rounded-lg border border-dark-700">
-                        <div>
-                            <p class="text-white text-sm font-bold">${exp.category}</p>
-                            ${exp.desc ? `<p class="text-gray-400 text-xs">${exp.desc}</p>` : ''}
-                        </div>
-                        <span class="text-red-400 font-bold whitespace-nowrap">- ${exp.price} PLN</span>
-                    </div>
-                `;
+                container.innerHTML += `<div class="flex justify-between items-center bg-dark-800/50 p-3 rounded-lg border border-dark-700"><div><p class="text-white text-sm font-bold">${exp.category}</p><p class="text-gray-400 text-xs">${exp.desc}</p></div><span class="text-red-400 font-bold whitespace-nowrap">- ${exp.price} PLN</span></div>`;
             });
         }
 
@@ -560,99 +677,79 @@
             const task = tasks.find(t => t.id === id);
             if(task && !task.completed) {
                 task.completed = true;
-                finances.income += task.price; // Dodaj do przychodu
+                finances.income += task.price;
                 updateFinancesUI();
                 renderTasks();
-                
-                // Mały efekt feedbacku
-                alert(`Zlecenie zrealizowane! +${task.price} PLN wpadło do kasy.`);
             }
         }
 
-        // Obsługa formularza zlecenia
         document.getElementById('addTaskForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            const newTask = {
-                id: Date.now(),
-                name: document.getElementById('t-name').value,
-                price: parseFloat(document.getElementById('t-price').value),
-                address: document.getElementById('t-address').value,
-                people: document.getElementById('t-people').value,
-                worker: document.getElementById('t-worker').value,
-                car: document.getElementById('t-car').value,
-                completed: false
-            };
-
-            tasks.push(newTask);
+            tasks.push({
+                id: Date.now(), name: document.getElementById('t-name').value, price: parseFloat(document.getElementById('t-price').value),
+                address: document.getElementById('t-address').value, people: document.getElementById('t-people').value,
+                worker: document.getElementById('t-worker').value, car: document.getElementById('t-car').value, completed: false
+            });
             renderTasks();
             closeModal('taskModal');
             this.reset();
-            
-            // Jeśli byliśmy w innej zakładce, wrzucamy na Dashboard żeby zobaczyć nowe zlecenie
             switchTab('dashboard'); 
         });
 
-        // Obsługa formularza kosztów
         document.getElementById('addExpenseForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const price = parseFloat(document.getElementById('e-price').value);
-            
-            const newExp = {
-                price: price,
-                category: document.getElementById('e-category').value,
-                desc: document.getElementById('e-desc').value
-            };
-
-            expensesList.push(newExp);
+            expensesList.push({ price: price, category: document.getElementById('e-category').value, desc: document.getElementById('e-desc').value });
             finances.expense += price;
-            
             updateFinancesUI();
             renderExpenses();
             closeModal('expenseModal');
             this.reset();
         });
 
-        // Konwersja Wyceny na Zlecenie
+        document.getElementById('addEmployeeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            employees.push({ id: Date.now(), name: document.getElementById('emp-name').value, role: document.getElementById('emp-role').value });
+            renderLists();
+            closeModal('employeeModal');
+            this.reset();
+        });
+
+        document.getElementById('addFleetForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            fleet.push({ id: Date.now(), name: document.getElementById('fl-name').value, plates: document.getElementById('fl-plates').value });
+            renderLists();
+            closeModal('fleetModal');
+            this.reset();
+        });
+
         function convertQuoteToTask(name, desc) {
             document.getElementById('t-name').value = desc;
             openModal('taskModal');
-            // Usuń z modala stary adres i zfocusuj
             document.getElementById('t-address').focus();
         }
 
-        // === TABS & MODALS UI ===
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.nav-btn').forEach(el => {
                 el.classList.remove('text-brand-500', 'bg-brand-500/10', 'font-bold');
                 el.classList.add('text-gray-400');
             });
-            
             document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            
             const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
             if(activeBtn) {
                 activeBtn.classList.remove('text-gray-400');
                 activeBtn.classList.add('text-brand-500', 'bg-brand-500/10', 'font-bold');
             }
-            
-            // Mobile: przewiń na górę po zmianie taba
             window.scrollTo(0,0);
         }
 
-        function openModal(id) {
-            const dialog = document.getElementById(id);
-            dialog.showModal();
-        }
+        function openModal(id) { document.getElementById(id).showModal(); }
+        function closeModal(id) { document.getElementById(id).close(); }
 
-        function closeModal(id) {
-            const dialog = document.getElementById(id);
-            dialog.close();
-        }
-
-        // Init
+        // Start aplikacji
+        initChart();
+        renderLists();
         updateFinancesUI();
         renderTasks();
         renderExpenses();
