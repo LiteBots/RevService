@@ -4,6 +4,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware do parsowania JSON (na wypadek, gdybyś chciał w przyszłości dodać backend API)
+app.use(express.json());
+
 // Serwowanie plików statycznych (HTML, CSS, JS) z folderu 'Public'
 // Dodajemy opcję extensions: ['html'], co automatycznie pozwala na dostęp bez końcówki .html
 app.use(express.static(path.join(__dirname, 'Public'), {
@@ -65,6 +68,6 @@ app.get('/revmi', (req, res) => {
 
 // Start serwera
 app.listen(PORT, () => {
-    console.log(`\n🚀 Serwer RevSerwis działa!`);
+    console.log(`\n🚀 Serwer RevSerwis działa na porcie ${PORT}!`);
     console.log(`🌐 Otwórz w przeglądarce: http://localhost:${PORT}\n`);
 });
