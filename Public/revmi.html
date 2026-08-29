@@ -115,7 +115,6 @@
             box-shadow: 0 0 0 2px rgba(16,185,129,0.2) !important;
         }
         
-        /* Specjalny styl dla wejścia PIN */
         .pin-input {
             letter-spacing: 0.5em;
             font-variant-numeric: tabular-nums;
@@ -127,7 +126,6 @@
 </head>
 <body class="text-sm md:text-base selection:bg-brand-500 selection:text-dark-900">
 
-    <!-- Animowane tło (Liquid) -->
     <div class="bg-liquid-container">
         <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-500/20 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-blob"></div>
         <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-brand-700/20 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-blob animation-delay-2000"></div>
@@ -137,7 +135,6 @@
     <!-- ================= EKRAN LOGOWANIA (PIN) ================= -->
     <div id="login-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center px-4 backdrop-blur-md bg-dark-900/60 transition-opacity duration-500">
         <div class="liquid-glass-heavy rounded-3xl p-8 md:p-10 w-full max-w-sm text-center border border-brand-500/30 shadow-[0_0_60px_rgba(16,185,129,0.15)] relative overflow-hidden">
-            <!-- Akcent dekoracyjny -->
             <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-500/20 rounded-full blur-[40px] pointer-events-none"></div>
             
             <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 md:h-20 mx-auto mb-8 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
@@ -161,12 +158,10 @@
         </div>
     </div>
 
-    <!-- ================= GŁÓWNA APLIKACJA (Ukryta przed zalogowaniem) ================= -->
+    <!-- ================= GŁÓWNA APLIKACJA ================= -->
     <div id="main-app" class="app-container flex-col md:flex-row hidden opacity-0 transition-opacity duration-500">
         
-        <!-- SIDEBAR -->
         <aside class="liquid-glass border-r border-dark-700/50 w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col justify-between fixed bottom-0 md:relative z-50 md:h-full order-2 md:order-1">
-            
             <div class="hidden md:flex items-center justify-center py-8 border-b border-dark-700/50">
                 <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             </div>
@@ -210,7 +205,6 @@
             </div>
         </aside>
 
-        <!-- MAIN CONTENT -->
         <main class="flex-grow relative overflow-y-auto overflow-x-hidden pb-20 md:pb-0 order-1 md:order-2">
             
             <header class="md:hidden liquid-glass sticky top-0 z-40 px-4 py-3 flex justify-between items-center">
@@ -225,7 +219,6 @@
 
             <div class="p-4 md:p-8 lg:p-10 max-w-7xl mx-auto">
                 
-                <!-- TOP BAR -->
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div>
                         <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Cześć, Gracjan <span class="wave">👋</span></h1>
@@ -422,53 +415,75 @@
         </div>
     </dialog>
 
-    <!-- Skrypty logiki aplikacji -->
     <script>
         // ==========================================
-        // KONFIGURACJA LOGOWANIA
-        // UWAGA: Podczas wdrożenia (GitHub Actions itp.) 
-        // podmień wartość SYSTEM_PIN zmienną środowiskową
+        // WERYFIKACJA LOGOWANIA Z SERWEREM (API)
         // ==========================================
-        const SYSTEM_PIN = "1234"; // <- Wstrzyknij tutaj PIN z Github Variables
-
-        // Obsługa ekranu logowania
         document.addEventListener('DOMContentLoaded', () => {
             const loginScreen = document.getElementById('login-screen');
             const mainApp = document.getElementById('main-app');
             const loginForm = document.getElementById('loginForm');
             const pinInput = document.getElementById('pin-input');
             const loginError = document.getElementById('login-error');
+            const submitBtn = loginForm.querySelector('button[type="submit"]');
 
-            // Sprawdzenie sesji (jeśli zrobisz refresh, nie musisz wpisywać znowu, o ile karta otwarta)
+            // Jeśli użytkownik jest już zalogowany w bieżącej sesji, od razu pokazujemy aplikację
             if(sessionStorage.getItem('revmi_auth') === 'true') {
                 loginScreen.style.display = 'none';
                 mainApp.classList.remove('hidden');
                 setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
-                initApp(); // Inicjalizuj app
+                initApp();
             } else {
                 pinInput.focus();
             }
 
-            loginForm.addEventListener('submit', (e) => {
+            // Obsługa wysłania formularza z kodem PIN
+            loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                if(pinInput.value === SYSTEM_PIN) {
-                    sessionStorage.setItem('revmi_auth', 'true');
-                    loginError.classList.add('hidden');
-                    pinInput.classList.remove('border-red-500');
+                
+                // Zmiana stanu przycisku na czas ładowania
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Weryfikacja...';
+
+                try {
+                    // Wysłanie żądania do naszego serwera (zobacz plik server.js endpoint /api/verify-pin)
+                    const response = await fetch('/api/verify-pin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ pin: pinInput.value })
+                    });
                     
-                    // Efekt znikania i pojawiania
-                    loginScreen.classList.add('opacity-0');
-                    setTimeout(() => {
-                        loginScreen.style.display = 'none';
-                        mainApp.classList.remove('hidden');
-                        setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
-                        initApp(); // Uruchom wykresy itp po zalogowaniu
-                    }, 500);
-                } else {
+                    const data = await response.json();
+
+                    if(data.success) {
+                        // Jeśli PIN poprawny -> logujemy
+                        sessionStorage.setItem('revmi_auth', 'true');
+                        loginError.classList.add('hidden');
+                        pinInput.classList.remove('border-red-500');
+                        
+                        loginScreen.classList.add('opacity-0');
+                        setTimeout(() => {
+                            loginScreen.style.display = 'none';
+                            mainApp.classList.remove('hidden');
+                            setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
+                            initApp(); // Uruchamiamy wykresy i dane po zalogowaniu
+                        }, 500);
+                    } else {
+                        // Jeśli PIN błędny, wymuszamy błąd
+                        throw new Error('Błędny PIN');
+                    }
+                } catch (error) {
+                    // Obsługa błędu wpisania PIN-u
                     loginError.classList.remove('hidden');
                     pinInput.classList.add('border-red-500');
                     pinInput.value = '';
                     pinInput.focus();
+                } finally {
+                    // Przywrócenie przycisku do stanu pierwotnego
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Odblokuj Panel <i class="fa-solid fa-lock-open ml-2 group-hover:scale-110 transition-transform"></i>';
                 }
             });
         });
@@ -495,7 +510,6 @@
         let chartIncomeData = [];
         let chartExpenseData = [];
 
-        // Inicjalizacja wywoływana po udanym logowaniu
         function initApp() {
             initChart();
             renderLists();
@@ -504,7 +518,6 @@
             renderExpenses();
         }
 
-        // Wykres
         function initChart() {
             const ctx = document.getElementById('financeChart').getContext('2d');
             const now = new Date();
@@ -547,7 +560,6 @@
             chartInstance.update();
         }
 
-        // Finanse
         function updateFinancesUI() {
             finances.profit = finances.income - finances.expense;
             document.getElementById('stat-income').innerText = finances.income.toLocaleString('pl-PL');
@@ -561,7 +573,6 @@
             pushChartData();
         }
 
-        // Selecty Formularzy
         function populateSelects() {
             document.getElementById('t-worker').innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
             document.getElementById('t-car').innerHTML = fleet.map(f => `<option value="${f.name}">${f.name}</option>`).join('');
@@ -621,7 +632,6 @@
             });
         }
 
-        // Eventy Modali
         function completeTask(id) {
             const task = tasks.find(t => t.id === id);
             if(task && !task.completed) {
