@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- ================= SEO & META TAGI ================= -->
+    <title>Przewozy Osób i Transfery Lotniskowe - Polska i Europa | RevSerwis</title>
+    <meta name="description" content="Komfortowe przewozy osób, transfery na lotniska (Gdańsk, Berlin, Warszawa), przewozy pracownicze i międzynarodowe door-to-door. Zarezerwuj przejazd!">
+    <meta name="keywords" content="przewozy osób, transfery lotniskowe, dowóz na lotnisko, transport osobowy, przewozy pracownicze, bus do Niemiec, transport Polska Europa, wynajem busa z kierowcą">
+    <meta name="author" content="RevSerwis">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Link Kanoniczny -->
+    <link rel="canonical" href="https://www.revserwis.pl/przewozy-osob.html">
+
+    <!-- Open Graph (Facebook, LinkedIn, komunikatory) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.revserwis.pl/przewozy-osob.html">
+    <meta property="og:title" content="Przewozy Osób i Transfery Lotniskowe | RevSerwis">
+    <meta property="og:description" content="Komfortowe przewozy osób, transfery na lotniska, przewozy pracownicze i międzynarodowe. Zarezerwuj swój przejazd z profesjonalnym kierowcą!">
+    <meta property="og:image" content="https://www.revserwis.pl/favicon.png">
+
+    <!-- Ikony -->
+    <link rel="icon" href="/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
+    <!-- Uporządkowane dane Schema.org (LocalBusiness) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "RevSerwis",
+      "image": "https://i.imgur.com/dHWDH8j.png",
+      "@id": "https://www.revserwis.pl",
+      "url": "https://www.revserwis.pl",
+      "telephone": "+48735396534",
+      "email": "kontakt@revserwis.pl",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Słupsk",
+        "addressCountry": "PL"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 54.4641,
+        "longitude": 17.0285
+      },
+      "areaServed": ["Polska", "Europa"],
+      "priceRange": "$$",
+      "description": "Profesjonalne przewozy osób, transfery na lotniska (Gdańsk, Warszawa, Berlin), obsługa imprez zorganizowanych i dojazdy do pracy."
+    }
+    </script>
+    <!-- ================= KONIEC SEO ================= -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        },
+                        dark: {
+                            900: '#050505',
+                            800: '#111111',
+                            700: '#1a1a1a',
+                            600: '#2a2a2a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #050505;
+            color: #f3f4f6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header-glass {
+            background: rgba(5, 5, 5, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .glass-panel {
+            background: rgba(17, 17, 17, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .fade-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+        }
+
+        .bento-card {
+            background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
+            border: 1px solid #1a1a1a;
+            border-radius: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .bento-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1.5rem;
+            padding: 2px;
+            background: linear-gradient(135deg, rgba(16,185,129,0.5), transparent 50%, rgba(16,185,129,0.1));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.15);
+        }
+
+        .bento-card:hover::after {
+            opacity: 1;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, #10b981 0%, #1a1a1a 100%);
+            z-index: 0;
+        }
+        @media (min-width: 768px) {
+            .timeline-line {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen relative overflow-x-hidden">
+
+    <!-- Nawigacja -->
+    <header class="fixed w-full z-50 transition-all duration-300 header-glass" id="header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-3 md:py-4">
+                
+                <a href="/index.html" class="flex-shrink-0 cursor-pointer flex items-center" aria-label="RevSerwis Strona Główna">
+                    <img class="h-16 md:h-24 w-auto transition-transform hover:scale-105 duration-300" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis Logo - Przewozy i Transport">
+                </a>
+                
+                <nav class="hidden lg:flex space-x-6 xl:space-x-8 items-center" aria-label="Nawigacja główna">
+                    <a href="/index.html#problemy" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Dla kogo?</a>
+                    <a href="/index.html#uslugi" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Co robimy</a>
+                    <a href="/index.html#marki" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Nasze filary</a>
+                    <a href="#proces" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Jak działamy</a>
+                    
+                    <div class="flex items-center space-x-4 xl:space-x-5 border-l border-dark-700 pl-4 xl:pl-6">
+                        <div class="flex flex-col items-end">
+                            <span class="text-xs text-gray-400">Infolinia</span>
+                            <a href="tel:+48735396534" class="text-white font-bold text-base hover:text-brand-400 transition-colors">
+                                735 396 534
+                            </a>
+                        </div>
+                        <a href="/index.html#wycena" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-5 py-2.5 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)]">
+                            Zarezerwuj Przejazd
+                        </a>
+                    </div>
+                </nav>
+                
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none p-2 bg-dark-800 rounded-lg border border-dark-700" aria-label="Otwórz menu mobilne">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Mobilne -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-dark-900 border-b border-dark-700 absolute w-full left-0 top-full shadow-2xl">
+            <div class="px-4 pt-4 pb-6 space-y-2">
+                <a href="/index.html#problemy" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Dla kogo jesteśmy?</a>
+                <a href="/index.html#uslugi" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Nasze usługi</a>
+                <a href="/index.html#marki" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Nasze filary</a>
+                <a href="#proces" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Jak działamy</a>
+                
+                <div class="pt-4 flex flex-col gap-3">
+                    <a href="tel:+48735396534" class="flex items-center justify-center w-full bg-dark-800 border border-dark-700 text-white font-bold py-3 rounded-lg">
+                        <i class="fa-solid fa-phone mr-2 text-brand-500"></i> Zadzwoń: 735 396 534
+                    </a>
+                    <a href="/index.html#wycena" class="mobile-link flex items-center justify-center w-full bg-brand-500 text-dark-900 font-bold py-3 rounded-lg">
+                        Zarezerwuj Przejazd
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- ================= HERO SECTION ================= -->
+        <section class="relative pt-28 md:pt-40 lg:pt-48 pb-16 md:pb-20 overflow-hidden min-h-[85vh] flex items-center border-b border-dark-800">
+            <div class="bg-grid"></div>
+            
+            <!-- Świecące tła -->
+            <div class="absolute top-1/4 left-1/2 md:left-1/4 -translate-x-1/2 md:translate-x-0 w-64 md:w-96 h-64 md:h-96 bg-brand-500/20 rounded-full blur-[90px] md:blur-[120px] pointer-events-none animate-pulse-slow"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center lg:text-left">
+                <div class="grid lg:grid-cols-2 gap-10 lg:gap-8 items-center">
+                    
+                    <!-- Tekst Hero -->
+                    <div class="max-w-2xl mx-auto lg:mx-0 fade-up z-20">
+                        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-4 md:mb-6 leading-[1.1] text-white">
+                            Podróżuj wygodnie, <br class="hidden sm:block">
+                            <span class="text-brand-500 text-glow">zawsze na czas.</span>
+                        </h1>
+                        
+                        <p class="text-base sm:text-lg md:text-xl text-gray-400 mb-8 md:mb-10 leading-relaxed lg:border-l-2 lg:border-brand-500 lg:pl-6 max-w-xl mx-auto lg:mx-0">
+                            Komfortowe transfery lotniskowe, bezpieczne przejazdy door-to-door po <strong>Polsce i Europie</strong> oraz regularne dowozy pracownicze. Siądź wygodnie, my zajmiemy się drogą.
+                        </p>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                            <a href="/index.html#wycena" class="inline-flex justify-center items-center px-6 md:px-8 py-3.5 md:py-4 text-base md:text-lg font-bold rounded-xl text-dark-900 bg-brand-500 hover:bg-brand-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_rgba(16,185,129,0.4)] w-full sm:w-auto">
+                                Zarezerwuj Termin
+                                <i class="fa-solid fa-arrow-right ml-3"></i>
+                            </a>
+                            <a href="#zakres-uslug" class="inline-flex justify-center items-center px-6 md:px-8 py-3.5 md:py-4 text-base md:text-lg font-bold rounded-xl text-white bg-dark-800/50 backdrop-blur-md border border-dark-600 hover:bg-dark-700 transition-all w-full sm:w-auto">
+                                Zobacz naszą ofertę
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Grafika Glassmorphism -->
+                    <div class="relative h-[400px] md:h-[500px] hidden lg:block fade-up" style="transition-delay: 200ms;">
+                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-md h-[350px] md:h-[400px] rounded-3xl overflow-hidden border border-dark-700 shadow-2xl animate-float">
+                            <!-- Zdjęcie nawiązujące do przewozu osób / lotniska -->
+                            <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Komfortowy przewóz osób" class="w-full h-full object-cover opacity-60 mix-blend-luminosity">
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent"></div>
+                        </div>
+
+                        <!-- Pływająca karta 1 -->
+                        <div class="absolute -left-8 md:-left-12 top-10 md:top-20 glass-panel rounded-2xl p-4 md:p-5 w-56 md:w-64 animate-float-delayed z-20">
+                            <div class="flex items-center space-x-3 md:space-x-4">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-brand-500/20 rounded-full flex shrink-0 items-center justify-center text-brand-500 text-lg md:text-xl">
+                                    <i class="fa-solid fa-plane-departure"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-sm md:text-lg leading-tight">Transfery 24/7</p>
+                                    <p class="text-[10px] md:text-xs text-gray-400">Pewny dojazd na lotnisko</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pływająca karta 2 -->
+                        <div class="absolute right-4 md:right-10 -bottom-4 md:-bottom-10 glass-panel rounded-2xl p-4 md:p-5 w-64 md:w-72 animate-float z-20" style="animation-delay: 1.5s;">
+                            <div class="flex items-center space-x-3 md:space-x-4">
+                                <div class="w-10 h-10 md:w-12 md:h-12 bg-brand-500 rounded-full flex shrink-0 items-center justify-center text-dark-900 text-lg md:text-xl">
+                                    <i class="fa-solid fa-map-location-dot"></i>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-sm md:text-lg leading-tight">Door-to-door</p>
+                                    <p class="text-[10px] md:text-xs text-brand-400">Polska i cała Europa</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STATYSTYKI ================= -->
+        <section class="border-b border-dark-800 bg-dark-900 relative z-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 md:divide-x md:divide-dark-700/50">
+                    <div class="text-center px-2 md:px-4 fade-up">
+                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">1000<span class="text-brand-500">+</span></div>
+                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Pasażerów rocznie</h2>
+                    </div>
+                    <div class="text-center px-2 md:px-4 fade-up md:delay-100">
+                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">24<span class="text-brand-500">/7</span></div>
+                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Dostępność kierowców</h2>
+                    </div>
+                    <div class="text-center px-2 md:px-4 fade-up md:delay-200">
+                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">100<span class="text-brand-500">%</span></div>
+                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Gwarancja punktualności</h2>
+                    </div>
+                    <div class="text-center px-2 md:px-4 fade-up md:delay-300">
+                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">VIP<span class="text-brand-500"></span></div>
+                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Standard pojazdów</h2>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= BENTO GRID: ZAKRES USŁUG ================= -->
+        <section id="zakres-uslug" class="py-16 md:py-24 bg-dark-800 relative">
+            <div class="absolute inset-0 bg-gradient-to-b from-dark-900 to-transparent opacity-50"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="mb-10 md:mb-16 max-w-3xl fade-up">
+                    <span class="text-brand-500 font-bold uppercase tracking-widest text-xs md:text-sm mb-2 md:mb-3 block"><i class="fa-solid fa-route mr-2"></i> Dokąd jedziemy?</span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">Poznaj pełen zakres naszych usług przewozowych</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:auto-rows-[minmax(250px,_auto)]">
+                    
+                    <!-- Karta 1: Duża (Lotniska) -->
+                    <div class="bento-card md:col-span-2 lg:row-span-2 p-6 sm:p-8 lg:p-12 flex flex-col justify-end fade-up relative group min-h-[350px] lg:min-h-0">
+                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-700 mix-blend-luminosity"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent"></div>
+                        
+                        <div class="relative z-10 mt-auto">
+                            <div class="w-12 h-12 md:w-14 md:h-14 bg-brand-500 rounded-xl flex items-center justify-center text-dark-900 text-xl md:text-2xl mb-4 md:mb-6 shadow-lg shadow-brand-500/20">
+                                <i class="fa-solid fa-plane-up"></i>
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">Transfery Lotniskowe</h3>
+                            <p class="text-gray-400 text-base md:text-lg max-w-lg mb-4 md:mb-6">
+                                Bezstresowy początek wakacji lub podróży służbowej. Odbieramy Cię spod samych drzwi i zawozimy bezpośrednio pod terminal. Obsługujemy m.in. lotniska w Gdańsku, Warszawie, Berlinie i Poznaniu.
+                            </p>
+                            <div class="flex flex-wrap gap-2 md:gap-3">
+                                <span class="bg-dark-900/80 backdrop-blur border border-dark-600 text-gray-300 text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 rounded-lg">Czynne 24/7</span>
+                                <span class="bg-dark-900/80 backdrop-blur border border-dark-600 text-gray-300 text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 rounded-lg">Miejsce na duży bagaż</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Karta 2: Średnia (Europa) -->
+                    <div class="bento-card p-6 md:p-8 flex flex-col justify-between fade-up lg:delay-100">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-dark-800 border border-dark-600 rounded-xl flex items-center justify-center text-brand-500 text-lg md:text-xl mb-4 md:mb-6">
+                            <i class="fa-solid fa-earth-europe"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Trasy Międzynarodowe</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Wyjazd do Niemiec, Holandii czy Belgii? Zapewniamy przejazdy w systemie door-to-door, bez męczących przesiadek na dworcach.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Karta 3: Średnia (Pracownicze) -->
+                    <div class="bento-card p-6 md:p-8 flex flex-col justify-between fade-up lg:delay-200">
+                        <div class="w-10 h-10 md:w-12 md:h-12 bg-dark-800 border border-dark-600 rounded-xl flex items-center justify-center text-brand-500 text-lg md:text-xl mb-4 md:mb-6">
+                            <i class="fa-solid fa-briefcase"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Dowóz Pracowników</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                Stałe zlecenia dla firm. Organizujemy codzienne dojazdy do zakładów pracy i na budowy, gwarantując punktualność całej ekipy.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Karta 4: Pełna szerokość (Imprezy) -->
+                    <div class="bento-card md:col-span-2 lg:col-span-3 p-6 md:p-8 flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-8 fade-up lg:delay-300">
+                        <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 bg-brand-500/10 border border-brand-500/30 rounded-2xl flex items-center justify-center text-brand-500 text-2xl md:text-3xl">
+                            <i class="fa-solid fa-champagne-glasses"></i>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Obsługa wesel i imprez zorganizowanych</h3>
+                            <p class="text-gray-400 text-sm md:text-base leading-relaxed">
+                                Ślub, wieczór kawalerski, a może wyjazd integracyjny dla pracowników? Zapewniamy komfortowe pojazdy wieloosobowe, które bezpiecznie odwiozą wszystkich gości po zakończonym wydarzeniu do domów lub hoteli.
+                            </p>
+                        </div>
+                        <a href="/index.html#wycena" class="shrink-0 w-full lg:w-auto text-center bg-dark-900 border border-dark-600 hover:border-brand-500 hover:text-brand-500 text-white font-bold py-3.5 px-8 rounded-xl transition-all">
+                            Zarezerwuj auto
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= OŚ CZASU (PROCES) ================= -->
+        <section id="proces" class="py-16 md:py-24 bg-dark-900 relative">
+            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+                
+                <div class="text-center mb-16 md:mb-20 fade-up">
+                    <span class="text-brand-500 font-bold uppercase tracking-widest text-xs md:text-sm mb-2 md:mb-3 block">Proste zasady</span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">Jak przebiega rezerwacja i wyjazd?</h2>
+                </div>
+
+                <div class="relative">
+                    <!-- Linia osi czasu -->
+                    <div class="timeline-line"></div>
+
+                    <!-- Krok 1 -->
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center mb-12 md:mb-20 fade-up group">
+                        <div class="hidden md:block w-1/2 pr-12 text-right">
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-brand-500 transition-colors">1. Kontakt i Wycena</h3>
+                            <p class="text-gray-400 text-sm md:text-base">Zgłaszasz skąd i dokąd chcesz jechać, ilu pasażerów oraz termin (np. data wylotu). Błyskawicznie podajemy całkowity koszt przejazdu.</p>
+                        </div>
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-dark-900 border-[3px] md:border-4 border-brand-500 flex items-center justify-center z-10 shadow-[0_0_15px_rgba(16,185,129,0.5)]">
+                            <span class="text-white font-black text-sm md:text-base">1</span>
+                        </div>
+                        <div class="md:hidden pl-14 sm:pl-16 w-full">
+                            <h3 class="text-lg font-bold text-white mb-1">Kontakt i Wycena</h3>
+                            <p class="text-gray-400 text-sm">Podajesz trasę i termin, a my natychmiast wyceniamy przejazd.</p>
+                        </div>
+                        <div class="hidden md:block w-1/2 pl-12">
+                            <div class="glass-panel p-3 md:p-4 rounded-xl border-l-4 border-l-brand-500 text-gray-300 text-xs md:text-sm italic w-max">
+                                <i class="fa-solid fa-quote-left text-brand-500/50 mr-2"></i>"Brak ukrytych opłat za bagaże."
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok 2 -->
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center mb-12 md:mb-20 fade-up group">
+                        <div class="hidden md:flex w-1/2 pr-12 justify-end">
+                            <div class="w-16 h-16 md:w-20 md:h-20 bg-dark-800 rounded-2xl flex items-center justify-center text-2xl text-gray-500 border border-dark-700">
+                                <i class="fa-solid fa-door-open"></i>
+                            </div>
+                        </div>
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-dark-900 border-[3px] md:border-4 border-dark-700 group-hover:border-brand-500 transition-colors flex items-center justify-center z-10">
+                            <span class="text-white font-black text-sm md:text-base">2</span>
+                        </div>
+                        <div class="pl-14 sm:pl-16 md:pl-12 w-full md:w-1/2">
+                            <h3 class="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2 group-hover:text-brand-500 transition-colors">Odbiór spod drzwi</h3>
+                            <p class="text-gray-400 text-sm md:text-base">Kierowca zjawia się punktualnie o umówionej godzinie pod Twoim adresem domowym. Pomagamy załadować wszystkie bagaże do przestrzeni bagażowej.</p>
+                        </div>
+                    </div>
+
+                    <!-- Krok 3 -->
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center mb-12 md:mb-20 fade-up group">
+                        <div class="hidden md:block w-1/2 pr-12 text-right">
+                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-brand-500 transition-colors">3. Komfortowa podróż</h3>
+                            <p class="text-gray-400 text-sm md:text-base">Nasze pojazdy posiadają klimatyzację, wygodne fotele i dużo miejsca na nogi. Doświadczeni kierowcy dbają o płynną, bezpieczną jazdę na każdej trasie.</p>
+                        </div>
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-dark-900 border-[3px] md:border-4 border-dark-700 group-hover:border-brand-500 transition-colors flex items-center justify-center z-10">
+                            <span class="text-white font-black text-sm md:text-base">3</span>
+                        </div>
+                        <div class="md:hidden pl-14 sm:pl-16 w-full">
+                            <h3 class="text-lg font-bold text-white mb-1">Komfortowa podróż</h3>
+                            <p class="text-gray-400 text-sm">Wygodne busy, klimatyzacja i bezpieczna jazda.</p>
+                        </div>
+                        <div class="hidden md:flex w-1/2 pl-12 justify-start">
+                             <div class="w-16 h-16 md:w-20 md:h-20 bg-dark-800 rounded-2xl flex items-center justify-center text-2xl text-gray-500 border border-dark-700">
+                                <i class="fa-solid fa-van-shuttle"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Krok 4 -->
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center fade-up group">
+                        <div class="hidden md:block w-1/2 pr-12"></div>
+                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-brand-500 border-[3px] md:border-4 border-dark-900 flex items-center justify-center z-10 shadow-[0_0_20px_rgba(16,185,129,0.8)]">
+                            <i class="fa-solid fa-flag-checkered text-dark-900 text-xl md:text-2xl"></i>
+                        </div>
+                        <div class="pl-16 md:pl-12 w-full md:w-1/2 mt-1 md:mt-0">
+                            <h3 class="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2">Dojazd na miejsce</h3>
+                            <p class="text-gray-400 text-sm md:text-base">Dostarczamy Cię pod same drzwi terminala lub hotelu. Odbierasz bagaż i gotowe! Wszystko bez stresu o parkowanie na lotnisku.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CTA (CALL TO ACTION) ================= -->
+        <section class="py-16 md:py-24 bg-dark-800 relative overflow-hidden border-t border-brand-500/20 z-20">
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-900/15 via-dark-800 to-dark-900 pointer-events-none"></div>
+            
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center fade-up">
+                <div class="inline-block mb-4 md:mb-6">
+                    <i class="fa-solid fa-plane-up text-3xl md:text-4xl text-brand-500 block"></i>
+                </div>
+                <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 md:mb-6 leading-tight">
+                    Twój lot nie będzie czekał. <br class="hidden md:block"><span class="text-brand-500 text-glow">My zdążymy na pewno.</span>
+                </h2>
+                <p class="text-gray-400 text-base md:text-xl mb-8 md:mb-12 max-w-2xl mx-auto">
+                    Masz wczesny wylot z Gdańska lub Berlina? A może organizujesz przejazdy dla swojej ekipy budowlanej? Zostaw kontakt, oddzwonimy z szybką wyceną.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
+                    <a href="/index.html#wycena" class="group relative inline-flex items-center justify-center w-full sm:w-auto bg-brand-500 text-dark-900 font-black text-lg md:text-xl py-4 md:py-5 px-8 md:px-12 rounded-xl transition-all overflow-hidden">
+                        <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-full group-hover:h-56 opacity-10"></span>
+                        <span class="relative">Zarezerwuj Pojazd</span>
+                        <i class="fa-solid fa-arrow-right ml-3 relative group-hover:translate-x-2 transition-transform"></i> 
+                    </a>
+                    <a href="tel:+48735396534" class="flex items-center justify-center w-full sm:w-auto bg-dark-900 border border-dark-600 hover:border-brand-500 text-white font-bold text-base md:text-lg py-4 md:py-5 px-6 md:px-8 rounded-xl transition-colors">
+                        <i class="fa-solid fa-phone mr-3 text-brand-500"></i> +48 735 396 534
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ================= STOPKA ================= -->
+    <footer class="bg-dark-900 border-t border-dark-700 pt-12 md:pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 mb-10 md:mb-12 border-b border-dark-800 pb-10 md:pb-12">
+                
+                <div class="md:col-span-5">
+                    <img class="h-12 md:h-14 w-auto mb-4 md:mb-6" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis Logo - Przewozy Osób">
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6 lg:pr-4">
+                        RevSerwis to Twój zaufany partner na drodze. Oferujemy punktualne, komfortowe i bezpieczne usługi transportu osobowego i transferów lotniskowych w Polsce i całej Europie.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/profile.php?id=61591448955070" aria-label="Facebook RevSerwis" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                        <!-- Link do Instagrama dodany zgodnie z poleceniem -->
+                        <a href="https://www.instagram.com/revserwis_/" aria-label="Instagram RevSerwis" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="md:col-span-3">
+                    <h3 class="text-white font-bold mb-4 md:mb-6 text-sm uppercase tracking-wider">Usługi</h3>
+                    <ul class="space-y-3">
+                        <li><a href="/przewozy-osob.html" class="text-brand-400 font-medium transition-colors text-sm">Przewozy Osób & Transfery</a></li>
+                        <li><a href="/przeprowadzki.html" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Przeprowadzki i Relokacje</a></li>
+                        <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Transport Mebli ze sklepów</a></li>
+                        <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Opróżnianie i Utylizacja Eko</a></li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-4">
+                    <h3 class="text-white font-bold mb-4 md:mb-6 text-sm uppercase tracking-wider">Kontakt dla Klientów</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-brand-500 mr-4 shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-xs mb-1">Infolinia / Rezerwacje</p>
+                                <a href="tel:+48735396534" class="text-white font-bold text-base md:text-lg hover:text-brand-400 transition-colors">+48 735 396 534</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-brand-500 mr-4 shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-xs mb-1">Zapytania i Wyceny e-mail</p>
+                                <a href="mailto:kontakt@revserwis.pl" class="text-white font-medium hover:text-brand-400 transition-colors">kontakt@revserwis.pl</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center w-full gap-4 md:gap-0 text-center md:text-left">
+                <p class="text-gray-600 text-xs md:text-sm">
+                    &copy; 2026 RevSerwis (www.revserwis.pl). Wszelkie prawa zastrzeżone. 
+                </p>
+                <a href="/prywatnosc.html" class="text-gray-600 hover:text-gray-400 text-xs md:text-sm transition-colors">Polityka Prywatności</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Skrypty UI -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menu mobilne
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            const icon = btn.querySelector('i');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if(menu.classList.contains('hidden')){
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                });
+            });
+
+            // Glassmorphism navbar na scroll
+            const header = document.getElementById('header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    header.classList.add('py-1');
+                    header.classList.remove('py-3', 'md:py-4');
+                    header.style.backgroundColor = 'rgba(5, 5, 5, 0.95)';
+                } else {
+                    header.classList.add('py-3', 'md:py-4');
+                    header.classList.remove('py-1');
+                    header.style.backgroundColor = 'rgba(5, 5, 5, 0.85)';
+                }
+            });
+
+            // Intersection Observer do płynnych animacji scrollowania (Fade-up)
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-up').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+</body>
+</html>
