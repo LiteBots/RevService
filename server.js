@@ -4,18 +4,13 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware do parsowania JSON (na wypadek, gdybyś chciał w przyszłości dodać backend API)
 app.use(express.json());
 
-// Serwowanie plików statycznych (HTML, CSS, JS) z folderu 'Public'
-// Dodajemy opcję extensions: ['html'], co automatycznie pozwala na dostęp bez końcówki .html
+// Prawidłowe serwowanie plików statycznych z folderu 'Public'
+// Automatycznie pozwala na dostęp bez wpisywania końcówki .html
 app.use(express.static(path.join(__dirname, 'Public'), {
     extensions: ['html']
 }));
-
-// Serwowanie plików statycznych z głównego katalogu (np. png, jpg) 
-// Używamy prefixu '/assets', aby chronić pliki źródłowe
-app.use('/assets', express.static(__dirname));
 
 // Domyślna ścieżka dla strony głównej
 app.get('/', (req, res) => {
@@ -41,7 +36,6 @@ app.get('/transport', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'transport.html'));
 });
 
-// Polityka prywatności
 app.get('/prywatnosc', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'prywatnosc.html'));
 });
@@ -49,10 +43,6 @@ app.get('/prywatnosc', (req, res) => {
 // ==========================================
 // SYSTEMY ZARZĄDZANIA (RevMi / RevControl)
 // ==========================================
-app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'login.html'));
-});
-
 app.get('/panel', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'panel.html'));
 });
@@ -61,13 +51,22 @@ app.get('/admin', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'admin.html'));
 });
 
-// Nowa aplikacja PWA RevMi
+// Główna aplikacja PWA RevMi (bez logowania)
 app.get('/revmi', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'revmi.html'));
 });
 
-// Start serwera
-app.listen(PORT, () => {
+// ==========================================
+// OBSŁUGA BŁĘDÓW
+// ==========================================
+// Jeśli nikt nie trafił w żaden z powyższych linków (np. literówka w URL), 
+// serwer awaryjnie wczyta stronę główną, zamiast wyświetlać błąd "Cannot GET"
+app.use((req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'Public', 'index.html'));
+});
+
+// Start serwera z flagą '0.0.0.0' gwarantującą bezproblemowe działanie na chmurach (Railway)
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n🚀 Serwer RevSerwis działa na porcie ${PORT}!`);
     console.log(`🌐 Otwórz w przeglądarce: http://localhost:${PORT}\n`);
 });
