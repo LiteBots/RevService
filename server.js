@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 // Zmienne z Railway
 const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/revmi';
+const MONGODB_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/revmi';
 
 // Middleware
 app.use(express.json());
@@ -15,7 +15,7 @@ app.use(express.json());
 // ==========================================
 // POŁĄCZENIE Z MONGODB
 // ==========================================
-mongoose.connect(MONGODB_URI)
+mongoose.connect(MONGO_URI)
     .then(() => console.log('Połączono z MongoDB!'))
     .catch(err => console.error('Błąd połączenia z MongoDB:', err));
 
