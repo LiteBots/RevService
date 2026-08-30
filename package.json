@@ -1,12 +1,13 @@
 {
   "name": "revserwis",
   "version": "1.0.0",
-  "description": "System RevSerwis",
+  "description": "System RevMi i strona RevSerwis",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "mongoose": "^8.5.0"
   }
 }
