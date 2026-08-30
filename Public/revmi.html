@@ -114,14 +114,6 @@
             outline: none !important;
             box-shadow: 0 0 0 2px rgba(16,185,129,0.2) !important;
         }
-        
-        .pin-input {
-            letter-spacing: 0.5em;
-            font-variant-numeric: tabular-nums;
-        }
-        .pin-input::placeholder {
-            letter-spacing: normal;
-        }
     </style>
 </head>
 <body class="text-sm md:text-base selection:bg-brand-500 selection:text-dark-900">
@@ -132,34 +124,8 @@
         <div class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-brand-600/10 rounded-full mix-blend-screen filter blur-[120px] opacity-50 animate-blob animation-delay-4000"></div>
     </div>
 
-    <!-- ================= EKRAN LOGOWANIA (PIN) ================= -->
-    <div id="login-screen" class="fixed inset-0 z-[100] flex flex-col items-center justify-center px-4 backdrop-blur-md bg-dark-900/60 transition-opacity duration-500">
-        <div class="liquid-glass-heavy rounded-3xl p-8 md:p-10 w-full max-w-sm text-center border border-brand-500/30 shadow-[0_0_60px_rgba(16,185,129,0.15)] relative overflow-hidden">
-            <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand-500/20 rounded-full blur-[40px] pointer-events-none"></div>
-            
-            <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 md:h-20 mx-auto mb-8 drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-            
-            <h2 class="text-2xl font-extrabold text-white mb-2">Autoryzacja Rev<span class="text-brand-500 text-glow">Mi</span></h2>
-            <p class="text-gray-400 text-sm mb-8">Wprowadź swój 4-cyfrowy kod PIN, aby uzyskać dostęp do panelu.</p>
-            
-            <form id="loginForm" class="space-y-6">
-                <div>
-                    <input type="password" id="pin-input" required maxlength="4" inputmode="numeric" pattern="\d{4}" placeholder="••••" autocomplete="off" class="pin-input w-full px-4 py-4 rounded-xl text-3xl font-black text-center text-brand-400 bg-dark-900 border-2 border-dark-600 focus:border-brand-500 shadow-inner">
-                </div>
-                
-                <div id="login-error" class="hidden text-red-500 text-xs font-bold uppercase tracking-wider animate-pulse">
-                    <i class="fa-solid fa-triangle-exclamation mr-1"></i> Błędny kod PIN!
-                </div>
-
-                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-dark-900 py-4 rounded-xl font-black text-lg transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] flex items-center justify-center group">
-                    Odblokuj Panel <i class="fa-solid fa-lock-open ml-2 group-hover:scale-110 transition-transform"></i>
-                </button>
-            </form>
-        </div>
-    </div>
-
     <!-- ================= GŁÓWNA APLIKACJA ================= -->
-    <div id="main-app" class="app-container flex-col md:flex-row hidden opacity-0 transition-opacity duration-500">
+    <div id="main-app" class="app-container flex flex-col md:flex-row transition-opacity duration-500">
         
         <aside class="liquid-glass border-r border-dark-700/50 w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col justify-between fixed bottom-0 md:relative z-50 md:h-full order-2 md:order-1">
             <div class="hidden md:flex items-center justify-center py-8 border-b border-dark-700/50">
@@ -199,9 +165,6 @@
                         <p class="text-brand-500 text-xs">Główny Administrator</p>
                     </div>
                 </div>
-                <button onclick="logout()" class="text-gray-500 hover:text-red-500 transition-colors" title="Wyloguj">
-                    <i class="fa-solid fa-power-off"></i>
-                </button>
             </div>
         </aside>
 
@@ -210,7 +173,6 @@
             <header class="md:hidden liquid-glass sticky top-0 z-40 px-4 py-3 flex justify-between items-center">
                 <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-8">
                 <div class="flex items-center gap-3">
-                    <button onclick="logout()" class="text-gray-400 hover:text-red-500"><i class="fa-solid fa-power-off"></i></button>
                     <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-xs">
                         GB
                     </div>
@@ -417,86 +379,13 @@
 
     <script>
         // ==========================================
-        // WERYFIKACJA LOGOWANIA Z SERWEREM (API)
-        // ==========================================
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginScreen = document.getElementById('login-screen');
-            const mainApp = document.getElementById('main-app');
-            const loginForm = document.getElementById('loginForm');
-            const pinInput = document.getElementById('pin-input');
-            const loginError = document.getElementById('login-error');
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-
-            // Jeśli użytkownik jest już zalogowany w bieżącej sesji, od razu pokazujemy aplikację
-            if(sessionStorage.getItem('revmi_auth') === 'true') {
-                loginScreen.style.display = 'none';
-                mainApp.classList.remove('hidden');
-                setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
-                initApp();
-            } else {
-                pinInput.focus();
-            }
-
-            // Obsługa wysłania formularza z kodem PIN
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                // Zmiana stanu przycisku na czas ładowania
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Weryfikacja...';
-
-                try {
-                    // Wysłanie żądania do naszego serwera (zobacz plik server.js endpoint /api/verify-pin)
-                    const response = await fetch('/api/verify-pin', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ pin: pinInput.value })
-                    });
-                    
-                    const data = await response.json();
-
-                    if(data.success) {
-                        // Jeśli PIN poprawny -> logujemy
-                        sessionStorage.setItem('revmi_auth', 'true');
-                        loginError.classList.add('hidden');
-                        pinInput.classList.remove('border-red-500');
-                        
-                        loginScreen.classList.add('opacity-0');
-                        setTimeout(() => {
-                            loginScreen.style.display = 'none';
-                            mainApp.classList.remove('hidden');
-                            setTimeout(() => mainApp.classList.remove('opacity-0'), 50);
-                            initApp(); // Uruchamiamy wykresy i dane po zalogowaniu
-                        }, 500);
-                    } else {
-                        // Jeśli PIN błędny, wymuszamy błąd
-                        throw new Error('Błędny PIN');
-                    }
-                } catch (error) {
-                    // Obsługa błędu wpisania PIN-u
-                    loginError.classList.remove('hidden');
-                    pinInput.classList.add('border-red-500');
-                    pinInput.value = '';
-                    pinInput.focus();
-                } finally {
-                    // Przywrócenie przycisku do stanu pierwotnego
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Odblokuj Panel <i class="fa-solid fa-lock-open ml-2 group-hover:scale-110 transition-transform"></i>';
-                }
-            });
-        });
-
-        // Wylogowanie
-        function logout() {
-            sessionStorage.removeItem('revmi_auth');
-            window.location.reload();
-        }
-
-        // ==========================================
         // GŁÓWNA LOGIKA APLIKACJI
         // ==========================================
+        
+        // Inicjalizacja aplikacji od razu po załadowaniu DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+        });
 
         let finances = { income: 0, expense: 0, profit: 0, totalIncome: 12450 };
         let tasks = [ { id: 1, name: 'Przeprowadzka do Niemiec', price: 3200, address: 'Słupsk -> Berlin', people: 2, worker: 'Gracjan Błachnio', car: 'VW Crafter', completed: false } ];
