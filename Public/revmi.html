@@ -114,6 +114,13 @@
             outline: none !important;
             box-shadow: 0 0 0 2px rgba(16,185,129,0.2) !important;
         }
+        
+        /* Ukrycie paska przewijania w inpucie numerycznym */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
     </style>
 </head>
 <body class="text-sm md:text-base selection:bg-brand-500 selection:text-dark-900">
@@ -124,8 +131,28 @@
         <div class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-brand-600/10 rounded-full mix-blend-screen filter blur-[120px] opacity-50 animate-blob animation-delay-4000"></div>
     </div>
 
+    <!-- ================= EKRAN LOGOWANIA ================= -->
+    <div id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505]/80 backdrop-blur-md transition-opacity duration-500">
+        <div class="liquid-glass-heavy p-8 rounded-3xl w-full max-w-sm flex flex-col items-center border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] mx-4">
+            <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 mb-6 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+            <h2 class="text-xl font-bold text-white mb-2">Autoryzacja</h2>
+            <p class="text-gray-400 text-xs mb-6 text-center">Wprowadź 4-cyfrowy kod PIN administratora</p>
+
+            <form id="loginForm" class="w-full flex flex-col items-center">
+                <input type="password" id="pin-input" inputmode="numeric" maxlength="4" pattern="\d{4}" required
+                    class="w-full text-center text-3xl tracking-[0.5em] font-black text-brand-400 bg-dark-900/50 border border-dark-600 rounded-xl py-4 mb-4 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all placeholder:text-dark-600 placeholder:tracking-normal"
+                    placeholder="••••">
+                <p id="login-error" class="text-red-400 text-xs font-bold mb-4 hidden">Nieprawidłowy kod PIN</p>
+                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-dark-900 py-3 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] flex items-center justify-center">
+                    <i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu
+                </button>
+            </form>
+        </div>
+    </div>
+
     <!-- ================= GŁÓWNA APLIKACJA ================= -->
-    <div id="main-app" class="app-container flex flex-col md:flex-row transition-opacity duration-500">
+    <!-- Dodana klasa hidden, aplikacja pokaże się po zalogowaniu -->
+    <div id="main-app" class="app-container flex flex-col md:flex-row transition-opacity duration-500 hidden">
         
         <aside class="liquid-glass border-r border-dark-700/50 w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col justify-between fixed bottom-0 md:relative z-50 md:h-full order-2 md:order-1">
             <div class="hidden md:flex items-center justify-center py-8 border-b border-dark-700/50">
@@ -382,10 +409,6 @@
         // GŁÓWNA LOGIKA APLIKACJI
         // ==========================================
         
-        document.addEventListener('DOMContentLoaded', () => {
-            initApp();
-        });
-
         let finances = { income: 0, expense: 0, profit: 0, totalIncome: 12450 };
         let tasks = [ { id: 1, name: 'Przeprowadzka do Niemiec', price: 3200, address: 'Słupsk -> Berlin', people: 2, worker: 'Gracjan Błachnio', car: 'VW Crafter', completed: false } ];
         let expensesList = [];
@@ -397,6 +420,56 @@
         let chartProfitData = [];
         let chartIncomeData = [];
         let chartExpenseData = [];
+
+        // Obsługa formularza logowania
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const pin = document.getElementById('pin-input').value;
+            const errorMsg = document.getElementById('login-error');
+            const submitBtn = this.querySelector('button');
+
+            errorMsg.classList.add('hidden');
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Weryfikacja...';
+
+            try {
+                // Zapytanie POST do serwera express
+                const response = await fetch('/api/verify-pin', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pin: pin })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        // PIN poprawny
+                        const loginScreen = document.getElementById('login-screen');
+                        const mainApp = document.getElementById('main-app');
+                        
+                        loginScreen.classList.add('opacity-0');
+                        setTimeout(() => {
+                            loginScreen.classList.add('hidden');
+                            mainApp.classList.remove('hidden');
+                            initApp(); // Uruchomienie wykresów i danych po zalogowaniu
+                        }, 500);
+                    } else {
+                        // Błędny PIN
+                        errorMsg.innerText = 'Nieprawidłowy kod PIN';
+                        errorMsg.classList.remove('hidden');
+                        submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
+                        document.getElementById('pin-input').value = '';
+                    }
+                } else {
+                    errorMsg.innerText = 'Błąd połączenia z serwerem';
+                    errorMsg.classList.remove('hidden');
+                    submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
+                }
+            } catch (error) {
+                errorMsg.innerText = 'Błąd sieci. Serwer prawdopodobnie nie działa.';
+                errorMsg.classList.remove('hidden');
+                submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
+            }
+        });
 
         function initApp() {
             initChart();
