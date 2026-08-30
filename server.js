@@ -4,69 +4,34 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Pobieranie kodu PIN z zakładki Variables na Railway
+// Jeśli zmienna Admin_Pin nie jest ustawiona, zapasowo ustawi '1234'
+const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
+
+// Niezbędne middleware do parsowania JSON wysyłanego z panelu logowania
 app.use(express.json());
 
-// Prawidłowe serwowanie plików statycznych z folderu 'Public'
-// Automatycznie pozwala na dostęp bez wpisywania końcówki .html
+// Tworzymy API, które przyjmuje zapytanie z RevMi.html i sprawdza PIN
+app.post('/api/verify-pin', (req, res) => {
+    const { pin } = req.body;
+    
+    if (pin === ADMIN_PIN) {
+        res.json({ success: true, message: 'Zalogowano pomyślnie' });
+    } else {
+        res.status(401).json({ success: false, message: 'Nieprawidłowy PIN' });
+    }
+});
+
+// Serwowanie plików statycznych z folderu 'Public'
 app.use(express.static(path.join(__dirname, 'Public'), {
     extensions: ['html']
 }));
 
-// Domyślna ścieżka dla strony głównej
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'index.html'));
-});
-
-// ==========================================
-// PRZYJAZNE LINKI DLA PODSTRON USŁUGOWYCH
-// ==========================================
-app.get('/przeprowadzki', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'przeprowadzki.html'));
-});
-
-app.get('/przewozy-osob', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'przewozy-osob.html'));
-});
-
-app.get('/utylizacja', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'utylizacja.html'));
-});
-
-app.get('/transport', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'transport.html'));
-});
-
-app.get('/prywatnosc', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'prywatnosc.html'));
-});
-
-// ==========================================
-// SYSTEMY ZARZĄDZANIA (RevMi / RevControl)
-// ==========================================
-app.get('/panel', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'panel.html'));
-});
-
-app.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Public', 'admin.html'));
-});
-
-// Główna aplikacja PWA RevMi (bez logowania)
+// Fallback: jeśli ktoś wejdzie bezpośrednio na /revmi, wyślij plik
 app.get('/revmi', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'revmi.html'));
 });
 
-// ==========================================
-// OBSŁUGA BŁĘDÓW
-// ==========================================
-// Jeśli nikt nie trafił w żaden z powyższych linków (np. literówka w URL), 
-// serwer awaryjnie wczyta stronę główną, zamiast wyświetlać błąd "Cannot GET"
-app.use((req, res) => {
-    res.status(404).sendFile(path.join(__dirname, 'Public', 'index.html'));
-});
-
-// Start serwera z flagą '0.0.0.0' gwarantującą bezproblemowe działanie na chmurach (Railway)
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`\n🚀 Serwer RevSerwis działa na porcie ${PORT}!`);
-    console.log(`🌐 Otwórz w przeglądarce: http://localhost:${PORT}\n`);
+app.listen(PORT, () => {
+    console.log(`Serwer RevMi działa na porcie ${PORT}`);
 });
