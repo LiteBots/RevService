@@ -5,7 +5,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Pobieranie kodu PIN z zakładki Variables na Railway
-// Jeśli zmienna Admin_Pin nie jest ustawiona, zapasowo ustawi '1234'
 const ADMIN_PIN = process.env.ADMIN_PIN || '1234';
 
 // Niezbędne middleware do parsowania JSON wysyłanego z panelu logowania
@@ -22,16 +21,57 @@ app.post('/api/verify-pin', (req, res) => {
     }
 });
 
-// Serwowanie plików statycznych z folderu 'Public'
+// Serwowanie plików statycznych z folderu 'Public' (grafiki, style itp.)
 app.use(express.static(path.join(__dirname, 'Public'), {
     extensions: ['html']
 }));
 
-// Fallback: jeśli ktoś wejdzie bezpośrednio na /revmi, wyślij plik
+
+// ==========================================
+// DEFINIOWANIE KONKRETNYCH ŚCIEŻEK (ROUTING)
+// ==========================================
+
+// Strona główna (jeśli masz plik index.html)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'index.html'));
+});
+
+// System RevMi
 app.get('/revmi', (req, res) => {
     res.sendFile(path.join(__dirname, 'Public', 'revmi.html'));
 });
 
+// Przeprowadzki
+app.get('/przeprowadzki', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'przeprowadzki.html'));
+});
+
+// Przewozy osób
+app.get('/przewozy-osob', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'przewozy-osob.html'));
+});
+
+// Opróżnianie i utylizacja
+app.get('/oproznianie-utylizacja', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'oproznianie-utylizacja.html'));
+});
+
+// Transport
+app.get('/transport', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'transport.html'));
+});
+
+// Polityka prywatności - obsługa linku z polskimi znakami
+app.get('/polityka-prywatności', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'polityka-prywatności.html'));
+});
+
+// Polityka prywatności - obsługa "czystego" linku bez polskich znaków (rekomendowane w SEO)
+app.get('/polityka-prywatnosci', (req, res) => {
+    res.sendFile(path.join(__dirname, 'Public', 'polityka-prywatności.html'));
+});
+
+// Uruchomienie serwera
 app.listen(PORT, () => {
-    console.log(`Serwer RevMi działa na porcie ${PORT}`);
+    console.log(`Serwer działa poprawnie na porcie ${PORT}`);
 });
