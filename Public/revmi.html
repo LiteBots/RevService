@@ -8,6 +8,14 @@
     <link rel="icon" href="/favicon.png" type="image/png">
     <meta name="theme-color" content="#050505">
 
+    <!-- KONFIGURACJA PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RevMi">
+    <link rel="apple-touch-icon" href="/favicon.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -251,7 +259,6 @@
 
     <!-- MODALE: KOSZT -->
     <dialog id="expenseModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <!-- Ten sam co wcześniej -->
         <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-red-500/30">
             <button type="button" onclick="closeModal('expenseModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-minus-circle text-red-500 mr-2"></i> Rejestruj Koszt</h2>
@@ -405,10 +412,8 @@
         // RENDEROWANIE FLOTY I PRACOWNIKÓW
         // =====================================
         function renderLists() {
-            // Options dla zlecenia
             document.getElementById('t-car').innerHTML = db.fleet.map(f => `<option value="${f.name}">${f.name}</option>`).join('');
 
-            // Tabela pracowników (z ołówkiem i koszem)
             const empContainer = document.getElementById('employees-container');
             if (empContainer) {
                 empContainer.innerHTML = db.employees.map(e => `
@@ -425,7 +430,6 @@
                     </div>`).join('');
             }
 
-            // Tabela floty
             const fleetContainer = document.getElementById('fleet-container');
             if (fleetContainer) {
                 fleetContainer.innerHTML = db.fleet.map(f => `
@@ -460,7 +464,6 @@
             db.tasks.forEach(task => {
                 const isDone = task.completed;
                 
-                // Obsługa starych zleceń z pojedynczym polem 'worker' oraz nowych z tablicą 'workers'
                 let workersHtml = '';
                 if (task.workers && task.workers.length > 0) {
                     workersHtml = task.workers.map(w => `<span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${w.name} <span class="text-brand-500 ml-1">(${w.role})</span></span>`).join('');
@@ -468,7 +471,6 @@
                     workersHtml = `<span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${task.worker}</span>`;
                 }
 
-                // Opis
                 let descHtml = task.desc ? `<div class="bg-dark-900/50 text-gray-400 text-xs p-3 rounded-lg border border-dark-700/50 mb-3 whitespace-pre-line">${task.desc}</div>` : '';
 
                 const html = `
@@ -556,7 +558,7 @@
         function openTaskModal() {
             document.getElementById('t-workers-container').innerHTML = '';
             document.getElementById('addTaskForm').reset();
-            addWorkerRow(); // Dodaje pierwszy pusty rząd przy otwarciu
+            addWorkerRow(); 
             openModal('taskModal');
         }
 
@@ -594,9 +596,9 @@
                 name: document.getElementById('t-name').value, 
                 price: Number(document.getElementById('t-price').value), 
                 address: document.getElementById('t-address').value,
-                desc: document.getElementById('t-desc').value, // NOWE
+                desc: document.getElementById('t-desc').value,
                 people: workersArray.length, 
-                workers: workersArray, // NOWE
+                workers: workersArray, 
                 car: document.getElementById('t-car').value 
             };
             await fetch('/api/tasks', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
@@ -622,7 +624,6 @@
             openModal('employeeModal');
         }
 
-        // Zmodyfikowany przycisk "Dodaj" w HTML wywołuje to, zamiast zwykłego openModal
         document.querySelector('button[onclick="openModal(\'employeeModal\')"]').onclick = function() {
             document.getElementById('employeeForm').reset();
             document.getElementById('emp-id').value = '';
