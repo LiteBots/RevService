@@ -26,8 +26,11 @@ const TaskSchema = new mongoose.Schema({
     name: String,
     price: Number,
     address: String,
+    desc: String, // Pole opisu zlecenia
     people: Number,
-    worker: String,
+    // Tablica pracowników, każdy ma imię i rolę w zleceniu (np. Kierowca, Pomocnik)
+    workers: [{ name: String, role: String }], 
+    worker: String, // Zostawiamy dla wstecznej kompatybilności ze starymi zleceniami
     car: String,
     completed: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }
@@ -62,18 +65,15 @@ const Fleet = mongoose.model('Fleet', FleetSchema);
 app.post('/api/login', async (req, res) => {
     const { pin } = req.body;
     
-    // 1. Sprawdzenie czy to główny Admin
     if (pin === ADMIN_PIN) {
         return res.json({ success: true, role: 'admin', name: 'Gracjan Błachnio (Admin)' });
     }
     
-    // 2. Sprawdzenie czy to pracownik w bazie
     try {
         const employee = await Employee.findOne({ pin: pin });
         if (employee) {
             return res.json({ success: true, role: 'worker', name: employee.name });
         }
-        // Błędny PIN
         res.status(401).json({ success: false, message: 'Nieprawidłowy PIN' });
     } catch (err) {
         res.status(500).json({ success: false, message: 'Błąd bazy danych' });
@@ -98,7 +98,7 @@ app.get('/api/data', async (req, res) => {
 
 
 // ==========================================
-// API - DODAWANIE DO BAZY
+// API - ZLECENIA I KOSZTY
 // ==========================================
 app.post('/api/tasks', async (req, res) => {
     const task = new Task(req.body);
@@ -117,16 +117,44 @@ app.post('/api/expenses', async (req, res) => {
     res.json({ success: true, expense });
 });
 
+
+// ==========================================
+// API - PRACOWNICY (CRUD)
+// ==========================================
 app.post('/api/employees', async (req, res) => {
     const emp = new Employee(req.body);
     await emp.save();
     res.json({ success: true, emp });
 });
 
+app.put('/api/employees/:id', async (req, res) => {
+    await Employee.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ success: true });
+});
+
+app.delete('/api/employees/:id', async (req, res) => {
+    await Employee.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+});
+
+
+// ==========================================
+// API - FLOTA (CRUD)
+// ==========================================
 app.post('/api/fleet', async (req, res) => {
     const fleet = new Fleet(req.body);
     await fleet.save();
     res.json({ success: true, fleet });
+});
+
+app.put('/api/fleet/:id', async (req, res) => {
+    await Fleet.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ success: true });
+});
+
+app.delete('/api/fleet/:id', async (req, res) => {
+    await Fleet.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
 });
 
 
