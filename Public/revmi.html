@@ -39,8 +39,8 @@
     
     <style>
         body { background-color: #050505; color: #f3f4f6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-        .liquid-glass { background: rgba(17, 17, 17, 0.45); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-        .liquid-glass-heavy { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.6); }
+        .liquid-glass { background: rgba(17, 17, 17, 0.45); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+        .liquid-glass-heavy { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(40px); border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.6); }
         .liquid-glass-accent { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(17, 17, 17, 0.4) 100%); backdrop-filter: blur(20px); border: 1px solid rgba(16, 185, 129, 0.3); }
         .text-glow { text-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
         ::-webkit-scrollbar { width: 4px; height: 4px; }
@@ -63,17 +63,15 @@
         <div class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-brand-600/10 rounded-full mix-blend-screen filter blur-[120px] opacity-50 animate-blob animation-delay-4000"></div>
     </div>
 
-    <!-- ================= EKRAN LOGOWANIA ================= -->
+    <!-- EKRAN LOGOWANIA -->
     <div id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505]/80 backdrop-blur-md transition-opacity duration-500">
         <div class="liquid-glass-heavy p-8 rounded-3xl w-full max-w-sm flex flex-col items-center border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] mx-4">
             <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 mb-6 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             <h2 class="text-xl font-bold text-white mb-2">Autoryzacja</h2>
             <p class="text-gray-400 text-xs mb-6 text-center">Wprowadź swój 4-cyfrowy kod PIN</p>
-
             <form id="loginForm" class="w-full flex flex-col items-center">
                 <input type="password" id="pin-input" inputmode="numeric" maxlength="4" pattern="\d{4}" required
-                    class="w-full text-center text-3xl tracking-[0.5em] font-black text-brand-400 bg-dark-900/50 border border-dark-600 rounded-xl py-4 mb-4 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all placeholder:text-dark-600 placeholder:tracking-normal"
-                    placeholder="••••">
+                    class="w-full text-center text-3xl tracking-[0.5em] font-black text-brand-400 bg-dark-900/50 border border-dark-600 rounded-xl py-4 mb-4 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all placeholder:text-dark-600 placeholder:tracking-normal" placeholder="••••">
                 <p id="login-error" class="text-red-400 text-xs font-bold mb-4 hidden">Nieprawidłowy kod PIN</p>
                 <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-dark-900 py-3 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] flex items-center justify-center">
                     <i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu
@@ -82,38 +80,29 @@
         </div>
     </div>
 
-    <!-- ================= GŁÓWNA APLIKACJA ================= -->
+    <!-- GŁÓWNA APLIKACJA -->
     <div id="main-app" class="app-container flex flex-col md:flex-row transition-opacity duration-500 hidden">
-        
         <aside class="liquid-glass border-r border-dark-700/50 w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col justify-between fixed bottom-0 md:relative z-50 md:h-full order-2 md:order-1">
             <div class="hidden md:flex items-center justify-center py-8 border-b border-dark-700/50">
                 <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             </div>
-
             <nav class="flex md:flex-col justify-around md:justify-start w-full px-2 py-3 md:py-6 md:px-4 md:space-y-2 flex-grow">
                 <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-btn active flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-brand-500 bg-brand-500/10 font-bold">
-                    <i class="fa-solid fa-chart-pie text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
-                    <span class="text-[10px] md:text-sm">Dashboard</span>
+                    <i class="fa-solid fa-chart-pie text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Dashboard</span>
                 </button>
                 <button id="nav-zlecenia" onclick="switchTab('zlecenia')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
-                    <i class="fa-solid fa-clipboard-list text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
-                    <span class="text-[10px] md:text-sm">Zlecenia</span>
+                    <i class="fa-solid fa-clipboard-list text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Zlecenia</span>
                 </button>
                 <button id="nav-wyceny" onclick="switchTab('wyceny')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 relative">
-                    <i class="fa-solid fa-envelope-open-text text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
-                    <span class="text-[10px] md:text-sm">Wyceny (Z www)</span>
+                    <i class="fa-solid fa-envelope-open-text text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Wyceny (Z www)</span>
                 </button>
                 <button id="nav-flota" onclick="switchTab('flota')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
-                    <i class="fa-solid fa-users-gear text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
-                    <span class="text-[10px] md:text-sm">Pracownicy & Flota</span>
+                    <i class="fa-solid fa-users-gear text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Pracownicy & Flota</span>
                 </button>
             </nav>
-
             <div class="hidden md:flex items-center justify-between px-6 py-6 border-t border-dark-700/50">
                 <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-lg shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-lg shadow-[0_0_15px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-user"></i></div>
                     <div class="ml-3">
                         <p id="ui-username" class="text-white font-bold text-sm">Zalogowany</p>
                         <p id="ui-role" class="text-brand-500 text-xs">Użytkownik</p>
@@ -123,59 +112,47 @@
         </aside>
 
         <main class="flex-grow relative overflow-y-auto overflow-x-hidden pb-20 md:pb-0 order-1 md:order-2">
-            
             <header class="md:hidden liquid-glass sticky top-0 z-40 px-4 py-3 flex justify-between items-center">
                 <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-8">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-xs">
-                    <i class="fa-solid fa-user"></i>
-                </div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-xs"><i class="fa-solid fa-user"></i></div>
             </header>
 
             <div class="p-4 md:p-8 lg:p-10 max-w-7xl mx-auto">
-                
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div>
                         <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Cześć, <span id="header-name"></span> <span class="wave">👋</span></h1>
                         <p class="text-gray-400 text-sm flex items-center">
-                            <i class="fa-regular fa-calendar text-brand-500 mr-2"></i> Baza danych: <strong class="text-brand-500 ml-1"> Aktywna (Online)</strong>
+                            <i class="fa-solid fa-server text-brand-500 mr-2"></i> Baza danych: <strong class="text-brand-500 ml-1"> Aktywna (Online)</strong>
                         </p>
                     </div>
                     <div class="flex gap-3 w-full md:w-auto">
-                        <button onclick="openModal('expenseModal')" class="flex-1 md:flex-none liquid-glass border border-red-500/30 text-white hover:bg-red-500/10 px-4 py-2.5 rounded-xl font-medium transition-all text-sm flex items-center justify-center">
-                            <i class="fa-solid fa-minus text-red-400 mr-2"></i> Dodaj Koszt
-                        </button>
-                        <button id="btn-add-task" onclick="openModal('taskModal')" class="flex-1 md:flex-none bg-brand-500 hover:bg-brand-400 text-dark-900 px-5 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm flex items-center justify-center">
-                            <i class="fa-solid fa-plus mr-2"></i> Nowe Zlecenie
-                        </button>
+                        <button onclick="openModal('expenseModal')" class="flex-1 md:flex-none liquid-glass border border-red-500/30 text-white hover:bg-red-500/10 px-4 py-2.5 rounded-xl font-medium transition-all text-sm flex items-center justify-center"><i class="fa-solid fa-minus text-red-400 mr-2"></i> Dodaj Koszt</button>
+                        <button id="btn-add-task" onclick="openTaskModal()" class="flex-1 md:flex-none bg-brand-500 hover:bg-brand-400 text-dark-900 px-5 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm flex items-center justify-center"><i class="fa-solid fa-plus mr-2"></i> Nowe Zlecenie</button>
                     </div>
                 </div>
 
-                <!-- ================= TAB: DASHBOARD ================= -->
+                <!-- TAB: DASHBOARD -->
                 <div id="tab-dashboard" class="tab-content block">
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
                         <div class="liquid-glass-accent p-6 rounded-2xl relative overflow-hidden group">
                             <div class="absolute right-[-20px] top-[-20px] text-brand-500/10 text-8xl transition-transform group-hover:scale-110"><i class="fa-solid fa-wallet"></i></div>
-                            <h3 class="text-brand-100 text-xs font-bold uppercase tracking-wider mb-1 relative z-10">Zysk na czysto (Wszystko)</h3>
-                            <div class="flex items-end gap-2 relative z-10">
-                                <span id="stat-profit" class="text-3xl md:text-4xl font-black text-white text-glow">0</span>
-                                <span class="text-brand-400 font-bold mb-1">PLN</span>
-                            </div>
+                            <h3 class="text-brand-100 text-xs font-bold uppercase tracking-wider mb-1 relative z-10">Zysk na czysto</h3>
+                            <div class="flex items-end gap-2 relative z-10"><span id="stat-profit" class="text-3xl md:text-4xl font-black text-white text-glow">0</span><span class="text-brand-400 font-bold mb-1">PLN</span></div>
                         </div>
-                        <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-brand-500/50">
+                        <div class="liquid-glass p-5 md:p-6 rounded-2xl border-t-2 border-t-brand-500/50">
                             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Przychód ze zleceń</h3>
                             <div class="flex items-end gap-1"><span id="stat-income" class="text-2xl md:text-3xl font-black text-white">0</span><span class="text-gray-400 text-sm mb-1">PLN</span></div>
                         </div>
-                        <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-red-500/50">
+                        <div class="liquid-glass p-5 md:p-6 rounded-2xl border-t-2 border-t-red-500/50">
                             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Suma kosztów</h3>
                             <div class="flex items-end gap-1"><span id="stat-expense" class="text-2xl md:text-3xl font-black text-white">0</span><span class="text-gray-400 text-sm mb-1">PLN</span></div>
                         </div>
-                        <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-blue-500/50">
+                        <div class="liquid-glass p-5 md:p-6 rounded-2xl border-t-2 border-t-blue-500/50">
                             <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Ilość wykonanych zleceń</h3>
                             <div class="flex items-end gap-1"><span id="stat-tasks-count" class="text-2xl md:text-3xl font-black text-white">0</span></div>
                         </div>
                     </div>
-
-                    <!-- WYKRES LIVE -->
+                    <!-- WYKRES -->
                     <div class="liquid-glass rounded-2xl p-5 md:p-6 mb-8 relative">
                         <div class="flex justify-between items-center mb-4">
                             <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-chart-line text-brand-500 mr-2"></i> Finanse Live (Sesja)</h2>
@@ -183,7 +160,6 @@
                         </div>
                         <div class="h-64 w-full"><canvas id="financeChart"></canvas></div>
                     </div>
-
                     <div class="grid lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2 liquid-glass rounded-2xl p-5 md:p-6">
                             <div class="flex justify-between items-center mb-6">
@@ -199,18 +175,15 @@
                     </div>
                 </div>
 
-                <!-- ================= TAB: ZLECENIA ================= -->
+                <!-- TAB: ZLECENIA -->
                 <div id="tab-zlecenia" class="tab-content hidden">
                     <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
-                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                            <h2 class="text-xl font-bold text-white">Zarządzanie Zleceniami</h2>
-                            <input type="text" placeholder="Szukaj zlecenia..." class="px-4 py-2 rounded-lg text-sm w-full sm:w-64">
-                        </div>
+                        <h2 class="text-xl font-bold text-white mb-6">Zarządzanie Zleceniami</h2>
                         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" id="all-tasks-container"></div>
                     </div>
                 </div>
 
-                <!-- ================= TAB: WYCENY ================= -->
+                <!-- TAB: WYCENY -->
                 <div id="tab-wyceny" class="tab-content hidden">
                     <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
                         <h2 class="text-xl font-bold text-white mb-2">Skrzynka Wycen (Leady z www)</h2>
@@ -218,7 +191,7 @@
                     </div>
                 </div>
 
-                <!-- ================= TAB: PRACOWNICY I FLOTA ================= -->
+                <!-- TAB: FLOTA I PRACOWNICY -->
                 <div id="tab-flota" class="tab-content hidden">
                     <div class="grid lg:grid-cols-2 gap-6">
                         <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
@@ -242,23 +215,33 @@
         </main>
     </div>
 
-    <!-- ================= MODALE ================= -->
-    <dialog id="taskModal" class="bg-transparent w-full max-w-2xl backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
+    <!-- MODALE: ZLECENIE -->
+    <dialog id="taskModal" class="bg-transparent w-full max-w-3xl backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
         <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative">
-            <button onclick="closeModal('taskModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <button type="button" onclick="closeModal('taskModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-plus-circle text-brand-500 mr-2"></i> Kreator Zlecenia</h2>
             <form id="addTaskForm" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Nazwa / Co robimy?</label><input type="text" id="t-name" required placeholder="np. Przeprowadzka biura" class="w-full px-4 py-3 rounded-xl text-sm"></div>
+                    <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Nazwa / Tytuł</label><input type="text" id="t-name" required placeholder="np. Przeprowadzka biura" class="w-full px-4 py-3 rounded-xl text-sm"></div>
                     <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Cena (PLN)</label><input type="number" id="t-price" required placeholder="np. 1500" class="w-full px-4 py-3 rounded-xl text-sm text-brand-400 font-bold"></div>
                 </div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Trasa / Adres</label><input type="text" id="t-address" required placeholder="Skąd -> Dokąd (lub adres)" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Ilu pracowników?</label><input type="number" id="t-people" value="2" min="1" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                    <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Kto jedzie?</label><select id="t-worker" class="w-full px-4 py-3 rounded-xl text-sm"></select></div>
-                    <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Auto</label><select id="t-car" class="w-full px-4 py-3 rounded-xl text-sm"></select></div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Trasa / Adres</label><input type="text" id="t-address" required placeholder="Skąd -> Dokąd (lub adres)" class="w-full px-4 py-3 rounded-xl text-sm"></div>
+                    <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Pojazd z floty</label><select id="t-car" class="w-full px-4 py-3 rounded-xl text-sm"></select></div>
                 </div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3">
+                <div>
+                    <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Opis zlecenia</label>
+                    <textarea id="t-desc" placeholder="Szczegóły: z którego piętra, co konkretnie robimy..." class="w-full px-4 py-3 rounded-xl text-sm h-24 resize-none"></textarea>
+                </div>
+                <div class="bg-dark-900/50 p-4 rounded-xl border border-dark-700">
+                    <label class="block text-xs font-bold text-brand-400 uppercase tracking-wider mb-3">Pracownicy do tego zlecenia:</label>
+                    <div id="t-workers-container" class="space-y-2 mb-3">
+                        <!-- Dynamiczne rzędy pracowników -->
+                    </div>
+                    <button type="button" onclick="addWorkerRow()" class="text-brand-500 hover:text-brand-400 text-xs font-bold transition-colors"><i class="fa-solid fa-user-plus mr-1"></i> Dodaj kolejną osobę</button>
+                </div>
+                
+                <div class="pt-4 mt-2 border-t border-dark-700 flex justify-end gap-3">
                     <button type="button" onclick="closeModal('taskModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button>
                     <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Zapisz Zlecenie</button>
                 </div>
@@ -266,49 +249,51 @@
         </div>
     </dialog>
 
+    <!-- MODALE: KOSZT -->
     <dialog id="expenseModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.15)] relative">
-            <button onclick="closeModal('expenseModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+        <!-- Ten sam co wcześniej -->
+        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-red-500/30">
+            <button type="button" onclick="closeModal('expenseModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-minus-circle text-red-500 mr-2"></i> Rejestruj Koszt</h2>
             <form id="addExpenseForm" class="space-y-4">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Kwota (PLN)</label><input type="number" id="e-price" required placeholder="np. 350" class="w-full px-4 py-3 rounded-xl text-xl text-red-400 font-bold text-center"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Czego dotyczy?</label><select id="e-category" class="w-full px-4 py-3 rounded-xl text-sm"><option>Paliwo (Orlen / Inne)</option><option>Naprawa auta / Części</option><option>Wypłata dla pracownika</option><option>Materiały (Kartony, Folia)</option><option>Inne opłaty</option></select></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Krótki opis (Opcjonalnie)</label><input type="text" id="e-desc" placeholder="np. Tankowanie VW Crafter" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('expenseModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button><button type="submit" class="bg-red-500 hover:bg-red-400 text-white px-6 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(239,68,68,0.4)] text-sm">Odejmij od zysku</button></div>
+                <div><label class="block text-xs font-bold text-gray-400 uppercase">Kwota (PLN)</label><input type="number" id="e-price" required class="w-full px-4 py-3 rounded-xl text-xl text-red-400 font-bold text-center"></div>
+                <div><label class="block text-xs font-bold text-gray-400 uppercase">Kategoria</label><select id="e-category" class="w-full px-4 py-3 rounded-xl text-sm"><option>Paliwo</option><option>Naprawa/Części</option><option>Wypłata</option><option>Materiały</option><option>Inne</option></select></div>
+                <div><label class="block text-xs font-bold text-gray-400 uppercase">Opis</label><input type="text" id="e-desc" class="w-full px-4 py-3 rounded-xl text-sm"></div>
+                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('expenseModal')" class="px-5 py-2.5 rounded-xl text-gray-400 text-sm font-bold">Anuluj</button><button type="submit" class="bg-red-500 text-white px-6 py-2.5 rounded-xl font-bold text-sm">Odejmij</button></div>
             </form>
         </div>
     </dialog>
 
+    <!-- MODALE: DODAJ / EDYTUJ PRACOWNIKA -->
     <dialog id="employeeModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative">
-            <button onclick="closeModal('employeeModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-user-plus text-brand-500 mr-2"></i> Nowy Pracownik</h2>
-            <form id="addEmployeeForm" class="space-y-4">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Imię i Nazwisko</label><input type="text" id="emp-name" required placeholder="np. Jan Kowalski" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Rola / Stanowisko</label><input type="text" id="emp-role" required placeholder="np. Kierowca / Tragarz" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div><label class="block text-xs font-bold text-brand-400 uppercase tracking-wider mb-1">Kod PIN (Do logowania)</label><input type="password" id="emp-pin" maxlength="4" pattern="\d{4}" required placeholder="••••" class="w-full text-center tracking-[0.5em] text-xl px-4 py-3 rounded-xl text-white font-black"></div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('employeeModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button><button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Dodaj</button></div>
+        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30">
+            <button type="button" onclick="closeModal('employeeModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="emp-modal-title" class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-user-plus text-brand-500 mr-2"></i> Pracownik</h2>
+            <form id="employeeForm" class="space-y-4">
+                <input type="hidden" id="emp-id">
+                <div><label class="block text-xs font-bold text-gray-400 uppercase">Imię i Nazwisko</label><input type="text" id="emp-name" required class="w-full px-4 py-3 rounded-xl text-sm"></div>
+                <div><label class="block text-xs font-bold text-gray-400 uppercase">Główna Rola (do panelu)</label><input type="text" id="emp-role" required class="w-full px-4 py-3 rounded-xl text-sm"></div>
+                <div><label class="block text-xs font-bold text-brand-400 uppercase">PIN Logowania</label><input type="password" id="emp-pin" maxlength="4" pattern="\d{4}" required class="w-full px-4 py-3 rounded-xl text-center text-xl tracking-[0.5em] text-white font-black"></div>
+                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('employeeModal')" class="px-5 py-2.5 rounded-xl text-gray-400 text-sm font-bold">Anuluj</button><button type="submit" class="bg-brand-500 text-dark-900 px-6 py-2.5 rounded-xl font-bold text-sm">Zapisz</button></div>
             </form>
         </div>
     </dialog>
 
+    <!-- MODALE: DODAJ / EDYTUJ POJAZD -->
     <dialog id="fleetModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative">
-            <button onclick="closeModal('fleetModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-truck text-brand-500 mr-2"></i> Dodaj Pojazd</h2>
-            <form id="addFleetForm" class="space-y-4">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Model pojazdu</label><input type="text" id="fl-name" required placeholder="np. VW Crafter (Blaszak)" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Numer Rejestracyjny</label><input type="text" id="fl-plates" required placeholder="np. GS 12345" class="w-full px-4 py-3 rounded-xl text-sm uppercase"></div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('fleetModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button><button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Dodaj</button></div>
+        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30">
+            <button type="button" onclick="closeModal('fleetModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="fleet-modal-title" class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-truck text-brand-500 mr-2"></i> Pojazd</h2>
+            <form id="fleetForm" class="space-y-4">
+                <input type="hidden" id="fl-id">
+                <div><label class="block text-xs font-bold text-gray-400 uppercase">Model</label><input type="text" id="fl-name" required class="w-full px-4 py-3 rounded-xl text-sm"></div>
+                <div><label class="block text-xs font-bold text-gray-400 uppercase">Rejestracja</label><input type="text" id="fl-plates" required class="w-full px-4 py-3 rounded-xl text-sm uppercase"></div>
+                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('fleetModal')" class="px-5 py-2.5 rounded-xl text-gray-400 text-sm font-bold">Anuluj</button><button type="submit" class="bg-brand-500 text-dark-900 px-6 py-2.5 rounded-xl font-bold text-sm">Zapisz</button></div>
             </form>
         </div>
     </dialog>
 
     <script>
-        // ==========================================
-        // GŁÓWNA LOGIKA APLIKACJI I BAZY DANYCH
-        // ==========================================
-        
         let db = { tasks: [], expenses: [], employees: [], fleet: [] };
         let currentUserRole = '';
         
@@ -318,7 +303,7 @@
         let chartIncomeData = [];
         let chartExpenseData = [];
 
-        // 1. Obsługa formularza logowania
+        // 1. Logowanie
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const pin = document.getElementById('pin-input').value;
@@ -344,7 +329,6 @@
                     document.getElementById('ui-role').innerText = data.role === 'admin' ? 'Główny Administrator' : 'Pracownik';
 
                     if (currentUserRole === 'worker') {
-                        // Ograniczenia dla pracownika
                         document.getElementById('nav-dashboard').classList.add('hidden');
                         document.getElementById('nav-wyceny').classList.add('hidden');
                         document.getElementById('nav-flota').classList.add('hidden');
@@ -354,16 +338,12 @@
                         switchTab('dashboard');
                     }
 
-                    const loginScreen = document.getElementById('login-screen');
-                    const mainApp = document.getElementById('main-app');
-                    
-                    loginScreen.classList.add('opacity-0');
+                    document.getElementById('login-screen').classList.add('opacity-0');
                     setTimeout(() => {
-                        loginScreen.classList.add('hidden');
-                        mainApp.classList.remove('hidden');
-                        fetchDataFromMongoDB(); // Pobiera prawdziwe dane
+                        document.getElementById('login-screen').classList.add('hidden');
+                        document.getElementById('main-app').classList.remove('hidden');
+                        fetchDataFromMongoDB();
                     }, 500);
-
                 } else {
                     errorMsg.innerText = data.message || 'Nieprawidłowy kod PIN';
                     errorMsg.classList.remove('hidden');
@@ -377,31 +357,30 @@
             }
         });
 
-        // 2. Pobieranie danych z bazy
+        // 2. Pobieranie danych
         async function fetchDataFromMongoDB() {
             try {
                 const res = await fetch('/api/data');
                 const data = await res.json();
                 
-                db.tasks = data.tasks || [];
-                db.expenses = data.expenses || [];
-                db.employees = data.employees || [];
-                db.fleet = data.fleet || [];
+                db = {
+                    tasks: data.tasks || [],
+                    expenses: data.expenses || [],
+                    employees: data.employees || [],
+                    fleet: data.fleet || []
+                };
                 
                 renderLists();
                 renderTasks();
                 renderExpenses();
                 updateFinancesUI();
                 
-                if (currentUserRole === 'admin') {
-                    initChart();
-                }
+                if (currentUserRole === 'admin' && !chartInstance) initChart();
             } catch (err) {
                 console.error('Błąd pobierania danych', err);
             }
         }
 
-        // 3. Renderowanie UI
         function updateFinancesUI() {
             if (currentUserRole !== 'admin') return;
             
@@ -422,10 +401,14 @@
             if (chartInstance) pushChartData(profit, income, expense);
         }
 
+        // =====================================
+        // RENDEROWANIE FLOTY I PRACOWNIKÓW
+        // =====================================
         function renderLists() {
-            document.getElementById('t-worker').innerHTML = db.employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
+            // Options dla zlecenia
             document.getElementById('t-car').innerHTML = db.fleet.map(f => `<option value="${f.name}">${f.name}</option>`).join('');
 
+            // Tabela pracowników (z ołówkiem i koszem)
             const empContainer = document.getElementById('employees-container');
             if (empContainer) {
                 empContainer.innerHTML = db.employees.map(e => `
@@ -434,10 +417,15 @@
                             <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-500 flex items-center justify-center font-bold text-xs">${e.name.substring(0,2).toUpperCase()}</div>
                             <div><p class="text-white font-bold text-sm">${e.name}</p><p class="text-gray-400 text-xs">${e.role}</p></div>
                         </div>
-                        <span class="text-brand-500 font-mono text-xs bg-brand-500/10 px-2 py-1 rounded">PIN: ${e.pin || 'Brak'}</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-brand-500 font-mono text-xs bg-brand-500/10 px-2 py-1 rounded">PIN: ${e.pin || 'Brak'}</span>
+                            <button onclick="editEmployee('${e._id}')" class="text-blue-400 hover:text-blue-300 transition-colors"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteEmployee('${e._id}')" class="text-red-400 hover:text-red-300 transition-colors"><i class="fa-solid fa-trash"></i></button>
+                        </div>
                     </div>`).join('');
             }
 
+            // Tabela floty
             const fleetContainer = document.getElementById('fleet-container');
             if (fleetContainer) {
                 fleetContainer.innerHTML = db.fleet.map(f => `
@@ -446,10 +434,17 @@
                             <div class="w-8 h-8 rounded-lg bg-dark-900 border border-dark-600 text-gray-400 flex items-center justify-center text-xs"><i class="fa-solid fa-truck"></i></div>
                             <div><p class="text-white font-bold text-sm">${f.name}</p><p class="text-brand-400 text-xs">${f.plates}</p></div>
                         </div>
+                        <div class="flex items-center gap-3">
+                            <button onclick="editFleet('${f._id}')" class="text-blue-400 hover:text-blue-300 transition-colors"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteFleet('${f._id}')" class="text-red-400 hover:text-red-300 transition-colors"><i class="fa-solid fa-trash"></i></button>
+                        </div>
                     </div>`).join('');
             }
         }
 
+        // =====================================
+        // RENDEROWANIE ZLECEŃ Z ROLAMI
+        // =====================================
         function renderTasks() {
             const dashContainer = document.getElementById('dashboard-tasks-container');
             const allContainer = document.getElementById('all-tasks-container');
@@ -464,6 +459,18 @@
 
             db.tasks.forEach(task => {
                 const isDone = task.completed;
+                
+                // Obsługa starych zleceń z pojedynczym polem 'worker' oraz nowych z tablicą 'workers'
+                let workersHtml = '';
+                if (task.workers && task.workers.length > 0) {
+                    workersHtml = task.workers.map(w => `<span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${w.name} <span class="text-brand-500 ml-1">(${w.role})</span></span>`).join('');
+                } else if (task.worker) {
+                    workersHtml = `<span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${task.worker}</span>`;
+                }
+
+                // Opis
+                let descHtml = task.desc ? `<div class="bg-dark-900/50 text-gray-400 text-xs p-3 rounded-lg border border-dark-700/50 mb-3 whitespace-pre-line">${task.desc}</div>` : '';
+
                 const html = `
                     <div class="bg-dark-800/80 border ${isDone ? 'border-brand-500/20 opacity-60' : 'border-dark-600'} rounded-xl p-4 transition-all hover:border-brand-500/50 flex flex-col justify-between">
                         <div>
@@ -471,15 +478,16 @@
                                 <span class="${isDone ? 'bg-brand-500/20 text-brand-500' : 'bg-blue-500/20 text-blue-400'} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${isDone ? 'ZREALIZOWANE' : 'W TOKU'}</span>
                                 <span class="text-white font-black text-lg">${task.price} PLN</span>
                             </div>
-                            <h3 class="text-white font-bold mb-1 truncate">${task.name}</h3>
-                            <p class="text-gray-400 text-xs mb-3 truncate"><i class="fa-solid fa-location-dot mr-1"></i> ${task.address}</p>
+                            <h3 class="text-white font-bold mb-1">${task.name}</h3>
+                            <p class="text-gray-400 text-xs mb-3"><i class="fa-solid fa-location-dot mr-1 text-brand-500"></i> ${task.address}</p>
+                            ${descHtml}
                             <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${task.worker}</span>
-                                <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-van-shuttle text-gray-500 mr-1"></i> ${task.car}</span>
+                                <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded w-full"><i class="fa-solid fa-van-shuttle text-gray-500 mr-1"></i> ${task.car}</span>
+                                ${workersHtml}
                             </div>
                         </div>
                         <div class="mt-auto">
-                            ${!isDone ? `<button onclick="completeTask('${task._id}')" class="w-full bg-dark-700 hover:bg-brand-500 hover:text-dark-900 text-white py-2 rounded-lg text-sm font-bold transition-colors border border-dark-600 hover:border-brand-500"><i class="fa-solid fa-check mr-1"></i> Zrealizowane</button>` : `<button disabled class="w-full bg-dark-900 text-brand-500/50 py-2 rounded-lg text-sm font-bold border border-brand-500/10 cursor-not-allowed">Zakończono i rozliczono</button>`}
+                            ${!isDone ? `<button onclick="completeTask('${task._id}')" class="w-full bg-dark-700 hover:bg-brand-500 hover:text-dark-900 text-white py-2 rounded-lg text-sm font-bold transition-colors border border-dark-600 hover:border-brand-500"><i class="fa-solid fa-check mr-1"></i> Oznacz Zrealizowane</button>` : `<button disabled class="w-full bg-dark-900 text-brand-500/50 py-2 rounded-lg text-sm font-bold border border-brand-500/10 cursor-not-allowed">Zakończono i rozliczono</button>`}
                         </div>
                     </div>`;
                 if(!isDone && dashContainer && dashContainer.children.length < 3) dashContainer.innerHTML += html;
@@ -492,11 +500,13 @@
             if(!container) return;
             container.innerHTML = db.expenses.length === 0 ? '<p class="text-gray-500 text-sm text-center py-4 italic">Brak kosztów w tym miesiącu.</p>' : '';
             db.expenses.slice(0, 5).forEach(exp => {
-                container.innerHTML += `<div class="flex justify-between items-center bg-dark-800/50 p-3 rounded-lg border border-dark-700 mb-3"><div><p class="text-white text-sm font-bold">${exp.category}</p><p class="text-gray-400 text-xs">${exp.desc}</p></div><span class="text-red-400 font-bold whitespace-nowrap">- ${exp.price} PLN</span></div>`;
+                container.innerHTML += `<div class="flex justify-between items-center bg-dark-800/50 p-3 rounded-lg border border-dark-700 mb-2"><div><p class="text-white text-sm font-bold">${exp.category}</p><p class="text-gray-400 text-xs">${exp.desc}</p></div><span class="text-red-400 font-bold whitespace-nowrap">- ${exp.price} PLN</span></div>`;
             });
         }
 
-        // 4. Chart.js (Tylko dla Admina)
+        // =====================================
+        // WYKRES ADMINA
+        // =====================================
         function initChart() {
             const ctx = document.getElementById('financeChart');
             if(!ctx) return;
@@ -521,14 +531,7 @@
                         { label: 'Koszty', data: chartExpenseData, borderColor: '#ef4444', borderWidth: 2, borderDash: [5, 5], tension: 0.4 }
                     ]
                 },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    plugins: { legend: { labels: { color: '#9ca3af' } } },
-                    scales: {
-                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } },
-                        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } }
-                    }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#9ca3af' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } } } }
             });
 
             setInterval(() => {
@@ -542,76 +545,171 @@
             if(!chartInstance) return;
             const now = new Date();
             const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
-            if(chartTimeLabels.length > 10) {
-                chartTimeLabels.shift(); chartProfitData.shift(); chartIncomeData.shift(); chartExpenseData.shift();
-            }
-            chartTimeLabels.push(timeStr); 
-            chartProfitData.push(profit); 
-            chartIncomeData.push(income); 
-            chartExpenseData.push(expense);
+            if(chartTimeLabels.length > 10) { chartTimeLabels.shift(); chartProfitData.shift(); chartIncomeData.shift(); chartExpenseData.shift(); }
+            chartTimeLabels.push(timeStr); chartProfitData.push(profit); chartIncomeData.push(income); chartExpenseData.push(expense);
             chartInstance.update();
         }
 
-        // 5. Akcje (Formularze POST -> Baza)
+        // =====================================
+        // SYSTEM DYNAMICZNYCH PRACOWNIKÓW DO ZLECENIA
+        // =====================================
+        function openTaskModal() {
+            document.getElementById('t-workers-container').innerHTML = '';
+            document.getElementById('addTaskForm').reset();
+            addWorkerRow(); // Dodaje pierwszy pusty rząd przy otwarciu
+            openModal('taskModal');
+        }
+
+        function addWorkerRow() {
+            const container = document.getElementById('t-workers-container');
+            const rowId = 'wrk-' + Date.now();
+            const employeeOptions = db.employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
+            
+            const html = `
+            <div id="${rowId}" class="flex gap-2 items-center worker-row">
+                <select class="wrk-name-sel w-full px-4 py-2 rounded-xl text-sm flex-1 bg-dark-800 border-dark-600">
+                    ${employeeOptions}
+                </select>
+                <select class="wrk-role-sel w-full px-4 py-2 rounded-xl text-sm w-32 flex-shrink-0 bg-dark-800 border-dark-600">
+                    <option value="Kierowca">Kierowca</option>
+                    <option value="Pomocnik">Pomocnik</option>
+                </select>
+                <button type="button" onclick="document.getElementById('${rowId}').remove()" class="text-red-400 hover:text-red-300 w-8 flex-shrink-0 text-center"><i class="fa-solid fa-trash"></i></button>
+            </div>`;
+            container.insertAdjacentHTML('beforeend', html);
+        }
+
+        document.getElementById('addTaskForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const workersArray = [];
+            document.querySelectorAll('#t-workers-container .worker-row').forEach(row => {
+                workersArray.push({
+                    name: row.querySelector('.wrk-name-sel').value,
+                    role: row.querySelector('.wrk-role-sel').value
+                });
+            });
+
+            const body = { 
+                name: document.getElementById('t-name').value, 
+                price: Number(document.getElementById('t-price').value), 
+                address: document.getElementById('t-address').value,
+                desc: document.getElementById('t-desc').value, // NOWE
+                people: workersArray.length, 
+                workers: workersArray, // NOWE
+                car: document.getElementById('t-car').value 
+            };
+            await fetch('/api/tasks', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            closeModal('taskModal'); switchTab('dashboard'); fetchDataFromMongoDB();
+        });
+
         async function completeTask(id) {
             await fetch(`/api/tasks/${id}/complete`, { method: 'POST' });
             fetchDataFromMongoDB();
         }
 
-        document.getElementById('addTaskForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const body = { 
-                name: document.getElementById('t-name').value, 
-                price: Number(document.getElementById('t-price').value), 
-                address: document.getElementById('t-address').value, 
-                people: Number(document.getElementById('t-people').value), 
-                worker: document.getElementById('t-worker').value, 
-                car: document.getElementById('t-car').value 
-            };
-            await fetch('/api/tasks', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('taskModal'); this.reset(); switchTab('dashboard'); fetchDataFromMongoDB();
-        });
+        // =====================================
+        // EDYCJA / DODAWANIE - PRACOWNICY
+        // =====================================
+        function editEmployee(id) {
+            const emp = db.employees.find(e => e._id === id);
+            if(!emp) return;
+            document.getElementById('emp-id').value = emp._id;
+            document.getElementById('emp-name').value = emp.name;
+            document.getElementById('emp-role').value = emp.role;
+            document.getElementById('emp-pin').value = emp.pin || '';
+            document.getElementById('emp-modal-title').innerHTML = '<i class="fa-solid fa-pen text-brand-500 mr-2"></i> Edytuj Pracownika';
+            openModal('employeeModal');
+        }
 
-        document.getElementById('addExpenseForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const body = { 
-                price: Number(document.getElementById('e-price').value), 
-                category: document.getElementById('e-category').value, 
-                desc: document.getElementById('e-desc').value 
-            };
-            await fetch('/api/expenses', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('expenseModal'); this.reset(); fetchDataFromMongoDB();
-        });
+        // Zmodyfikowany przycisk "Dodaj" w HTML wywołuje to, zamiast zwykłego openModal
+        document.querySelector('button[onclick="openModal(\'employeeModal\')"]').onclick = function() {
+            document.getElementById('employeeForm').reset();
+            document.getElementById('emp-id').value = '';
+            document.getElementById('emp-modal-title').innerHTML = '<i class="fa-solid fa-user-plus text-brand-500 mr-2"></i> Nowy Pracownik';
+            openModal('employeeModal');
+        };
 
-        document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
+        document.getElementById('employeeForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const id = document.getElementById('emp-id').value;
             const body = { 
                 name: document.getElementById('emp-name').value, 
                 role: document.getElementById('emp-role').value,
                 pin: document.getElementById('emp-pin').value
             };
-            await fetch('/api/employees', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('employeeModal'); this.reset(); fetchDataFromMongoDB();
+            
+            if(id) {
+                await fetch(`/api/employees/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            } else {
+                await fetch('/api/employees', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            }
+            closeModal('employeeModal'); fetchDataFromMongoDB();
         });
 
-        document.getElementById('addFleetForm').addEventListener('submit', async function(e) {
+        async function deleteEmployee(id) {
+            if(!confirm('Czy na pewno chcesz usunąć tego pracownika?')) return;
+            await fetch(`/api/employees/${id}`, { method: 'DELETE' });
+            fetchDataFromMongoDB();
+        }
+
+        // =====================================
+        // EDYCJA / DODAWANIE - FLOTA
+        // =====================================
+        function editFleet(id) {
+            const f = db.fleet.find(x => x._id === id);
+            if(!f) return;
+            document.getElementById('fl-id').value = f._id;
+            document.getElementById('fl-name').value = f.name;
+            document.getElementById('fl-plates').value = f.plates;
+            document.getElementById('fleet-modal-title').innerHTML = '<i class="fa-solid fa-pen text-brand-500 mr-2"></i> Edytuj Pojazd';
+            openModal('fleetModal');
+        }
+
+        document.querySelector('button[onclick="openModal(\'fleetModal\')"]').onclick = function() {
+            document.getElementById('fleetForm').reset();
+            document.getElementById('fl-id').value = '';
+            document.getElementById('fleet-modal-title').innerHTML = '<i class="fa-solid fa-truck text-brand-500 mr-2"></i> Dodaj Pojazd';
+            openModal('fleetModal');
+        };
+
+        document.getElementById('fleetForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            const id = document.getElementById('fl-id').value;
             const body = { 
                 name: document.getElementById('fl-name').value, 
                 plates: document.getElementById('fl-plates').value 
             };
-            await fetch('/api/fleet', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('fleetModal'); this.reset(); fetchDataFromMongoDB();
+            
+            if(id) {
+                await fetch(`/api/fleet/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            } else {
+                await fetch('/api/fleet', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            }
+            closeModal('fleetModal'); fetchDataFromMongoDB();
         });
 
-        // 6. Nawigacja
+        async function deleteFleet(id) {
+            if(!confirm('Czy na pewno chcesz usunąć ten pojazd?')) return;
+            await fetch(`/api/fleet/${id}`, { method: 'DELETE' });
+            fetchDataFromMongoDB();
+        }
+
+        // =====================================
+        // INNE KOSZTY I NAWIGACJA
+        // =====================================
+        document.getElementById('addExpenseForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const body = { price: Number(document.getElementById('e-price').value), category: document.getElementById('e-category').value, desc: document.getElementById('e-desc').value };
+            await fetch('/api/expenses', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            closeModal('expenseModal'); this.reset(); fetchDataFromMongoDB();
+        });
+
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('text-brand-500', 'bg-brand-500/10', 'font-bold'); el.classList.add('text-gray-400'); });
-            
             const targetTab = document.getElementById(`tab-${tabId}`);
             if(targetTab) targetTab.classList.remove('hidden');
-            
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if(activeBtn) { activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-brand-500', 'bg-brand-500/10', 'font-bold'); }
             window.scrollTo(0,0);
