@@ -16,31 +16,17 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            400: '#34d399',
-                            500: '#10b981',
-                            600: '#059669',
-                            700: '#047857',
-                        },
-                        dark: {
-                            900: '#050505',
-                            800: '#111111',
-                            700: '#1a1a1a',
-                            600: '#2a2a2a',
-                        }
+                        brand: { 400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857' },
+                        dark: { 900: '#050505', 800: '#111111', 700: '#1a1a1a', 600: '#2a2a2a' }
                     },
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    animation: {
-                        'blob': 'blob 10s infinite alternate',
-                    },
+                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
+                    animation: { 'blob': 'blob 10s infinite alternate' },
                     keyframes: {
                         blob: {
                             '0%': { transform: 'translate(0px, 0px) scale(1)' },
                             '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
                             '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' }
                         }
                     }
                 }
@@ -52,75 +38,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        body {
-            background-color: #050505;
-            color: #f3f4f6;
-            -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
-        }
-
-        .liquid-glass {
-            background: rgba(17, 17, 17, 0.45);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-        }
-        
-        .liquid-glass-heavy {
-            background: rgba(10, 10, 10, 0.7);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.6);
-        }
-
-        .liquid-glass-accent {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(17, 17, 17, 0.4) 100%);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-        }
-
+        body { background-color: #050505; color: #f3f4f6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        .liquid-glass { background: rgba(17, 17, 17, 0.45); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
+        .liquid-glass-heavy { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.6); }
+        .liquid-glass-accent { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(17, 17, 17, 0.4) 100%); backdrop-filter: blur(20px); border: 1px solid rgba(16, 185, 129, 0.3); }
         .text-glow { text-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-        
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.6); }
-
-        .app-container {
-            height: 100vh;
-            height: 100dvh; 
-        }
-
-        .bg-liquid-container {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            z-index: -1;
-            overflow: hidden;
-            background: #050505;
-        }
-        
-        .animation-delay-2000 { animation-delay: 2s; }
-        .animation-delay-4000 { animation-delay: 4s; }
-
-        input, select, textarea {
-            background: rgba(0,0,0,0.3) !important;
-            border: 1px solid rgba(255,255,255,0.1) !important;
-            color: white !important;
-        }
-        input:focus, select:focus, textarea:focus {
-            border-color: #10b981 !important;
-            outline: none !important;
-            box-shadow: 0 0 0 2px rgba(16,185,129,0.2) !important;
-        }
-        
-        /* Ukrycie paska przewijania w inpucie numerycznym */
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-        }
+        .app-container { height: 100vh; height: 100dvh; }
+        .bg-liquid-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: #050505; }
+        .animation-delay-2000 { animation-delay: 2s; } .animation-delay-4000 { animation-delay: 4s; }
+        input, select, textarea { background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
+        input:focus, select:focus, textarea:focus { border-color: #10b981 !important; outline: none !important; box-shadow: 0 0 0 2px rgba(16,185,129,0.2) !important; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     </style>
 </head>
 <body class="text-sm md:text-base selection:bg-brand-500 selection:text-dark-900">
@@ -136,7 +68,7 @@
         <div class="liquid-glass-heavy p-8 rounded-3xl w-full max-w-sm flex flex-col items-center border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] mx-4">
             <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 mb-6 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
             <h2 class="text-xl font-bold text-white mb-2">Autoryzacja</h2>
-            <p class="text-gray-400 text-xs mb-6 text-center">Wprowadź 4-cyfrowy kod PIN administratora</p>
+            <p class="text-gray-400 text-xs mb-6 text-center">Wprowadź swój 4-cyfrowy kod PIN</p>
 
             <form id="loginForm" class="w-full flex flex-col items-center">
                 <input type="password" id="pin-input" inputmode="numeric" maxlength="4" pattern="\d{4}" required
@@ -151,7 +83,6 @@
     </div>
 
     <!-- ================= GŁÓWNA APLIKACJA ================= -->
-    <!-- Dodana klasa hidden, aplikacja pokaże się po zalogowaniu -->
     <div id="main-app" class="app-container flex flex-col md:flex-row transition-opacity duration-500 hidden">
         
         <aside class="liquid-glass border-r border-dark-700/50 w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col justify-between fixed bottom-0 md:relative z-50 md:h-full order-2 md:order-1">
@@ -160,23 +91,19 @@
             </div>
 
             <nav class="flex md:flex-col justify-around md:justify-start w-full px-2 py-3 md:py-6 md:px-4 md:space-y-2 flex-grow">
-                <button onclick="switchTab('dashboard')" class="nav-btn active flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-brand-500 bg-brand-500/10 font-bold">
+                <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-btn active flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-brand-500 bg-brand-500/10 font-bold">
                     <i class="fa-solid fa-chart-pie text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
                     <span class="text-[10px] md:text-sm">Dashboard</span>
                 </button>
-                <button onclick="switchTab('zlecenia')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
+                <button id="nav-zlecenia" onclick="switchTab('zlecenia')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
                     <i class="fa-solid fa-clipboard-list text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
                     <span class="text-[10px] md:text-sm">Zlecenia</span>
                 </button>
-                <button onclick="switchTab('wyceny')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 relative">
+                <button id="nav-wyceny" onclick="switchTab('wyceny')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 relative">
                     <i class="fa-solid fa-envelope-open-text text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
                     <span class="text-[10px] md:text-sm">Wyceny (Z www)</span>
-                    <span class="absolute top-1 right-2 md:top-auto md:right-4 flex h-3 w-3">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                    </span>
                 </button>
-                <button onclick="switchTab('flota')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
+                <button id="nav-flota" onclick="switchTab('flota')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
                     <i class="fa-solid fa-users-gear text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i>
                     <span class="text-[10px] md:text-sm">Pracownicy & Flota</span>
                 </button>
@@ -185,11 +112,11 @@
             <div class="hidden md:flex items-center justify-between px-6 py-6 border-t border-dark-700/50">
                 <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-lg shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-                        GB
+                        <i class="fa-solid fa-user"></i>
                     </div>
                     <div class="ml-3">
-                        <p class="text-white font-bold text-sm">Gracjan Błachnio</p>
-                        <p class="text-brand-500 text-xs">Główny Administrator</p>
+                        <p id="ui-username" class="text-white font-bold text-sm">Zalogowany</p>
+                        <p id="ui-role" class="text-brand-500 text-xs">Użytkownik</p>
                     </div>
                 </div>
             </div>
@@ -199,10 +126,8 @@
             
             <header class="md:hidden liquid-glass sticky top-0 z-40 px-4 py-3 flex justify-between items-center">
                 <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-8">
-                <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-xs">
-                        GB
-                    </div>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-xs">
+                    <i class="fa-solid fa-user"></i>
                 </div>
             </header>
 
@@ -210,16 +135,16 @@
                 
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Cześć, Gracjan <span class="wave">👋</span></h1>
+                        <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Cześć, <span id="header-name"></span> <span class="wave">👋</span></h1>
                         <p class="text-gray-400 text-sm flex items-center">
-                            <i class="fa-regular fa-calendar text-brand-500 mr-2"></i> Okres rozliczeniowy: <strong class="text-white ml-1"> 1 Sierpnia - 1 Września</strong>
+                            <i class="fa-regular fa-calendar text-brand-500 mr-2"></i> Baza danych: <strong class="text-brand-500 ml-1"> Aktywna (Online)</strong>
                         </p>
                     </div>
                     <div class="flex gap-3 w-full md:w-auto">
                         <button onclick="openModal('expenseModal')" class="flex-1 md:flex-none liquid-glass border border-red-500/30 text-white hover:bg-red-500/10 px-4 py-2.5 rounded-xl font-medium transition-all text-sm flex items-center justify-center">
                             <i class="fa-solid fa-minus text-red-400 mr-2"></i> Dodaj Koszt
                         </button>
-                        <button onclick="openModal('taskModal')" class="flex-1 md:flex-none bg-brand-500 hover:bg-brand-400 text-dark-900 px-5 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm flex items-center justify-center">
+                        <button id="btn-add-task" onclick="openModal('taskModal')" class="flex-1 md:flex-none bg-brand-500 hover:bg-brand-400 text-dark-900 px-5 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm flex items-center justify-center">
                             <i class="fa-solid fa-plus mr-2"></i> Nowe Zlecenie
                         </button>
                     </div>
@@ -230,30 +155,30 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
                         <div class="liquid-glass-accent p-6 rounded-2xl relative overflow-hidden group">
                             <div class="absolute right-[-20px] top-[-20px] text-brand-500/10 text-8xl transition-transform group-hover:scale-110"><i class="fa-solid fa-wallet"></i></div>
-                            <h3 class="text-brand-100 text-xs font-bold uppercase tracking-wider mb-1 relative z-10">Zysk na czysto (Bieżący mies.)</h3>
+                            <h3 class="text-brand-100 text-xs font-bold uppercase tracking-wider mb-1 relative z-10">Zysk na czysto (Wszystko)</h3>
                             <div class="flex items-end gap-2 relative z-10">
                                 <span id="stat-profit" class="text-3xl md:text-4xl font-black text-white text-glow">0</span>
                                 <span class="text-brand-400 font-bold mb-1">PLN</span>
                             </div>
                         </div>
                         <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-brand-500/50">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Przychód (Bieżący mies.)</h3>
+                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Przychód ze zleceń</h3>
                             <div class="flex items-end gap-1"><span id="stat-income" class="text-2xl md:text-3xl font-black text-white">0</span><span class="text-gray-400 text-sm mb-1">PLN</span></div>
                         </div>
                         <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-red-500/50">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Koszty (Bieżący mies.)</h3>
+                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Suma kosztów</h3>
                             <div class="flex items-end gap-1"><span id="stat-expense" class="text-2xl md:text-3xl font-black text-white">0</span><span class="text-gray-400 text-sm mb-1">PLN</span></div>
                         </div>
                         <div class="liquid-glass p-5 md:p-6 rounded-2xl relative overflow-hidden group border-t-2 border-t-blue-500/50">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Całkowity Przychód (All-time)</h3>
-                            <div class="flex items-end gap-1"><span id="stat-total" class="text-2xl md:text-3xl font-black text-white">12450</span><span class="text-gray-400 text-sm mb-1">PLN</span></div>
+                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Ilość wykonanych zleceń</h3>
+                            <div class="flex items-end gap-1"><span id="stat-tasks-count" class="text-2xl md:text-3xl font-black text-white">0</span></div>
                         </div>
                     </div>
 
                     <!-- WYKRES LIVE -->
                     <div class="liquid-glass rounded-2xl p-5 md:p-6 mb-8 relative">
                         <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-chart-line text-brand-500 mr-2"></i> Wykres Finansowy Live</h2>
+                            <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-chart-line text-brand-500 mr-2"></i> Finanse Live (Sesja)</h2>
                             <span class="bg-brand-500/20 text-brand-500 text-xs font-bold px-2 py-1 rounded flex items-center"><span class="h-2 w-2 rounded-full bg-brand-500 animate-pulse mr-2"></span> Na żywo</span>
                         </div>
                         <div class="h-64 w-full"><canvas id="financeChart"></canvas></div>
@@ -262,13 +187,13 @@
                     <div class="grid lg:grid-cols-3 gap-6">
                         <div class="lg:col-span-2 liquid-glass rounded-2xl p-5 md:p-6">
                             <div class="flex justify-between items-center mb-6">
-                                <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-brand-500 mr-2"></i> Bieżące Zlecenia w toku</h2>
+                                <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-list-check text-brand-500 mr-2"></i> Najnowsze zlecenia</h2>
                                 <button onclick="switchTab('zlecenia')" class="text-xs text-brand-500 hover:text-white transition-colors">Wszystkie <i class="fa-solid fa-arrow-right"></i></button>
                             </div>
                             <div id="dashboard-tasks-container" class="space-y-3"></div>
                         </div>
                         <div class="liquid-glass rounded-2xl p-5 md:p-6">
-                            <h2 class="text-lg font-bold text-white mb-6"><i class="fa-solid fa-receipt text-red-400 mr-2"></i> Rejestr Kosztów</h2>
+                            <h2 class="text-lg font-bold text-white mb-6"><i class="fa-solid fa-receipt text-red-400 mr-2"></i> Ostatnie Koszty</h2>
                             <div id="dashboard-expenses-container" class="space-y-4"></div>
                         </div>
                     </div>
@@ -289,33 +214,7 @@
                 <div id="tab-wyceny" class="tab-content hidden">
                     <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
                         <h2 class="text-xl font-bold text-white mb-2">Skrzynka Wycen (Leady z www)</h2>
-                        <p class="text-gray-400 text-sm mb-6">Wiadomości wysłane przez klientów z formularza na stronach RevSerwis.</p>
-                        <div class="space-y-4">
-                            <div class="bg-dark-800/50 border border-brand-500/30 rounded-xl p-5 relative overflow-hidden group">
-                                <div class="absolute left-0 top-0 w-1 h-full bg-brand-500"></div>
-                                <div class="flex flex-col md:flex-row justify-between gap-4">
-                                    <div>
-                                        <div class="flex items-center gap-2 mb-2">
-                                            <span class="bg-brand-500/20 text-brand-400 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">NOWE</span>
-                                            <span class="text-gray-400 text-xs"><i class="fa-regular fa-clock"></i> 10 minut temu</span>
-                                        </div>
-                                        <h3 class="text-white font-bold text-lg mb-1">Przeprowadzka Międzynarodowa</h3>
-                                        <p class="text-gray-400 text-sm mb-3"><strong>Trasa:</strong> Remscheid, Niemcy <i class="fa-solid fa-arrow-right mx-1 text-brand-500"></i> Kołobrzeg, Polska</p>
-                                        <p class="text-gray-300 text-sm p-3 bg-dark-900 rounded-lg border border-dark-700">"Dzień dobry, mam do przewiezienia meble z mieszkania 2-pokojowego. Dużo kartonów i łóżko sypialniane. Kiedy możliwy termin?"</p>
-                                    </div>
-                                    <div class="flex flex-col items-start md:items-end justify-between min-w-[200px]">
-                                        <div class="text-left md:text-right mb-4 md:mb-0">
-                                            <p class="text-white font-bold"><i class="fa-solid fa-user text-gray-500 mr-2"></i> Jan Kowalski</p>
-                                            <a href="tel:600123456" class="text-brand-400 font-bold hover:underline"><i class="fa-solid fa-phone mr-1"></i> 600 123 456</a>
-                                        </div>
-                                        <div class="flex gap-2 w-full">
-                                            <button class="flex-1 bg-dark-700 hover:bg-dark-600 text-white px-3 py-2 rounded-lg text-sm transition-colors border border-dark-600">Usuń</button>
-                                            <button onclick="convertQuoteToTask('Jan Kowalski', 'Przeprowadzka Remscheid -> Kołobrzeg')" class="flex-1 bg-brand-500/20 text-brand-500 border border-brand-500 hover:bg-brand-500 hover:text-dark-900 px-3 py-2 rounded-lg text-sm font-bold transition-colors text-center">Utwórz Zlecenie</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="text-gray-400 text-sm mb-6">Funkcja w przygotowaniu...</p>
                     </div>
                 </div>
 
@@ -387,6 +286,7 @@
             <form id="addEmployeeForm" class="space-y-4">
                 <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Imię i Nazwisko</label><input type="text" id="emp-name" required placeholder="np. Jan Kowalski" class="w-full px-4 py-3 rounded-xl text-sm"></div>
                 <div><label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Rola / Stanowisko</label><input type="text" id="emp-role" required placeholder="np. Kierowca / Tragarz" class="w-full px-4 py-3 rounded-xl text-sm"></div>
+                <div><label class="block text-xs font-bold text-brand-400 uppercase tracking-wider mb-1">Kod PIN (Do logowania)</label><input type="password" id="emp-pin" maxlength="4" pattern="\d{4}" required placeholder="••••" class="w-full text-center tracking-[0.5em] text-xl px-4 py-3 rounded-xl text-white font-black"></div>
                 <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('employeeModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button><button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Dodaj</button></div>
             </form>
         </div>
@@ -406,22 +306,19 @@
 
     <script>
         // ==========================================
-        // GŁÓWNA LOGIKA APLIKACJI
+        // GŁÓWNA LOGIKA APLIKACJI I BAZY DANYCH
         // ==========================================
         
-        let finances = { income: 0, expense: 0, profit: 0, totalIncome: 12450 };
-        let tasks = [ { id: 1, name: 'Przeprowadzka do Niemiec', price: 3200, address: 'Słupsk -> Berlin', people: 2, worker: 'Gracjan Błachnio', car: 'VW Crafter', completed: false } ];
-        let expensesList = [];
-        let employees = [ { id: 1, name: 'Gracjan Błachnio', role: 'Szef / Admin' }, { id: 2, name: 'Kamil', role: 'Kierowca' } ];
-        let fleet = [ { id: 1, name: 'VW Crafter', plates: 'GS 12345' }, { id: 2, name: 'VW T5', plates: 'GS 54321' } ];
-
+        let db = { tasks: [], expenses: [], employees: [], fleet: [] };
+        let currentUserRole = '';
+        
         let chartInstance = null;
         let chartTimeLabels = [];
         let chartProfitData = [];
         let chartIncomeData = [];
         let chartExpenseData = [];
 
-        // Obsługa formularza logowania
+        // 1. Obsługa formularza logowania
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const pin = document.getElementById('pin-input').value;
@@ -432,62 +329,189 @@
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Weryfikacja...';
 
             try {
-                // Zapytanie POST do serwera express
-                const response = await fetch('/api/verify-pin', {
+                const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ pin: pin })
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.success) {
-                        // PIN poprawny
-                        const loginScreen = document.getElementById('login-screen');
-                        const mainApp = document.getElementById('main-app');
-                        
-                        loginScreen.classList.add('opacity-0');
-                        setTimeout(() => {
-                            loginScreen.classList.add('hidden');
-                            mainApp.classList.remove('hidden');
-                            initApp(); // Uruchomienie wykresów i danych po zalogowaniu
-                        }, 500);
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    currentUserRole = data.role;
+                    document.getElementById('header-name').innerText = data.name.split(' ')[0];
+                    document.getElementById('ui-username').innerText = data.name;
+                    document.getElementById('ui-role').innerText = data.role === 'admin' ? 'Główny Administrator' : 'Pracownik';
+
+                    if (currentUserRole === 'worker') {
+                        // Ograniczenia dla pracownika
+                        document.getElementById('nav-dashboard').classList.add('hidden');
+                        document.getElementById('nav-wyceny').classList.add('hidden');
+                        document.getElementById('nav-flota').classList.add('hidden');
+                        document.getElementById('btn-add-task').classList.add('hidden');
+                        switchTab('zlecenia');
                     } else {
-                        // Błędny PIN
-                        errorMsg.innerText = 'Nieprawidłowy kod PIN';
-                        errorMsg.classList.remove('hidden');
-                        submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
-                        document.getElementById('pin-input').value = '';
+                        switchTab('dashboard');
                     }
+
+                    const loginScreen = document.getElementById('login-screen');
+                    const mainApp = document.getElementById('main-app');
+                    
+                    loginScreen.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loginScreen.classList.add('hidden');
+                        mainApp.classList.remove('hidden');
+                        fetchDataFromMongoDB(); // Pobiera prawdziwe dane
+                    }, 500);
+
                 } else {
-                    errorMsg.innerText = 'Błąd połączenia z serwerem';
+                    errorMsg.innerText = data.message || 'Nieprawidłowy kod PIN';
                     errorMsg.classList.remove('hidden');
                     submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
+                    document.getElementById('pin-input').value = '';
                 }
             } catch (error) {
-                errorMsg.innerText = 'Błąd sieci. Serwer prawdopodobnie nie działa.';
+                errorMsg.innerText = 'Błąd połączenia z serwerem bazy danych';
                 errorMsg.classList.remove('hidden');
                 submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
             }
         });
 
-        function initApp() {
-            initChart();
-            renderLists();
-            updateFinancesUI();
-            renderTasks();
-            renderExpenses();
+        // 2. Pobieranie danych z bazy
+        async function fetchDataFromMongoDB() {
+            try {
+                const res = await fetch('/api/data');
+                const data = await res.json();
+                
+                db.tasks = data.tasks || [];
+                db.expenses = data.expenses || [];
+                db.employees = data.employees || [];
+                db.fleet = data.fleet || [];
+                
+                renderLists();
+                renderTasks();
+                renderExpenses();
+                updateFinancesUI();
+                
+                if (currentUserRole === 'admin') {
+                    initChart();
+                }
+            } catch (err) {
+                console.error('Błąd pobierania danych', err);
+            }
         }
 
+        // 3. Renderowanie UI
+        function updateFinancesUI() {
+            if (currentUserRole !== 'admin') return;
+            
+            let income = db.tasks.filter(t => t.completed).reduce((sum, t) => sum + Number(t.price), 0);
+            let expense = db.expenses.reduce((sum, e) => sum + Number(e.price), 0);
+            let profit = income - expense;
+            let completedTasksCount = db.tasks.filter(t => t.completed).length;
+
+            document.getElementById('stat-income').innerText = income.toLocaleString('pl-PL');
+            document.getElementById('stat-expense').innerText = expense.toLocaleString('pl-PL');
+            document.getElementById('stat-profit').innerText = profit.toLocaleString('pl-PL');
+            document.getElementById('stat-tasks-count').innerText = completedTasksCount;
+
+            const profitEl = document.getElementById('stat-profit');
+            if(profit < 0) { profitEl.classList.replace('text-white', 'text-red-400'); profitEl.classList.remove('text-glow'); } 
+            else { profitEl.classList.replace('text-red-400', 'text-white'); profitEl.classList.add('text-glow'); }
+            
+            if (chartInstance) pushChartData(profit, income, expense);
+        }
+
+        function renderLists() {
+            document.getElementById('t-worker').innerHTML = db.employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
+            document.getElementById('t-car').innerHTML = db.fleet.map(f => `<option value="${f.name}">${f.name}</option>`).join('');
+
+            const empContainer = document.getElementById('employees-container');
+            if (empContainer) {
+                empContainer.innerHTML = db.employees.map(e => `
+                    <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-500 flex items-center justify-center font-bold text-xs">${e.name.substring(0,2).toUpperCase()}</div>
+                            <div><p class="text-white font-bold text-sm">${e.name}</p><p class="text-gray-400 text-xs">${e.role}</p></div>
+                        </div>
+                        <span class="text-brand-500 font-mono text-xs bg-brand-500/10 px-2 py-1 rounded">PIN: ${e.pin || 'Brak'}</span>
+                    </div>`).join('');
+            }
+
+            const fleetContainer = document.getElementById('fleet-container');
+            if (fleetContainer) {
+                fleetContainer.innerHTML = db.fleet.map(f => `
+                    <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-dark-900 border border-dark-600 text-gray-400 flex items-center justify-center text-xs"><i class="fa-solid fa-truck"></i></div>
+                            <div><p class="text-white font-bold text-sm">${f.name}</p><p class="text-brand-400 text-xs">${f.plates}</p></div>
+                        </div>
+                    </div>`).join('');
+            }
+        }
+
+        function renderTasks() {
+            const dashContainer = document.getElementById('dashboard-tasks-container');
+            const allContainer = document.getElementById('all-tasks-container');
+            if(dashContainer) dashContainer.innerHTML = '';
+            if(allContainer) allContainer.innerHTML = '';
+            
+            if(db.tasks.length === 0) {
+                if(dashContainer) dashContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Brak aktywnych zleceń.</p>';
+                if(allContainer) allContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Brak aktywnych zleceń w bazie.</p>';
+                return;
+            }
+
+            db.tasks.forEach(task => {
+                const isDone = task.completed;
+                const html = `
+                    <div class="bg-dark-800/80 border ${isDone ? 'border-brand-500/20 opacity-60' : 'border-dark-600'} rounded-xl p-4 transition-all hover:border-brand-500/50 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="${isDone ? 'bg-brand-500/20 text-brand-500' : 'bg-blue-500/20 text-blue-400'} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${isDone ? 'ZREALIZOWANE' : 'W TOKU'}</span>
+                                <span class="text-white font-black text-lg">${task.price} PLN</span>
+                            </div>
+                            <h3 class="text-white font-bold mb-1 truncate">${task.name}</h3>
+                            <p class="text-gray-400 text-xs mb-3 truncate"><i class="fa-solid fa-location-dot mr-1"></i> ${task.address}</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${task.worker}</span>
+                                <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-van-shuttle text-gray-500 mr-1"></i> ${task.car}</span>
+                            </div>
+                        </div>
+                        <div class="mt-auto">
+                            ${!isDone ? `<button onclick="completeTask('${task._id}')" class="w-full bg-dark-700 hover:bg-brand-500 hover:text-dark-900 text-white py-2 rounded-lg text-sm font-bold transition-colors border border-dark-600 hover:border-brand-500"><i class="fa-solid fa-check mr-1"></i> Zrealizowane</button>` : `<button disabled class="w-full bg-dark-900 text-brand-500/50 py-2 rounded-lg text-sm font-bold border border-brand-500/10 cursor-not-allowed">Zakończono i rozliczono</button>`}
+                        </div>
+                    </div>`;
+                if(!isDone && dashContainer && dashContainer.children.length < 3) dashContainer.innerHTML += html;
+                if(allContainer) allContainer.innerHTML += html;
+            });
+        }
+
+        function renderExpenses() {
+            const container = document.getElementById('dashboard-expenses-container');
+            if(!container) return;
+            container.innerHTML = db.expenses.length === 0 ? '<p class="text-gray-500 text-sm text-center py-4 italic">Brak kosztów w tym miesiącu.</p>' : '';
+            db.expenses.slice(0, 5).forEach(exp => {
+                container.innerHTML += `<div class="flex justify-between items-center bg-dark-800/50 p-3 rounded-lg border border-dark-700 mb-3"><div><p class="text-white text-sm font-bold">${exp.category}</p><p class="text-gray-400 text-xs">${exp.desc}</p></div><span class="text-red-400 font-bold whitespace-nowrap">- ${exp.price} PLN</span></div>`;
+            });
+        }
+
+        // 4. Chart.js (Tylko dla Admina)
         function initChart() {
-            const ctx = document.getElementById('financeChart').getContext('2d');
+            const ctx = document.getElementById('financeChart');
+            if(!ctx) return;
+            
             const now = new Date();
             chartTimeLabels.push(now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0'));
-            chartProfitData.push(finances.profit);
-            chartIncomeData.push(finances.income);
-            chartExpenseData.push(finances.expense);
+            
+            let income = db.tasks.filter(t => t.completed).reduce((sum, t) => sum + Number(t.price), 0);
+            let expense = db.expenses.reduce((sum, e) => sum + Number(e.price), 0);
+            
+            chartProfitData.push(income - expense);
+            chartIncomeData.push(income);
+            chartExpenseData.push(expense);
 
-            chartInstance = new Chart(ctx, {
+            chartInstance = new Chart(ctx.getContext('2d'), {
                 type: 'line',
                 data: {
                     labels: chartTimeLabels,
@@ -507,134 +531,88 @@
                 }
             });
 
-            setInterval(() => { pushChartData(); }, 60000);
+            setInterval(() => {
+                let currentIn = db.tasks.filter(t => t.completed).reduce((sum, t) => sum + Number(t.price), 0);
+                let currentExp = db.expenses.reduce((sum, e) => sum + Number(e.price), 0);
+                pushChartData(currentIn - currentExp, currentIn, currentExp);
+            }, 60000);
         }
 
-        function pushChartData() {
+        function pushChartData(profit, income, expense) {
             if(!chartInstance) return;
             const now = new Date();
             const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
             if(chartTimeLabels.length > 10) {
                 chartTimeLabels.shift(); chartProfitData.shift(); chartIncomeData.shift(); chartExpenseData.shift();
             }
-            chartTimeLabels.push(timeStr); chartProfitData.push(finances.profit); chartIncomeData.push(finances.income); chartExpenseData.push(finances.expense);
+            chartTimeLabels.push(timeStr); 
+            chartProfitData.push(profit); 
+            chartIncomeData.push(income); 
+            chartExpenseData.push(expense);
             chartInstance.update();
         }
 
-        function updateFinancesUI() {
-            finances.profit = finances.income - finances.expense;
-            document.getElementById('stat-income').innerText = finances.income.toLocaleString('pl-PL');
-            document.getElementById('stat-expense').innerText = finances.expense.toLocaleString('pl-PL');
-            document.getElementById('stat-profit').innerText = finances.profit.toLocaleString('pl-PL');
-            document.getElementById('stat-total').innerText = (finances.totalIncome + finances.income).toLocaleString('pl-PL');
-
-            const profitEl = document.getElementById('stat-profit');
-            if(finances.profit < 0) { profitEl.classList.replace('text-white', 'text-red-400'); profitEl.classList.remove('text-glow'); } 
-            else { profitEl.classList.replace('text-red-400', 'text-white'); profitEl.classList.add('text-glow'); }
-            pushChartData();
+        // 5. Akcje (Formularze POST -> Baza)
+        async function completeTask(id) {
+            await fetch(`/api/tasks/${id}/complete`, { method: 'POST' });
+            fetchDataFromMongoDB();
         }
 
-        function populateSelects() {
-            document.getElementById('t-worker').innerHTML = employees.map(e => `<option value="${e.name}">${e.name}</option>`).join('');
-            document.getElementById('t-car').innerHTML = fleet.map(f => `<option value="${f.name}">${f.name}</option>`).join('');
-        }
-
-        function renderLists() {
-            document.getElementById('employees-container').innerHTML = employees.map(e => `
-                <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-500 flex items-center justify-center font-bold text-xs">${e.name.substring(0,2).toUpperCase()}</div>
-                        <div><p class="text-white font-bold text-sm">${e.name}</p><p class="text-gray-400 text-xs">${e.role}</p></div>
-                    </div>
-                </div>`).join('');
-
-            document.getElementById('fleet-container').innerHTML = fleet.map(f => `
-                <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-lg bg-dark-900 border border-dark-600 text-gray-400 flex items-center justify-center text-xs"><i class="fa-solid fa-truck"></i></div>
-                        <div><p class="text-white font-bold text-sm">${f.name}</p><p class="text-brand-400 text-xs">${f.plates}</p></div>
-                    </div>
-                </div>`).join('');
-            populateSelects();
-        }
-
-        function renderTasks() {
-            const dashContainer = document.getElementById('dashboard-tasks-container');
-            const allContainer = document.getElementById('all-tasks-container');
-            dashContainer.innerHTML = ''; allContainer.innerHTML = '';
-            if(tasks.length === 0) dashContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4">Brak aktywnych zleceń.</p>';
-
-            [...tasks].reverse().forEach(task => {
-                const isDone = task.completed;
-                const html = `
-                    <div class="bg-dark-800/80 border ${isDone ? 'border-brand-500/20 opacity-60' : 'border-dark-600'} rounded-xl p-4 transition-all hover:border-brand-500/50">
-                        <div class="flex justify-between items-start mb-2">
-                            <span class="${isDone ? 'bg-brand-500/20 text-brand-500' : 'bg-blue-500/20 text-blue-400'} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${isDone ? 'ZREALIZOWANE' : 'W TOKU'}</span>
-                            <span class="text-white font-black text-lg">${task.price} PLN</span>
-                        </div>
-                        <h3 class="text-white font-bold mb-1 truncate">${task.name}</h3>
-                        <p class="text-gray-400 text-xs mb-3 truncate"><i class="fa-solid fa-location-dot mr-1"></i> ${task.address}</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${task.worker}</span>
-                            <span class="bg-dark-900 border border-dark-700 text-gray-300 text-xs px-2 py-1 rounded"><i class="fa-solid fa-van-shuttle text-gray-500 mr-1"></i> ${task.car}</span>
-                        </div>
-                        ${!isDone ? `<button onclick="completeTask(${task.id})" class="w-full bg-dark-700 hover:bg-brand-500 hover:text-dark-900 text-white py-2 rounded-lg text-sm font-bold transition-colors border border-dark-600 hover:border-brand-500"><i class="fa-solid fa-check mr-1"></i> Oznacz jako Zrealizowane</button>` : `<button disabled class="w-full bg-dark-900 text-brand-500/50 py-2 rounded-lg text-sm font-bold border border-brand-500/10 cursor-not-allowed">Zakończono i rozliczono</button>`}
-                    </div>`;
-                if(!isDone && dashContainer.children.length < 3) dashContainer.innerHTML += html;
-                allContainer.innerHTML += html;
-            });
-        }
-
-        function renderExpenses() {
-            const container = document.getElementById('dashboard-expenses-container');
-            container.innerHTML = expensesList.length === 0 ? '<p class="text-gray-500 text-sm text-center py-4 italic">Brak kosztów w tym miesiącu.</p>' : '';
-            [...expensesList].reverse().forEach(exp => {
-                container.innerHTML += `<div class="flex justify-between items-center bg-dark-800/50 p-3 rounded-lg border border-dark-700"><div><p class="text-white text-sm font-bold">${exp.category}</p><p class="text-gray-400 text-xs">${exp.desc}</p></div><span class="text-red-400 font-bold whitespace-nowrap">- ${exp.price} PLN</span></div>`;
-            });
-        }
-
-        function completeTask(id) {
-            const task = tasks.find(t => t.id === id);
-            if(task && !task.completed) {
-                task.completed = true; finances.income += task.price;
-                updateFinancesUI(); renderTasks();
-            }
-        }
-
-        document.getElementById('addTaskForm').addEventListener('submit', function(e) {
+        document.getElementById('addTaskForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            tasks.push({ id: Date.now(), name: document.getElementById('t-name').value, price: parseFloat(document.getElementById('t-price').value), address: document.getElementById('t-address').value, people: document.getElementById('t-people').value, worker: document.getElementById('t-worker').value, car: document.getElementById('t-car').value, completed: false });
-            renderTasks(); closeModal('taskModal'); this.reset(); switchTab('dashboard'); 
+            const body = { 
+                name: document.getElementById('t-name').value, 
+                price: Number(document.getElementById('t-price').value), 
+                address: document.getElementById('t-address').value, 
+                people: Number(document.getElementById('t-people').value), 
+                worker: document.getElementById('t-worker').value, 
+                car: document.getElementById('t-car').value 
+            };
+            await fetch('/api/tasks', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            closeModal('taskModal'); this.reset(); switchTab('dashboard'); fetchDataFromMongoDB();
         });
 
-        document.getElementById('addExpenseForm').addEventListener('submit', function(e) {
+        document.getElementById('addExpenseForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            const price = parseFloat(document.getElementById('e-price').value);
-            expensesList.push({ price: price, category: document.getElementById('e-category').value, desc: document.getElementById('e-desc').value });
-            finances.expense += price; updateFinancesUI(); renderExpenses(); closeModal('expenseModal'); this.reset();
+            const body = { 
+                price: Number(document.getElementById('e-price').value), 
+                category: document.getElementById('e-category').value, 
+                desc: document.getElementById('e-desc').value 
+            };
+            await fetch('/api/expenses', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            closeModal('expenseModal'); this.reset(); fetchDataFromMongoDB();
         });
 
-        document.getElementById('addEmployeeForm').addEventListener('submit', function(e) {
+        document.getElementById('addEmployeeForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            employees.push({ id: Date.now(), name: document.getElementById('emp-name').value, role: document.getElementById('emp-role').value });
-            renderLists(); closeModal('employeeModal'); this.reset();
+            const body = { 
+                name: document.getElementById('emp-name').value, 
+                role: document.getElementById('emp-role').value,
+                pin: document.getElementById('emp-pin').value
+            };
+            await fetch('/api/employees', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            closeModal('employeeModal'); this.reset(); fetchDataFromMongoDB();
         });
 
-        document.getElementById('addFleetForm').addEventListener('submit', function(e) {
+        document.getElementById('addFleetForm').addEventListener('submit', async function(e) {
             e.preventDefault();
-            fleet.push({ id: Date.now(), name: document.getElementById('fl-name').value, plates: document.getElementById('fl-plates').value });
-            renderLists(); closeModal('fleetModal'); this.reset();
+            const body = { 
+                name: document.getElementById('fl-name').value, 
+                plates: document.getElementById('fl-plates').value 
+            };
+            await fetch('/api/fleet', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
+            closeModal('fleetModal'); this.reset(); fetchDataFromMongoDB();
         });
 
-        function convertQuoteToTask(name, desc) {
-            document.getElementById('t-name').value = desc; openModal('taskModal'); document.getElementById('t-address').focus();
-        }
-
+        // 6. Nawigacja
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
             document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('text-brand-500', 'bg-brand-500/10', 'font-bold'); el.classList.add('text-gray-400'); });
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
-            const activeBtn = Array.from(document.querySelectorAll('.nav-btn')).find(btn => btn.getAttribute('onclick').includes(tabId));
+            
+            const targetTab = document.getElementById(`tab-${tabId}`);
+            if(targetTab) targetTab.classList.remove('hidden');
+            
+            const activeBtn = document.getElementById(`nav-${tabId}`);
             if(activeBtn) { activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-brand-500', 'bg-brand-500/10', 'font-bold'); }
             window.scrollTo(0,0);
         }
