@@ -25,12 +25,15 @@ mongoose.connect(MONGO_URL)
 const TaskSchema = new mongoose.Schema({
     name: String,
     price: Number,
+    priceMax: Number, // Opcjonalne widełki
+    dateStart: String, // Data rozpoczęcia
+    dateEnd: String, // Data zakończenia (opcjonalnie)
+    clientName: String,
+    clientPhone: String,
     address: String,
-    desc: String, // Pole opisu zlecenia
+    desc: String,
     people: Number,
-    // Tablica pracowników, każdy ma imię i rolę w zleceniu (np. Kierowca, Pomocnik)
     workers: [{ name: String, role: String }], 
-    worker: String, // Zostawiamy dla wstecznej kompatybilności ze starymi zleceniami
     car: String,
     completed: { type: Boolean, default: false },
     createdAt: { type: Date, default: Date.now }
@@ -45,10 +48,18 @@ const ExpenseSchema = new mongoose.Schema({
 });
 const Expense = mongoose.model('Expense', ExpenseSchema);
 
+const IncomeSchema = new mongoose.Schema({
+    price: Number,
+    category: String,
+    desc: String,
+    createdAt: { type: Date, default: Date.now }
+});
+const Income = mongoose.model('Income', IncomeSchema);
+
 const EmployeeSchema = new mongoose.Schema({
     name: String,
     role: String,
-    pin: String // 4-cyfrowy PIN pracownika
+    pin: String 
 });
 const Employee = mongoose.model('Employee', EmployeeSchema);
 
@@ -88,9 +99,10 @@ app.get('/api/data', async (req, res) => {
     try {
         const tasks = await Task.find().sort({ createdAt: -1 });
         const expenses = await Expense.find().sort({ createdAt: -1 });
+        const incomes = await Income.find().sort({ createdAt: -1 });
         const employees = await Employee.find();
         const fleet = await Fleet.find();
-        res.json({ tasks, expenses, employees, fleet });
+        res.json({ tasks, expenses, incomes, employees, fleet });
     } catch (err) {
         res.status(500).json({ error: 'Błąd pobierania danych' });
     }
@@ -98,7 +110,7 @@ app.get('/api/data', async (req, res) => {
 
 
 // ==========================================
-// API - ZLECENIA I KOSZTY
+// API - ZLECENIA
 // ==========================================
 app.post('/api/tasks', async (req, res) => {
     const task = new Task(req.body);
@@ -106,17 +118,35 @@ app.post('/api/tasks', async (req, res) => {
     res.json({ success: true, task });
 });
 
+app.put('/api/tasks/:id', async (req, res) => {
+    await Task.findByIdAndUpdate(req.params.id, req.body);
+    res.json({ success: true });
+});
+
+app.delete('/api/tasks/:id', async (req, res) => {
+    await Task.findByIdAndDelete(req.params.id);
+    res.json({ success: true });
+});
+
 app.post('/api/tasks/:id/complete', async (req, res) => {
     await Task.findByIdAndUpdate(req.params.id, { completed: true });
     res.json({ success: true });
 });
 
+// ==========================================
+// API - KOSZTY I PRZYCHODY (RĘCZNE)
+// ==========================================
 app.post('/api/expenses', async (req, res) => {
     const expense = new Expense(req.body);
     await expense.save();
     res.json({ success: true, expense });
 });
 
+app.post('/api/incomes', async (req, res) => {
+    const income = new Income(req.body);
+    await income.save();
+    res.json({ success: true, income });
+});
 
 // ==========================================
 // API - PRACOWNICY (CRUD)
