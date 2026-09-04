@@ -1,13 +1,23 @@
 {
   "name": "revserwis",
-  "version": "1.0.0",
-  "description": "System RevMi i strona RevSerwis",
+  "version": "2.0.0",
+  "private": true,
+  "description": "System operacyjny RevMi i strona RevSerwis",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "check": "node --check server.js"
+  },
+  "engines": {
+    "node": ">=20"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
     "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.0.0",
     "mongoose": "^8.5.0"
   }
 }
