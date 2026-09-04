@@ -1,858 +1,2488 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>RevMi - System Zarządzania | RevSerwis</title>
-    
-    <link rel="icon" href="/favicon.png" type="image/png">
-    <meta name="theme-color" content="#050505">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#050505">
+  <title>RevMi — Centrum operacyjne RevSerwis</title>
 
-    <link rel="manifest" href="/manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="RevMi">
-    <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: { 400: '#34d399', 500: '#10b981', 600: '#059669', 700: '#047857' },
-                        gold: { 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706' },
-                        dark: { 900: '#050505', 800: '#111111', 700: '#1a1a1a', 600: '#2a2a2a' }
-                    },
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-                    animation: { 'blob': 'blob 10s infinite alternate' },
-                    keyframes: {
-                        blob: {
-                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
-                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-                            '100%': { transform: 'translate(0px, 0px) scale(1)' }
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        body { background-color: #050505; color: #f3f4f6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-        .liquid-glass { background: rgba(17, 17, 17, 0.45); backdrop-filter: blur(24px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); }
-        .liquid-glass-heavy { background: rgba(10, 10, 10, 0.7); backdrop-filter: blur(40px); border: 1px solid rgba(16, 185, 129, 0.15); box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.6); }
-        .liquid-glass-accent { background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(17, 17, 17, 0.4) 100%); backdrop-filter: blur(20px); border: 1px solid rgba(16, 185, 129, 0.3); }
-        .liquid-glass-gold { background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(17, 17, 17, 0.4) 100%); backdrop-filter: blur(20px); border: 1px solid rgba(245, 158, 11, 0.3); }
-        .text-glow { text-shadow: 0 0 20px rgba(16, 185, 129, 0.5); }
-        .text-glow-gold { text-shadow: 0 0 20px rgba(245, 158, 11, 0.5); }
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(16, 185, 129, 0.3); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(16, 185, 129, 0.6); }
-        .app-container { height: 100vh; height: 100dvh; }
-        .bg-liquid-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; background: #050505; }
-        .animation-delay-2000 { animation-delay: 2s; } .animation-delay-4000 { animation-delay: 4s; }
-        input, select, textarea { background: rgba(0,0,0,0.3) !important; border: 1px solid rgba(255,255,255,0.1) !important; color: white !important; }
-        input:focus, select:focus, textarea:focus { border-color: #10b981 !important; outline: none !important; box-shadow: 0 0 0 2px rgba(16,185,129,0.2) !important; }
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=date]::-webkit-calendar-picker-indicator { filter: invert(1); opacity: 0.5; }
-    </style>
+  <style>
+    :root{
+      --bg:#050505;
+      --panel:rgba(17,17,17,.58);
+      --panel-solid:#111;
+      --line:rgba(255,255,255,.08);
+      --muted:#9ca3af;
+      --text:#f3f4f6;
+      --green:#10b981;
+      --green-light:#34d399;
+      --red:#ef4444;
+      --orange:#f59e0b;
+      --blue:#3b82f6;
+      --purple:#a78bfa;
+      --radius:16px;
+      --shadow:0 8px 32px rgba(0,0,0,.37)
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      min-height:100vh;
+      overflow-x:hidden;
+      color:var(--text);
+      background:var(--bg);
+      font:15px "Plus Jakarta Sans",sans-serif;
+      -webkit-font-smoothing:antialiased
+    }
+
+    body:before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(circle at 0 0,rgba(16,185,129,.16),transparent 27%),
+        radial-gradient(circle at 100% 28%,rgba(4,120,87,.13),transparent 26%),
+        radial-gradient(circle at 28% 100%,rgba(5,150,105,.09),transparent 31%)
+    }
+
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    a{color:inherit;text-decoration:none}
+    [hidden]{display:none!important}
+
+    ::-webkit-scrollbar{width:4px;height:4px}
+    ::-webkit-scrollbar-track{background:transparent}
+    ::-webkit-scrollbar-thumb{background:rgba(16,185,129,.3);border-radius:10px}
+
+    .auth-pending{overflow:hidden}
+    .auth-pending .app{opacity:0;pointer-events:none}
+
+    .app{
+      display:grid;
+      grid-template-columns:254px minmax(0,1fr);
+      min-height:100vh;
+      transition:opacity .55s ease
+    }
+
+    .sidebar{
+      position:fixed;
+      inset:0 auto 0 0;
+      z-index:30;
+      width:254px;
+      padding:24px 17px 18px;
+      display:flex;
+      flex-direction:column;
+      background:rgba(17,17,17,.45);
+      border-right:1px solid var(--line);
+      backdrop-filter:blur(24px);
+      box-shadow:var(--shadow)
+    }
+
+    .brand{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:4px 8px 25px
+    }
+
+    .brand-logo{
+      display:block;
+      height:58px;
+      max-width:185px;
+      object-fit:contain;
+      filter:drop-shadow(0 0 15px rgba(16,185,129,.2))
+    }
+
+    .nav-label{
+      padding:8px 12px;
+      color:#61766c;
+      font-size:10px;
+      font-weight:800;
+      letter-spacing:.15em;
+      text-transform:uppercase
+    }
+
+    .nav{display:grid;gap:4px}
+
+    .nav button{
+      border:0;
+      padding:11px 12px;
+      border-radius:11px;
+      display:flex;
+      align-items:center;
+      gap:11px;
+      color:#91a49b;
+      background:none;
+      text-align:left;
+      font-size:13px;
+      font-weight:650;
+      transition:.2s
+    }
+
+    .nav button i{width:18px;text-align:center}
+    .nav button:hover{color:#d9e6e0;background:rgba(255,255,255,.035)}
+    .nav button.active{color:var(--green);background:rgba(16,185,129,.10)}
+    .nav .badge{
+      margin-left:auto;
+      min-width:21px;
+      height:21px;
+      display:grid;
+      place-items:center;
+      border-radius:20px;
+      color:#050505;
+      background:var(--green);
+      font-size:10px;
+      font-weight:800
+    }
+
+    .side-bottom{margin-top:auto}
+
+    .system-card{
+      margin-bottom:12px;
+      padding:13px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(255,255,255,.025)
+    }
+
+    .system-row{display:flex;align-items:center;gap:8px;font-size:11px;color:#aec0b7}
+    .system-card p{margin:7px 0 0 15px;color:#667c71;font-size:10px}
+    .pulse{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 5px rgba(16,185,129,.08)
+    }
+
+    .profile{display:flex;align-items:center;gap:10px;padding:10px}
+    .profile strong{display:block;font-size:12px}
+    .profile small{color:var(--muted);font-size:10px}
+
+    .avatar,.client-avatar{
+      width:37px;
+      height:37px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(16,185,129,.18);
+      border-radius:10px;
+      color:var(--green);
+      background:rgba(16,185,129,.08);
+      font-size:11px;
+      font-weight:800
+    }
+
+    .main{grid-column:2;min-width:0}
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:20;
+      height:74px;
+      padding:0 30px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:rgba(17,17,17,.45);
+      border-bottom:1px solid var(--line);
+      backdrop-filter:blur(24px);
+      box-shadow:0 8px 32px rgba(0,0,0,.18)
+    }
+
+    .mobile-open{display:none}
+
+    .search{
+      width:min(420px,38vw);
+      height:40px;
+      padding:0 13px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:11px;
+      color:#61766c;
+      background:rgba(0,0,0,.3)
+    }
+
+    .search input{
+      width:100%;
+      border:0;
+      outline:0;
+      color:var(--text);
+      background:none;
+      font-size:12px
+    }
+
+    .search input::placeholder{color:#61766c}
+    .key{padding:3px 6px;border:1px solid var(--line);border-radius:5px;color:#6f8279;font-size:9px}
+    .top-actions{display:flex;align-items:center;gap:9px}
+
+    .icon-btn,.ghost-btn,.primary-btn{
+      height:40px;
+      padding:0 13px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:12px;
+      color:#cad8d1;
+      background:rgba(17,17,17,.45);
+      font-size:12px;
+      font-weight:700;
+      transition:.2s
+    }
+
+    .icon-btn{position:relative;width:40px;padding:0}
+    .icon-btn:hover,.ghost-btn:hover{color:var(--green);border-color:rgba(16,185,129,.28)}
+
+    .notify{
+      position:absolute;
+      right:8px;
+      top:7px;
+      width:5px;
+      height:5px;
+      border-radius:50%;
+      background:var(--orange)
+    }
+
+    .primary-btn{
+      color:#050505;
+      background:var(--green);
+      border-color:var(--green);
+      box-shadow:0 0 20px rgba(16,185,129,.3)
+    }
+
+    .primary-btn:hover{transform:translateY(-1px);background:var(--green-light)}
+
+    .content{
+      max-width:1540px;
+      margin:auto;
+      padding:27px 30px 45px
+    }
+
+    .view{display:none}
+    .view.active{display:block}
+
+    .page-head{
+      margin-bottom:23px;
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:20px
+    }
+
+    .page-head h1{margin:0 0 5px;font-size:25px;letter-spacing:-.8px}
+    .page-head p{margin:0;color:var(--muted);font-size:12px}
+    .date-chip{display:flex;align-items:center;gap:8px;color:#91a59b;font-size:11px}
+    .date-chip i{color:var(--green)}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background:var(--panel);
+      backdrop-filter:blur(24px);
+      box-shadow:var(--shadow)
+    }
+
+    .kpis{
+      margin-bottom:16px;
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:13px
+    }
+
+    .kpi{position:relative;padding:17px;overflow:hidden}
+    .kpi:first-child{
+      border-color:rgba(245,158,11,.3);
+      background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(17,17,17,.4))
+    }
+
+    .kpi:after{
+      content:"";
+      position:absolute;
+      right:-25px;
+      top:-30px;
+      width:90px;
+      height:90px;
+      border-radius:50%;
+      background:var(--tone,var(--green));
+      filter:blur(50px);
+      opacity:.08
+    }
+
+    .kpi-top{margin-bottom:15px;display:flex;align-items:center;justify-content:space-between}
+    .kpi-label{color:#93a69d;font-size:11px;font-weight:650}
+
+    .kpi-icon{
+      width:29px;
+      height:29px;
+      display:grid;
+      place-items:center;
+      border-radius:10px;
+      color:var(--tone,var(--green));
+      background:color-mix(in srgb,var(--tone,var(--green)) 12%,transparent);
+      font-size:12px
+    }
+
+    .kpi:first-child .kpi-icon,.kpi:first-child .trend{color:var(--orange)}
+    .kpi:first-child .kpi-icon{background:rgba(245,158,11,.12)}
+    .kpi-value{font-size:24px;font-weight:800;letter-spacing:-1px}
+    .kpi-value small{margin-left:3px;color:var(--muted);font-size:11px;font-weight:600}
+    .trend{margin-top:7px;color:var(--green);font-size:10px}
+    .trend.down{color:var(--red)}
+
+    .dashboard-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.62fr) minmax(290px,.82fr);
+      gap:16px
+    }
+
+    .stack{display:grid;gap:16px}
+    .section-card{padding:19px}
+    .section-head{margin-bottom:17px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+    .section-head h2{margin:0;font-size:14px}
+    .section-head p{margin:4px 0 0;color:var(--muted);font-size:10px}
+    .link-btn{border:0;color:var(--green);background:none;font-size:10px;font-weight:750}
+
+    .chart-wrap{position:relative;height:194px;padding-top:7px}
+    .chart-grid{position:absolute;inset:8px 0 23px;display:flex;flex-direction:column;justify-content:space-between}
+    .chart-grid span{border-top:1px dashed rgba(255,255,255,.055)}
+    .chart-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+    .chart-labels{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;color:#61766c;font-size:9px}
+
+    .chart-summary{
+      position:absolute;
+      left:16%;
+      top:26px;
+      padding:8px 10px;
+      border:1px solid rgba(16,185,129,.2);
+      border-radius:10px;
+      color:var(--muted);
+      background:#111;
+      box-shadow:0 12px 30px rgba(0,0,0,.3);
+      font-size:9px
+    }
+
+    .chart-summary strong{display:block;margin-top:2px;color:#fff;font-size:13px}
+    .legend{display:flex;gap:14px;color:var(--muted);font-size:9px}
+    .legend span:before{content:"";display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:2px;background:var(--color)}
+
+    .today-list{display:grid;gap:9px}
+
+    .job{
+      padding:11px;
+      display:grid;
+      grid-template-columns:47px 1fr auto;
+      align-items:center;
+      gap:12px;
+      border:1px solid rgba(255,255,255,.055);
+      border-radius:12px;
+      background:rgba(0,0,0,.22);
+      transition:.2s
+    }
+
+    .job:hover{transform:translateX(2px);border-color:rgba(16,185,129,.18)}
+    .job-time{padding-right:11px;border-right:1px solid var(--line);color:#dce8e2;font-size:12px;font-weight:800}
+    .job h3{margin:0 0 4px;font-size:11px}
+    .job p{margin:0;color:var(--muted);font-size:9px}
+
+    .status{
+      padding:5px 8px;
+      display:inline-flex;
+      border-radius:30px;
+      color:var(--blue);
+      background:rgba(59,130,246,.11);
+      font-size:8px;
+      font-weight:800;
+      letter-spacing:.04em;
+      text-transform:uppercase
+    }
+
+    .status.green{color:#34d399;background:rgba(16,185,129,.15)}
+    .status.orange{color:#fbbf24;background:rgba(245,158,11,.15)}
+    .status.gray{color:#a3b0aa;background:rgba(255,255,255,.06)}
+
+    .automation-score{padding-bottom:15px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line)}
+    .score-ring{position:relative;width:66px;height:66px;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--green) 0 78%,#1a1a1a 78%)}
+    .score-ring:before{content:"";position:absolute;inset:6px;border-radius:50%;background:#111}
+    .score-ring strong{position:relative;font-size:16px}
+    .automation-score h3{margin:0 0 5px;font-size:12px}
+    .automation-score p{margin:0;color:var(--muted);font-size:9px;line-height:1.5}
+
+    .feed{margin-top:15px;display:grid;gap:12px}
+    .feed-item{display:grid;grid-template-columns:27px 1fr;gap:10px}
+    .feed-icon,.auto-icon,.vehicle-icon{
+      display:grid;
+      place-items:center;
+      border-radius:10px;
+      color:var(--green);
+      background:rgba(16,185,129,.08)
+    }
+
+    .feed-icon{width:27px;height:27px;font-size:10px}
+    .feed-item p{margin:1px 0;color:#c5d2cc;font-size:10px}
+    .feed-item small{color:#657a70;font-size:8px}
+
+    .alert-card{
+      border-color:rgba(245,158,11,.16);
+      background:linear-gradient(145deg,rgba(245,158,11,.055),rgba(10,10,10,.65))
+    }
+
+    .alert-row{display:flex;gap:11px}
+    .alert-row>i{margin-top:2px;color:var(--orange)}
+    .alert-row h3{margin:0 0 4px;font-size:11px}
+    .alert-row p{margin:0;color:var(--muted);font-size:9px;line-height:1.5}
+    .alert-actions{margin-top:12px;display:flex;gap:7px}
+
+    .tiny-btn,.filter,.select,.close{
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:12px;
+      color:#c5d2cc;
+      background:rgba(17,17,17,.45)
+    }
+
+    .tiny-btn{height:29px;padding:0 10px;font-size:9px;font-weight:750}
+    .tiny-btn.accent{color:var(--orange);border-color:rgba(245,158,11,.18);background:rgba(245,158,11,.10)}
+
+    .toolbar{margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .filter,.select{height:36px;padding:0 11px;color:#9eb0a7;font-size:10px;outline:0}
+    .filter.active{color:var(--green);border-color:rgba(16,185,129,.16);background:rgba(16,185,129,.08)}
+
+    .data-card{overflow:hidden}
+    .table-wrap{overflow:auto}
+    table{width:100%;min-width:850px;border-collapse:collapse}
+    th{padding:12px 15px;border-bottom:1px solid var(--line);color:#687d72;background:rgba(255,255,255,.012);text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
+    td{padding:14px 15px;border-bottom:1px solid rgba(255,255,255,.045);color:#b9c9c1;font-size:10px}
+    tbody tr:hover{background:rgba(16,185,129,.025)}
+    .task-title{color:#edf5f1;font-size:11px;font-weight:750}
+    .task-sub{margin-top:3px;color:#71867b;font-size:9px}
+    .money{color:#fff;font-weight:800}
+    .people{display:flex}
+    .people span{width:25px;height:25px;margin-left:-5px;display:grid;place-items:center;border:2px solid #111;border-radius:8px;color:var(--green);background:#193228;font-size:8px}
+    .people span:first-child{margin-left:0}
+    .row-actions{width:28px;height:28px;border:0;color:#6e8278;background:none}
+    .row-actions:hover{color:var(--green)}
+
+    .calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:16px}
+    .calendar-card{padding:18px}
+    .calendar-top{margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+    .calendar-top h2{margin:0;font-size:15px}
+    .cal-nav{display:flex;gap:6px}
+    .cal-nav button{width:30px;height:30px;border:1px solid var(--line);border-radius:8px;color:#899d93;background:#0b1713}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+    .weekday{padding:5px;color:#60756a;text-align:center;font-size:8px;text-transform:uppercase}
+    .day{min-height:91px;padding:8px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.012)}
+    .day.muted{opacity:.3}
+    .day.today{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.035)}
+    .day-num{color:#8da198;font-size:9px;font-weight:700}
+    .day.today .day-num{color:var(--green)}
+    .event{margin-top:7px;padding:6px;border-left:2px solid var(--blue);border-radius:7px;color:#bcd4ff;background:rgba(59,130,246,.09);font-size:8px;line-height:1.35}
+    .event.green{color:#94f0ca;border-color:var(--green);background:rgba(16,185,129,.08)}
+    .event.orange{color:#ffd49d;border-color:var(--orange);background:rgba(245,158,11,.08)}
+
+    .agenda{display:grid;gap:9px}
+    .agenda-item{padding:10px;border:1px solid var(--line);border-radius:11px;background:rgba(0,0,0,.2)}
+    .agenda-item strong{font-size:10px}
+    .agenda-item p{margin:4px 0;color:var(--muted);font-size:8px}
+    .agenda-item span{color:var(--green);font-size:8px}
+
+    .client-grid,.fleet-grid,.auto-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+    .client-card,.vehicle-card,.auto-card{padding:16px}
+    .client-top{display:flex;align-items:flex-start;justify-content:space-between}
+    .client-card h3,.vehicle-card h3{margin:13px 0 4px;font-size:12px}
+    .client-card p,.vehicle-card p{margin:0;color:var(--muted);font-size:9px}
+
+    .client-meta{margin-top:13px;padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid var(--line)}
+    .client-meta small{display:block;color:#667b70;font-size:8px}
+    .client-meta strong{font-size:10px}
+
+    .finance-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}
+    .breakdown{display:grid;gap:13px}
+    .bar-row{display:grid;grid-template-columns:92px 1fr 65px;align-items:center;gap:11px;color:#9dafa6;font-size:9px}
+    .bar{height:6px;overflow:hidden;border-radius:10px;background:#172620}
+    .bar i{display:block;width:var(--w);height:100%;border-radius:10px;background:var(--c,var(--green))}
+    .bar-row strong{text-align:right;color:#dce8e2}
+
+    .vehicle-icon{width:42px;height:42px;color:var(--blue);background:rgba(59,130,246,.08)}
+    .vehicle-stats{margin-top:13px;padding-top:12px;display:flex;justify-content:space-between;border-top:1px solid var(--line);color:var(--muted);font-size:8px}
+    .vehicle-stats strong{display:block;margin-top:3px;color:#dbe7e1;font-size:10px}
+
+    .auto-card{min-height:156px;display:flex;flex-direction:column}
+    .auto-card .auto-icon{width:34px;height:34px}
+    .auto-card h3{margin:13px 0 5px;font-size:11px}
+    .auto-card p{margin:0 0 14px;color:var(--muted);font-size:9px;line-height:1.55}
+    .auto-bottom{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
+    .auto-bottom>span:first-child{color:#677b71;font-size:8px}
+
+    .switch{width:34px;height:19px;padding:2px;border:0;border-radius:20px;background:#1c2a24;transition:.2s}
+    .switch:after{content:"";display:block;width:15px;height:15px;border-radius:50%;background:#74877d;transition:.2s}
+    .switch.on{background:rgba(16,185,129,.3)}
+    .switch.on:after{transform:translateX(15px);background:var(--green)}
+
+    .empty-state{padding:50px 20px;color:var(--muted);text-align:center}
+    .empty-state i{margin-bottom:13px;color:#29463a;font-size:28px}
+    .empty-state h3{margin:0 0 6px;color:#dce7e2;font-size:13px}
+    .empty-state p{margin:0;font-size:10px}
+
+    dialog{
+      width:min(620px,calc(100vw - 28px));
+      max-height:90vh;
+      padding:0;
+      border:0;
+      color:var(--text);
+      background:transparent
+    }
+
+    dialog::backdrop{background:rgba(2,8,6,.78);backdrop-filter:blur(8px)}
+
+    .modal{
+      max-height:90vh;
+      overflow:auto;
+      padding:21px;
+      border:1px solid rgba(16,185,129,.22);
+      border-radius:16px;
+      background:rgba(10,10,10,.92);
+      backdrop-filter:blur(40px);
+      box-shadow:0 20px 40px rgba(0,0,0,.6)
+    }
+
+    .modal-head{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+    .modal-head h2{margin:0;font-size:16px}
+    .close{width:32px;height:32px;color:#84978e}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .field.full{grid-column:1/-1}
+    .field label{display:block;margin-bottom:6px;color:#7f9389;font-size:9px;font-weight:700}
+
+    .field input,.field select,.field textarea{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:10px;
+      outline:0;
+      color:#e7f0ec;
+      background:rgba(0,0,0,.3);
+      font-size:11px
+    }
+
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:rgba(16,185,129,.42);
+      box-shadow:0 0 0 3px rgba(16,185,129,.06)
+    }
+
+    .field textarea{min-height:78px;resize:vertical}
+    .modal-actions{margin-top:18px;padding-top:18px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--line)}
+
+    .toast{
+      position:fixed;
+      right:24px;
+      bottom:24px;
+      z-index:100;
+      padding:12px 15px;
+      display:flex;
+      align-items:center;
+      gap:9px;
+      border:1px solid rgba(16,185,129,.25);
+      border-radius:12px;
+      color:#dbe7e1;
+      background:#11231c;
+      box-shadow:0 20px 55px rgba(0,0,0,.4);
+      font-size:10px;
+      opacity:0;
+      pointer-events:none;
+      transform:translateY(30px);
+      transition:.25s
+    }
+
+    .toast.show{opacity:1;transform:none}
+    .toast i{color:var(--green)}
+
+    /* LOGOWANIE */
+
+    .login-screen{
+      position:fixed;
+      inset:0;
+      z-index:9999;
+      padding:22px;
+      display:grid;
+      place-items:center;
+      overflow:auto;
+      background:#050505;
+      transition:opacity .55s ease,visibility .55s ease
+    }
+
+    .login-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
+
+    .login-grid{
+      position:absolute;
+      inset:0;
+      opacity:.17;
+      background-image:
+        linear-gradient(rgba(16,185,129,.12) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(16,185,129,.12) 1px,transparent 1px);
+      background-size:44px 44px;
+      mask-image:radial-gradient(circle at center,#000,transparent 70%);
+      animation:grid-drift 18s linear infinite
+    }
+
+    .login-orb{
+      position:absolute;
+      border-radius:50%;
+      filter:blur(90px);
+      opacity:.34;
+      animation:orb-float 10s ease-in-out infinite alternate
+    }
+
+    .orb-one{width:430px;height:430px;top:-210px;left:-110px;background:#10b981}
+    .orb-two{width:380px;height:380px;right:-130px;bottom:-190px;background:#047857;animation-delay:-5s}
+
+    .login-card{
+      position:relative;
+      width:min(430px,100%);
+      padding:34px 38px 25px;
+      overflow:hidden;
+      border:1px solid rgba(16,185,129,.22);
+      border-radius:28px;
+      background:linear-gradient(145deg,rgba(18,18,18,.86),rgba(7,7,7,.72));
+      backdrop-filter:blur(36px);
+      box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 70px rgba(16,185,129,.08),inset 0 1px rgba(255,255,255,.06);
+      animation:card-enter .8s cubic-bezier(.2,.8,.2,1)
+    }
+
+    .login-card:before{
+      content:"";
+      position:absolute;
+      inset:0;
+      padding:1px;
+      border-radius:inherit;
+      background:linear-gradient(130deg,rgba(52,211,153,.5),transparent 32%,transparent 70%,rgba(16,185,129,.2));
+      mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+      mask-composite:exclude;
+      pointer-events:none
+    }
+
+    .login-shine{
+      position:absolute;
+      top:-170px;
+      left:-230px;
+      width:180px;
+      height:500px;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.035),transparent);
+      transform:rotate(24deg);
+      animation:shine 5s ease-in-out infinite
+    }
+
+    .login-logo-wrap{height:54px;margin-bottom:18px;display:flex;justify-content:center}
+    .login-logo{height:54px;max-width:190px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(16,185,129,.22))}
+
+    .login-lock{
+      position:relative;
+      width:58px;
+      height:58px;
+      margin:0 auto 18px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(16,185,129,.21);
+      border-radius:18px;
+      color:#34d399;
+      background:rgba(16,185,129,.09);
+      box-shadow:0 0 28px rgba(16,185,129,.12);
+      font-size:22px
+    }
+
+    .login-lock-ring{
+      position:absolute;
+      inset:-7px;
+      border:1px solid rgba(16,185,129,.12);
+      border-radius:23px;
+      animation:ring-pulse 2.4s ease-in-out infinite
+    }
+
+    .login-copy{text-align:center}
+    .login-copy .eyebrow{display:inline-block;margin-bottom:8px;color:var(--green);font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
+    .login-copy h1{margin:0 0 7px;font-size:24px;letter-spacing:-.7px}
+    .login-copy p{max-width:310px;margin:0 auto;color:#8b9590;font-size:11px;line-height:1.65}
+
+    .pin-group{margin:25px 0 14px;display:flex;justify-content:center;gap:11px}
+
+    .pin-digit{
+      width:58px;
+      height:64px;
+      border:1px solid rgba(255,255,255,.1)!important;
+      border-radius:15px!important;
+      color:#34d399!important;
+      background:rgba(0,0,0,.36)!important;
+      box-shadow:inset 0 1px rgba(255,255,255,.025);
+      caret-color:var(--green);
+      text-align:center;
+      font-size:25px!important;
+      font-weight:800;
+      transition:.2s
+    }
+
+    .pin-digit:focus,.pin-digit.filled{
+      transform:translateY(-2px);
+      border-color:rgba(16,185,129,.55)!important;
+      box-shadow:0 0 0 3px rgba(16,185,129,.08),0 0 20px rgba(16,185,129,.08)!important;
+      outline:none
+    }
+
+    .login-error{
+      height:18px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+      color:#f87171;
+      font-size:10px;
+      font-weight:700;
+      opacity:0;
+      transform:translateY(-4px);
+      transition:.2s
+    }
+
+    .login-error.show{opacity:1;transform:none}
+    .pin-group.shake{animation:shake .36s ease}
+
+    .pin-keypad{
+      margin:12px 0 17px;
+      display:none;
+      grid-template-columns:repeat(3,52px);
+      justify-content:center;
+      gap:8px
+    }
+
+    .pin-keypad button{
+      height:39px;
+      border:1px solid rgba(255,255,255,.075);
+      border-radius:11px;
+      color:#b8c0bc;
+      background:rgba(255,255,255,.025);
+      font-size:13px;
+      font-weight:700;
+      transition:.16s
+    }
+
+    .pin-keypad button:hover{color:#34d399;border-color:rgba(16,185,129,.25);background:rgba(16,185,129,.07)}
+    .pin-keypad button:active{transform:scale(.94)}
+
+    .login-submit{
+      width:100%;
+      height:48px;
+      border:0;
+      border-radius:13px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      color:#031b12;
+      background:linear-gradient(135deg,#10b981,#059669);
+      box-shadow:0 12px 30px rgba(16,185,129,.2);
+      font-size:11px;
+      font-weight:800;
+      transition:.22s
+    }
+
+    .login-submit:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(16,185,129,.28)}
+    .login-submit:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+    .login-submit.loading i{animation:spin .8s linear infinite}
+    .login-submit.success{background:#34d399}
+
+    .login-foot{
+      margin-top:18px;
+      padding-top:16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-top:1px solid rgba(255,255,255,.06);
+      color:#59635e;
+      font-size:8px
+    }
+
+    .login-foot i{margin-right:4px;color:var(--green)}
+
+    @keyframes card-enter{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
+    @keyframes orb-float{to{transform:translate(65px,38px) scale(1.13)}}
+    @keyframes grid-drift{to{background-position:44px 44px}}
+    @keyframes ring-pulse{50%{transform:scale(1.07);opacity:.35}}
+    @keyframes shine{45%,100%{left:130%}}
+    @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    @media(max-width:1100px){
+      .kpis{grid-template-columns:repeat(2,1fr)}
+      .dashboard-grid,.finance-grid{grid-template-columns:1fr}
+      .client-grid,.fleet-grid,.auto-grid{grid-template-columns:repeat(2,1fr)}
+      .calendar-layout{grid-template-columns:1fr}
+    }
+
+    @media(max-width:760px){
+      .app{display:block}
+      .sidebar{width:265px;transform:translateX(-102%);transition:.25s}
+      .sidebar.open{transform:none}
+      .main{grid-column:auto}
+      .topbar{height:64px;padding:0 15px}
+      .mobile-open{display:inline-flex}
+      .search{width:auto;max-width:310px;flex:1}
+      .key,.top-actions .ghost-btn{display:none}
+      .content{padding:20px 15px 34px}
+      .page-head{align-items:flex-start}
+      .page-head h1{font-size:21px}
+      .date-chip{display:none}
+      .kpis{grid-template-columns:1fr 1fr;gap:9px}
+      .kpi{padding:14px}
+      .kpi-value{font-size:20px}
+      .dashboard-grid{display:block}
+      .stack{margin-top:12px}
+      .client-grid,.fleet-grid,.auto-grid{grid-template-columns:1fr}
+      .calendar-card{padding:12px}
+      .calendar-grid{gap:3px}
+      .day{min-height:67px;padding:5px}
+      .event{padding:4px;overflow:hidden;font-size:7px;white-space:nowrap;text-overflow:ellipsis}
+      .toolbar{align-items:flex-start;flex-direction:column}
+      .form-grid{grid-template-columns:1fr}
+      .field.full{grid-column:auto}
+    }
+
+    @media(max-width:560px){
+      .login-card{padding:28px 20px 22px;border-radius:22px}
+      .pin-digit{width:53px;height:59px}
+      .pin-keypad{display:grid}
+      .login-logo-wrap,.login-logo{height:46px}
+      .login-lock{width:50px;height:50px;margin-bottom:14px}
+      .login-copy h1{font-size:21px}
+    }
+
+    @media(max-width:430px){
+      .kpis{grid-template-columns:1fr}
+      .search{display:none}
+      .job{grid-template-columns:42px 1fr}
+      .job .status{display:none}
+      .page-head{display:block}
+      .page-head .primary-btn{width:100%;margin-top:13px}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      .login-card,.login-grid,.login-orb,.login-lock-ring,.login-shine{animation:none!important}
+    }
+  </style>
 </head>
-<body class="text-sm md:text-base selection:bg-brand-500 selection:text-dark-900">
 
-    <div class="bg-liquid-container">
-        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-brand-500/20 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-blob"></div>
-        <div class="absolute top-[20%] right-[-10%] w-96 h-96 bg-brand-700/20 rounded-full mix-blend-screen filter blur-[100px] opacity-60 animate-blob animation-delay-2000"></div>
-        <div class="absolute bottom-[-20%] left-[20%] w-[500px] h-[500px] bg-brand-600/10 rounded-full mix-blend-screen filter blur-[120px] opacity-50 animate-blob animation-delay-4000"></div>
-    </div>
+<body class="auth-pending">
+  <section class="login-screen" id="loginScreen">
+    <div class="login-orb orb-one"></div>
+    <div class="login-orb orb-two"></div>
+    <div class="login-grid"></div>
 
-    <!-- EKRAN LOGOWANIA -->
-    <div id="login-screen" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505]/80 backdrop-blur-md transition-opacity duration-500">
-        <div class="liquid-glass-heavy p-8 rounded-3xl w-full max-w-sm flex flex-col items-center border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] mx-4">
-            <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 mb-6 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-            <h2 class="text-xl font-bold text-white mb-2">Autoryzacja</h2>
-            <p class="text-gray-400 text-xs mb-6 text-center">Wprowadź swój 4-cyfrowy kod PIN</p>
-            <form id="loginForm" class="w-full flex flex-col items-center">
-                <input type="password" id="pin-input" inputmode="numeric" maxlength="4" pattern="\d{4}" required
-                    class="w-full text-center text-3xl tracking-[0.5em] font-black text-brand-400 bg-dark-900/50 border border-dark-600 rounded-xl py-4 mb-4 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all placeholder:text-dark-600 placeholder:tracking-normal" placeholder="••••">
-                <p id="login-error" class="text-red-400 text-xs font-bold mb-4 hidden">Nieprawidłowy kod PIN</p>
-                <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-dark-900 py-3 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] flex items-center justify-center">
-                    <i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu
-                </button>
-            </form>
+    <form class="login-card" id="loginForm">
+      <div class="login-shine"></div>
+
+      <div class="login-logo-wrap">
+        <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="login-logo">
+      </div>
+
+      <div class="login-lock">
+        <i class="fa-solid fa-fingerprint"></i>
+        <span class="login-lock-ring"></span>
+      </div>
+
+      <div class="login-copy">
+        <span class="eyebrow">Bezpieczny dostęp</span>
+        <h1>Witaj ponownie</h1>
+        <p>Wprowadź 4-cyfrowy kod PIN, aby otworzyć panel zarządzania RevMi.</p>
+      </div>
+
+      <div class="pin-group" id="pinGroup">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Pierwsza cyfra">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Druga cyfra">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Trzecia cyfra">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Czwarta cyfra">
+      </div>
+
+      <div class="login-error" id="loginError">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>Nieprawidłowy kod PIN</span>
+      </div>
+
+      <div class="pin-keypad">
+        <button type="button" data-key="1">1</button>
+        <button type="button" data-key="2">2</button>
+        <button type="button" data-key="3">3</button>
+        <button type="button" data-key="4">4</button>
+        <button type="button" data-key="5">5</button>
+        <button type="button" data-key="6">6</button>
+        <button type="button" data-key="7">7</button>
+        <button type="button" data-key="8">8</button>
+        <button type="button" data-key="9">9</button>
+        <span></span>
+        <button type="button" data-key="0">0</button>
+        <button type="button" data-key="back"><i class="fa-solid fa-delete-left"></i></button>
+      </div>
+
+      <button class="login-submit" id="loginSubmit" type="submit" disabled>
+        <span>Zaloguj do panelu</span>
+        <i class="fa-solid fa-arrow-right"></i>
+      </button>
+
+      <div class="login-foot">
+        <span><i class="fa-solid fa-shield-halved"></i>Szyfrowane połączenie</span>
+        <span id="loginClock"></span>
+      </div>
+    </form>
+  </section>
+
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <img class="brand-logo" src="https://i.imgur.com/dHWDH8j.png" alt="RevMi">
+      </div>
+
+      <div class="nav-label">Centrum pracy</div>
+
+      <nav class="nav">
+        <button class="active" data-view="dashboard"><i class="fa-solid fa-table-columns"></i>Pulpit</button>
+        <button data-view="orders"><i class="fa-solid fa-clipboard-list"></i>Zlecenia<span class="badge" id="navTaskCount">0</span></button>
+        <button data-view="calendar"><i class="fa-regular fa-calendar"></i>Kalendarz</button>
+        <button data-view="clients"><i class="fa-regular fa-address-book"></i>Klienci</button>
+      </nav>
+
+      <div class="nav-label" style="margin-top:17px">Firma</div>
+
+      <nav class="nav">
+        <button data-view="finances"><i class="fa-solid fa-chart-line"></i>Finanse</button>
+        <button data-view="fleet"><i class="fa-solid fa-truck-fast"></i>Ekipa i flota</button>
+        <button data-view="automations"><i class="fa-solid fa-wand-magic-sparkles"></i>Automatyzacje</button>
+      </nav>
+
+      <div class="side-bottom">
+        <div class="system-card">
+          <div class="system-row"><span class="pulse"></span><strong>System online</strong></div>
+          <p>Dane są synchronizowane z serwerem</p>
         </div>
-    </div>
 
-    <!-- GŁÓWNA APLIKACJA -->
-    <div id="main-app" class="app-container flex flex-col md:flex-row transition-opacity duration-500 hidden">
-        <aside class="liquid-glass border-r border-dark-700/50 w-full md:w-64 lg:w-72 flex-shrink-0 flex flex-col justify-between fixed bottom-0 md:relative z-50 md:h-full order-2 md:order-1 overflow-y-auto">
-            <div class="hidden md:flex items-center justify-center py-8 border-b border-dark-700/50">
-                <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-16 drop-shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+        <div class="profile">
+          <div class="avatar">GB</div>
+          <div>
+            <strong id="userName">Administrator</strong>
+            <small id="userRole">RevMi</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div style="display:flex;gap:9px;align-items:center;flex:1">
+          <button class="icon-btn mobile-open" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
+
+          <label class="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="globalSearch" placeholder="Szukaj zlecenia, klienta lub adresu…">
+            <span class="key">Ctrl K</span>
+          </label>
+        </div>
+
+        <div class="top-actions">
+          <button class="ghost-btn" id="quickExpense"><i class="fa-solid fa-receipt"></i>Dodaj koszt</button>
+          <button class="icon-btn"><i class="fa-regular fa-bell"></i><span class="notify"></span></button>
+          <button class="icon-btn" id="logoutBtn" title="Wyloguj"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
+          <button class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <section class="view active" id="view-dashboard">
+          <div class="page-head">
+            <div>
+              <h1 id="welcomeTitle">Dzień dobry</h1>
+              <p>Najważniejsze informacje z firmy w jednym miejscu.</p>
             </div>
-            <nav class="flex md:flex-col justify-around md:justify-start w-full px-2 py-3 md:py-6 md:px-4 md:space-y-2 flex-grow">
-                <button id="nav-dashboard" onclick="switchTab('dashboard')" class="nav-btn active flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-brand-500 bg-brand-500/10 font-bold">
-                    <i class="fa-solid fa-chart-pie text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Dashboard</span>
-                </button>
-                <button id="nav-zlecenia" onclick="switchTab('zlecenia')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50">
-                    <i class="fa-solid fa-clipboard-list text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Zlecenia</span>
-                </button>
-                <button id="nav-kalendarz" onclick="switchTab('kalendarz')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 admin-only">
-                    <i class="fa-regular fa-calendar-days text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Kalendarz</span>
-                </button>
-                <button id="nav-klienci" onclick="switchTab('klienci')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 admin-only">
-                    <i class="fa-solid fa-address-book text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Baza Klientów</span>
-                </button>
-                <button id="nav-flota" onclick="switchTab('flota')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 admin-only">
-                    <i class="fa-solid fa-users-gear text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Ekipa & Flota</span>
-                </button>
-                <button id="nav-raporty" onclick="switchTab('raporty')" class="nav-btn flex flex-col md:flex-row items-center md:px-4 md:py-3 rounded-xl transition-all text-gray-400 hover:text-white hover:bg-dark-700/50 admin-only">
-                    <i class="fa-solid fa-file-invoice-dollar text-xl md:text-lg mb-1 md:mb-0 md:mr-3"></i><span class="text-[10px] md:text-sm">Raporty</span>
-                </button>
-            </nav>
-            <div class="hidden md:flex items-center justify-between px-6 py-6 border-t border-dark-700/50">
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-lg shadow-[0_0_15px_rgba(16,185,129,0.5)]"><i class="fa-solid fa-user"></i></div>
-                    <div class="ml-3">
-                        <p id="ui-username" class="text-white font-bold text-sm">Zalogowany</p>
-                        <p id="ui-role" class="text-brand-500 text-xs">Użytkownik</p>
-                    </div>
-                </div>
+
+            <div class="date-chip">
+              <i class="fa-regular fa-calendar"></i>
+              <span id="todayDate"></span>
             </div>
-        </aside>
+          </div>
 
-        <main class="flex-grow relative overflow-y-auto overflow-x-hidden pb-20 md:pb-0 order-1 md:order-2">
-            <header class="liquid-glass sticky top-0 z-40 px-4 md:px-8 py-3 flex justify-between items-center backdrop-blur-xl">
-                <div class="flex items-center">
-                    <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="h-8 md:hidden">
-                    <h1 class="hidden md:block text-white font-bold text-lg ml-2">Panel Administracyjny</h1>
-                </div>
-                <!-- TIMER -->
-                <div class="flex items-center gap-4">
-                    <div id="live-clock" class="text-gray-300 font-mono text-sm hidden md:flex items-center bg-dark-800/80 px-3 py-1.5 rounded-lg border border-dark-700">
-                        <i class="fa-regular fa-clock mr-2 text-brand-500"></i> <span id="clock-display"></span>
-                    </div>
-                    <div class="w-8 h-8 md:hidden rounded-full bg-gradient-to-tr from-brand-400 to-brand-600 flex items-center justify-center text-dark-900 font-bold text-xs"><i class="fa-solid fa-user"></i></div>
-                </div>
-            </header>
+          <div class="kpis">
+            <article class="card kpi">
+              <div class="kpi-top"><span class="kpi-label">Zysk w tym miesiącu</span><span class="kpi-icon"><i class="fa-solid fa-arrow-trend-up"></i></span></div>
+              <div class="kpi-value" id="kpiProfit">0 <small>zł</small></div>
+              <div class="trend">Przychody minus koszty</div>
+            </article>
 
-            <div class="p-4 md:p-8 lg:p-10 max-w-[1400px] mx-auto">
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-                    <div>
-                        <h1 class="text-2xl md:text-3xl font-extrabold text-white mb-1">Cześć, <span id="header-name"></span> <span class="wave">👋</span></h1>
-                        <p class="text-gray-400 text-sm flex items-center">
-                            <i class="fa-solid fa-server text-brand-500 mr-2"></i> Baza danych: <strong class="text-brand-500 ml-1"> Aktywna</strong>
-                        </p>
-                    </div>
-                    <div class="flex flex-wrap gap-3 w-full md:w-auto">
-                        <button onclick="openModal('expenseModal')" class="flex-1 md:flex-none liquid-glass border border-red-500/30 text-white hover:bg-red-500/10 px-4 py-2.5 rounded-xl font-medium transition-all text-sm flex items-center justify-center admin-only"><i class="fa-solid fa-minus text-red-400 mr-2"></i> Koszt</button>
-                        <button onclick="openModal('incomeModal')" class="flex-1 md:flex-none liquid-glass border border-brand-500/30 text-white hover:bg-brand-500/10 px-4 py-2.5 rounded-xl font-medium transition-all text-sm flex items-center justify-center admin-only"><i class="fa-solid fa-plus text-brand-400 mr-2"></i> Przychód</button>
-                        <button id="btn-add-task" onclick="openTaskModal()" class="w-full md:w-auto bg-brand-500 hover:bg-brand-400 text-dark-900 px-5 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_20px_rgba(16,185,129,0.3)] text-sm flex items-center justify-center admin-only"><i class="fa-solid fa-plus mr-2"></i> Nowe Zlecenie</button>
-                    </div>
-                </div>
+            <article class="card kpi" style="--tone:var(--blue)">
+              <div class="kpi-top"><span class="kpi-label">Przychód</span><span class="kpi-icon"><i class="fa-solid fa-wallet"></i></span></div>
+              <div class="kpi-value" id="kpiRevenue">0 <small>zł</small></div>
+              <div class="trend">Łączna wartość przychodów</div>
+            </article>
 
-                <!-- TAB: DASHBOARD -->
-                <div id="tab-dashboard" class="tab-content block">
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-8">
-                        
-                        <!-- OGÓLNY CAŁKOWITY (Nie resetuje się) -->
-                        <div class="liquid-glass-gold p-6 rounded-2xl relative overflow-hidden group lg:col-span-1 md:col-span-2">
-                            <div class="absolute right-[-20px] top-[-20px] text-gold-500/10 text-8xl transition-transform group-hover:scale-110"><i class="fa-solid fa-vault"></i></div>
-                            <h3 class="text-gold-200 text-xs font-bold uppercase tracking-wider mb-1 relative z-10">Zarobek Ogólny</h3>
-                            <div class="flex items-end gap-2 relative z-10"><span id="stat-total-profit" class="text-3xl md:text-4xl font-black text-white text-glow-gold">0</span><span class="text-gold-400 font-bold mb-1">PLN</span></div>
-                        </div>
+            <article class="card kpi" style="--tone:var(--orange)">
+              <div class="kpi-top"><span class="kpi-label">Koszty</span><span class="kpi-icon"><i class="fa-solid fa-gas-pump"></i></span></div>
+              <div class="kpi-value" id="kpiCosts">0 <small>zł</small></div>
+              <div class="trend down">Wszystkie koszty firmy</div>
+            </article>
 
-                        <!-- MIESIĘCZNE -->
-                        <div class="liquid-glass-accent p-6 rounded-2xl relative overflow-hidden group">
-                            <h3 class="text-brand-100 text-[10px] md:text-xs font-bold uppercase tracking-wider mb-1 relative z-10 flex justify-between">Zysk (Ten Miesiąc) <span class="bg-brand-500/20 px-2 py-0.5 rounded text-brand-400"><i class="fa-regular fa-calendar"></i></span></h3>
-                            <div class="flex items-end gap-2 relative z-10"><span id="stat-profit" class="text-2xl md:text-3xl font-black text-white text-glow">0</span><span class="text-brand-400 font-bold mb-1">PLN</span></div>
-                        </div>
-                        <div class="liquid-glass p-5 md:p-6 rounded-2xl border-t-2 border-t-brand-500/50">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Przychód (Miesiąc)</h3>
-                            <div class="flex items-end gap-1"><span id="stat-income" class="text-2xl font-black text-white">0</span><span class="text-gray-400 text-xs mb-1">PLN</span></div>
-                        </div>
-                        <div class="liquid-glass p-5 md:p-6 rounded-2xl border-t-2 border-t-red-500/50">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Koszty (Miesiąc)</h3>
-                            <div class="flex items-end gap-1"><span id="stat-expense" class="text-2xl font-black text-white">0</span><span class="text-gray-400 text-xs mb-1">PLN</span></div>
-                        </div>
-                        <div class="liquid-glass p-5 md:p-6 rounded-2xl border-t-2 border-t-blue-500/50">
-                            <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Wykonane (Miesiąc)</h3>
-                            <div class="flex items-end gap-1"><span id="stat-tasks-count" class="text-2xl font-black text-white">0</span><span class="text-gray-400 text-xs mb-1">Zleceń</span></div>
-                        </div>
-                    </div>
+            <article class="card kpi" style="--tone:var(--purple)">
+              <div class="kpi-top"><span class="kpi-label">Zlecenia w toku</span><span class="kpi-icon"><i class="fa-solid fa-clipboard-check"></i></span></div>
+              <div class="kpi-value" id="kpiTasks">0 <small>aktywne</small></div>
+              <div class="trend">Aktualny plan pracy</div>
+            </article>
+          </div>
 
-                    <!-- WYKRES -->
-                    <div class="liquid-glass rounded-2xl p-5 md:p-6 mb-8 relative">
-                        <div class="flex justify-between items-center mb-4">
-                            <h2 class="text-lg font-bold text-white"><i class="fa-solid fa-chart-line text-brand-500 mr-2"></i> Finanse Live (Sesja)</h2>
-                            <span class="bg-brand-500/20 text-brand-500 text-xs font-bold px-2 py-1 rounded flex items-center"><span class="h-2 w-2 rounded-full bg-brand-500 animate-pulse mr-2"></span> Na żywo</span>
-                        </div>
-                        <div class="h-64 w-full"><canvas id="financeChart"></canvas></div>
-                    </div>
+          <div class="dashboard-grid">
+            <div class="stack">
+              <article class="card section-card">
+                <div class="section-head">
+                  <div>
+                    <h2>Wynik finansowy</h2>
+                    <p>Przychody i koszty firmy</p>
+                  </div>
+
+                  <div class="legend">
+                    <span style="--color:var(--green)">Przychód</span>
+                    <span style="--color:var(--orange)">Koszty</span>
+                  </div>
                 </div>
 
-                <!-- TAB: ZLECENIA -->
-                <div id="tab-zlecenia" class="tab-content hidden">
-                    <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
-                        <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-bold text-white">Zarządzanie Zleceniami</h2>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4" id="all-tasks-container"></div>
-                    </div>
+                <div class="chart-wrap">
+                  <div class="chart-grid"><span></span><span></span><span></span><span></span></div>
+
+                  <svg class="chart-svg" viewBox="0 0 700 194" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" stop-color="#10b981" stop-opacity=".23"/>
+                        <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+
+                    <path d="M8 155 C65 145 82 122 135 126 S215 92 270 104 S355 76 410 82 S492 44 545 60 S625 28 692 34 L692 173 L8 173Z" fill="url(#area)"/>
+                    <path d="M8 155 C65 145 82 122 135 126 S215 92 270 104 S355 76 410 82 S492 44 545 60 S625 28 692 34" fill="none" stroke="#10b981" stroke-width="3"/>
+                    <path d="M8 166 C83 159 95 146 145 151 S237 135 289 141 S372 119 428 131 S520 104 568 118 S642 98 692 106" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 5"/>
+                  </svg>
+
+                  <div class="chart-labels"><span>KWI</span><span>MAJ</span><span>CZE</span><span>LIP</span><span>SIE</span><span>WRZ</span></div>
+                </div>
+              </article>
+
+              <article class="card section-card">
+                <div class="section-head">
+                  <div><h2>Dzisiejszy plan</h2><p>Najbliższe zlecenia</p></div>
+                  <button class="link-btn" data-view-link="calendar">Pełny kalendarz →</button>
                 </div>
 
-                <!-- TAB: FLOTA I PRACOWNICY -->
-                <div id="tab-flota" class="tab-content hidden">
-                    <div class="grid lg:grid-cols-2 gap-6">
-                        <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
-                            <div class="flex justify-between items-center mb-6">
-                                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-users text-brand-500 mr-2"></i> Ekipa</h2>
-                                <button onclick="openModal('employeeModal')" class="bg-dark-700 hover:bg-dark-600 text-white px-4 py-2 rounded-lg text-sm transition-colors border border-dark-600 flex items-center"><i class="fa-solid fa-user-plus mr-2 text-brand-500"></i> Dodaj</button>
-                            </div>
-                            <div id="employees-container" class="space-y-3"></div>
-                        </div>
-                        <div class="liquid-glass rounded-2xl p-5 md:p-6 min-h-[60vh]">
-                            <div class="flex justify-between items-center mb-6">
-                                <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-truck text-brand-500 mr-2"></i> Flota Pojazdów</h2>
-                                <button onclick="openModal('fleetModal')" class="bg-dark-700 hover:bg-dark-600 text-white px-4 py-2 rounded-lg text-sm transition-colors border border-dark-600 flex items-center"><i class="fa-solid fa-plus mr-2 text-brand-500"></i> Dodaj auto</button>
-                            </div>
-                            <div id="fleet-container" class="space-y-3"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TAB: INNE PUSTE (Kalendarz, Klienci, Raporty) -->
-                <div id="tab-kalendarz" class="tab-content hidden"><div class="liquid-glass rounded-2xl p-10 text-center"><i class="fa-regular fa-calendar-days text-4xl text-brand-500 mb-4 block"></i><h2 class="text-xl font-bold text-white">Kalendarz Zleceń</h2><p class="text-gray-400 mt-2">Moduł w przygotowaniu...</p></div></div>
-                <div id="tab-klienci" class="tab-content hidden"><div class="liquid-glass rounded-2xl p-10 text-center"><i class="fa-solid fa-address-book text-4xl text-brand-500 mb-4 block"></i><h2 class="text-xl font-bold text-white">Baza Klientów CRM</h2><p class="text-gray-400 mt-2">Moduł w przygotowaniu...</p></div></div>
-                <div id="tab-raporty" class="tab-content hidden"><div class="liquid-glass rounded-2xl p-10 text-center"><i class="fa-solid fa-file-invoice-dollar text-4xl text-brand-500 mb-4 block"></i><h2 class="text-xl font-bold text-white">Raporty i Zestawienia</h2><p class="text-gray-400 mt-2">Moduł w przygotowaniu...</p></div></div>
-
+                <div class="today-list" id="todayJobs"></div>
+              </article>
             </div>
-        </main>
-    </div>
 
-    <!-- MODALE: ZLECENIE -->
-    <dialog id="taskModal" class="bg-transparent w-full max-w-4xl backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30 shadow-[0_0_50px_rgba(16,185,129,0.15)] relative max-h-[90vh] overflow-y-auto">
-            <button type="button" onclick="closeModal('taskModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center sticky-close z-50"><i class="fa-solid fa-xmark"></i></button>
-            <h2 id="task-modal-title" class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-plus-circle text-brand-500 mr-2"></i> Kreator Zlecenia</h2>
-            
-            <form id="addTaskForm" class="space-y-6">
-                <input type="hidden" id="t-id">
-                
-                <!-- SEKCJA: PODSTAWY -->
-                <div class="bg-dark-900/50 p-4 rounded-xl border border-dark-700">
-                    <h3 class="text-brand-500 font-bold text-xs uppercase mb-4"><i class="fa-solid fa-circle-info mr-1"></i> Informacje podstawowe</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Tytuł / Typ</label><input type="text" id="t-name" required placeholder="np. Przeprowadzka biura" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                        <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Adres / Trasa</label><input type="text" id="t-address" required placeholder="Skąd -> Dokąd (lub adres)" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                    </div>
+            <div class="stack">
+              <article class="card section-card">
+                <div class="section-head">
+                  <div><h2>Automatyzacja firmy</h2><p>Procesy działające automatycznie</p></div>
+                  <button class="link-btn" data-view-link="automations">Ustawienia</button>
                 </div>
 
-                <!-- SEKCJA: DATY -->
-                <div class="bg-dark-900/50 p-4 rounded-xl border border-dark-700">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-brand-500 font-bold text-xs uppercase"><i class="fa-regular fa-calendar-check mr-1"></i> Termin Realizacji</h3>
-                        <label class="flex items-center text-xs text-gray-400 cursor-pointer"><input type="checkbox" id="t-multi-date" class="mr-2 rounded border-dark-600 bg-dark-800 text-brand-500 focus:ring-brand-500" onchange="toggleDateEnd()"> Zlecenie wielodniowe</label>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Data (Start)</label><input type="date" id="t-date-start" required class="w-full px-4 py-3 rounded-xl text-sm font-mono text-gray-300"></div>
-                        <div id="t-date-end-wrap" class="hidden"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Data (Koniec)</label><input type="date" id="t-date-end" class="w-full px-4 py-3 rounded-xl text-sm font-mono text-gray-300"></div>
-                    </div>
+                <div class="automation-score">
+                  <div class="score-ring"><strong>78%</strong></div>
+                  <div>
+                    <h3>Dobry poziom automatyzacji</h3>
+                    <p>Powiadomienia, plany pracy i kontrola kosztów mogą działać bez ręcznej obsługi.</p>
+                  </div>
                 </div>
 
-                <!-- SEKCJA: FINANSE -->
-                <div class="bg-dark-900/50 p-4 rounded-xl border border-dark-700">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-brand-500 font-bold text-xs uppercase"><i class="fa-solid fa-sack-dollar mr-1"></i> Wycena</h3>
-                        <label class="flex items-center text-xs text-gray-400 cursor-pointer"><input type="checkbox" id="t-is-range" class="mr-2 rounded border-dark-600 bg-dark-800 text-brand-500 focus:ring-brand-500" onchange="togglePriceMax()"> Widełki cenowe (Od - Do)</label>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1" id="label-price">Kwota (PLN)</label><input type="number" id="t-price" required placeholder="np. 1500" class="w-full px-4 py-3 rounded-xl text-sm text-brand-400 font-bold"></div>
-                        <div id="t-price-max-wrap" class="hidden"><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Kwota Max (PLN)</label><input type="number" id="t-price-max" placeholder="np. 2000" class="w-full px-4 py-3 rounded-xl text-sm text-brand-400 font-bold"></div>
-                    </div>
-                </div>
+                <div class="feed">
+                  <div class="feed-item">
+                    <div class="feed-icon"><i class="fa-solid fa-message"></i></div>
+                    <div><p>Przypomnienie SMS dla klienta</p><small>Automatyczne powiadomienie</small></div>
+                  </div>
 
-                <!-- SEKCJA: KLIENT I SZCZEGÓŁY -->
-                <div class="bg-dark-900/50 p-4 rounded-xl border border-dark-700">
-                    <h3 class="text-brand-500 font-bold text-xs uppercase mb-4"><i class="fa-solid fa-address-card mr-1"></i> Klient i Szczegóły dla ekipy</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Imię / Firma Klienta</label><input type="text" id="t-client-name" placeholder="np. Jan Kowalski" class="w-full px-4 py-2 rounded-xl text-sm"></div>
-                        <div><label class="block text-xs font-bold text-gray-400 uppercase mb-1">Telefon Kontaktowy</label><input type="text" id="t-client-phone" placeholder="np. 500 600 700" class="w-full px-4 py-2 rounded-xl text-sm"></div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Opis Zlecenia (Winda, piętra, szczegóły)</label>
-                        <textarea id="t-desc" placeholder="Np. Załadunek 3 piętro bez windy, rozładunek 1 piętro winda. Uwaga na szkło!" class="w-full px-4 py-3 rounded-xl text-sm h-20 resize-none"></textarea>
-                    </div>
-                </div>
+                  <div class="feed-item">
+                    <div class="feed-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                    <div><p>Szkic faktury po realizacji</p><small>Dokument przygotowywany automatycznie</small></div>
+                  </div>
 
-                <!-- SEKCJA: ZASOBY -->
-                <div class="bg-dark-900/50 p-4 rounded-xl border border-dark-700">
-                    <h3 class="text-brand-500 font-bold text-xs uppercase mb-4"><i class="fa-solid fa-truck-fast mr-1"></i> Pojazd i Ekipa</h3>
-                    <div class="mb-4">
-                        <label class="block text-xs font-bold text-gray-400 uppercase mb-1">Pojazd przypisany</label>
-                        <select id="t-car" class="w-full px-4 py-3 rounded-xl text-sm bg-dark-800"></select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-gray-400 uppercase mb-3">Pracownicy do tego zlecenia:</label>
-                        <div id="t-workers-container" class="space-y-2 mb-3"></div>
-                        <button type="button" onclick="addWorkerRow()" class="text-brand-500 hover:text-brand-400 text-xs font-bold transition-colors"><i class="fa-solid fa-user-plus mr-1"></i> Dodaj osobę z ekipy</button>
-                    </div>
+                  <div class="feed-item">
+                    <div class="feed-icon"><i class="fa-solid fa-user-group"></i></div>
+                    <div><p>Plan dnia dla pracowników</p><small>Wysyłka przed kolejnym dniem pracy</small></div>
+                  </div>
                 </div>
-                
-                <div class="pt-4 mt-2 border-t border-dark-700 flex justify-end gap-3 sticky bottom-0 bg-[#0a0a0a] p-2 rounded-xl shadow-[0_-10px_20px_rgba(0,0,0,0.5)]">
-                    <button type="button" onclick="closeModal('taskModal')" class="px-5 py-2.5 rounded-xl font-bold text-gray-400 hover:text-white transition-colors text-sm">Anuluj</button>
-                    <button type="submit" class="bg-brand-500 hover:bg-brand-400 text-dark-900 px-6 py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(16,185,129,0.4)] text-sm">Zapisz Zlecenie</button>
+              </article>
+
+              <article class="card section-card alert-card">
+                <div class="alert-row">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  <div>
+                    <h3>Kontrola terminów serwisowych</h3>
+                    <p>Dodaj datę następnego przeglądu pojazdu, aby RevMi przypominał o serwisie.</p>
+                  </div>
                 </div>
-            </form>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-orders">
+          <div class="page-head">
+            <div><h1>Zlecenia</h1><p>Pełna obsługa zleceń od zapytania do rozliczenia.</p></div>
+            <button class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Dodaj zlecenie</button>
+          </div>
+
+          <div class="toolbar">
+            <div class="filters">
+              <button class="filter active" data-filter="all">Wszystkie</button>
+              <button class="filter" data-filter="new">Nowe</button>
+              <button class="filter" data-filter="planned">Zaplanowane</button>
+              <button class="filter" data-filter="progress">W realizacji</button>
+              <button class="filter" data-filter="completed">Zakończone</button>
+            </div>
+
+            <select class="select" id="orderSort">
+              <option value="date">Najbliższy termin</option>
+              <option value="price">Najwyższa wartość</option>
+            </select>
+          </div>
+
+          <article class="card data-card">
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Zlecenie</th>
+                    <th>Termin</th>
+                    <th>Klient</th>
+                    <th>Ekipa</th>
+                    <th>Wartość</th>
+                    <th>Status</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+              </table>
+            </div>
+
+            <div class="empty-state" id="ordersEmpty" hidden>
+              <i class="fa-regular fa-folder-open"></i>
+              <h3>Brak pasujących zleceń</h3>
+              <p>Zmień filtr albo dodaj pierwsze zlecenie.</p>
+            </div>
+          </article>
+        </section>
+
+        <section class="view" id="view-calendar">
+          <div class="page-head">
+            <div><h1>Kalendarz pracy</h1><p>Terminy zleceń i plan firmy.</p></div>
+            <button class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
+          </div>
+
+          <div class="calendar-layout">
+            <article class="card calendar-card">
+              <div class="calendar-top">
+                <h2></h2>
+                <div class="cal-nav">
+                  <button><i class="fa-solid fa-chevron-left"></i></button>
+                  <button><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+              </div>
+
+              <div class="calendar-grid" id="calendarGrid"></div>
+            </article>
+
+            <aside class="card section-card">
+              <div class="section-head"><div><h2>Najbliższe terminy</h2><p>Plan pracy</p></div></div>
+              <div class="agenda" id="agendaList"></div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view" id="view-clients">
+          <div class="page-head">
+            <div><h1>Baza klientów</h1><p>Kontakty i historia współpracy.</p></div>
+            <button class="primary-btn" id="addClient"><i class="fa-solid fa-user-plus"></i>Nowy klient</button>
+          </div>
+
+          <div class="client-grid" id="clientGrid"></div>
+        </section>
+
+        <section class="view" id="view-finances">
+          <div class="page-head">
+            <div><h1>Finanse</h1><p>Kontrola przychodów, kosztów i wyniku firmy.</p></div>
+            <button class="primary-btn" id="financeAdd"><i class="fa-solid fa-plus"></i>Dodaj operację</button>
+          </div>
+
+          <div class="kpis">
+            <article class="card kpi">
+              <div class="kpi-top"><span class="kpi-label">Marża</span><span class="kpi-icon"><i class="fa-solid fa-percent"></i></span></div>
+              <div class="kpi-value" id="financeMargin">0<small>%</small></div>
+              <div class="trend">Aktualna rentowność</div>
+            </article>
+
+            <article class="card kpi" style="--tone:var(--blue)">
+              <div class="kpi-top"><span class="kpi-label">Przychody</span><span class="kpi-icon"><i class="fa-solid fa-arrow-up"></i></span></div>
+              <div class="kpi-value" id="financeIncome">0<small>zł</small></div>
+              <div class="trend">Łącznie</div>
+            </article>
+
+            <article class="card kpi" style="--tone:var(--orange)">
+              <div class="kpi-top"><span class="kpi-label">Koszty</span><span class="kpi-icon"><i class="fa-solid fa-arrow-down"></i></span></div>
+              <div class="kpi-value" id="financeExpense">0<small>zł</small></div>
+              <div class="trend down">Łącznie</div>
+            </article>
+
+            <article class="card kpi" style="--tone:var(--purple)">
+              <div class="kpi-top"><span class="kpi-label">Wynik</span><span class="kpi-icon"><i class="fa-solid fa-calculator"></i></span></div>
+              <div class="kpi-value" id="financeProfit">0<small>zł</small></div>
+              <div class="trend">Przychody minus koszty</div>
+            </article>
+          </div>
+
+          <article class="card section-card">
+            <div class="section-head"><div><h2>Struktura kosztów</h2><p>Najważniejsze kategorie</p></div></div>
+            <div class="breakdown" id="expenseBreakdown">
+              <div class="empty-state"><p>Dodaj pierwszą operację finansową.</p></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="view" id="view-fleet">
+          <div class="page-head">
+            <div><h1>Ekipa i flota</h1><p>Pracownicy, pojazdy i dostępność zasobów.</p></div>
+            <button class="primary-btn" id="addResource"><i class="fa-solid fa-plus"></i>Dodaj zasób</button>
+          </div>
+
+          <div class="fleet-grid" id="fleetGrid"></div>
+        </section>
+
+        <section class="view" id="view-automations">
+          <div class="page-head">
+            <div><h1>Automatyzacje</h1><p>Ustaw, co RevMi ma wykonywać za Ciebie.</p></div>
+          </div>
+
+          <div class="auto-grid" id="automationGrid"></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="orderModal">
+    <form method="dialog" class="modal" id="orderForm">
+      <div class="modal-head">
+        <div><h2>Nowe zlecenie</h2><p style="font-size:9px;color:var(--muted)">Dodaj najważniejsze informacje.</p></div>
+        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="form-grid">
+        <div class="field full"><label>Nazwa zlecenia</label><input id="fName" required placeholder="np. Przeprowadzka mieszkania"></div>
+        <div class="field"><label>Klient</label><input id="fClient" required></div>
+        <div class="field"><label>Telefon</label><input id="fPhone"></div>
+        <div class="field full"><label>Adres lub trasa</label><input id="fAddress" required></div>
+        <div class="field"><label>Data i godzina</label><input id="fDate" type="datetime-local" required></div>
+        <div class="field"><label>Wartość</label><input id="fPrice" type="number" min="0" required></div>
+
+        <div class="field">
+          <label>Status</label>
+          <select id="fStatus">
+            <option value="new">Nowe</option>
+            <option value="planned" selected>Zaplanowane</option>
+            <option value="progress">W realizacji</option>
+          </select>
         </div>
-    </dialog>
 
-    <!-- MODALE: KOSZT -->
-    <dialog id="expenseModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-red-500/30">
-            <button type="button" onclick="closeModal('expenseModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-minus-circle text-red-500 mr-2"></i> Rejestruj Koszt</h2>
-            <form id="addExpenseForm" class="space-y-4">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Kwota (PLN)</label><input type="number" id="e-price" required class="w-full px-4 py-3 rounded-xl text-xl text-red-400 font-bold text-center"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Kategoria</label><select id="e-category" class="w-full px-4 py-3 rounded-xl text-sm"><option>Paliwo</option><option>Naprawa/Części</option><option>Wypłata/Zaliczka</option><option>Materiały (Kartony itp.)</option><option>Inne</option></select></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Opis</label><input type="text" id="e-desc" placeholder="Opcjonalny opis" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('expenseModal')" class="px-5 py-2.5 rounded-xl text-gray-400 text-sm font-bold">Anuluj</button><button type="submit" class="bg-red-500 text-white px-6 py-2.5 rounded-xl font-bold text-sm">Dodaj Koszt</button></div>
-            </form>
+        <div class="field"><label>Pojazd</label><input id="fVehicle" placeholder="np. Renault Master"></div>
+        <div class="field full"><label>Notatka</label><textarea id="fNote"></textarea></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel">Anuluj</button>
+        <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz zlecenie</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="expenseModal">
+    <form method="dialog" class="modal" id="expenseForm">
+      <div class="modal-head">
+        <h2>Dodaj operację finansową</h2>
+        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>Typ</label>
+          <select id="xType"><option>Koszt</option><option>Przychód</option></select>
         </div>
-    </dialog>
 
-    <!-- MODALE: PRZYCHÓD -->
-    <dialog id="incomeModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30">
-            <button type="button" onclick="closeModal('incomeModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-plus-circle text-brand-500 mr-2"></i> Rejestruj Przychód</h2>
-            <form id="addIncomeForm" class="space-y-4">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Kwota (PLN)</label><input type="number" id="i-price" required class="w-full px-4 py-3 rounded-xl text-xl text-brand-400 font-bold text-center"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Kategoria</label><select id="i-category" class="w-full px-4 py-3 rounded-xl text-sm"><option>Napiwek</option><option>Dodatkowa Usługa</option><option>Sprzedaż Złomu/Rzeczy</option><option>Inne</option></select></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Opis</label><input type="text" id="i-desc" placeholder="Skąd ten przychód?" class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('incomeModal')" class="px-5 py-2.5 rounded-xl text-gray-400 text-sm font-bold">Anuluj</button><button type="submit" class="bg-brand-500 text-dark-900 px-6 py-2.5 rounded-xl font-bold text-sm">Dodaj Przychód</button></div>
-            </form>
+        <div class="field"><label>Kwota</label><input id="xAmount" type="number" min="1" required></div>
+        <div class="field full"><label>Kategoria</label><input id="xCategory" required placeholder="np. Paliwo"></div>
+        <div class="field full"><label>Opis</label><input id="xDesc"></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel">Anuluj</button>
+        <button type="submit" class="primary-btn">Zapisz operację</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="clientModal">
+    <form method="dialog" class="modal" id="clientForm">
+      <div class="modal-head">
+        <h2>Nowy klient</h2>
+        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="form-grid">
+        <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="cName" required></div>
+
+        <div class="field">
+          <label>Typ klienta</label>
+          <select id="cType"><option value="person">Osoba prywatna</option><option value="company">Firma</option></select>
         </div>
-    </dialog>
 
-    <!-- MODALE: PRACOWNIK (Bez zmian UI, zachowane) -->
-    <dialog id="employeeModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30">
-            <button type="button" onclick="closeModal('employeeModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            <h2 id="emp-modal-title" class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-user-plus text-brand-500 mr-2"></i> Pracownik</h2>
-            <form id="employeeForm" class="space-y-4">
-                <input type="hidden" id="emp-id">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Imię i Nazwisko</label><input type="text" id="emp-name" required class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Główna Rola (do panelu)</label><input type="text" id="emp-role" required class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div><label class="block text-xs font-bold text-brand-400 uppercase">PIN Logowania</label><input type="password" id="emp-pin" maxlength="4" pattern="\d{4}" required class="w-full px-4 py-3 rounded-xl text-center text-xl tracking-[0.5em] text-white font-black"></div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('employeeModal')" class="px-5 py-2.5 rounded-xl text-gray-400 text-sm font-bold">Anuluj</button><button type="submit" class="bg-brand-500 text-dark-900 px-6 py-2.5 rounded-xl font-bold text-sm">Zapisz</button></div>
-            </form>
+        <div class="field"><label>Telefon</label><input id="cPhone"></div>
+        <div class="field"><label>E-mail</label><input id="cEmail" type="email"></div>
+        <div class="field full"><label>Adres</label><input id="cAddress"></div>
+        <div class="field full"><label>Notatka</label><textarea id="cNotes"></textarea></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel">Anuluj</button>
+        <button type="submit" class="primary-btn">Zapisz klienta</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="resourceModal">
+    <form method="dialog" class="modal" id="resourceForm">
+      <div class="modal-head">
+        <h2>Dodaj pracownika lub pojazd</h2>
+        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="form-grid">
+        <div class="field full">
+          <label>Rodzaj zasobu</label>
+          <select id="rType"><option value="employee">Pracownik</option><option value="fleet">Pojazd</option></select>
         </div>
-    </dialog>
 
-    <!-- MODALE: FLOTA (Bez zmian UI, zachowane) -->
-    <dialog id="fleetModal" class="bg-transparent w-full max-w-md backdrop:bg-black/70 backdrop:backdrop-blur-sm p-4 rounded-2xl m-auto">
-        <div class="liquid-glass-heavy rounded-2xl p-6 md:p-8 text-left w-full border border-brand-500/30">
-            <button type="button" onclick="closeModal('fleetModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-dark-800 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            <h2 id="fleet-modal-title" class="text-2xl font-extrabold text-white mb-6 border-b border-dark-700 pb-4"><i class="fa-solid fa-truck text-brand-500 mr-2"></i> Pojazd</h2>
-            <form id="fleetForm" class="space-y-4">
-                <input type="hidden" id="fl-id">
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Model</label><input type="text" id="fl-name" required class="w-full px-4 py-3 rounded-xl text-sm"></div>
-                <div><label class="block text-xs font-bold text-gray-400 uppercase">Rejestracja</label><input type="text" id="fl-plates" required class="w-full px-4 py-3 rounded-xl text-sm uppercase"></div>
-                <div class="pt-6 mt-6 border-t border-dark-700 flex justify-end gap-3"><button type="button" onclick="closeModal('fleetModal')" class="px-5 py-2.5 rounded-xl text-gray-400 text-sm font-bold">Anuluj</button><button type="submit" class="bg-brand-500 text-dark-900 px-6 py-2.5 rounded-xl font-bold text-sm">Zapisz</button></div>
-            </form>
-        </div>
-    </dialog>
+        <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="rName" required></div>
+        <div class="field"><label>Rola lub numer rejestracyjny</label><input id="rDetail" required></div>
+        <div class="field"><label>Telefon lub przebieg</label><input id="rExtra"></div>
+        <div class="field"><label>PIN pracownika</label><input id="rPin" inputmode="numeric" maxlength="4"></div>
+      </div>
 
-    <script>
-        let db = { tasks: [], expenses: [], incomes: [], employees: [], fleet: [] };
-        let currentUserRole = '';
-        
-        let chartInstance = null;
-        let chartTimeLabels = [];
-        let chartProfitData = [];
-        let chartIncomeData = [];
-        let chartExpenseData = [];
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel">Anuluj</button>
+        <button type="submit" class="primary-btn">Zapisz zasób</button>
+      </div>
+    </form>
+  </dialog>
 
-        // Zegar Zawsze na górze
-        setInterval(() => {
-            const now = new Date();
-            const dateString = now.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit', year: 'numeric' });
-            const timeString = now.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-            document.getElementById('clock-display').innerText = `${dateString} | ${timeString}`;
-        }, 1000);
+  <div class="toast" id="toast">
+    <i class="fa-solid fa-circle-check"></i>
+    <span></span>
+  </div>
 
-        // Zależności Formularza Zlecenia
-        function togglePriceMax() {
-            const isRange = document.getElementById('t-is-range').checked;
-            document.getElementById('t-price-max-wrap').classList.toggle('hidden', !isRange);
-            document.getElementById('label-price').innerText = isRange ? 'Kwota Min (PLN)' : 'Kwota (PLN)';
-            if(!isRange) document.getElementById('t-price-max').value = '';
+  <script>
+    let orders = [];
+    let clients = [];
+    let employees = [];
+    let fleet = [];
+    let automations = [];
+    let expenses = [];
+    let incomes = [];
+    let activeFilter = "all";
+    let calendarCursor = new Date();
+
+    const statusNames = {
+      new: "Nowe",
+      quoted: "Wycena",
+      planned: "Zaplanowane",
+      progress: "W realizacji",
+      completed: "Zakończone",
+      done: "Zakończone",
+      cancelled: "Anulowane"
+    };
+
+    const statusClasses = {
+      new: "gray",
+      quoted: "gray",
+      planned: "",
+      progress: "orange",
+      completed: "green",
+      done: "green",
+      cancelled: "gray"
+    };
+
+    const money = value =>
+      new Intl.NumberFormat("pl-PL").format(Number(value) || 0) + " zł";
+
+    const escapeHtml = value =>
+      String(value ?? "").replace(/[&<>'"]/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+      })[character]);
+
+    const initials = name =>
+      String(name || "?")
+        .trim()
+        .split(/\s+/)
+        .slice(0, 2)
+        .map(part => part[0])
+        .join("")
+        .toUpperCase();
+
+    const formatDate = value => {
+      if (!value) return "Brak terminu";
+
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value;
+
+      return new Intl.DateTimeFormat("pl-PL", {
+        day: "2-digit",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(date);
+    };
+
+    async function api(url, options = {}) {
+      const response = await fetch(url, {
+        credentials: "same-origin",
+        headers: {
+          "Content-Type": "application/json",
+          ...(options.headers || {})
+        },
+        ...options
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        if (response.status === 401 && !url.includes("/api/login")) {
+          lockPanel();
         }
-        
-        function toggleDateEnd() {
-            const isMulti = document.getElementById('t-multi-date').checked;
-            document.getElementById('t-date-end-wrap').classList.toggle('hidden', !isMulti);
-            if(!isMulti) document.getElementById('t-date-end').value = '';
+
+        throw new Error(data.message || data.error || "Błąd połączenia z serwerem");
+      }
+
+      return data;
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.querySelector("span").textContent = message;
+      toast.classList.add("show");
+
+      clearTimeout(window.revmiToastTimer);
+      window.revmiToastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    document.getElementById("todayDate").textContent =
+      new Intl.DateTimeFormat("pl-PL", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      }).format(new Date());
+
+    /* LOGOWANIE */
+
+    const loginScreen = document.getElementById("loginScreen");
+    const loginForm = document.getElementById("loginForm");
+    const loginSubmit = document.getElementById("loginSubmit");
+    const loginError = document.getElementById("loginError");
+    const pinGroup = document.getElementById("pinGroup");
+    const pinInputs = [...document.querySelectorAll(".pin-digit")];
+
+    function getPin() {
+      return pinInputs.map(input => input.value).join("");
+    }
+
+    function refreshPin() {
+      pinInputs.forEach(input =>
+        input.classList.toggle("filled", Boolean(input.value))
+      );
+
+      loginSubmit.disabled = getPin().length !== 4;
+      loginError.classList.remove("show");
+    }
+
+    function clearPin() {
+      pinInputs.forEach(input => input.value = "");
+      refreshPin();
+      setTimeout(() => pinInputs[0].focus(), 80);
+    }
+
+    function unlockPanel(user = {}) {
+      const name = user.name || "Administrator";
+      const role = user.role === "admin" ? "Administrator" : "Pracownik";
+
+      document.getElementById("userName").textContent = name;
+      document.getElementById("userRole").textContent = role;
+      document.getElementById("welcomeTitle").textContent =
+        "Dzień dobry, " + name.split(" ")[0];
+
+      loginScreen.classList.add("hidden");
+      document.body.classList.remove("auth-pending");
+
+      setTimeout(loadBackend, 250);
+    }
+
+    function lockPanel() {
+      document.body.classList.add("auth-pending");
+      loginScreen.classList.remove("hidden");
+
+      loginSubmit.classList.remove("loading", "success");
+      loginSubmit.innerHTML =
+        '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
+
+      clearPin();
+    }
+
+    pinInputs.forEach((input, index) => {
+      input.addEventListener("input", () => {
+        input.value = input.value.replace(/\D/g, "").slice(-1);
+
+        if (input.value && index < 3) {
+          pinInputs[index + 1].focus();
         }
 
-        // 1. Logowanie
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const pin = document.getElementById('pin-input').value;
-            const errorMsg = document.getElementById('login-error');
-            const submitBtn = this.querySelector('button');
+        refreshPin();
+      });
 
-            errorMsg.classList.add('hidden');
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Weryfikacja...';
+      input.addEventListener("keydown", event => {
+        if (event.key === "Backspace" && !input.value && index > 0) {
+          pinInputs[index - 1].value = "";
+          pinInputs[index - 1].focus();
+          refreshPin();
+        }
 
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pin: pin })
-                });
+        if (event.key === "ArrowLeft" && index > 0) {
+          pinInputs[index - 1].focus();
+        }
 
-                const data = await response.json();
+        if (event.key === "ArrowRight" && index < 3) {
+          pinInputs[index + 1].focus();
+        }
+      });
+    });
 
-                if (response.ok && data.success) {
-                    currentUserRole = data.role;
-                    document.getElementById('header-name').innerText = data.name.split(' ')[0];
-                    document.getElementById('ui-username').innerText = data.name;
-                    document.getElementById('ui-role').innerText = data.role === 'admin' ? 'Główny Administrator' : 'Pracownik Terenowy';
+    pinGroup.addEventListener("paste", event => {
+      const digits = event.clipboardData
+        .getData("text")
+        .replace(/\D/g, "")
+        .slice(0, 4);
 
-                    if (currentUserRole === 'worker') {
-                        document.querySelectorAll('.admin-only').forEach(el => el.classList.add('hidden'));
-                        switchTab('zlecenia');
-                    } else {
-                        switchTab('dashboard');
-                    }
+      if (!digits) return;
 
-                    document.getElementById('login-screen').classList.add('opacity-0');
-                    setTimeout(() => {
-                        document.getElementById('login-screen').classList.add('hidden');
-                        document.getElementById('main-app').classList.remove('hidden');
-                        fetchDataFromMongoDB();
-                    }, 500);
-                } else {
-                    errorMsg.innerText = data.message || 'Nieprawidłowy kod PIN';
-                    errorMsg.classList.remove('hidden');
-                    submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
-                    document.getElementById('pin-input').value = '';
-                }
-            } catch (error) {
-                errorMsg.innerText = 'Błąd połączenia z serwerem bazy danych';
-                errorMsg.classList.remove('hidden');
-                submitBtn.innerHTML = '<i class="fa-solid fa-lock-open mr-2"></i> Zaloguj do panelu';
-            }
+      event.preventDefault();
+
+      pinInputs.forEach((input, index) => {
+        input.value = digits[index] || "";
+      });
+
+      refreshPin();
+      pinInputs[Math.max(0, Math.min(digits.length, 4) - 1)].focus();
+    });
+
+    document.querySelectorAll("[data-key]").forEach(button => {
+      button.addEventListener("click", () => {
+        if (button.dataset.key === "back") {
+          const lastInput = [...pinInputs].reverse().find(input => input.value);
+
+          if (lastInput) {
+            lastInput.value = "";
+            lastInput.focus();
+          }
+        } else {
+          const emptyInput = pinInputs.find(input => !input.value);
+
+          if (emptyInput) {
+            emptyInput.value = button.dataset.key;
+            const index = pinInputs.indexOf(emptyInput);
+            pinInputs[Math.min(index + 1, 3)].focus();
+          }
+        }
+
+        refreshPin();
+      });
+    });
+
+    loginForm.addEventListener("submit", async event => {
+      event.preventDefault();
+
+      const pin = getPin();
+      if (pin.length !== 4) return;
+
+      loginSubmit.disabled = true;
+      loginSubmit.classList.add("loading");
+      loginSubmit.innerHTML =
+        '<span>Weryfikacja kodu…</span><i class="fa-solid fa-spinner"></i>';
+
+      try {
+        const result = await api("/api/login", {
+          method: "POST",
+          body: JSON.stringify({ pin })
         });
 
-        // 2. Pobieranie danych
-        async function fetchDataFromMongoDB() {
-            try {
-                const res = await fetch('/api/data');
-                const data = await res.json();
-                
-                db = {
-                    tasks: data.tasks || [],
-                    expenses: data.expenses || [],
-                    incomes: data.incomes || [],
-                    employees: data.employees || [],
-                    fleet: data.fleet || []
-                };
-                
-                renderLists();
-                renderTasks();
-                updateFinancesUI();
-                
-                if (currentUserRole === 'admin' && !chartInstance) initChart();
-            } catch (err) {
-                console.error('Błąd pobierania danych', err);
-            }
+        loginSubmit.classList.remove("loading");
+        loginSubmit.classList.add("success");
+        loginSubmit.innerHTML =
+          '<span>Dostęp przyznany</span><i class="fa-solid fa-check"></i>';
+
+        setTimeout(() => unlockPanel(result), 550);
+      } catch (error) {
+        loginSubmit.classList.remove("loading");
+        loginSubmit.innerHTML =
+          '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
+
+        clearPin();
+
+        loginError.querySelector("span").textContent =
+          error.message || "Nieprawidłowy kod PIN";
+
+        loginError.classList.add("show");
+        pinGroup.classList.remove("shake");
+        void pinGroup.offsetWidth;
+        pinGroup.classList.add("shake");
+      }
+    });
+
+    async function bootstrapAuth() {
+      try {
+        const session = await api("/api/auth/session");
+
+        if (session.authenticated) {
+          unlockPanel(session);
+        } else {
+          lockPanel();
+        }
+      } catch {
+        lockPanel();
+      }
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", async () => {
+      try {
+        await api("/api/logout", { method: "POST" });
+      } catch {}
+
+      lockPanel();
+    });
+
+    function updateClock() {
+      document.getElementById("loginClock").textContent =
+        new Date().toLocaleTimeString("pl-PL", {
+          hour: "2-digit",
+          minute: "2-digit"
+        });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    /* NAWIGACJA */
+
+    function navigate(view) {
+      document.querySelectorAll(".view").forEach(element => {
+        element.classList.toggle("active", element.id === "view-" + view);
+      });
+
+      document.querySelectorAll(".nav button[data-view]").forEach(button => {
+        button.classList.toggle("active", button.dataset.view === view);
+      });
+
+      document.getElementById("sidebar").classList.remove("open");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll("[data-view]").forEach(button => {
+      button.addEventListener("click", () => navigate(button.dataset.view));
+    });
+
+    document.querySelectorAll("[data-view-link]").forEach(button => {
+      button.addEventListener("click", () =>
+        navigate(button.dataset.viewLink)
+      );
+    });
+
+    document.getElementById("menuBtn").onclick = () =>
+      document.getElementById("sidebar").classList.toggle("open");
+
+    document.addEventListener("click", event => {
+      const sidebar = document.getElementById("sidebar");
+      const menuButton = document.getElementById("menuBtn");
+
+      if (
+        innerWidth <= 760 &&
+        !sidebar.contains(event.target) &&
+        !menuButton.contains(event.target)
+      ) {
+        sidebar.classList.remove("open");
+      }
+    });
+
+    document.addEventListener("keydown", event => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        document.getElementById("globalSearch").focus();
+      }
+    });
+
+    /* DANE */
+
+    function normalizeOrder(task) {
+      return {
+        id: task._id || task.id,
+        number: task.number || "RV-" + String(task._id || task.id || "").slice(-6),
+        name: task.name || "Zlecenie",
+        address:
+          task.address ||
+          [task.addressFrom, task.addressTo].filter(Boolean).join(" → "),
+        date: String(task.dateStart || task.date || ""),
+        client: task.clientName || task.client?.name || "",
+        phone: task.clientPhone || task.client?.phone || "",
+        team: (task.workers || []).map(worker => initials(worker.name)),
+        price: task.finalPrice ?? task.price ?? 0,
+        status: task.status || (task.completed ? "completed" : "planned"),
+        vehicle: task.car || task.vehicle?.name || "Do ustalenia"
+      };
+    }
+
+    async function loadBackend() {
+      try {
+        const data = await api("/api/data");
+
+        orders = (data.tasks || []).map(normalizeOrder);
+        employees = data.employees || [];
+        fleet = data.fleet || [];
+        expenses = data.expenses || [];
+        incomes = data.incomes || [];
+
+        const requests = await Promise.allSettled([
+          api("/api/dashboard"),
+          api("/api/clients"),
+          api("/api/automations")
+        ]);
+
+        const dashboard =
+          requests[0].status === "fulfilled"
+            ? requests[0].value
+            : {};
+
+        if (requests[1].status === "fulfilled") {
+          clients = requests[1].value.clients || [];
+        } else {
+          clients = data.clients || [];
         }
 
-        function updateFinancesUI() {
-            if (currentUserRole !== 'admin') return;
-            
-            const now = new Date();
-            const currM = now.getMonth();
-            const currY = now.getFullYear();
+        if (requests[2].status === "fulfilled") {
+          automations = requests[2].value.automations || [];
+        } else {
+          automations = data.automations || [];
+        }
 
-            const isThisMonth = (dStr) => {
-                const d = new Date(dStr);
-                return d.getMonth() === currM && d.getFullYear() === currY;
+        renderAll(dashboard.stats || {});
+      } catch (error) {
+        console.error(error);
+        showToast(error.message);
+      }
+    }
+
+    function renderAll(stats = {}) {
+      renderOrders();
+      renderToday();
+      renderCalendar();
+      renderClients();
+      renderFleet();
+      renderAutomations();
+      renderDashboard(stats);
+      renderFinances(stats);
+    }
+
+    function renderDashboard(stats) {
+      const revenue =
+        stats.revenue ??
+        incomes.reduce((sum, item) => sum + Number(item.price || 0), 0);
+
+      const costs =
+        stats.expenses ??
+        expenses.reduce((sum, item) => sum + Number(item.price || 0), 0);
+
+      const profit = stats.profit ?? revenue - costs;
+      const active = orders.filter(order =>
+        !["completed", "done", "cancelled"].includes(order.status)
+      ).length;
+
+      document.getElementById("kpiProfit").innerHTML =
+        `${new Intl.NumberFormat("pl-PL").format(profit)} <small>zł</small>`;
+
+      document.getElementById("kpiRevenue").innerHTML =
+        `${new Intl.NumberFormat("pl-PL").format(revenue)} <small>zł</small>`;
+
+      document.getElementById("kpiCosts").innerHTML =
+        `${new Intl.NumberFormat("pl-PL").format(costs)} <small>zł</small>`;
+
+      document.getElementById("kpiTasks").innerHTML =
+        `${active} <small>aktywne</small>`;
+    }
+
+    /* ZLECENIA */
+
+    function renderOrders() {
+      const query = document
+        .getElementById("globalSearch")
+        .value.trim()
+        .toLowerCase();
+
+      let list = orders.filter(order => {
+        const matchesFilter =
+          activeFilter === "all" || order.status === activeFilter;
+
+        const matchesSearch =
+          !query ||
+          [order.name, order.address, order.client, order.phone]
+            .join(" ")
+            .toLowerCase()
+            .includes(query);
+
+        return matchesFilter && matchesSearch;
+      });
+
+      if (document.getElementById("orderSort").value === "price") {
+        list.sort((a, b) => Number(b.price) - Number(a.price));
+      } else {
+        list.sort((a, b) => new Date(a.date) - new Date(b.date));
+      }
+
+      document.getElementById("ordersBody").innerHTML = list.map(order => `
+        <tr>
+          <td>
+            <div class="task-title">${escapeHtml(order.name)}</div>
+            <div class="task-sub">${escapeHtml(order.number)} · ${escapeHtml(order.address)}</div>
+          </td>
+          <td>${formatDate(order.date)}</td>
+          <td>
+            <div class="task-title">${escapeHtml(order.client)}</div>
+            <div class="task-sub">${escapeHtml(order.phone)}</div>
+          </td>
+          <td>
+            <div class="people">
+              ${(order.team || []).map(person => `<span>${escapeHtml(person)}</span>`).join("")}
+            </div>
+          </td>
+          <td class="money">${order.price ? money(order.price) : "Wycena"}</td>
+          <td>
+            <span class="status ${statusClasses[order.status] || "gray"}">
+              ${statusNames[order.status] || escapeHtml(order.status)}
+            </span>
+          </td>
+          <td>
+            <button class="row-actions" data-complete="${order.id}" title="Zmień status">
+              <i class="fa-solid fa-check"></i>
+            </button>
+          </td>
+        </tr>
+      `).join("");
+
+      document.getElementById("ordersEmpty").hidden = list.length > 0;
+
+      const active = orders.filter(order =>
+        !["completed", "done", "cancelled"].includes(order.status)
+      ).length;
+
+      document.getElementById("navTaskCount").textContent = active;
+
+      document.querySelectorAll("[data-complete]").forEach(button => {
+        button.onclick = async () => {
+          const order = orders.find(item =>
+            String(item.id) === button.dataset.complete
+          );
+
+          if (!order) return;
+
+          const nextStatus =
+            ["completed", "done"].includes(order.status)
+              ? "planned"
+              : "completed";
+
+          try {
+            try {
+              await api(`/api/tasks/${order.id}/status`, {
+                method: "PATCH",
+                body: JSON.stringify({
+                  status: nextStatus,
+                  finalPrice: order.price
+                })
+              });
+            } catch {
+              await api(`/api/tasks/${order.id}`, {
+                method: "PUT",
+                body: JSON.stringify({
+                  status: nextStatus,
+                  completed: nextStatus === "completed"
+                })
+              });
+            }
+
+            await loadBackend();
+            showToast("Status zlecenia został zmieniony");
+          } catch (error) {
+            showToast(error.message);
+          }
+        };
+      });
+    }
+
+    function renderToday() {
+      const today = new Date().toLocaleDateString("sv-SE");
+
+      const todayOrders = orders
+        .filter(order => order.date.startsWith(today))
+        .slice(0, 4);
+
+      document.getElementById("todayJobs").innerHTML =
+        todayOrders.map(order => `
+          <div class="job">
+            <div class="job-time">${order.date.slice(11, 16) || "--:--"}</div>
+            <div>
+              <h3>${escapeHtml(order.name)}</h3>
+              <p>${escapeHtml(order.address)} · ${escapeHtml(order.vehicle)}</p>
+            </div>
+            <span class="status ${statusClasses[order.status] || "gray"}">
+              ${statusNames[order.status] || escapeHtml(order.status)}
+            </span>
+          </div>
+        `).join("") ||
+        '<div class="empty-state"><p>Brak zleceń zaplanowanych na dzisiaj.</p></div>';
+    }
+
+    document.querySelectorAll("[data-filter]").forEach(button => {
+      button.onclick = () => {
+        activeFilter = button.dataset.filter;
+
+        document.querySelectorAll("[data-filter]").forEach(item =>
+          item.classList.toggle("active", item === button)
+        );
+
+        renderOrders();
+      };
+    });
+
+    document.getElementById("orderSort").onchange = renderOrders;
+
+    document.getElementById("globalSearch").oninput = () => {
+      navigate("orders");
+      renderOrders();
+    };
+
+    /* KALENDARZ */
+
+    function renderCalendar() {
+      const year = calendarCursor.getFullYear();
+      const month = calendarCursor.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const offset = (firstDay.getDay() + 6) % 7;
+
+      document.querySelector(".calendar-top h2").textContent =
+        new Intl.DateTimeFormat("pl-PL", {
+          month: "long",
+          year: "numeric"
+        }).format(firstDay);
+
+      const weekdays = ["Pon", "Wt", "Śr", "Czw", "Pt", "Sob", "Nd"];
+      let html = weekdays
+        .map(day => `<div class="weekday">${day}</div>`)
+        .join("");
+
+      const previousMonthLastDay = new Date(year, month, 0).getDate();
+
+      for (let index = offset; index > 0; index--) {
+        html += `
+          <div class="day muted">
+            <span class="day-num">${previousMonthLastDay - index + 1}</span>
+          </div>
+        `;
+      }
+
+      const today = new Date();
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const date =
+          `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
+        const events = orders.filter(order => order.date.startsWith(date));
+
+        const isToday =
+          today.getFullYear() === year &&
+          today.getMonth() === month &&
+          today.getDate() === day;
+
+        html += `
+          <div class="day ${isToday ? "today" : ""}">
+            <span class="day-num">${day}</span>
+            ${events.slice(0, 2).map(order => `
+              <div class="event ${
+                order.status === "completed"
+                  ? "green"
+                  : order.status === "progress"
+                    ? "orange"
+                    : ""
+              }">${escapeHtml(order.name)}</div>
+            `).join("")}
+          </div>
+        `;
+      }
+
+      const usedCells = offset + daysInMonth;
+      const additionalCells = (7 - usedCells % 7) % 7;
+
+      for (let day = 1; day <= additionalCells; day++) {
+        html += `<div class="day muted"><span class="day-num">${day}</span></div>`;
+      }
+
+      document.getElementById("calendarGrid").innerHTML = html;
+
+      const upcoming = [...orders]
+        .filter(order => new Date(order.date).getTime() >= Date.now() - 86400000)
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .slice(0, 5);
+
+      document.getElementById("agendaList").innerHTML =
+        upcoming.map(order => `
+          <div class="agenda-item">
+            <strong>${escapeHtml(order.name)}</strong>
+            <p>${formatDate(order.date)} · ${escapeHtml(order.address)}</p>
+            <span>${escapeHtml(order.vehicle)}</span>
+          </div>
+        `).join("") ||
+        '<div class="empty-state"><p>Brak nadchodzących terminów.</p></div>';
+    }
+
+    const calendarButtons = document.querySelectorAll(".cal-nav button");
+
+    calendarButtons[0].onclick = () => {
+      calendarCursor.setMonth(calendarCursor.getMonth() - 1);
+      renderCalendar();
+    };
+
+    calendarButtons[1].onclick = () => {
+      calendarCursor.setMonth(calendarCursor.getMonth() + 1);
+      renderCalendar();
+    };
+
+    /* KLIENCI */
+
+    function renderClients() {
+      document.getElementById("clientGrid").innerHTML =
+        clients.map(client => `
+          <article class="card client-card">
+            <div class="client-top">
+              <div class="client-avatar">${initials(client.name)}</div>
+              <span class="status ${
+                client.stats?.orders > 1 ? "green" : "gray"
+              }">
+                ${
+                  client.type === "company"
+                    ? "Firma"
+                    : client.stats?.orders > 1
+                      ? "Stały klient"
+                      : "Nowy"
+                }
+              </span>
+            </div>
+
+            <h3>${escapeHtml(client.name)}</h3>
+            <p>${escapeHtml(
+              [client.phone, client.email].filter(Boolean).join(" · ") ||
+              client.address ||
+              "Brak danych kontaktowych"
+            )}</p>
+
+            <div class="client-meta">
+              <div><small>Zlecenia</small><strong>${client.stats?.orders || 0}</strong></div>
+              <div><small>Wartość</small><strong>${money(client.stats?.value || 0)}</strong></div>
+            </div>
+          </article>
+        `).join("") ||
+        '<div class="empty-state"><i class="fa-regular fa-address-book"></i><h3>Brak klientów</h3><p>Dodaj pierwszego klienta.</p></div>';
+    }
+
+    /* FLOTA I PRACOWNICY */
+
+    function renderFleet() {
+      const vehicles = fleet.map(vehicle => `
+        <article class="card vehicle-card">
+          <div class="client-top">
+            <div class="vehicle-icon"><i class="fa-solid fa-van-shuttle"></i></div>
+            <span class="status ${
+              vehicle.status === "available"
+                ? "green"
+                : vehicle.status === "route"
+                  ? "orange"
+                  : "gray"
+            }">
+              ${
+                {
+                  available: "Dostępny",
+                  route: "W trasie",
+                  service: "Serwis",
+                  inactive: "Nieaktywny"
+                }[vehicle.status] || "Dostępny"
+              }
+            </span>
+          </div>
+
+          <h3>${escapeHtml(vehicle.name)}</h3>
+          <p>${escapeHtml(vehicle.plates || "Brak rejestracji")} · ${new Intl.NumberFormat("pl-PL").format(vehicle.mileage || 0)} km</p>
+
+          <div class="vehicle-stats">
+            <div>Spalanie<strong>${vehicle.fuelConsumption || 0} l/100</strong></div>
+            <div>Serwis<strong>${vehicle.nextServiceDate ? new Date(vehicle.nextServiceDate).toLocaleDateString("pl-PL") : "Brak terminu"}</strong></div>
+          </div>
+        </article>
+      `);
+
+      const workers = employees.map(employee => `
+        <article class="card vehicle-card">
+          <div class="client-top">
+            <div class="client-avatar">${initials(employee.name)}</div>
+            <span class="status ${
+              employee.status === "busy"
+                ? "orange"
+                : employee.status === "off"
+                  ? "gray"
+                  : "green"
+            }">
+              ${
+                {
+                  available: "Dostępny",
+                  busy: "Na zleceniu",
+                  off: "Wolne"
+                }[employee.status] || "Dostępny"
+              }
+            </span>
+          </div>
+
+          <h3>${escapeHtml(employee.name)}</h3>
+          <p>${escapeHtml(employee.role || "Pracownik")}</p>
+
+          <div class="vehicle-stats">
+            <div>Telefon<strong>${escapeHtml(employee.phone || "Brak")}</strong></div>
+            <div>Stawka<strong>${employee.hourlyRate ? money(employee.hourlyRate) + "/h" : "—"}</strong></div>
+          </div>
+        </article>
+      `);
+
+      document.getElementById("fleetGrid").innerHTML =
+        [...vehicles, ...workers].join("") ||
+        '<div class="empty-state"><i class="fa-solid fa-truck"></i><h3>Brak zasobów</h3><p>Dodaj pracownika lub pojazd.</p></div>';
+    }
+
+    /* AUTOMATYZACJE */
+
+    function renderAutomations() {
+      const icons = {
+        sms_reminder: "fa-comment-sms",
+        team_daily_plan: "fa-users",
+        invoice_draft: "fa-file-invoice-dollar",
+        google_review: "fa-star",
+        fuel_limit: "fa-gas-pump",
+        route_suggestions: "fa-route"
+      };
+
+      document.getElementById("automationGrid").innerHTML =
+        automations.map(automation => `
+          <article class="card auto-card">
+            <div class="client-top">
+              <div class="auto-icon">
+                <i class="fa-solid ${icons[automation.key] || "fa-wand-magic-sparkles"}"></i>
+              </div>
+
+              <button
+                class="switch ${automation.enabled ? "on" : ""}"
+                data-automation="${automation._id}"
+              ></button>
+            </div>
+
+            <h3>${escapeHtml(automation.name)}</h3>
+            <p>${escapeHtml(automation.description || "")}</p>
+
+            <div class="auto-bottom">
+              <span>Uruchomiono: ${automation.runCount || 0}</span>
+              <span class="status ${automation.enabled ? "green" : "gray"}">
+                ${automation.enabled ? "Aktywna" : "Wyłączona"}
+              </span>
+            </div>
+          </article>
+        `).join("") ||
+        '<div class="empty-state"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Brak automatyzacji</h3><p>Automatyzacje pojawią się po ich utworzeniu na serwerze.</p></div>';
+
+      document.querySelectorAll("[data-automation]").forEach(button => {
+        button.onclick = async () => {
+          const enabled = !button.classList.contains("on");
+
+          try {
+            await api(`/api/automations/${button.dataset.automation}`, {
+              method: "PATCH",
+              body: JSON.stringify({ enabled })
+            });
+
+            await loadBackend();
+            showToast("Ustawienie automatyzacji zostało zmienione");
+          } catch (error) {
+            showToast(error.message);
+          }
+        };
+      });
+    }
+
+    /* FINANSE */
+
+    function renderFinances(stats = {}) {
+      const revenue =
+        stats.revenue ??
+        incomes.reduce((sum, item) => sum + Number(item.price || 0), 0);
+
+      const costs =
+        stats.expenses ??
+        expenses.reduce((sum, item) => sum + Number(item.price || 0), 0);
+
+      const profit = stats.profit ?? revenue - costs;
+      const margin = revenue > 0 ? (profit / revenue) * 100 : 0;
+
+      document.getElementById("financeMargin").innerHTML =
+        `${margin.toFixed(1).replace(".", ",")}<small>%</small>`;
+
+      document.getElementById("financeIncome").innerHTML =
+        `${new Intl.NumberFormat("pl-PL").format(revenue)}<small>zł</small>`;
+
+      document.getElementById("financeExpense").innerHTML =
+        `${new Intl.NumberFormat("pl-PL").format(costs)}<small>zł</small>`;
+
+      document.getElementById("financeProfit").innerHTML =
+        `${new Intl.NumberFormat("pl-PL").format(profit)}<small>zł</small>`;
+
+      const categories = {};
+
+      expenses.forEach(expense => {
+        const category = expense.category || "Pozostałe";
+        categories[category] =
+          (categories[category] || 0) + Number(expense.price || 0);
+      });
+
+      const sortedCategories = Object.entries(categories)
+        .sort((a, b) => b[1] - a[1]);
+
+      const colors = [
+        "var(--orange)",
+        "var(--blue)",
+        "var(--purple)",
+        "var(--green)",
+        "var(--red)"
+      ];
+
+      document.getElementById("expenseBreakdown").innerHTML =
+        sortedCategories.map(([category, value], index) => {
+          const width = costs > 0 ? Math.max(4, value / costs * 100) : 0;
+
+          return `
+            <div class="bar-row">
+              <span>${escapeHtml(category)}</span>
+              <div class="bar">
+                <i style="--w:${width}%;--c:${colors[index % colors.length]}"></i>
+              </div>
+              <strong>${money(value)}</strong>
+            </div>
+          `;
+        }).join("") ||
+        '<div class="empty-state"><p>Dodaj pierwszą operację finansową.</p></div>';
+    }
+
+    /* FORMULARZE */
+
+    const orderModal = document.getElementById("orderModal");
+
+    document.querySelectorAll("[data-open-order]").forEach(button => {
+      button.onclick = () => {
+        document.getElementById("orderForm").reset();
+
+        const tomorrow = new Date(Date.now() + 86400000);
+        tomorrow.setHours(9, 0, 0, 0);
+
+        document.getElementById("fDate").value =
+          new Date(tomorrow.getTime() - tomorrow.getTimezoneOffset() * 60000)
+            .toISOString()
+            .slice(0, 16);
+
+        orderModal.showModal();
+      };
+    });
+
+    document.getElementById("orderForm").addEventListener("submit", async event => {
+      if (event.submitter?.value === "cancel") return;
+      event.preventDefault();
+
+      const payload = {
+        name: document.getElementById("fName").value,
+        address: document.getElementById("fAddress").value,
+        dateStart: document.getElementById("fDate").value,
+        clientName: document.getElementById("fClient").value,
+        clientPhone: document.getElementById("fPhone").value,
+        price: Number(document.getElementById("fPrice").value),
+        status: document.getElementById("fStatus").value,
+        car: document.getElementById("fVehicle").value,
+        desc: document.getElementById("fNote").value
+      };
+
+      try {
+        await api("/api/tasks", {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        orderModal.close();
+        await loadBackend();
+        navigate("orders");
+        showToast("Zlecenie zostało dodane");
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
+
+    const expenseModal = document.getElementById("expenseModal");
+
+    document.getElementById("quickExpense").onclick = () => {
+      document.getElementById("expenseForm").reset();
+      document.getElementById("xType").value = "Koszt";
+      expenseModal.showModal();
+    };
+
+    document.getElementById("financeAdd").onclick = () => {
+      document.getElementById("expenseForm").reset();
+      expenseModal.showModal();
+    };
+
+    document.getElementById("expenseForm").addEventListener("submit", async event => {
+      if (event.submitter?.value === "cancel") return;
+      event.preventDefault();
+
+      const type = document.getElementById("xType").value;
+
+      try {
+        const payload = {
+          price: Number(document.getElementById("xAmount").value),
+          category: document.getElementById("xCategory").value,
+          desc: document.getElementById("xDesc").value
+        };
+
+        const endpoint =
+          type === "Przychód" ? "/api/incomes" : "/api/expenses";
+
+        await api(endpoint, {
+          method: "POST",
+          body: JSON.stringify(payload)
+        });
+
+        expenseModal.close();
+        await loadBackend();
+        showToast("Operacja finansowa została zapisana");
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
+
+    const clientModal = document.getElementById("clientModal");
+
+    document.getElementById("addClient").onclick = () => {
+      document.getElementById("clientForm").reset();
+      clientModal.showModal();
+    };
+
+    document.getElementById("clientForm").addEventListener("submit", async event => {
+      if (event.submitter?.value === "cancel") return;
+      event.preventDefault();
+
+      try {
+        await api("/api/clients", {
+          method: "POST",
+          body: JSON.stringify({
+            name: document.getElementById("cName").value,
+            type: document.getElementById("cType").value,
+            phone: document.getElementById("cPhone").value,
+            email: document.getElementById("cEmail").value,
+            address: document.getElementById("cAddress").value,
+            notes: document.getElementById("cNotes").value
+          })
+        });
+
+        clientModal.close();
+        await loadBackend();
+        showToast("Klient został dodany");
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
+
+    const resourceModal = document.getElementById("resourceModal");
+
+    document.getElementById("addResource").onclick = () => {
+      document.getElementById("resourceForm").reset();
+      resourceModal.showModal();
+    };
+
+    document.getElementById("resourceForm").addEventListener("submit", async event => {
+      if (event.submitter?.value === "cancel") return;
+      event.preventDefault();
+
+      const type = document.getElementById("rType").value;
+
+      const payload =
+        type === "employee"
+          ? {
+              name: document.getElementById("rName").value,
+              role: document.getElementById("rDetail").value,
+              phone: document.getElementById("rExtra").value,
+              pin: document.getElementById("rPin").value
+            }
+          : {
+              name: document.getElementById("rName").value,
+              plates: document.getElementById("rDetail").value,
+              mileage: Number(document.getElementById("rExtra").value) || 0
             };
 
-            // MIESIĘCZNE
-            let monthlyInTasks = db.tasks.filter(t => t.completed && isThisMonth(t.createdAt)).reduce((sum, t) => sum + Number(t.price), 0);
-            let monthlyIncomes = db.incomes.filter(i => isThisMonth(i.createdAt)).reduce((sum, i) => sum + Number(i.price), 0);
-            let monthlyIncome = monthlyInTasks + monthlyIncomes;
-            
-            let monthlyExpense = db.expenses.filter(e => isThisMonth(e.createdAt)).reduce((sum, e) => sum + Number(e.price), 0);
-            let monthlyProfit = monthlyIncome - monthlyExpense;
-            let monthlyTasksCount = db.tasks.filter(t => t.completed && isThisMonth(t.createdAt)).length;
+      try {
+        await api(
+          type === "employee" ? "/api/employees" : "/api/fleet",
+          {
+            method: "POST",
+            body: JSON.stringify(payload)
+          }
+        );
 
-            // CAŁKOWITE (Nie resetuje się)
-            let totalInTasks = db.tasks.filter(t => t.completed).reduce((sum, t) => sum + Number(t.price), 0);
-            let totalIncomes = db.incomes.reduce((sum, i) => sum + Number(i.price), 0);
-            let totalExpense = db.expenses.reduce((sum, e) => sum + Number(e.price), 0);
-            let totalProfit = (totalInTasks + totalIncomes) - totalExpense;
+        resourceModal.close();
+        await loadBackend();
+        showToast(type === "employee" ? "Pracownik został dodany" : "Pojazd został dodany");
+      } catch (error) {
+        showToast(error.message);
+      }
+    });
 
-            // DOM Update
-            document.getElementById('stat-income').innerText = monthlyIncome.toLocaleString('pl-PL');
-            document.getElementById('stat-expense').innerText = monthlyExpense.toLocaleString('pl-PL');
-            document.getElementById('stat-profit').innerText = monthlyProfit.toLocaleString('pl-PL');
-            document.getElementById('stat-tasks-count').innerText = monthlyTasksCount;
-            document.getElementById('stat-total-profit').innerText = totalProfit.toLocaleString('pl-PL');
-
-            const profitEl = document.getElementById('stat-profit');
-            if(monthlyProfit < 0) { profitEl.classList.replace('text-white', 'text-red-400'); profitEl.classList.remove('text-glow'); } 
-            else { profitEl.classList.replace('text-red-400', 'text-white'); profitEl.classList.add('text-glow'); }
-            
-            if (chartInstance) pushChartData(monthlyProfit, monthlyIncome, monthlyExpense);
-        }
-
-        // =====================================
-        // RENDEROWANIE FLOTY I PRACOWNIKÓW
-        // =====================================
-        function renderLists() {
-            document.getElementById('t-car').innerHTML = '<option value="">-- Wybierz pojazd --</option>' + db.fleet.map(f => `<option value="${f.name}">${f.name} (${f.plates})</option>`).join('');
-
-            const empContainer = document.getElementById('employees-container');
-            if (empContainer) {
-                empContainer.innerHTML = db.employees.map(e => `
-                    <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-full bg-brand-500/20 text-brand-500 flex items-center justify-center font-bold text-xs">${e.name.substring(0,2).toUpperCase()}</div>
-                            <div><p class="text-white font-bold text-sm">${e.name}</p><p class="text-gray-400 text-xs">${e.role}</p></div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <span class="text-brand-500 font-mono text-xs bg-brand-500/10 px-2 py-1 rounded">PIN: ${e.pin || 'Brak'}</span>
-                            <button onclick="editEmployee('${e._id}')" class="text-blue-400 hover:text-blue-300 transition-colors"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteEmployee('${e._id}')" class="text-red-400 hover:text-red-300 transition-colors"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>`).join('');
-            }
-
-            const fleetContainer = document.getElementById('fleet-container');
-            if (fleetContainer) {
-                fleetContainer.innerHTML = db.fleet.map(f => `
-                    <div class="flex justify-between items-center bg-dark-800/80 p-3 rounded-lg border border-dark-700">
-                        <div class="flex items-center gap-3">
-                            <div class="w-8 h-8 rounded-lg bg-dark-900 border border-dark-600 text-gray-400 flex items-center justify-center text-xs"><i class="fa-solid fa-truck"></i></div>
-                            <div><p class="text-white font-bold text-sm">${f.name}</p><p class="text-brand-400 text-xs">${f.plates}</p></div>
-                        </div>
-                        <div class="flex items-center gap-3">
-                            <button onclick="editFleet('${f._id}')" class="text-blue-400 hover:text-blue-300 transition-colors"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteFleet('${f._id}')" class="text-red-400 hover:text-red-300 transition-colors"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>`).join('');
-            }
-        }
-
-        // =====================================
-        // RENDEROWANIE ZLECEŃ
-        // =====================================
-        function renderTasks() {
-            const allContainer = document.getElementById('all-tasks-container');
-            if(!allContainer) return;
-            allContainer.innerHTML = '';
-            
-            if(db.tasks.length === 0) {
-                allContainer.innerHTML = '<p class="text-gray-500 text-sm text-center py-4 w-full col-span-full">Brak zleceń w bazie.</p>';
-                return;
-            }
-
-            db.tasks.forEach(task => {
-                const isDone = task.completed;
-                
-                let workersHtml = '';
-                if (task.workers && task.workers.length > 0) {
-                    workersHtml = task.workers.map(w => `<span class="bg-dark-900 border border-dark-700 text-gray-300 text-[11px] px-2 py-1 rounded mb-1 inline-block mr-1"><i class="fa-solid fa-user text-gray-500 mr-1"></i> ${w.name} <span class="text-brand-500 ml-1">(${w.role})</span></span>`).join('');
-                }
-
-                let priceDisplay = task.priceMax ? `${task.price} - ${task.priceMax} PLN` : `${task.price} PLN`;
-                let dateDisplay = task.dateStart ? `<span class="text-brand-400 font-bold"><i class="fa-regular fa-calendar mr-1"></i> ${task.dateStart} ${task.dateEnd ? ' do ' + task.dateEnd : ''}</span>` : '';
-                
-                let contactHtml = '';
-                if(currentUserRole === 'admin' || !isDone) {
-                    if(task.clientName || task.clientPhone) {
-                        contactHtml = `<div class="bg-dark-900/50 p-2 rounded-lg border border-dark-700/50 mb-3 text-xs text-gray-300">
-                            ${task.clientName ? `<p><i class="fa-solid fa-user-tie text-gray-500 mr-1 w-4"></i> ${task.clientName}</p>` : ''}
-                            ${task.clientPhone ? `<p><i class="fa-solid fa-phone text-gray-500 mr-1 w-4"></i> <a href="tel:${task.clientPhone}" class="text-brand-400 hover:underline">${task.clientPhone}</a></p>` : ''}
-                        </div>`;
-                    }
-                }
-
-                let descHtml = task.desc ? `<div class="bg-dark-900/50 text-gray-400 text-xs p-3 rounded-lg border border-dark-700/50 mb-3 whitespace-pre-line">${task.desc}</div>` : '';
-
-                // Przyciski akcji (tylko dla admina)
-                let adminActions = currentUserRole === 'admin' ? `
-                    <div class="flex justify-end gap-2 mt-3 pt-3 border-t border-dark-700">
-                        <button onclick="editTask('${task._id}')" class="text-xs text-blue-400 hover:text-blue-300 px-2 py-1 bg-blue-500/10 rounded"><i class="fa-solid fa-pen mr-1"></i> Edytuj</button>
-                        <button onclick="deleteTask('${task._id}')" class="text-xs text-red-400 hover:text-red-300 px-2 py-1 bg-red-500/10 rounded"><i class="fa-solid fa-trash mr-1"></i> Usuń</button>
-                    </div>
-                ` : '';
-
-                const html = `
-                    <div class="bg-dark-800/80 border ${isDone ? 'border-brand-500/20 opacity-70' : 'border-dark-600 shadow-[0_5px_15px_rgba(0,0,0,0.3)]'} rounded-xl p-4 transition-all hover:border-brand-500/50 flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-start mb-2">
-                                <span class="${isDone ? 'bg-brand-500/20 text-brand-500' : 'bg-blue-500/20 text-blue-400'} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">${isDone ? 'ZREALIZOWANE' : 'W TOKU'}</span>
-                                <span class="text-white font-black text-lg">${priceDisplay}</span>
-                            </div>
-                            <h3 class="text-white font-bold mb-1">${task.name}</h3>
-                            <div class="flex justify-between items-center mb-3 text-xs">
-                                <p class="text-gray-400"><i class="fa-solid fa-location-dot mr-1 text-brand-500"></i> ${task.address}</p>
-                                ${dateDisplay}
-                            </div>
-                            
-                            ${contactHtml}
-                            ${descHtml}
-                            
-                            <div class="mb-4">
-                                ${task.car ? `<span class="bg-dark-900 border border-dark-700 text-gray-300 text-[11px] px-2 py-1 rounded inline-block mb-1 mr-1"><i class="fa-solid fa-van-shuttle text-gray-500 mr-1"></i> ${task.car}</span>` : ''}
-                                ${workersHtml}
-                            </div>
-                        </div>
-                        <div class="mt-auto">
-                            ${!isDone ? `<button onclick="completeTask('${task._id}')" class="w-full bg-dark-700 hover:bg-brand-500 hover:text-dark-900 text-white py-2.5 rounded-lg text-sm font-bold transition-colors border border-dark-600 hover:border-brand-500"><i class="fa-solid fa-check mr-1"></i> Oznacz jako Zrealizowane</button>` : `<button disabled class="w-full bg-dark-900 text-brand-500/50 py-2.5 rounded-lg text-sm font-bold border border-brand-500/10 cursor-not-allowed"><i class="fa-solid fa-check-double mr-1"></i> Zakończono i rozliczono</button>`}
-                            ${adminActions}
-                        </div>
-                    </div>`;
-                allContainer.innerHTML += html;
-            });
-        }
-
-        // =====================================
-        // WYKRES ADMINA
-        // =====================================
-        function initChart() {
-            const ctx = document.getElementById('financeChart');
-            if(!ctx) return;
-            
-            const now = new Date();
-            chartTimeLabels.push(now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0'));
-            
-            const currM = now.getMonth();
-            const currY = now.getFullYear();
-            const isThisMonth = (dStr) => { const d = new Date(dStr); return d.getMonth() === currM && d.getFullYear() === currY; };
-
-            let incT = db.tasks.filter(t => t.completed && isThisMonth(t.createdAt)).reduce((s, t) => s + Number(t.price), 0);
-            let incI = db.incomes.filter(i => isThisMonth(i.createdAt)).reduce((s, i) => s + Number(i.price), 0);
-            let income = incT + incI;
-            let expense = db.expenses.filter(e => isThisMonth(e.createdAt)).reduce((s, e) => s + Number(e.price), 0);
-            let profit = income - expense;
-            
-            chartProfitData.push(profit);
-            chartIncomeData.push(income);
-            chartExpenseData.push(expense);
-
-            chartInstance = new Chart(ctx.getContext('2d'), {
-                type: 'line',
-                data: {
-                    labels: chartTimeLabels,
-                    datasets: [
-                        { label: 'Zysk (Msc)', data: chartProfitData, borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 3, tension: 0.4, fill: true },
-                        { label: 'Przychód', data: chartIncomeData, borderColor: '#3b82f6', borderWidth: 2, borderDash: [5, 5], tension: 0.4 },
-                        { label: 'Koszty', data: chartExpenseData, borderColor: '#ef4444', borderWidth: 2, borderDash: [5, 5], tension: 0.4 }
-                    ]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#9ca3af' } } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } }, y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9ca3af' } } } }
-            });
-
-            setInterval(() => {
-                let currIncT = db.tasks.filter(t => t.completed && isThisMonth(t.createdAt)).reduce((s, t) => s + Number(t.price), 0);
-                let currIncI = db.incomes.filter(i => isThisMonth(i.createdAt)).reduce((s, i) => s + Number(i.price), 0);
-                let currInc = currIncT + currIncI;
-                let currExp = db.expenses.filter(e => isThisMonth(e.createdAt)).reduce((s, e) => s + Number(e.price), 0);
-                pushChartData(currInc - currExp, currInc, currExp);
-            }, 60000);
-        }
-
-        function pushChartData(profit, income, expense) {
-            if(!chartInstance) return;
-            const now = new Date();
-            const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
-            if(chartTimeLabels.length > 10) { chartTimeLabels.shift(); chartProfitData.shift(); chartIncomeData.shift(); chartExpenseData.shift(); }
-            chartTimeLabels.push(timeStr); chartProfitData.push(profit); chartIncomeData.push(income); chartExpenseData.push(expense);
-            chartInstance.update();
-        }
-
-        // =====================================
-        // ZLECENIA (CRUD)
-        // =====================================
-        function openTaskModal() {
-            document.getElementById('t-id').value = '';
-            document.getElementById('t-workers-container').innerHTML = '';
-            document.getElementById('addTaskForm').reset();
-            document.getElementById('task-modal-title').innerHTML = '<i class="fa-solid fa-plus-circle text-brand-500 mr-2"></i> Nowe Zlecenie';
-            document.getElementById('t-is-range').checked = false;
-            document.getElementById('t-multi-date').checked = false;
-            togglePriceMax(); toggleDateEnd();
-            addWorkerRow(); 
-            openModal('taskModal');
-        }
-
-        function editTask(id) {
-            const t = db.tasks.find(x => x._id === id);
-            if(!t) return;
-            
-            document.getElementById('task-modal-title').innerHTML = '<i class="fa-solid fa-pen text-brand-500 mr-2"></i> Edycja Zlecenia';
-            document.getElementById('t-id').value = t._id;
-            document.getElementById('t-name').value = t.name || '';
-            document.getElementById('t-address').value = t.address || '';
-            document.getElementById('t-price').value = t.price || '';
-            document.getElementById('t-client-name').value = t.clientName || '';
-            document.getElementById('t-client-phone').value = t.clientPhone || '';
-            document.getElementById('t-desc').value = t.desc || '';
-            document.getElementById('t-car').value = t.car || '';
-            
-            // Daty
-            if(t.dateStart) document.getElementById('t-date-start').value = t.dateStart;
-            if(t.dateEnd) { document.getElementById('t-multi-date').checked = true; document.getElementById('t-date-end').value = t.dateEnd; } 
-            else { document.getElementById('t-multi-date').checked = false; document.getElementById('t-date-end').value = ''; }
-            toggleDateEnd();
-
-            // Widełki
-            if(t.priceMax) { document.getElementById('t-is-range').checked = true; document.getElementById('t-price-max').value = t.priceMax; } 
-            else { document.getElementById('t-is-range').checked = false; document.getElementById('t-price-max').value = ''; }
-            togglePriceMax();
-
-            // Ekipa
-            const wc = document.getElementById('t-workers-container');
-            wc.innerHTML = '';
-            if(t.workers && t.workers.length > 0) {
-                t.workers.forEach(w => { addWorkerRow(w.name, w.role); });
-            } else { addWorkerRow(); }
-
-            openModal('taskModal');
-        }
-
-        async function deleteTask(id) {
-            if(!confirm('Czy na pewno chcesz usunąć to zlecenie bezpowrotnie?')) return;
-            await fetch(`/api/tasks/${id}`, { method: 'DELETE' });
-            fetchDataFromMongoDB();
-        }
-
-        function addWorkerRow(name = '', role = 'Kierowca') {
-            const container = document.getElementById('t-workers-container');
-            const rowId = 'wrk-' + Date.now() + Math.random().toString(36).substr(2,5);
-            const empOptions = db.employees.map(e => `<option value="${e.name}" ${name===e.name?'selected':''}>${e.name}</option>`).join('');
-            
-            const html = `
-            <div id="${rowId}" class="flex gap-2 items-center worker-row bg-dark-800 p-2 rounded-xl">
-                <select class="wrk-name-sel w-full px-3 py-2 rounded-lg text-sm flex-1 bg-dark-900 border-dark-700">
-                    <option value="">Wybierz osobę...</option>
-                    ${empOptions}
-                </select>
-                <select class="wrk-role-sel w-full px-3 py-2 rounded-lg text-sm w-32 flex-shrink-0 bg-dark-900 border-dark-700">
-                    <option value="Kierowca" ${role==='Kierowca'?'selected':''}>Kierowca</option>
-                    <option value="Pomocnik" ${role==='Pomocnik'?'selected':''}>Pomocnik</option>
-                </select>
-                <button type="button" onclick="document.getElementById('${rowId}').remove()" class="text-red-400 hover:text-red-300 w-8 flex-shrink-0 text-center bg-red-500/10 rounded-lg h-9"><i class="fa-solid fa-trash"></i></button>
-            </div>`;
-            container.insertAdjacentHTML('beforeend', html);
-        }
-
-        document.getElementById('addTaskForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('t-id').value;
-            
-            const workersArray = [];
-            document.querySelectorAll('#t-workers-container .worker-row').forEach(row => {
-                const n = row.querySelector('.wrk-name-sel').value;
-                if(n) workersArray.push({ name: n, role: row.querySelector('.wrk-role-sel').value });
-            });
-
-            const body = { 
-                name: document.getElementById('t-name').value, 
-                address: document.getElementById('t-address').value,
-                dateStart: document.getElementById('t-date-start').value,
-                dateEnd: document.getElementById('t-multi-date').checked ? document.getElementById('t-date-end').value : null,
-                price: Number(document.getElementById('t-price').value), 
-                priceMax: document.getElementById('t-is-range').checked ? Number(document.getElementById('t-price-max').value) : null,
-                clientName: document.getElementById('t-client-name').value,
-                clientPhone: document.getElementById('t-client-phone').value,
-                desc: document.getElementById('t-desc').value,
-                people: workersArray.length, 
-                workers: workersArray, 
-                car: document.getElementById('t-car').value 
-            };
-            
-            if(id) {
-                await fetch(`/api/tasks/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            } else {
-                await fetch('/api/tasks', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            }
-            
-            closeModal('taskModal'); fetchDataFromMongoDB();
-        });
-
-        async function completeTask(id) {
-            await fetch(`/api/tasks/${id}/complete`, { method: 'POST' });
-            fetchDataFromMongoDB();
-        }
-
-        // =====================================
-        // FINANSE I INNE CRUDY (Skrócone logiki)
-        // =====================================
-        document.getElementById('addExpenseForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const body = { price: Number(document.getElementById('e-price').value), category: document.getElementById('e-category').value, desc: document.getElementById('e-desc').value };
-            await fetch('/api/expenses', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('expenseModal'); this.reset(); fetchDataFromMongoDB();
-        });
-
-        document.getElementById('addIncomeForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const body = { price: Number(document.getElementById('i-price').value), category: document.getElementById('i-category').value, desc: document.getElementById('i-desc').value };
-            await fetch('/api/incomes', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('incomeModal'); this.reset(); fetchDataFromMongoDB();
-        });
-
-        // Pracownicy i Flota (Obsługa formularzy z zachowaniem logiki)
-        document.getElementById('employeeForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('emp-id').value;
-            const body = { name: document.getElementById('emp-name').value, role: document.getElementById('emp-role').value, pin: document.getElementById('emp-pin').value };
-            if(id) await fetch(`/api/employees/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            else await fetch('/api/employees', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('employeeModal'); fetchDataFromMongoDB();
-        });
-        function editEmployee(id) { const e = db.employees.find(x => x._id === id); if(!e) return; document.getElementById('emp-id').value = e._id; document.getElementById('emp-name').value = e.name; document.getElementById('emp-role').value = e.role; document.getElementById('emp-pin').value = e.pin||''; document.getElementById('emp-modal-title').innerHTML = '<i class="fa-solid fa-pen text-brand-500 mr-2"></i> Edytuj'; openModal('employeeModal'); }
-        async function deleteEmployee(id) { if(!confirm('Usunąć pracownika?')) return; await fetch(`/api/employees/${id}`, { method: 'DELETE' }); fetchDataFromMongoDB(); }
-
-        document.getElementById('fleetForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            const id = document.getElementById('fl-id').value;
-            const body = { name: document.getElementById('fl-name').value, plates: document.getElementById('fl-plates').value };
-            if(id) await fetch(`/api/fleet/${id}`, { method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            else await fetch('/api/fleet', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body) });
-            closeModal('fleetModal'); fetchDataFromMongoDB();
-        });
-        function editFleet(id) { const f = db.fleet.find(x => x._id === id); if(!f) return; document.getElementById('fl-id').value = f._id; document.getElementById('fl-name').value = f.name; document.getElementById('fl-plates').value = f.plates; document.getElementById('fleet-modal-title').innerHTML = '<i class="fa-solid fa-pen text-brand-500 mr-2"></i> Edytuj'; openModal('fleetModal'); }
-        async function deleteFleet(id) { if(!confirm('Usunąć pojazd?')) return; await fetch(`/api/fleet/${id}`, { method: 'DELETE' }); fetchDataFromMongoDB(); }
-
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.nav-btn').forEach(el => { el.classList.remove('text-brand-500', 'bg-brand-500/10', 'font-bold'); el.classList.add('text-gray-400'); });
-            const targetTab = document.getElementById(`tab-${tabId}`);
-            if(targetTab) targetTab.classList.remove('hidden');
-            const activeBtn = document.getElementById(`nav-${tabId}`);
-            if(activeBtn) { activeBtn.classList.remove('text-gray-400'); activeBtn.classList.add('text-brand-500', 'bg-brand-500/10', 'font-bold'); }
-            window.scrollTo(0,0);
-        }
-
-        function openModal(id) { document.getElementById(id).showModal(); }
-        function closeModal(id) { document.getElementById(id).close(); }
-    </script>
+    renderCalendar();
+    bootstrapAuth();
+  </script>
 </body>
 </html>
