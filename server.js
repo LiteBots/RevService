@@ -1360,13 +1360,6 @@ app.get(
 app.get(
     '/api/data',
     asyncRoute(async (req, res) => {
-        const taskFilter =
-            req.user.role === 'worker'
-                ? {
-                    'workers.employee': req.user.employeeId
-                }
-                : {};
-
         const [
             tasks,
             expenses,
@@ -1376,7 +1369,10 @@ app.get(
             clients,
             automations
         ] = await Promise.all([
-            Task.find(taskFilter)
+            // Pracownik widzi wszystkie zlecenia operacyjne. Poprzedni filtr
+            // zwracał pustą listę, ponieważ prosty formularz nie zapisuje
+            // przypisania workers.employee.
+            Task.find({})
                 .sort({ dateStart: 1 })
                 .lean(),
 
@@ -1435,10 +1431,6 @@ app.get(
     '/api/tasks',
     asyncRoute(async (req, res) => {
         const filter = {};
-
-        if (req.user.role === 'worker') {
-            filter['workers.employee'] = req.user.employeeId;
-        }
 
         if (
             req.query.status &&
@@ -1512,11 +1504,6 @@ app.get(
                 $ne: 'cancelled'
             }
         };
-
-        if (req.user.role === 'worker') {
-            filter['workers.employee'] =
-                req.user.employeeId;
-        }
 
         const tasks = await Task.find(filter)
             .sort({ dateStart: 1 })
