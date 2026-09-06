@@ -14,7 +14,7 @@
   <style>
     :root{
       --bg:#050505;
-      --panel:rgba(17,17,17,.58);
+      --panel:rgba(17,17,17,.65);
       --panel-solid:#111;
       --line:rgba(255,255,255,.08);
       --muted:#9ca3af;
@@ -25,7 +25,7 @@
       --orange:#f59e0b;
       --blue:#3b82f6;
       --purple:#a78bfa;
-      --radius:16px;
+      --radius:20px;
       --shadow:0 8px 32px rgba(0,0,0,.37)
     }
 
@@ -48,9 +48,9 @@
       z-index:-1;
       pointer-events:none;
       background:
-        radial-gradient(circle at 0 0,rgba(16,185,129,.16),transparent 27%),
-        radial-gradient(circle at 100% 28%,rgba(4,120,87,.13),transparent 26%),
-        radial-gradient(circle at 28% 100%,rgba(5,150,105,.09),transparent 31%)
+        radial-gradient(circle at 0 0,rgba(16,185,129,.12),transparent 25%),
+        radial-gradient(circle at 100% 28%,rgba(4,120,87,.08),transparent 25%),
+        radial-gradient(circle at 28% 100%,rgba(5,150,105,.06),transparent 30%)
     }
 
     button,input,select,textarea{font:inherit}
@@ -58,7 +58,7 @@
     a{color:inherit;text-decoration:none}
     [hidden]{display:none!important}
 
-    ::-webkit-scrollbar{width:4px;height:4px}
+    ::-webkit-scrollbar{width:6px;height:6px}
     ::-webkit-scrollbar-track{background:transparent}
     ::-webkit-scrollbar-thumb{background:rgba(16,185,129,.3);border-radius:10px}
 
@@ -67,7 +67,7 @@
 
     .app{
       display:grid;
-      grid-template-columns:254px minmax(0,1fr);
+      grid-template-columns:260px minmax(0,1fr);
       min-height:100vh;
       transition:opacity .55s ease
     }
@@ -76,11 +76,11 @@
       position:fixed;
       inset:0 auto 0 0;
       z-index:30;
-      width:254px;
-      padding:24px 17px 18px;
+      width:260px;
+      padding:28px 20px 20px;
       display:flex;
       flex-direction:column;
-      background:rgba(17,17,17,.45);
+      background:rgba(17,17,17,.5);
       border-right:1px solid var(--line);
       backdrop-filter:blur(24px);
       box-shadow:var(--shadow)
@@ -90,93 +90,93 @@
       display:flex;
       justify-content:center;
       align-items:center;
-      padding:4px 8px 25px
+      padding:4px 8px 30px
     }
 
     .brand-logo{
       display:block;
-      height:58px;
-      max-width:185px;
+      height:62px;
+      max-width:190px;
       object-fit:contain;
       filter:drop-shadow(0 0 15px rgba(16,185,129,.2))
     }
 
     .nav-label{
-      padding:8px 12px;
+      padding:10px 14px;
       color:#61766c;
-      font-size:10px;
+      font-size:11px;
       font-weight:800;
       letter-spacing:.15em;
       text-transform:uppercase
     }
 
-    .nav{display:grid;gap:4px}
+    .nav{display:grid;gap:6px}
 
     .nav button{
       border:0;
-      padding:11px 12px;
-      border-radius:11px;
+      padding:13px 14px;
+      border-radius:12px;
       display:flex;
       align-items:center;
-      gap:11px;
+      gap:12px;
       color:#91a49b;
       background:none;
       text-align:left;
-      font-size:13px;
+      font-size:14px;
       font-weight:650;
       transition:.2s
     }
 
-    .nav button i{width:18px;text-align:center}
-    .nav button:hover{color:#d9e6e0;background:rgba(255,255,255,.035)}
-    .nav button.active{color:var(--green);background:rgba(16,185,129,.10)}
+    .nav button i{width:20px;text-align:center;font-size:16px}
+    .nav button:hover{color:#d9e6e0;background:rgba(255,255,255,.04)}
+    .nav button.active{color:var(--green);background:rgba(16,185,129,.12)}
     .nav .badge{
       margin-left:auto;
-      min-width:21px;
-      height:21px;
+      min-width:24px;
+      height:24px;
       display:grid;
       place-items:center;
       border-radius:20px;
       color:#050505;
       background:var(--green);
-      font-size:10px;
+      font-size:11px;
       font-weight:800
     }
 
     .side-bottom{margin-top:auto}
 
     .system-card{
-      margin-bottom:12px;
-      padding:13px;
+      margin-bottom:16px;
+      padding:16px;
       border:1px solid var(--line);
-      border-radius:14px;
-      background:rgba(255,255,255,.025)
+      border-radius:16px;
+      background:rgba(255,255,255,.03)
     }
 
-    .system-row{display:flex;align-items:center;gap:8px;font-size:11px;color:#aec0b7}
-    .system-card p{margin:7px 0 0 15px;color:#667c71;font-size:10px}
+    .system-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#aec0b7}
+    .system-card p{margin:8px 0 0 17px;color:#667c71;font-size:11px}
     .pulse{
-      width:7px;
-      height:7px;
+      width:8px;
+      height:8px;
       border-radius:50%;
       background:var(--green);
-      box-shadow:0 0 0 5px rgba(16,185,129,.08)
+      box-shadow:0 0 0 5px rgba(16,185,129,.1)
     }
 
-    .profile{display:flex;align-items:center;gap:10px;padding:10px}
-    .profile strong{display:block;font-size:12px}
-    .profile small{color:var(--muted);font-size:10px}
+    .profile{display:flex;align-items:center;gap:12px;padding:12px}
+    .profile strong{display:block;font-size:14px}
+    .profile small{color:var(--muted);font-size:12px}
 
     .avatar,.client-avatar{
-      width:37px;
-      height:37px;
+      width:42px;
+      height:42px;
       display:grid;
       place-items:center;
-      border:1px solid rgba(16,185,129,.18);
-      border-radius:10px;
+      border:1px solid rgba(16,185,129,.2);
+      border-radius:12px;
       color:var(--green);
-      background:rgba(16,185,129,.08);
-      font-size:11px;
+      background:rgba(16,185,129,.1);
+      font-size:13px;
       font-weight:800
     }
 
@@ -186,30 +186,30 @@
       position:sticky;
       top:0;
       z-index:20;
-      height:74px;
-      padding:0 30px;
+      height:80px;
+      padding:0 35px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      background:rgba(17,17,17,.45);
+      background:rgba(17,17,17,.5);
       border-bottom:1px solid var(--line);
       backdrop-filter:blur(24px);
-      box-shadow:0 8px 32px rgba(0,0,0,.18)
+      box-shadow:0 8px 32px rgba(0,0,0,.15)
     }
 
     .mobile-open{display:none}
 
     .search{
-      width:min(420px,38vw);
-      height:40px;
-      padding:0 13px;
+      width:min(460px,40vw);
+      height:44px;
+      padding:0 16px;
       display:flex;
       align-items:center;
-      gap:10px;
+      gap:12px;
       border:1px solid rgba(255,255,255,.1);
-      border-radius:11px;
+      border-radius:12px;
       color:#61766c;
-      background:rgba(0,0,0,.3)
+      background:rgba(0,0,0,.4)
     }
 
     .search input{
@@ -218,38 +218,38 @@
       outline:0;
       color:var(--text);
       background:none;
-      font-size:12px
+      font-size:14px
     }
 
     .search input::placeholder{color:#61766c}
-    .key{padding:3px 6px;border:1px solid var(--line);border-radius:5px;color:#6f8279;font-size:9px}
-    .top-actions{display:flex;align-items:center;gap:9px}
+    .key{padding:4px 8px;border:1px solid var(--line);border-radius:6px;color:#6f8279;font-size:11px}
+    .top-actions{display:flex;align-items:center;gap:12px}
 
     .icon-btn,.ghost-btn,.primary-btn{
-      height:40px;
-      padding:0 13px;
+      height:44px;
+      padding:0 16px;
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      gap:8px;
+      gap:10px;
       border:1px solid rgba(255,255,255,.1);
       border-radius:12px;
       color:#cad8d1;
-      background:rgba(17,17,17,.45);
-      font-size:12px;
+      background:rgba(17,17,17,.6);
+      font-size:13px;
       font-weight:700;
       transition:.2s
     }
 
-    .icon-btn{position:relative;width:40px;padding:0}
-    .icon-btn:hover,.ghost-btn:hover{color:var(--green);border-color:rgba(16,185,129,.28)}
+    .icon-btn{position:relative;width:44px;padding:0;font-size:16px}
+    .icon-btn:hover,.ghost-btn:hover{color:var(--green);border-color:rgba(16,185,129,.3)}
 
     .notify{
       position:absolute;
-      right:8px;
-      top:7px;
-      width:5px;
-      height:5px;
+      right:10px;
+      top:10px;
+      width:6px;
+      height:6px;
       border-radius:50%;
       background:var(--orange)
     }
@@ -261,29 +261,29 @@
       box-shadow:0 0 20px rgba(16,185,129,.3)
     }
 
-    .primary-btn:hover{transform:translateY(-1px);background:var(--green-light)}
+    .primary-btn:hover{transform:translateY(-2px);background:var(--green-light)}
 
     .content{
-      max-width:1540px;
+      max-width:1600px;
       margin:auto;
-      padding:27px 30px 45px
+      padding:35px 35px 50px
     }
 
     .view{display:none}
     .view.active{display:block}
 
     .page-head{
-      margin-bottom:23px;
+      margin-bottom:30px;
       display:flex;
       align-items:flex-end;
       justify-content:space-between;
       gap:20px
     }
 
-    .page-head h1{margin:0 0 5px;font-size:25px;letter-spacing:-.8px}
-    .page-head p{margin:0;color:var(--muted);font-size:12px}
-    .date-chip{display:flex;align-items:center;gap:8px;color:#91a59b;font-size:11px}
-    .date-chip i{color:var(--green)}
+    .page-head h1{margin:0 0 8px;font-size:28px;letter-spacing:-.8px}
+    .page-head p{margin:0;color:var(--muted);font-size:14px}
+    .date-chip{display:flex;align-items:center;gap:10px;color:#91a59b;font-size:13px;background:rgba(255,255,255,0.03);padding:10px 16px;border-radius:12px;border:1px solid var(--line)}
+    .date-chip i{color:var(--green);font-size:16px}
 
     .card{
       border:1px solid var(--line);
@@ -294,16 +294,16 @@
     }
 
     .kpis{
-      margin-bottom:16px;
+      margin-bottom:20px;
       display:grid;
       grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:13px
+      gap:16px
     }
 
-    .kpi{position:relative;padding:17px;overflow:hidden}
+    .kpi{position:relative;padding:22px;overflow:hidden}
     .kpi:first-child{
       border-color:rgba(245,158,11,.3);
-      background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(17,17,17,.4))
+      background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(17,17,17,.5))
     }
 
     .kpi:after{
@@ -311,99 +311,106 @@
       position:absolute;
       right:-25px;
       top:-30px;
-      width:90px;
-      height:90px;
+      width:110px;
+      height:110px;
       border-radius:50%;
       background:var(--tone,var(--green));
-      filter:blur(50px);
-      opacity:.08
+      filter:blur(55px);
+      opacity:.1
     }
 
-    .kpi-top{margin-bottom:15px;display:flex;align-items:center;justify-content:space-between}
-    .kpi-label{color:#93a69d;font-size:11px;font-weight:650}
+    .kpi-top{margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
+    .kpi-label{color:#93a69d;font-size:13px;font-weight:650}
 
     .kpi-icon{
-      width:29px;
-      height:29px;
+      width:36px;
+      height:36px;
       display:grid;
       place-items:center;
-      border-radius:10px;
+      border-radius:12px;
       color:var(--tone,var(--green));
       background:color-mix(in srgb,var(--tone,var(--green)) 12%,transparent);
-      font-size:12px
+      font-size:16px
     }
 
     .kpi:first-child .kpi-icon,.kpi:first-child .trend{color:var(--orange)}
-    .kpi:first-child .kpi-icon{background:rgba(245,158,11,.12)}
-    .kpi-value{font-size:24px;font-weight:800;letter-spacing:-1px}
-    .kpi-value small{margin-left:3px;color:var(--muted);font-size:11px;font-weight:600}
-    .trend{margin-top:7px;color:var(--green);font-size:10px}
+    .kpi:first-child .kpi-icon{background:rgba(245,158,11,.15)}
+    .kpi-value{font-size:28px;font-weight:800;letter-spacing:-1px}
+    .kpi-value small{margin-left:4px;color:var(--muted);font-size:13px;font-weight:600}
+    .trend{margin-top:10px;color:var(--green);font-size:12px}
     .trend.down{color:var(--red)}
 
     .dashboard-grid{
       display:grid;
-      grid-template-columns:minmax(0,1.62fr) minmax(290px,.82fr);
+      grid-template-columns:minmax(0,1.5fr) minmax(320px,.9fr);
+      gap:20px
+    }
+
+    .stack{display:grid;gap:20px}
+    .section-card{padding:24px}
+    .section-head{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+    .section-head h2{margin:0;font-size:17px}
+    .section-head p{margin:6px 0 0;color:var(--muted);font-size:12px}
+    .link-btn{border:0;color:var(--green);background:none;font-size:13px;font-weight:750}
+
+    .chart-wrap{position:relative;height:220px;padding-top:10px}
+    .chart-grid{position:absolute;inset:8px 0 25px;display:flex;flex-direction:column;justify-content:space-between}
+    .chart-grid span{border-top:1px dashed rgba(255,255,255,.06)}
+    .chart-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+    .chart-labels{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;color:#61766c;font-size:11px;font-weight:600}
+
+    .legend{display:flex;gap:18px;color:var(--muted);font-size:11px}
+    .legend span:before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:2px;background:var(--color)}
+
+    /* NOWE KAFELKI ZLECEŃ (PROSTOKĄTY) */
+    .today-list{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
       gap:16px
     }
 
-    .stack{display:grid;gap:16px}
-    .section-card{padding:19px}
-    .section-head{margin-bottom:17px;display:flex;align-items:center;justify-content:space-between;gap:15px}
-    .section-head h2{margin:0;font-size:14px}
-    .section-head p{margin:4px 0 0;color:var(--muted);font-size:10px}
-    .link-btn{border:0;color:var(--green);background:none;font-size:10px;font-weight:750}
-
-    .chart-wrap{position:relative;height:194px;padding-top:7px}
-    .chart-grid{position:absolute;inset:8px 0 23px;display:flex;flex-direction:column;justify-content:space-between}
-    .chart-grid span{border-top:1px dashed rgba(255,255,255,.055)}
-    .chart-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-    .chart-labels{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;color:#61766c;font-size:9px}
-
-    .chart-summary{
-      position:absolute;
-      left:16%;
-      top:26px;
-      padding:8px 10px;
-      border:1px solid rgba(16,185,129,.2);
-      border-radius:10px;
-      color:var(--muted);
-      background:#111;
-      box-shadow:0 12px 30px rgba(0,0,0,.3);
-      font-size:9px
-    }
-
-    .chart-summary strong{display:block;margin-top:2px;color:#fff;font-size:13px}
-    .legend{display:flex;gap:14px;color:var(--muted);font-size:9px}
-    .legend span:before{content:"";display:inline-block;width:6px;height:6px;margin-right:5px;border-radius:2px;background:var(--color)}
-
-    .today-list{display:grid;gap:9px}
-
     .job{
-      padding:11px;
-      display:grid;
-      grid-template-columns:47px 1fr auto;
-      align-items:center;
-      gap:12px;
-      border:1px solid rgba(255,255,255,.055);
-      border-radius:12px;
-      background:rgba(0,0,0,.22);
-      transition:.2s
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      transition:.25s;
+      align-items:flex-start;
     }
 
-    .job:hover{transform:translateX(2px);border-color:rgba(16,185,129,.18)}
-    .job-time{padding-right:11px;border-right:1px solid var(--line);color:#dce8e2;font-size:12px;font-weight:800}
-    .job h3{margin:0 0 4px;font-size:11px}
-    .job p{margin:0;color:var(--muted);font-size:9px}
+    .job:hover{
+      transform:translateY(-4px);
+      border-color:rgba(16,185,129,.3);
+      background:rgba(255,255,255,.06);
+      box-shadow:0 12px 24px rgba(0,0,0,0.2);
+    }
+    
+    .job-top {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .job-time{color:var(--green);font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px;}
+    
+    .job-details { width: 100%; }
+    .job-details h3{margin:0 0 8px;font-size:15px;color:#fff;}
+    .job-details p{margin:5px 0 0;color:#a3b0aa;font-size:12px;display:flex;align-items:center;gap:8px;}
+    .job-details p i { width: 14px; text-align: center; color:#61766c; }
 
     .status{
-      padding:5px 8px;
+      padding:6px 10px;
       display:inline-flex;
       border-radius:30px;
       color:var(--blue);
-      background:rgba(59,130,246,.11);
-      font-size:8px;
+      background:rgba(59,130,246,.12);
+      font-size:10px;
       font-weight:800;
-      letter-spacing:.04em;
+      letter-spacing:.05em;
       text-transform:uppercase
     }
 
@@ -411,131 +418,132 @@
     .status.orange{color:#fbbf24;background:rgba(245,158,11,.15)}
     .status.gray{color:#a3b0aa;background:rgba(255,255,255,.06)}
 
-    .automation-score{padding-bottom:15px;display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line)}
-    .score-ring{position:relative;width:66px;height:66px;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--green) 0 78%,#1a1a1a 78%)}
-    .score-ring:before{content:"";position:absolute;inset:6px;border-radius:50%;background:#111}
-    .score-ring strong{position:relative;font-size:16px}
-    .automation-score h3{margin:0 0 5px;font-size:12px}
-    .automation-score p{margin:0;color:var(--muted);font-size:9px;line-height:1.5}
+    .automation-score{padding-bottom:20px;display:flex;align-items:center;gap:20px;border-bottom:1px solid var(--line)}
+    .score-ring{position:relative;width:76px;height:76px;display:grid;place-items:center;border-radius:50%;background:conic-gradient(var(--green) 0 78%,#1a1a1a 78%)}
+    .score-ring:before{content:"";position:absolute;inset:7px;border-radius:50%;background:#111}
+    .score-ring strong{position:relative;font-size:18px}
+    .automation-score h3{margin:0 0 6px;font-size:15px}
+    .automation-score p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
 
-    .feed{margin-top:15px;display:grid;gap:12px}
-    .feed-item{display:grid;grid-template-columns:27px 1fr;gap:10px}
+    .feed{margin-top:20px;display:grid;gap:16px}
+    .feed-item{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:center;}
     .feed-icon,.auto-icon,.vehicle-icon{
       display:grid;
       place-items:center;
-      border-radius:10px;
+      border-radius:12px;
       color:var(--green);
-      background:rgba(16,185,129,.08)
+      background:rgba(16,185,129,.1)
     }
 
-    .feed-icon{width:27px;height:27px;font-size:10px}
-    .feed-item p{margin:1px 0;color:#c5d2cc;font-size:10px}
-    .feed-item small{color:#657a70;font-size:8px}
+    .feed-icon{width:36px;height:36px;font-size:14px}
+    .feed-item p{margin:0 0 3px;color:#c5d2cc;font-size:13px;font-weight:600;}
+    .feed-item small{color:#7f9389;font-size:11px}
 
     .alert-card{
-      border-color:rgba(245,158,11,.16);
-      background:linear-gradient(145deg,rgba(245,158,11,.055),rgba(10,10,10,.65))
+      border-color:rgba(245,158,11,.2);
+      background:linear-gradient(145deg,rgba(245,158,11,.08),rgba(10,10,10,.7))
     }
 
-    .alert-row{display:flex;gap:11px}
-    .alert-row>i{margin-top:2px;color:var(--orange)}
-    .alert-row h3{margin:0 0 4px;font-size:11px}
-    .alert-row p{margin:0;color:var(--muted);font-size:9px;line-height:1.5}
-    .alert-actions{margin-top:12px;display:flex;gap:7px}
+    .alert-row{display:flex;gap:14px}
+    .alert-row>i{margin-top:3px;color:var(--orange);font-size:18px;}
+    .alert-row h3{margin:0 0 6px;font-size:14px}
+    .alert-row p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
 
     .tiny-btn,.filter,.select,.close{
-      border:1px solid rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.12);
       border-radius:12px;
       color:#c5d2cc;
-      background:rgba(17,17,17,.45)
+      background:rgba(255,255,255,.04);
+      cursor:pointer;
     }
 
-    .tiny-btn{height:29px;padding:0 10px;font-size:9px;font-weight:750}
-    .tiny-btn.accent{color:var(--orange);border-color:rgba(245,158,11,.18);background:rgba(245,158,11,.10)}
+    .tiny-btn{height:34px;padding:0 14px;font-size:11px;font-weight:750}
+    .tiny-btn.accent{color:var(--orange);border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.12)}
 
-    .toolbar{margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .filter,.select{height:36px;padding:0 11px;color:#9eb0a7;font-size:10px;outline:0}
-    .filter.active{color:var(--green);border-color:rgba(16,185,129,.16);background:rgba(16,185,129,.08)}
+    .toolbar{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .filters{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .filter,.select{height:42px;padding:0 16px;color:#9eb0a7;font-size:12px;outline:0;font-weight:600;}
+    .filter.active{color:var(--green);border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.12)}
+    .select{background:rgba(0,0,0,0.5);}
 
-    .data-card{overflow:hidden}
+    .data-card{overflow:hidden;padding:10px 0;}
     .table-wrap{overflow:auto}
-    table{width:100%;min-width:850px;border-collapse:collapse}
-    th{padding:12px 15px;border-bottom:1px solid var(--line);color:#687d72;background:rgba(255,255,255,.012);text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.08em}
-    td{padding:14px 15px;border-bottom:1px solid rgba(255,255,255,.045);color:#b9c9c1;font-size:10px}
-    tbody tr:hover{background:rgba(16,185,129,.025)}
-    .task-title{color:#edf5f1;font-size:11px;font-weight:750}
-    .task-sub{margin-top:3px;color:#71867b;font-size:9px}
-    .money{color:#fff;font-weight:800}
+    table{width:100%;min-width:900px;border-collapse:collapse}
+    th{padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.08);color:#899d93;background:rgba(255,255,255,.02);text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+    td{padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.04);color:#d1e0d8;font-size:13px}
+    tbody tr:hover{background:rgba(16,185,129,.04)}
+    .task-title{color:#fff;font-size:14px;font-weight:700}
+    .task-sub{margin-top:5px;color:#859a8f;font-size:11px}
+    .money{color:#fff;font-weight:800;font-size:14px;}
     .people{display:flex}
-    .people span{width:25px;height:25px;margin-left:-5px;display:grid;place-items:center;border:2px solid #111;border-radius:8px;color:var(--green);background:#193228;font-size:8px}
+    .people span{width:30px;height:30px;margin-left:-8px;display:grid;place-items:center;border:2px solid #111;border-radius:10px;color:var(--green);background:#193228;font-size:10px;font-weight:bold;}
     .people span:first-child{margin-left:0}
-    .row-actions{width:28px;height:28px;border:0;color:#6e8278;background:none}
-    .row-actions:hover{color:var(--green)}
+    .row-actions{width:36px;height:36px;border:0;border-radius:10px;color:#899d93;background:rgba(255,255,255,.05);transition:.2s;}
+    .row-actions:hover{color:#fff;background:var(--green);}
 
-    .calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 285px;gap:16px}
-    .calendar-card{padding:18px}
-    .calendar-top{margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
-    .calendar-top h2{margin:0;font-size:15px}
-    .cal-nav{display:flex;gap:6px}
-    .cal-nav button{width:30px;height:30px;border:1px solid var(--line);border-radius:8px;color:#899d93;background:#0b1713}
-    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
-    .weekday{padding:5px;color:#60756a;text-align:center;font-size:8px;text-transform:uppercase}
-    .day{min-height:91px;padding:8px;border:1px solid rgba(255,255,255,.05);border-radius:10px;background:rgba(255,255,255,.012)}
+    .calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px}
+    .calendar-card{padding:24px}
+    .calendar-top{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
+    .calendar-top h2{margin:0;font-size:18px}
+    .cal-nav{display:flex;gap:8px}
+    .cal-nav button{width:36px;height:36px;border:1px solid var(--line);border-radius:10px;color:#899d93;background:rgba(255,255,255,.04)}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+    .weekday{padding:8px;color:#7f9389;text-align:center;font-size:11px;text-transform:uppercase;font-weight:700;}
+    .day{min-height:110px;padding:10px;border:1px solid rgba(255,255,255,.05);border-radius:14px;background:rgba(255,255,255,.02)}
     .day.muted{opacity:.3}
-    .day.today{border-color:rgba(16,185,129,.3);background:rgba(16,185,129,.035)}
-    .day-num{color:#8da198;font-size:9px;font-weight:700}
+    .day.today{border-color:rgba(16,185,129,.4);background:rgba(16,185,129,.05)}
+    .day-num{color:#8da198;font-size:12px;font-weight:700;display:block;margin-bottom:6px;}
     .day.today .day-num{color:var(--green)}
-    .event{margin-top:7px;padding:6px;border-left:2px solid var(--blue);border-radius:7px;color:#bcd4ff;background:rgba(59,130,246,.09);font-size:8px;line-height:1.35}
-    .event.green{color:#94f0ca;border-color:var(--green);background:rgba(16,185,129,.08)}
-    .event.orange{color:#ffd49d;border-color:var(--orange);background:rgba(245,158,11,.08)}
+    
+    .event{margin-top:6px;padding:8px;border-left:3px solid var(--blue);border-radius:8px;color:#bcd4ff;background:rgba(59,130,246,.1);font-size:10px;font-weight:600;line-height:1.4}
+    .event.green{color:#94f0ca;border-color:var(--green);background:rgba(16,185,129,.1)}
+    .event.orange{color:#ffd49d;border-color:var(--orange);background:rgba(245,158,11,.1)}
 
-    .agenda{display:grid;gap:9px}
-    .agenda-item{padding:10px;border:1px solid var(--line);border-radius:11px;background:rgba(0,0,0,.2)}
-    .agenda-item strong{font-size:10px}
-    .agenda-item p{margin:4px 0;color:var(--muted);font-size:8px}
-    .agenda-item span{color:var(--green);font-size:8px}
+    /* Karty Agendy */
+    .agenda{display:grid;gap:12px}
+    .agenda-item{padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:8px;}
+    .agenda-item strong{font-size:13px;color:#fff;}
+    .agenda-item p{margin:0;color:var(--muted);font-size:11px;display:flex;align-items:center;gap:6px;}
+    .agenda-item span{color:var(--green);font-size:11px;font-weight:bold;display:flex;align-items:center;gap:6px;}
 
-    .client-grid,.fleet-grid,.auto-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-    .client-card,.vehicle-card,.auto-card{padding:16px}
+    .client-grid,.fleet-grid,.auto-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:20px}
+    .client-card,.vehicle-card,.auto-card{padding:22px}
     .client-top{display:flex;align-items:flex-start;justify-content:space-between}
-    .client-card h3,.vehicle-card h3{margin:13px 0 4px;font-size:12px}
-    .client-card p,.vehicle-card p{margin:0;color:var(--muted);font-size:9px}
+    .client-card h3,.vehicle-card h3{margin:16px 0 6px;font-size:16px;color:#fff;}
+    .client-card p,.vehicle-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5;}
 
-    .client-meta{margin-top:13px;padding-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:1px solid var(--line)}
-    .client-meta small{display:block;color:#667b70;font-size:8px}
-    .client-meta strong{font-size:10px}
+    .client-meta{margin-top:18px;padding-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--line)}
+    .client-meta small{display:block;color:#7f9389;font-size:11px;margin-bottom:4px;}
+    .client-meta strong{font-size:14px;color:#fff;}
 
-    .finance-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:16px}
-    .breakdown{display:grid;gap:13px}
-    .bar-row{display:grid;grid-template-columns:92px 1fr 65px;align-items:center;gap:11px;color:#9dafa6;font-size:9px}
-    .bar{height:6px;overflow:hidden;border-radius:10px;background:#172620}
+    .finance-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:20px}
+    .breakdown{display:grid;gap:16px}
+    .bar-row{display:grid;grid-template-columns:110px 1fr 80px;align-items:center;gap:14px;color:#9dafa6;font-size:12px;font-weight:500;}
+    .bar{height:8px;overflow:hidden;border-radius:10px;background:rgba(255,255,255,0.05)}
     .bar i{display:block;width:var(--w);height:100%;border-radius:10px;background:var(--c,var(--green))}
-    .bar-row strong{text-align:right;color:#dce8e2}
+    .bar-row strong{text-align:right;color:#dce8e2;font-size:13px;}
 
-    .vehicle-icon{width:42px;height:42px;color:var(--blue);background:rgba(59,130,246,.08)}
-    .vehicle-stats{margin-top:13px;padding-top:12px;display:flex;justify-content:space-between;border-top:1px solid var(--line);color:var(--muted);font-size:8px}
-    .vehicle-stats strong{display:block;margin-top:3px;color:#dbe7e1;font-size:10px}
+    .vehicle-icon{width:46px;height:46px;color:var(--blue);background:rgba(59,130,246,.12);font-size:18px;}
+    .vehicle-stats{margin-top:18px;padding-top:16px;display:flex;justify-content:space-between;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
+    .vehicle-stats strong{display:block;margin-top:5px;color:#fff;font-size:13px}
 
-    .auto-card{min-height:156px;display:flex;flex-direction:column}
-    .auto-card .auto-icon{width:34px;height:34px}
-    .auto-card h3{margin:13px 0 5px;font-size:11px}
-    .auto-card p{margin:0 0 14px;color:var(--muted);font-size:9px;line-height:1.55}
-    .auto-bottom{margin-top:auto;display:flex;align-items:center;justify-content:space-between}
-    .auto-bottom>span:first-child{color:#677b71;font-size:8px}
+    .auto-card{min-height:180px;display:flex;flex-direction:column}
+    .auto-card .auto-icon{width:42px;height:42px;font-size:18px;}
+    .auto-bottom{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--line);}
+    .auto-bottom>span:first-child{color:#7f9389;font-size:11px}
 
-    .switch{width:34px;height:19px;padding:2px;border:0;border-radius:20px;background:#1c2a24;transition:.2s}
-    .switch:after{content:"";display:block;width:15px;height:15px;border-radius:50%;background:#74877d;transition:.2s}
-    .switch.on{background:rgba(16,185,129,.3)}
-    .switch.on:after{transform:translateX(15px);background:var(--green)}
+    .switch{width:40px;height:22px;padding:3px;border:0;border-radius:20px;background:rgba(255,255,255,.1);transition:.2s;cursor:pointer;}
+    .switch:after{content:"";display:block;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 2px 4px rgba(0,0,0,0.2);}
+    .switch.on{background:rgba(16,185,129,.4)}
+    .switch.on:after{transform:translateX(18px);background:var(--green)}
 
-    .empty-state{padding:50px 20px;color:var(--muted);text-align:center}
-    .empty-state i{margin-bottom:13px;color:#29463a;font-size:28px}
-    .empty-state h3{margin:0 0 6px;color:#dce7e2;font-size:13px}
-    .empty-state p{margin:0;font-size:10px}
+    .empty-state{padding:60px 20px;color:var(--muted);text-align:center}
+    .empty-state i{margin-bottom:16px;color:rgba(255,255,255,.15);font-size:36px}
+    .empty-state h3{margin:0 0 8px;color:#dce7e2;font-size:16px}
+    .empty-state p{margin:0;font-size:13px}
 
     dialog{
-      width:min(620px,calc(100vw - 28px));
+      width:min(680px,calc(100vw - 32px));
       max-height:90vh;
       padding:0;
       border:0;
@@ -543,272 +551,108 @@
       background:transparent
     }
 
-    dialog::backdrop{background:rgba(2,8,6,.78);backdrop-filter:blur(8px)}
+    dialog::backdrop{background:rgba(2,8,6,.85);backdrop-filter:blur(10px)}
 
     .modal{
       max-height:90vh;
       overflow:auto;
-      padding:21px;
-      border:1px solid rgba(16,185,129,.22);
-      border-radius:16px;
-      background:rgba(10,10,10,.92);
+      padding:28px;
+      border:1px solid rgba(16,185,129,.25);
+      border-radius:24px;
+      background:rgba(12,12,12,.95);
       backdrop-filter:blur(40px);
-      box-shadow:0 20px 40px rgba(0,0,0,.6)
+      box-shadow:0 25px 50px rgba(0,0,0,.7)
     }
 
-    .modal-head{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between}
-    .modal-head h2{margin:0;font-size:16px}
-    .close{width:32px;height:32px;color:#84978e}
-    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+    .modal-head{margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
+    .modal-head h2{margin:0;font-size:20px}
+    .close{width:38px;height:38px;font-size:16px;display:grid;place-items:center;}
+    .close:hover{background:rgba(255,255,255,0.1);color:#fff;}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .field.full{grid-column:1/-1}
-    .field label{display:block;margin-bottom:6px;color:#7f9389;font-size:9px;font-weight:700}
+    .field label{display:block;margin-bottom:8px;color:#91a49b;font-size:12px;font-weight:700}
 
     .field input,.field select,.field textarea{
       width:100%;
-      padding:11px 12px;
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:10px;
+      padding:14px 16px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:14px;
       outline:0;
-      color:#e7f0ec;
-      background:rgba(0,0,0,.3);
-      font-size:11px
+      color:#fff;
+      background:rgba(0,0,0,.4);
+      font-size:14px;
+      transition:0.2s;
     }
 
     .field input:focus,.field select:focus,.field textarea:focus{
-      border-color:rgba(16,185,129,.42);
-      box-shadow:0 0 0 3px rgba(16,185,129,.06)
+      border-color:rgba(16,185,129,.5);
+      background:rgba(0,0,0,.6);
+      box-shadow:0 0 0 4px rgba(16,185,129,.1)
     }
 
-    .field textarea{min-height:78px;resize:vertical}
-    .modal-actions{margin-top:18px;padding-top:18px;display:flex;justify-content:flex-end;gap:8px;border-top:1px solid var(--line)}
+    .field textarea{min-height:90px;resize:vertical}
+    .modal-actions{margin-top:24px;padding-top:24px;display:flex;justify-content:flex-end;gap:12px;border-top:1px solid var(--line)}
 
     .toast{
       position:fixed;
-      right:24px;
-      bottom:24px;
+      right:30px;
+      bottom:30px;
       z-index:100;
-      padding:12px 15px;
+      padding:16px 20px;
       display:flex;
       align-items:center;
-      gap:9px;
-      border:1px solid rgba(16,185,129,.25);
-      border-radius:12px;
-      color:#dbe7e1;
+      gap:12px;
+      border:1px solid rgba(16,185,129,.3);
+      border-radius:16px;
+      color:#fff;
       background:#11231c;
-      box-shadow:0 20px 55px rgba(0,0,0,.4);
-      font-size:10px;
+      box-shadow:0 20px 55px rgba(0,0,0,.5);
+      font-size:13px;
+      font-weight:600;
       opacity:0;
       pointer-events:none;
       transform:translateY(30px);
-      transition:.25s
+      transition:.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
     .toast.show{opacity:1;transform:none}
-    .toast i{color:var(--green)}
+    .toast i{color:var(--green);font-size:18px;}
 
-    /* LOGOWANIE */
-
-    .login-screen{
-      position:fixed;
-      inset:0;
-      z-index:9999;
-      padding:22px;
-      display:grid;
-      place-items:center;
-      overflow:auto;
-      background:#050505;
-      transition:opacity .55s ease,visibility .55s ease
-    }
-
+    /* LOGOWANIE (Bez Zmian) */
+    .login-screen{ position:fixed; inset:0; z-index:9999; padding:22px; display:grid; place-items:center; overflow:auto; background:#050505; transition:opacity .55s ease,visibility .55s ease }
     .login-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
-
-    .login-grid{
-      position:absolute;
-      inset:0;
-      opacity:.17;
-      background-image:
-        linear-gradient(rgba(16,185,129,.12) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(16,185,129,.12) 1px,transparent 1px);
-      background-size:44px 44px;
-      mask-image:radial-gradient(circle at center,#000,transparent 70%);
-      animation:grid-drift 18s linear infinite
-    }
-
-    .login-orb{
-      position:absolute;
-      border-radius:50%;
-      filter:blur(90px);
-      opacity:.34;
-      animation:orb-float 10s ease-in-out infinite alternate
-    }
-
+    .login-grid{ position:absolute; inset:0; opacity:.17; background-image: linear-gradient(rgba(16,185,129,.12) 1px,transparent 1px), linear-gradient(90deg,rgba(16,185,129,.12) 1px,transparent 1px); background-size:44px 44px; mask-image:radial-gradient(circle at center,#000,transparent 70%); animation:grid-drift 18s linear infinite }
+    .login-orb{ position:absolute; border-radius:50%; filter:blur(90px); opacity:.34; animation:orb-float 10s ease-in-out infinite alternate }
     .orb-one{width:430px;height:430px;top:-210px;left:-110px;background:#10b981}
     .orb-two{width:380px;height:380px;right:-130px;bottom:-190px;background:#047857;animation-delay:-5s}
-
-    .login-card{
-      position:relative;
-      width:min(430px,100%);
-      padding:34px 38px 25px;
-      overflow:hidden;
-      border:1px solid rgba(16,185,129,.22);
-      border-radius:28px;
-      background:linear-gradient(145deg,rgba(18,18,18,.86),rgba(7,7,7,.72));
-      backdrop-filter:blur(36px);
-      box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 70px rgba(16,185,129,.08),inset 0 1px rgba(255,255,255,.06);
-      animation:card-enter .8s cubic-bezier(.2,.8,.2,1)
-    }
-
-    .login-card:before{
-      content:"";
-      position:absolute;
-      inset:0;
-      padding:1px;
-      border-radius:inherit;
-      background:linear-gradient(130deg,rgba(52,211,153,.5),transparent 32%,transparent 70%,rgba(16,185,129,.2));
-      mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-      mask-composite:exclude;
-      pointer-events:none
-    }
-
-    .login-shine{
-      position:absolute;
-      top:-170px;
-      left:-230px;
-      width:180px;
-      height:500px;
-      background:linear-gradient(90deg,transparent,rgba(255,255,255,.035),transparent);
-      transform:rotate(24deg);
-      animation:shine 5s ease-in-out infinite
-    }
-
+    .login-card{ position:relative; width:min(430px,100%); padding:34px 38px 25px; overflow:hidden; border:1px solid rgba(16,185,129,.22); border-radius:28px; background:linear-gradient(145deg,rgba(18,18,18,.86),rgba(7,7,7,.72)); backdrop-filter:blur(36px); box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 70px rgba(16,185,129,.08),inset 0 1px rgba(255,255,255,.06); animation:card-enter .8s cubic-bezier(.2,.8,.2,1) }
+    .login-card:before{ content:""; position:absolute; inset:0; padding:1px; border-radius:inherit; background:linear-gradient(130deg,rgba(52,211,153,.5),transparent 32%,transparent 70%,rgba(16,185,129,.2)); mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); mask-composite:exclude; pointer-events:none }
+    .login-shine{ position:absolute; top:-170px; left:-230px; width:180px; height:500px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.035),transparent); transform:rotate(24deg); animation:shine 5s ease-in-out infinite }
     .login-logo-wrap{height:54px;margin-bottom:18px;display:flex;justify-content:center}
     .login-logo{height:54px;max-width:190px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(16,185,129,.22))}
-
-    .login-lock{
-      position:relative;
-      width:58px;
-      height:58px;
-      margin:0 auto 18px;
-      display:grid;
-      place-items:center;
-      border:1px solid rgba(16,185,129,.21);
-      border-radius:18px;
-      color:#34d399;
-      background:rgba(16,185,129,.09);
-      box-shadow:0 0 28px rgba(16,185,129,.12);
-      font-size:22px
-    }
-
-    .login-lock-ring{
-      position:absolute;
-      inset:-7px;
-      border:1px solid rgba(16,185,129,.12);
-      border-radius:23px;
-      animation:ring-pulse 2.4s ease-in-out infinite
-    }
-
+    .login-lock{ position:relative; width:58px; height:58px; margin:0 auto 18px; display:grid; place-items:center; border:1px solid rgba(16,185,129,.21); border-radius:18px; color:#34d399; background:rgba(16,185,129,.09); box-shadow:0 0 28px rgba(16,185,129,.12); font-size:22px }
+    .login-lock-ring{ position:absolute; inset:-7px; border:1px solid rgba(16,185,129,.12); border-radius:23px; animation:ring-pulse 2.4s ease-in-out infinite }
     .login-copy{text-align:center}
     .login-copy .eyebrow{display:inline-block;margin-bottom:8px;color:var(--green);font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase}
     .login-copy h1{margin:0 0 7px;font-size:24px;letter-spacing:-.7px}
     .login-copy p{max-width:310px;margin:0 auto;color:#8b9590;font-size:11px;line-height:1.65}
-
     .pin-group{margin:25px 0 14px;display:flex;justify-content:center;gap:11px}
-
-    .pin-digit{
-      width:58px;
-      height:64px;
-      border:1px solid rgba(255,255,255,.1)!important;
-      border-radius:15px!important;
-      color:#34d399!important;
-      background:rgba(0,0,0,.36)!important;
-      box-shadow:inset 0 1px rgba(255,255,255,.025);
-      caret-color:var(--green);
-      text-align:center;
-      font-size:25px!important;
-      font-weight:800;
-      transition:.2s
-    }
-
-    .pin-digit:focus,.pin-digit.filled{
-      transform:translateY(-2px);
-      border-color:rgba(16,185,129,.55)!important;
-      box-shadow:0 0 0 3px rgba(16,185,129,.08),0 0 20px rgba(16,185,129,.08)!important;
-      outline:none
-    }
-
-    .login-error{
-      height:18px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:6px;
-      color:#f87171;
-      font-size:10px;
-      font-weight:700;
-      opacity:0;
-      transform:translateY(-4px);
-      transition:.2s
-    }
-
+    .pin-digit{ width:58px; height:64px; border:1px solid rgba(255,255,255,.1)!important; border-radius:15px!important; color:#34d399!important; background:rgba(0,0,0,.36)!important; box-shadow:inset 0 1px rgba(255,255,255,.025); caret-color:var(--green); text-align:center; font-size:25px!important; font-weight:800; transition:.2s }
+    .pin-digit:focus,.pin-digit.filled{ transform:translateY(-2px); border-color:rgba(16,185,129,.55)!important; box-shadow:0 0 0 3px rgba(16,185,129,.08),0 0 20px rgba(16,185,129,.08)!important; outline:none }
+    .login-error{ height:18px; display:flex; align-items:center; justify-content:center; gap:6px; color:#f87171; font-size:10px; font-weight:700; opacity:0; transform:translateY(-4px); transition:.2s }
     .login-error.show{opacity:1;transform:none}
     .pin-group.shake{animation:shake .36s ease}
-
-    .pin-keypad{
-      margin:12px 0 17px;
-      display:none;
-      grid-template-columns:repeat(3,52px);
-      justify-content:center;
-      gap:8px
-    }
-
-    .pin-keypad button{
-      height:39px;
-      border:1px solid rgba(255,255,255,.075);
-      border-radius:11px;
-      color:#b8c0bc;
-      background:rgba(255,255,255,.025);
-      font-size:13px;
-      font-weight:700;
-      transition:.16s
-    }
-
+    .pin-keypad{ margin:12px 0 17px; display:none; grid-template-columns:repeat(3,52px); justify-content:center; gap:8px }
+    .pin-keypad button{ height:39px; border:1px solid rgba(255,255,255,.075); border-radius:11px; color:#b8c0bc; background:rgba(255,255,255,.025); font-size:13px; font-weight:700; transition:.16s }
     .pin-keypad button:hover{color:#34d399;border-color:rgba(16,185,129,.25);background:rgba(16,185,129,.07)}
     .pin-keypad button:active{transform:scale(.94)}
-
-    .login-submit{
-      width:100%;
-      height:48px;
-      border:0;
-      border-radius:13px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:9px;
-      color:#031b12;
-      background:linear-gradient(135deg,#10b981,#059669);
-      box-shadow:0 12px 30px rgba(16,185,129,.2);
-      font-size:11px;
-      font-weight:800;
-      transition:.22s
-    }
-
+    .login-submit{ width:100%; height:48px; border:0; border-radius:13px; display:flex; align-items:center; justify-content:center; gap:9px; color:#031b12; background:linear-gradient(135deg,#10b981,#059669); box-shadow:0 12px 30px rgba(16,185,129,.2); font-size:12px; font-weight:800; transition:.22s }
     .login-submit:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(16,185,129,.28)}
     .login-submit:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
     .login-submit.loading i{animation:spin .8s linear infinite}
     .login-submit.success{background:#34d399}
-
-    .login-foot{
-      margin-top:18px;
-      padding-top:16px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      border-top:1px solid rgba(255,255,255,.06);
-      color:#59635e;
-      font-size:8px
-    }
-
-    .login-foot i{margin-right:4px;color:var(--green)}
+    .login-foot{ margin-top:18px; padding-top:16px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,.06); color:#59635e; font-size:10px }
+    .login-foot i{margin-right:6px;color:var(--green)}
 
     @keyframes card-enter{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
     @keyframes orb-float{to{transform:translate(65px,38px) scale(1.13)}}
@@ -818,36 +662,30 @@
     @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    @media(max-width:1100px){
+    /* Responsywność */
+    @media(max-width:1200px){
       .kpis{grid-template-columns:repeat(2,1fr)}
       .dashboard-grid,.finance-grid{grid-template-columns:1fr}
-      .client-grid,.fleet-grid,.auto-grid{grid-template-columns:repeat(2,1fr)}
       .calendar-layout{grid-template-columns:1fr}
     }
 
     @media(max-width:760px){
       .app{display:block}
-      .sidebar{width:265px;transform:translateX(-102%);transition:.25s}
+      .sidebar{width:280px;transform:translateX(-102%);transition:.3s cubic-bezier(0.2, 0.8, 0.2, 1);}
       .sidebar.open{transform:none}
       .main{grid-column:auto}
-      .topbar{height:64px;padding:0 15px}
+      .topbar{height:70px;padding:0 20px}
       .mobile-open{display:inline-flex}
-      .search{width:auto;max-width:310px;flex:1}
+      .search{width:auto;max-width:100%;flex:1}
       .key,.top-actions .ghost-btn{display:none}
-      .content{padding:20px 15px 34px}
+      .content{padding:25px 20px 40px}
       .page-head{align-items:flex-start}
-      .page-head h1{font-size:21px}
+      .page-head h1{font-size:24px}
       .date-chip{display:none}
-      .kpis{grid-template-columns:1fr 1fr;gap:9px}
-      .kpi{padding:14px}
-      .kpi-value{font-size:20px}
+      .kpis{grid-template-columns:1fr;gap:12px}
+      .kpi{padding:18px}
       .dashboard-grid{display:block}
-      .stack{margin-top:12px}
-      .client-grid,.fleet-grid,.auto-grid{grid-template-columns:1fr}
-      .calendar-card{padding:12px}
-      .calendar-grid{gap:3px}
-      .day{min-height:67px;padding:5px}
-      .event{padding:4px;overflow:hidden;font-size:7px;white-space:nowrap;text-overflow:ellipsis}
+      .stack{margin-top:16px}
       .toolbar{align-items:flex-start;flex-direction:column}
       .form-grid{grid-template-columns:1fr}
       .field.full{grid-column:auto}
@@ -861,23 +699,11 @@
       .login-lock{width:50px;height:50px;margin-bottom:14px}
       .login-copy h1{font-size:21px}
     }
-
-    @media(max-width:430px){
-      .kpis{grid-template-columns:1fr}
-      .search{display:none}
-      .job{grid-template-columns:42px 1fr}
-      .job .status{display:none}
-      .page-head{display:block}
-      .page-head .primary-btn{width:100%;margin-top:13px}
-    }
-
-    @media(prefers-reduced-motion:reduce){
-      .login-card,.login-grid,.login-orb,.login-lock-ring,.login-shine{animation:none!important}
-    }
   </style>
 </head>
 
 <body class="auth-pending">
+  <!-- LOGOWANIE -->
   <section class="login-screen" id="loginScreen">
     <div class="login-orb orb-one"></div>
     <div class="login-orb orb-two"></div>
@@ -885,34 +711,16 @@
 
     <form class="login-card" id="loginForm">
       <div class="login-shine"></div>
-
-      <div class="login-logo-wrap">
-        <img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="login-logo">
-      </div>
-
-      <div class="login-lock">
-        <i class="fa-solid fa-fingerprint"></i>
-        <span class="login-lock-ring"></span>
-      </div>
-
-      <div class="login-copy">
-        <span class="eyebrow">Bezpieczny dostęp</span>
-        <h1>Witaj ponownie</h1>
-        <p>Wprowadź 4-cyfrowy kod PIN, aby otworzyć panel zarządzania RevMi.</p>
-      </div>
-
+      <div class="login-logo-wrap"><img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="login-logo"></div>
+      <div class="login-lock"><i class="fa-solid fa-fingerprint"></i><span class="login-lock-ring"></span></div>
+      <div class="login-copy"><span class="eyebrow">Bezpieczny dostęp</span><h1>Witaj ponownie</h1><p>Wprowadź 4-cyfrowy kod PIN, aby otworzyć panel zarządzania RevMi.</p></div>
       <div class="pin-group" id="pinGroup">
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Pierwsza cyfra">
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Druga cyfra">
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Trzecia cyfra">
         <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Czwarta cyfra">
       </div>
-
-      <div class="login-error" id="loginError">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        <span>Nieprawidłowy kod PIN</span>
-      </div>
-
+      <div class="login-error" id="loginError"><i class="fa-solid fa-circle-exclamation"></i><span>Nieprawidłowy kod PIN</span></div>
       <div class="pin-keypad">
         <button type="button" data-key="1">1</button>
         <button type="button" data-key="2">2</button>
@@ -927,27 +735,19 @@
         <button type="button" data-key="0">0</button>
         <button type="button" data-key="back"><i class="fa-solid fa-delete-left"></i></button>
       </div>
-
-      <button class="login-submit" id="loginSubmit" type="submit" disabled>
-        <span>Zaloguj do panelu</span>
-        <i class="fa-solid fa-arrow-right"></i>
-      </button>
-
-      <div class="login-foot">
-        <span><i class="fa-solid fa-shield-halved"></i>Szyfrowane połączenie</span>
-        <span id="loginClock"></span>
-      </div>
+      <button class="login-submit" id="loginSubmit" type="submit" disabled><span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i></button>
+      <div class="login-foot"><span><i class="fa-solid fa-shield-halved"></i>Szyfrowane połączenie</span><span id="loginClock"></span></div>
     </form>
   </section>
 
   <div class="app">
+    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="brand">
         <img class="brand-logo" src="https://i.imgur.com/dHWDH8j.png" alt="RevMi">
       </div>
 
       <div class="nav-label">Centrum pracy</div>
-
       <nav class="nav">
         <button class="active" data-view="dashboard"><i class="fa-solid fa-table-columns"></i>Pulpit</button>
         <button data-view="orders"><i class="fa-solid fa-clipboard-list"></i>Zlecenia<span class="badge" id="navTaskCount">0</span></button>
@@ -955,8 +755,7 @@
         <button data-view="clients"><i class="fa-regular fa-address-book"></i>Klienci</button>
       </nav>
 
-      <div class="nav-label" style="margin-top:17px">Firma</div>
-
+      <div class="nav-label" style="margin-top:20px">Firma</div>
       <nav class="nav">
         <button data-view="finances"><i class="fa-solid fa-chart-line"></i>Finanse</button>
         <button data-view="fleet"><i class="fa-solid fa-truck-fast"></i>Ekipa i flota</button>
@@ -966,22 +765,23 @@
       <div class="side-bottom">
         <div class="system-card">
           <div class="system-row"><span class="pulse"></span><strong>System online</strong></div>
-          <p>Dane są synchronizowane z serwerem</p>
+          <p>Dane są synchronizowane na żywo z serwerem</p>
         </div>
 
         <div class="profile">
           <div class="avatar">GB</div>
           <div>
             <strong id="userName">Administrator</strong>
-            <small id="userRole">RevMi</small>
+            <small id="userRole">RevMi App</small>
           </div>
         </div>
       </div>
     </aside>
 
     <main class="main">
+      <!-- TOPBAR -->
       <header class="topbar">
-        <div style="display:flex;gap:9px;align-items:center;flex:1">
+        <div style="display:flex;gap:12px;align-items:center;flex:1">
           <button class="icon-btn mobile-open" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
 
           <label class="search">
@@ -1000,13 +800,13 @@
       </header>
 
       <div class="content">
+        <!-- PULPIT -->
         <section class="view active" id="view-dashboard">
           <div class="page-head">
             <div>
               <h1 id="welcomeTitle">Dzień dobry</h1>
               <p>Najważniejsze informacje z firmy w jednym miejscu.</p>
             </div>
-
             <div class="date-chip">
               <i class="fa-regular fa-calendar"></i>
               <span id="todayDate"></span>
@@ -1047,7 +847,6 @@
                     <h2>Wynik finansowy</h2>
                     <p>Przychody i koszty firmy</p>
                   </div>
-
                   <div class="legend">
                     <span style="--color:var(--green)">Przychód</span>
                     <span style="--color:var(--orange)">Koszty</span>
@@ -1056,7 +855,6 @@
 
                 <div class="chart-wrap">
                   <div class="chart-grid"><span></span><span></span><span></span><span></span></div>
-
                   <svg class="chart-svg" viewBox="0 0 700 194" preserveAspectRatio="none">
                     <defs>
                       <linearGradient id="area" x1="0" y1="0" x2="0" y2="1">
@@ -1064,22 +862,20 @@
                         <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
                       </linearGradient>
                     </defs>
-
                     <path d="M8 155 C65 145 82 122 135 126 S215 92 270 104 S355 76 410 82 S492 44 545 60 S625 28 692 34 L692 173 L8 173Z" fill="url(#area)"/>
                     <path d="M8 155 C65 145 82 122 135 126 S215 92 270 104 S355 76 410 82 S492 44 545 60 S625 28 692 34" fill="none" stroke="#10b981" stroke-width="3"/>
                     <path d="M8 166 C83 159 95 146 145 151 S237 135 289 141 S372 119 428 131 S520 104 568 118 S642 98 692 106" fill="none" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 5"/>
                   </svg>
-
                   <div class="chart-labels"><span>KWI</span><span>MAJ</span><span>CZE</span><span>LIP</span><span>SIE</span><span>WRZ</span></div>
                 </div>
               </article>
 
               <article class="card section-card">
                 <div class="section-head">
-                  <div><h2>Dzisiejszy plan</h2><p>Najbliższe zlecenia</p></div>
+                  <div><h2>Dzisiejszy plan (Karty Zleceń)</h2><p>Twoje najbliższe zadania</p></div>
                   <button class="link-btn" data-view-link="calendar">Pełny kalendarz →</button>
                 </div>
-
+                <!-- Karty Zleceń - Prostokąty -->
                 <div class="today-list" id="todayJobs"></div>
               </article>
             </div>
@@ -1101,17 +897,15 @@
 
                 <div class="feed">
                   <div class="feed-item">
-                    <div class="feed-icon"><i class="fa-solid fa-message"></i></div>
-                    <div><p>Przypomnienie SMS dla klienta</p><small>Automatyczne powiadomienie</small></div>
+                    <div class="feed-icon"><i class="fa-solid fa-comment-sms"></i></div>
+                    <div><p>Przypomnienie SMS dla klienta</p><small>Automatyczne powiadomienie z systemu</small></div>
                   </div>
-
                   <div class="feed-item">
                     <div class="feed-icon"><i class="fa-solid fa-file-invoice"></i></div>
                     <div><p>Szkic faktury po realizacji</p><small>Dokument przygotowywany automatycznie</small></div>
                   </div>
-
                   <div class="feed-item">
-                    <div class="feed-icon"><i class="fa-solid fa-user-group"></i></div>
+                    <div class="feed-icon"><i class="fa-solid fa-users"></i></div>
                     <div><p>Plan dnia dla pracowników</p><small>Wysyłka przed kolejnym dniem pracy</small></div>
                   </div>
                 </div>
@@ -1122,7 +916,7 @@
                   <i class="fa-solid fa-triangle-exclamation"></i>
                   <div>
                     <h3>Kontrola terminów serwisowych</h3>
-                    <p>Dodaj datę następnego przeglądu pojazdu, aby RevMi przypominał o serwisie.</p>
+                    <p>Dodaj datę następnego przeglądu pojazdu, aby RevMi przypominał o serwisie flotowym.</p>
                   </div>
                 </div>
               </article>
@@ -1130,6 +924,7 @@
           </div>
         </section>
 
+        <!-- ZLECENIA W TABELI -->
         <section class="view" id="view-orders">
           <div class="page-head">
             <div><h1>Zlecenia</h1><p>Pełna obsługa zleceń od zapytania do rozliczenia.</p></div>
@@ -1144,7 +939,6 @@
               <button class="filter" data-filter="progress">W realizacji</button>
               <button class="filter" data-filter="completed">Zakończone</button>
             </div>
-
             <select class="select" id="orderSort">
               <option value="date">Najbliższy termin</option>
               <option value="price">Najwyższa wartość</option>
@@ -1168,18 +962,18 @@
                 <tbody id="ordersBody"></tbody>
               </table>
             </div>
-
             <div class="empty-state" id="ordersEmpty" hidden>
               <i class="fa-regular fa-folder-open"></i>
               <h3>Brak pasujących zleceń</h3>
-              <p>Zmień filtr albo dodaj pierwsze zlecenie.</p>
+              <p>Zmień filtr albo dodaj pierwsze zlecenie do systemu.</p>
             </div>
           </article>
         </section>
 
+        <!-- KALENDARZ -->
         <section class="view" id="view-calendar">
           <div class="page-head">
-            <div><h1>Kalendarz pracy</h1><p>Terminy zleceń i plan firmy.</p></div>
+            <div><h1>Kalendarz pracy</h1><p>Terminy zleceń i plan działania firmy.</p></div>
             <button class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
           </div>
 
@@ -1192,29 +986,29 @@
                   <button><i class="fa-solid fa-chevron-right"></i></button>
                 </div>
               </div>
-
               <div class="calendar-grid" id="calendarGrid"></div>
             </article>
 
             <aside class="card section-card">
-              <div class="section-head"><div><h2>Najbliższe terminy</h2><p>Plan pracy</p></div></div>
+              <div class="section-head"><div><h2>Najbliższe terminy</h2><p>Nadchodzący plan pracy</p></div></div>
               <div class="agenda" id="agendaList"></div>
             </aside>
           </div>
         </section>
 
+        <!-- KLIENCI -->
         <section class="view" id="view-clients">
           <div class="page-head">
-            <div><h1>Baza klientów</h1><p>Kontakty i historia współpracy.</p></div>
+            <div><h1>Baza klientów</h1><p>Kontakty i historia współpracy z klientami B2B/B2C.</p></div>
             <button class="primary-btn" id="addClient"><i class="fa-solid fa-user-plus"></i>Nowy klient</button>
           </div>
-
           <div class="client-grid" id="clientGrid"></div>
         </section>
 
+        <!-- FINANSE -->
         <section class="view" id="view-finances">
           <div class="page-head">
-            <div><h1>Finanse</h1><p>Kontrola przychodów, kosztów i wyniku firmy.</p></div>
+            <div><h1>Finanse</h1><p>Kontrola przychodów, kosztów i bieżącego wyniku firmy.</p></div>
             <button class="primary-btn" id="financeAdd"><i class="fa-solid fa-plus"></i>Dodaj operację</button>
           </div>
 
@@ -1224,69 +1018,67 @@
               <div class="kpi-value" id="financeMargin">0<small>%</small></div>
               <div class="trend">Aktualna rentowność</div>
             </article>
-
             <article class="card kpi" style="--tone:var(--blue)">
               <div class="kpi-top"><span class="kpi-label">Przychody</span><span class="kpi-icon"><i class="fa-solid fa-arrow-up"></i></span></div>
               <div class="kpi-value" id="financeIncome">0<small>zł</small></div>
               <div class="trend">Łącznie</div>
             </article>
-
             <article class="card kpi" style="--tone:var(--orange)">
               <div class="kpi-top"><span class="kpi-label">Koszty</span><span class="kpi-icon"><i class="fa-solid fa-arrow-down"></i></span></div>
               <div class="kpi-value" id="financeExpense">0<small>zł</small></div>
               <div class="trend down">Łącznie</div>
             </article>
-
             <article class="card kpi" style="--tone:var(--purple)">
-              <div class="kpi-top"><span class="kpi-label">Wynik</span><span class="kpi-icon"><i class="fa-solid fa-calculator"></i></span></div>
+              <div class="kpi-top"><span class="kpi-label">Wynik netto</span><span class="kpi-icon"><i class="fa-solid fa-calculator"></i></span></div>
               <div class="kpi-value" id="financeProfit">0<small>zł</small></div>
               <div class="trend">Przychody minus koszty</div>
             </article>
           </div>
 
           <article class="card section-card">
-            <div class="section-head"><div><h2>Struktura kosztów</h2><p>Najważniejsze kategorie</p></div></div>
+            <div class="section-head"><div><h2>Struktura kosztów</h2><p>Najważniejsze kategorie obciążające budżet</p></div></div>
             <div class="breakdown" id="expenseBreakdown">
-              <div class="empty-state"><p>Dodaj pierwszą operację finansową.</p></div>
+              <div class="empty-state"><p>Dodaj pierwszą operację finansową, aby zobaczyć wykres.</p></div>
             </div>
           </article>
         </section>
 
+        <!-- FLOTA I EKIPA -->
         <section class="view" id="view-fleet">
           <div class="page-head">
-            <div><h1>Ekipa i flota</h1><p>Pracownicy, pojazdy i dostępność zasobów.</p></div>
+            <div><h1>Ekipa i flota</h1><p>Pracownicy, pojazdy transportowe i dostępność.</p></div>
             <button class="primary-btn" id="addResource"><i class="fa-solid fa-plus"></i>Dodaj zasób</button>
           </div>
-
           <div class="fleet-grid" id="fleetGrid"></div>
         </section>
 
+        <!-- AUTOMATYZACJE -->
         <section class="view" id="view-automations">
           <div class="page-head">
-            <div><h1>Automatyzacje</h1><p>Ustaw, co RevMi ma wykonywać za Ciebie.</p></div>
+            <div><h1>Automatyzacje</h1><p>Ustawienia procesów, które RevMi wykonuje za Ciebie.</p></div>
           </div>
-
           <div class="auto-grid" id="automationGrid"></div>
         </section>
+
       </div>
     </main>
   </div>
 
+  <!-- MODALE -->
   <dialog id="orderModal">
     <form method="dialog" class="modal" id="orderForm">
       <div class="modal-head">
-        <div><h2>Nowe zlecenie</h2><p style="font-size:9px;color:var(--muted)">Dodaj najważniejsze informacje.</p></div>
+        <div><h2>Nowe zlecenie</h2><p style="font-size:12px;color:var(--muted)">Dodaj najważniejsze informacje do systemu.</p></div>
         <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
       <div class="form-grid">
         <div class="field full"><label>Nazwa zlecenia</label><input id="fName" required placeholder="np. Przeprowadzka mieszkania"></div>
-        <div class="field"><label>Klient</label><input id="fClient" required></div>
-        <div class="field"><label>Telefon</label><input id="fPhone"></div>
-        <div class="field full"><label>Adres lub trasa</label><input id="fAddress" required></div>
-        <div class="field"><label>Data i godzina</label><input id="fDate" type="datetime-local" required></div>
-        <div class="field"><label>Wartość</label><input id="fPrice" type="number" min="0" required></div>
-
+        <div class="field"><label>Klient (Nazwa lub Firma)</label><input id="fClient" required></div>
+        <div class="field"><label>Telefon kontaktowy</label><input id="fPhone"></div>
+        <div class="field full"><label>Adres lub trasa przewozu</label><input id="fAddress" required></div>
+        <div class="field"><label>Data i godzina realizacji</label><input id="fDate" type="datetime-local" required></div>
+        <div class="field"><label>Wartość (zł)</label><input id="fPrice" type="number" min="0" required></div>
         <div class="field">
           <label>Status</label>
           <select id="fStatus">
@@ -1295,9 +1087,8 @@
             <option value="progress">W realizacji</option>
           </select>
         </div>
-
-        <div class="field"><label>Pojazd</label><input id="fVehicle" placeholder="np. Renault Master"></div>
-        <div class="field full"><label>Notatka</label><textarea id="fNote"></textarea></div>
+        <div class="field"><label>Pojazd</label><input id="fVehicle" placeholder="np. Renault Master (Kontener)"></div>
+        <div class="field full"><label>Dodatkowe notatki</label><textarea id="fNote"></textarea></div>
       </div>
 
       <div class="modal-actions">
@@ -1313,18 +1104,15 @@
         <h2>Dodaj operację finansową</h2>
         <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
       <div class="form-grid">
         <div class="field">
-          <label>Typ</label>
+          <label>Typ operacji</label>
           <select id="xType"><option>Koszt</option><option>Przychód</option></select>
         </div>
-
-        <div class="field"><label>Kwota</label><input id="xAmount" type="number" min="1" required></div>
-        <div class="field full"><label>Kategoria</label><input id="xCategory" required placeholder="np. Paliwo"></div>
-        <div class="field full"><label>Opis</label><input id="xDesc"></div>
+        <div class="field"><label>Kwota (zł)</label><input id="xAmount" type="number" min="1" required></div>
+        <div class="field full"><label>Kategoria / Tytuł</label><input id="xCategory" required placeholder="np. Paliwo, Reklama"></div>
+        <div class="field full"><label>Opcjonalny opis</label><input id="xDesc"></div>
       </div>
-
       <div class="modal-actions">
         <button class="ghost-btn" value="cancel">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz operację</button>
@@ -1335,24 +1123,20 @@
   <dialog id="clientModal">
     <form method="dialog" class="modal" id="clientForm">
       <div class="modal-head">
-        <h2>Nowy klient</h2>
+        <h2>Baza: Nowy klient</h2>
         <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
       <div class="form-grid">
         <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="cName" required></div>
-
         <div class="field">
           <label>Typ klienta</label>
-          <select id="cType"><option value="person">Osoba prywatna</option><option value="company">Firma</option></select>
+          <select id="cType"><option value="person">Osoba prywatna</option><option value="company">Firma (B2B)</option></select>
         </div>
-
         <div class="field"><label>Telefon</label><input id="cPhone"></div>
         <div class="field"><label>E-mail</label><input id="cEmail" type="email"></div>
-        <div class="field full"><label>Adres</label><input id="cAddress"></div>
-        <div class="field full"><label>Notatka</label><textarea id="cNotes"></textarea></div>
+        <div class="field full"><label>Adres domyślny</label><input id="cAddress"></div>
+        <div class="field full"><label>Notatki handlowe</label><textarea id="cNotes"></textarea></div>
       </div>
-
       <div class="modal-actions">
         <button class="ghost-btn" value="cancel">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz klienta</button>
@@ -1363,22 +1147,19 @@
   <dialog id="resourceModal">
     <form method="dialog" class="modal" id="resourceForm">
       <div class="modal-head">
-        <h2>Dodaj pracownika lub pojazd</h2>
+        <h2>Dodaj zasób do firmy</h2>
         <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
       <div class="form-grid">
         <div class="field full">
           <label>Rodzaj zasobu</label>
-          <select id="rType"><option value="employee">Pracownik</option><option value="fleet">Pojazd</option></select>
+          <select id="rType"><option value="employee">Pracownik fizyczny/Kierowca</option><option value="fleet">Pojazd firmowy</option></select>
         </div>
-
-        <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="rName" required></div>
-        <div class="field"><label>Rola lub numer rejestracyjny</label><input id="rDetail" required></div>
-        <div class="field"><label>Telefon lub przebieg</label><input id="rExtra"></div>
-        <div class="field"><label>PIN pracownika</label><input id="rPin" inputmode="numeric" maxlength="4"></div>
+        <div class="field"><label>Nazwa pojazdu lub Imię pracownika</label><input id="rName" required></div>
+        <div class="field"><label>Rola / Numer rejestracyjny</label><input id="rDetail" required></div>
+        <div class="field"><label>Telefon / Przebieg (km)</label><input id="rExtra"></div>
+        <div class="field"><label>Kod logowania PIN (tylko pracownik)</label><input id="rPin" inputmode="numeric" maxlength="4"></div>
       </div>
-
       <div class="modal-actions">
         <button class="ghost-btn" value="cancel">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz zasób</button>
@@ -1406,7 +1187,7 @@
       new: "Nowe",
       quoted: "Wycena",
       planned: "Zaplanowane",
-      progress: "W realizacji",
+      progress: "Realizacja",
       completed: "Zakończone",
       done: "Zakończone",
       cancelled: "Anulowane"
@@ -1422,61 +1203,33 @@
       cancelled: "gray"
     };
 
-    const money = value =>
-      new Intl.NumberFormat("pl-PL").format(Number(value) || 0) + " zł";
+    const money = value => new Intl.NumberFormat("pl-PL").format(Number(value) || 0) + " zł";
 
     const escapeHtml = value =>
       String(value ?? "").replace(/[&<>'"]/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        "'": "&#39;",
-        '"': "&quot;"
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
       })[character]);
 
-    const initials = name =>
-      String(name || "?")
-        .trim()
-        .split(/\s+/)
-        .slice(0, 2)
-        .map(part => part[0])
-        .join("")
-        .toUpperCase();
+    const initials = name => String(name || "?").trim().split(/\s+/).slice(0, 2).map(part => part[0]).join("").toUpperCase();
 
     const formatDate = value => {
       if (!value) return "Brak terminu";
-
       const date = new Date(value);
       if (Number.isNaN(date.getTime())) return value;
-
-      return new Intl.DateTimeFormat("pl-PL", {
-        day: "2-digit",
-        month: "short",
-        hour: "2-digit",
-        minute: "2-digit"
-      }).format(date);
+      return new Intl.DateTimeFormat("pl-PL", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
     };
 
     async function api(url, options = {}) {
       const response = await fetch(url, {
         credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-          ...(options.headers || {})
-        },
+        headers: { "Content-Type": "application/json", ...(options.headers || {}) },
         ...options
       });
-
       const data = await response.json().catch(() => ({}));
-
       if (!response.ok) {
-        if (response.status === 401 && !url.includes("/api/login")) {
-          lockPanel();
-        }
-
+        if (response.status === 401 && !url.includes("/api/login")) lockPanel();
         throw new Error(data.message || data.error || "Błąd połączenia z serwerem");
       }
-
       return data;
     }
 
@@ -1484,21 +1237,13 @@
       const toast = document.getElementById("toast");
       toast.querySelector("span").textContent = message;
       toast.classList.add("show");
-
       clearTimeout(window.revmiToastTimer);
       window.revmiToastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
     }
 
-    document.getElementById("todayDate").textContent =
-      new Intl.DateTimeFormat("pl-PL", {
-        weekday: "long",
-        day: "numeric",
-        month: "long",
-        year: "numeric"
-      }).format(new Date());
+    document.getElementById("todayDate").textContent = new Intl.DateTimeFormat("pl-PL", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date());
 
     /* LOGOWANIE */
-
     const loginScreen = document.getElementById("loginScreen");
     const loginForm = document.getElementById("loginForm");
     const loginSubmit = document.getElementById("loginSubmit");
@@ -1506,19 +1251,12 @@
     const pinGroup = document.getElementById("pinGroup");
     const pinInputs = [...document.querySelectorAll(".pin-digit")];
 
-    function getPin() {
-      return pinInputs.map(input => input.value).join("");
-    }
-
+    function getPin() { return pinInputs.map(input => input.value).join(""); }
     function refreshPin() {
-      pinInputs.forEach(input =>
-        input.classList.toggle("filled", Boolean(input.value))
-      );
-
+      pinInputs.forEach(input => input.classList.toggle("filled", Boolean(input.value)));
       loginSubmit.disabled = getPin().length !== 4;
       loginError.classList.remove("show");
     }
-
     function clearPin() {
       pinInputs.forEach(input => input.value = "");
       refreshPin();
@@ -1528,71 +1266,44 @@
     function unlockPanel(user = {}) {
       const name = user.name || "Administrator";
       const role = user.role === "admin" ? "Administrator" : "Pracownik";
-
       document.getElementById("userName").textContent = name;
       document.getElementById("userRole").textContent = role;
-      document.getElementById("welcomeTitle").textContent =
-        "Dzień dobry, " + name.split(" ")[0];
-
+      document.getElementById("welcomeTitle").textContent = "Dzień dobry, " + name.split(" ")[0];
       loginScreen.classList.add("hidden");
       document.body.classList.remove("auth-pending");
-
       setTimeout(loadBackend, 250);
     }
 
     function lockPanel() {
       document.body.classList.add("auth-pending");
       loginScreen.classList.remove("hidden");
-
       loginSubmit.classList.remove("loading", "success");
-      loginSubmit.innerHTML =
-        '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
-
+      loginSubmit.innerHTML = '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
       clearPin();
     }
 
     pinInputs.forEach((input, index) => {
       input.addEventListener("input", () => {
         input.value = input.value.replace(/\D/g, "").slice(-1);
-
-        if (input.value && index < 3) {
-          pinInputs[index + 1].focus();
-        }
-
+        if (input.value && index < 3) pinInputs[index + 1].focus();
         refreshPin();
       });
-
       input.addEventListener("keydown", event => {
         if (event.key === "Backspace" && !input.value && index > 0) {
           pinInputs[index - 1].value = "";
           pinInputs[index - 1].focus();
           refreshPin();
         }
-
-        if (event.key === "ArrowLeft" && index > 0) {
-          pinInputs[index - 1].focus();
-        }
-
-        if (event.key === "ArrowRight" && index < 3) {
-          pinInputs[index + 1].focus();
-        }
+        if (event.key === "ArrowLeft" && index > 0) pinInputs[index - 1].focus();
+        if (event.key === "ArrowRight" && index < 3) pinInputs[index + 1].focus();
       });
     });
 
     pinGroup.addEventListener("paste", event => {
-      const digits = event.clipboardData
-        .getData("text")
-        .replace(/\D/g, "")
-        .slice(0, 4);
-
+      const digits = event.clipboardData.getData("text").replace(/\D/g, "").slice(0, 4);
       if (!digits) return;
-
       event.preventDefault();
-
-      pinInputs.forEach((input, index) => {
-        input.value = digits[index] || "";
-      });
-
+      pinInputs.forEach((input, index) => input.value = digits[index] || "");
       refreshPin();
       pinInputs[Math.max(0, Math.min(digits.length, 4) - 1)].focus();
     });
@@ -1601,58 +1312,39 @@
       button.addEventListener("click", () => {
         if (button.dataset.key === "back") {
           const lastInput = [...pinInputs].reverse().find(input => input.value);
-
-          if (lastInput) {
-            lastInput.value = "";
-            lastInput.focus();
-          }
+          if (lastInput) { lastInput.value = ""; lastInput.focus(); }
         } else {
           const emptyInput = pinInputs.find(input => !input.value);
-
           if (emptyInput) {
             emptyInput.value = button.dataset.key;
             const index = pinInputs.indexOf(emptyInput);
             pinInputs[Math.min(index + 1, 3)].focus();
           }
         }
-
         refreshPin();
       });
     });
 
     loginForm.addEventListener("submit", async event => {
       event.preventDefault();
-
       const pin = getPin();
       if (pin.length !== 4) return;
 
       loginSubmit.disabled = true;
       loginSubmit.classList.add("loading");
-      loginSubmit.innerHTML =
-        '<span>Weryfikacja kodu…</span><i class="fa-solid fa-spinner"></i>';
+      loginSubmit.innerHTML = '<span>Weryfikacja kodu…</span><i class="fa-solid fa-spinner"></i>';
 
       try {
-        const result = await api("/api/login", {
-          method: "POST",
-          body: JSON.stringify({ pin })
-        });
-
+        const result = await api("/api/login", { method: "POST", body: JSON.stringify({ pin }) });
         loginSubmit.classList.remove("loading");
         loginSubmit.classList.add("success");
-        loginSubmit.innerHTML =
-          '<span>Dostęp przyznany</span><i class="fa-solid fa-check"></i>';
-
+        loginSubmit.innerHTML = '<span>Dostęp przyznany</span><i class="fa-solid fa-check"></i>';
         setTimeout(() => unlockPanel(result), 550);
       } catch (error) {
         loginSubmit.classList.remove("loading");
-        loginSubmit.innerHTML =
-          '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
-
+        loginSubmit.innerHTML = '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
         clearPin();
-
-        loginError.querySelector("span").textContent =
-          error.message || "Nieprawidłowy kod PIN";
-
+        loginError.querySelector("span").textContent = error.message || "Nieprawidłowy kod PIN";
         loginError.classList.add("show");
         pinGroup.classList.remove("shake");
         void pinGroup.offsetWidth;
@@ -1663,75 +1355,38 @@
     async function bootstrapAuth() {
       try {
         const session = await api("/api/auth/session");
-
-        if (session.authenticated) {
-          unlockPanel(session);
-        } else {
-          lockPanel();
-        }
-      } catch {
-        lockPanel();
-      }
+        if (session.authenticated) unlockPanel(session);
+        else lockPanel();
+      } catch { lockPanel(); }
     }
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
-      try {
-        await api("/api/logout", { method: "POST" });
-      } catch {}
-
+      try { await api("/api/logout", { method: "POST" }); } catch {}
       lockPanel();
     });
 
     function updateClock() {
-      document.getElementById("loginClock").textContent =
-        new Date().toLocaleTimeString("pl-PL", {
-          hour: "2-digit",
-          minute: "2-digit"
-        });
+      document.getElementById("loginClock").textContent = new Date().toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
     }
-
     updateClock();
     setInterval(updateClock, 1000);
 
     /* NAWIGACJA */
-
     function navigate(view) {
-      document.querySelectorAll(".view").forEach(element => {
-        element.classList.toggle("active", element.id === "view-" + view);
-      });
-
-      document.querySelectorAll(".nav button[data-view]").forEach(button => {
-        button.classList.toggle("active", button.dataset.view === view);
-      });
-
+      document.querySelectorAll(".view").forEach(element => element.classList.toggle("active", element.id === "view-" + view));
+      document.querySelectorAll(".nav button[data-view]").forEach(button => button.classList.toggle("active", button.dataset.view === view));
       document.getElementById("sidebar").classList.remove("open");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    document.querySelectorAll("[data-view]").forEach(button => {
-      button.addEventListener("click", () => navigate(button.dataset.view));
-    });
-
-    document.querySelectorAll("[data-view-link]").forEach(button => {
-      button.addEventListener("click", () =>
-        navigate(button.dataset.viewLink)
-      );
-    });
-
-    document.getElementById("menuBtn").onclick = () =>
-      document.getElementById("sidebar").classList.toggle("open");
-
+    document.querySelectorAll("[data-view]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.view)));
+    document.querySelectorAll("[data-view-link]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.viewLink)));
+    document.getElementById("menuBtn").onclick = () => document.getElementById("sidebar").classList.toggle("open");
+    
     document.addEventListener("click", event => {
       const sidebar = document.getElementById("sidebar");
       const menuButton = document.getElementById("menuBtn");
-
-      if (
-        innerWidth <= 760 &&
-        !sidebar.contains(event.target) &&
-        !menuButton.contains(event.target)
-      ) {
-        sidebar.classList.remove("open");
-      }
+      if (innerWidth <= 760 && !sidebar.contains(event.target) && !menuButton.contains(event.target)) sidebar.classList.remove("open");
     });
 
     document.addEventListener("keydown", event => {
@@ -1742,15 +1397,12 @@
     });
 
     /* DANE */
-
     function normalizeOrder(task) {
       return {
         id: task._id || task.id,
         number: task.number || "RV-" + String(task._id || task.id || "").slice(-6),
-        name: task.name || "Zlecenie",
-        address:
-          task.address ||
-          [task.addressFrom, task.addressTo].filter(Boolean).join(" → "),
+        name: task.name || "Zlecenie Serwisowe",
+        address: task.address || [task.addressFrom, task.addressTo].filter(Boolean).join(" → "),
         date: String(task.dateStart || task.date || ""),
         client: task.clientName || task.client?.name || "",
         phone: task.clientPhone || task.client?.phone || "",
@@ -1764,7 +1416,6 @@
     async function loadBackend() {
       try {
         const data = await api("/api/data");
-
         orders = (data.tasks || []).map(normalizeOrder);
         employees = data.employees || [];
         fleet = data.fleet || [];
@@ -1777,22 +1428,9 @@
           api("/api/automations")
         ]);
 
-        const dashboard =
-          requests[0].status === "fulfilled"
-            ? requests[0].value
-            : {};
-
-        if (requests[1].status === "fulfilled") {
-          clients = requests[1].value.clients || [];
-        } else {
-          clients = data.clients || [];
-        }
-
-        if (requests[2].status === "fulfilled") {
-          automations = requests[2].value.automations || [];
-        } else {
-          automations = data.automations || [];
-        }
+        const dashboard = requests[0].status === "fulfilled" ? requests[0].value : {};
+        clients = requests[1].status === "fulfilled" ? requests[1].value.clients || [] : data.clients || [];
+        automations = requests[2].status === "fulfilled" ? requests[2].value.automations || [] : data.automations || [];
 
         renderAll(dashboard.stats || {});
       } catch (error) {
@@ -1813,183 +1451,98 @@
     }
 
     function renderDashboard(stats) {
-      const revenue =
-        stats.revenue ??
-        incomes.reduce((sum, item) => sum + Number(item.price || 0), 0);
-
-      const costs =
-        stats.expenses ??
-        expenses.reduce((sum, item) => sum + Number(item.price || 0), 0);
-
+      const revenue = stats.revenue ?? incomes.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const costs = stats.expenses ?? expenses.reduce((sum, item) => sum + Number(item.price || 0), 0);
       const profit = stats.profit ?? revenue - costs;
-      const active = orders.filter(order =>
-        !["completed", "done", "cancelled"].includes(order.status)
-      ).length;
+      const active = orders.filter(o => !["completed", "done", "cancelled"].includes(o.status)).length;
 
-      document.getElementById("kpiProfit").innerHTML =
-        `${new Intl.NumberFormat("pl-PL").format(profit)} <small>zł</small>`;
-
-      document.getElementById("kpiRevenue").innerHTML =
-        `${new Intl.NumberFormat("pl-PL").format(revenue)} <small>zł</small>`;
-
-      document.getElementById("kpiCosts").innerHTML =
-        `${new Intl.NumberFormat("pl-PL").format(costs)} <small>zł</small>`;
-
-      document.getElementById("kpiTasks").innerHTML =
-        `${active} <small>aktywne</small>`;
+      document.getElementById("kpiProfit").innerHTML = `${new Intl.NumberFormat("pl-PL").format(profit)} <small>zł</small>`;
+      document.getElementById("kpiRevenue").innerHTML = `${new Intl.NumberFormat("pl-PL").format(revenue)} <small>zł</small>`;
+      document.getElementById("kpiCosts").innerHTML = `${new Intl.NumberFormat("pl-PL").format(costs)} <small>zł</small>`;
+      document.getElementById("kpiTasks").innerHTML = `${active} <small>aktywne</small>`;
     }
 
     /* ZLECENIA */
-
     function renderOrders() {
-      const query = document
-        .getElementById("globalSearch")
-        .value.trim()
-        .toLowerCase();
+      const query = document.getElementById("globalSearch").value.trim().toLowerCase();
 
       let list = orders.filter(order => {
-        const matchesFilter =
-          activeFilter === "all" || order.status === activeFilter;
-
-        const matchesSearch =
-          !query ||
-          [order.name, order.address, order.client, order.phone]
-            .join(" ")
-            .toLowerCase()
-            .includes(query);
-
+        const matchesFilter = activeFilter === "all" || order.status === activeFilter;
+        const matchesSearch = !query || [order.name, order.address, order.client, order.phone].join(" ").toLowerCase().includes(query);
         return matchesFilter && matchesSearch;
       });
 
-      if (document.getElementById("orderSort").value === "price") {
-        list.sort((a, b) => Number(b.price) - Number(a.price));
-      } else {
-        list.sort((a, b) => new Date(a.date) - new Date(b.date));
-      }
+      if (document.getElementById("orderSort").value === "price") list.sort((a, b) => Number(b.price) - Number(a.price));
+      else list.sort((a, b) => new Date(a.date) - new Date(b.date));
 
       document.getElementById("ordersBody").innerHTML = list.map(order => `
         <tr>
-          <td>
-            <div class="task-title">${escapeHtml(order.name)}</div>
-            <div class="task-sub">${escapeHtml(order.number)} · ${escapeHtml(order.address)}</div>
-          </td>
+          <td><div class="task-title">${escapeHtml(order.name)}</div><div class="task-sub">${escapeHtml(order.number)} · ${escapeHtml(order.address)}</div></td>
           <td>${formatDate(order.date)}</td>
-          <td>
-            <div class="task-title">${escapeHtml(order.client)}</div>
-            <div class="task-sub">${escapeHtml(order.phone)}</div>
-          </td>
-          <td>
-            <div class="people">
-              ${(order.team || []).map(person => `<span>${escapeHtml(person)}</span>`).join("")}
-            </div>
-          </td>
+          <td><div class="task-title">${escapeHtml(order.client)}</div><div class="task-sub">${escapeHtml(order.phone)}</div></td>
+          <td><div class="people">${(order.team || []).map(person => `<span>${escapeHtml(person)}</span>`).join("")}</div></td>
           <td class="money">${order.price ? money(order.price) : "Wycena"}</td>
-          <td>
-            <span class="status ${statusClasses[order.status] || "gray"}">
-              ${statusNames[order.status] || escapeHtml(order.status)}
-            </span>
-          </td>
-          <td>
-            <button class="row-actions" data-complete="${order.id}" title="Zmień status">
-              <i class="fa-solid fa-check"></i>
-            </button>
-          </td>
+          <td><span class="status ${statusClasses[order.status] || "gray"}">${statusNames[order.status] || escapeHtml(order.status)}</span></td>
+          <td><button class="row-actions" data-complete="${order.id}" title="Zmień status"><i class="fa-solid fa-check"></i></button></td>
         </tr>
       `).join("");
 
       document.getElementById("ordersEmpty").hidden = list.length > 0;
-
-      const active = orders.filter(order =>
-        !["completed", "done", "cancelled"].includes(order.status)
-      ).length;
-
+      const active = orders.filter(o => !["completed", "done", "cancelled"].includes(o.status)).length;
       document.getElementById("navTaskCount").textContent = active;
 
       document.querySelectorAll("[data-complete]").forEach(button => {
         button.onclick = async () => {
-          const order = orders.find(item =>
-            String(item.id) === button.dataset.complete
-          );
-
+          const order = orders.find(item => String(item.id) === button.dataset.complete);
           if (!order) return;
-
-          const nextStatus =
-            ["completed", "done"].includes(order.status)
-              ? "planned"
-              : "completed";
-
+          const nextStatus = ["completed", "done"].includes(order.status) ? "planned" : "completed";
           try {
             try {
-              await api(`/api/tasks/${order.id}/status`, {
-                method: "PATCH",
-                body: JSON.stringify({
-                  status: nextStatus,
-                  finalPrice: order.price
-                })
-              });
+              await api(`/api/tasks/${order.id}/status`, { method: "PATCH", body: JSON.stringify({ status: nextStatus, finalPrice: order.price }) });
             } catch {
-              await api(`/api/tasks/${order.id}`, {
-                method: "PUT",
-                body: JSON.stringify({
-                  status: nextStatus,
-                  completed: nextStatus === "completed"
-                })
-              });
+              await api(`/api/tasks/${order.id}`, { method: "PUT", body: JSON.stringify({ status: nextStatus, completed: nextStatus === "completed" }) });
             }
-
             await loadBackend();
-            showToast("Status zlecenia został zmieniony");
-          } catch (error) {
-            showToast(error.message);
-          }
+            showToast("Status zlecenia zmieniony na: " + statusNames[nextStatus]);
+          } catch (error) { showToast(error.message); }
         };
       });
     }
 
+    // Nowe Kafelki Kart - Prostokąty
     function renderToday() {
       const today = new Date().toLocaleDateString("sv-SE");
+      const todayOrders = orders.filter(order => order.date.startsWith(today)).slice(0, 4);
 
-      const todayOrders = orders
-        .filter(order => order.date.startsWith(today))
-        .slice(0, 4);
-
-      document.getElementById("todayJobs").innerHTML =
-        todayOrders.map(order => `
-          <div class="job">
-            <div class="job-time">${order.date.slice(11, 16) || "--:--"}</div>
-            <div>
-              <h3>${escapeHtml(order.name)}</h3>
-              <p>${escapeHtml(order.address)} · ${escapeHtml(order.vehicle)}</p>
-            </div>
+      document.getElementById("todayJobs").innerHTML = todayOrders.map(order => `
+        <div class="job">
+          <div class="job-top">
+            <div class="job-time"><i class="fa-regular fa-clock" style="font-size:16px;"></i> ${order.date.slice(11, 16) || "--:--"}</div>
             <span class="status ${statusClasses[order.status] || "gray"}">
               ${statusNames[order.status] || escapeHtml(order.status)}
             </span>
           </div>
-        `).join("") ||
-        '<div class="empty-state"><p>Brak zleceń zaplanowanych na dzisiaj.</p></div>';
+          <div class="job-details">
+            <h3>${escapeHtml(order.name)}</h3>
+            <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(order.address)}</p>
+            <p><i class="fa-solid fa-truck"></i> ${escapeHtml(order.vehicle)}</p>
+          </div>
+        </div>
+      `).join("") || '<div class="empty-state" style="grid-column:1/-1;padding:30px;"><p>Brak zaplanowanych zleceń na dzisiaj.</p></div>';
     }
 
     document.querySelectorAll("[data-filter]").forEach(button => {
       button.onclick = () => {
         activeFilter = button.dataset.filter;
-
-        document.querySelectorAll("[data-filter]").forEach(item =>
-          item.classList.toggle("active", item === button)
-        );
-
+        document.querySelectorAll("[data-filter]").forEach(item => item.classList.toggle("active", item === button));
         renderOrders();
       };
     });
 
     document.getElementById("orderSort").onchange = renderOrders;
-
-    document.getElementById("globalSearch").oninput = () => {
-      navigate("orders");
-      renderOrders();
-    };
+    document.getElementById("globalSearch").oninput = () => { navigate("orders"); renderOrders(); };
 
     /* KALENDARZ */
-
     function renderCalendar() {
       const year = calendarCursor.getFullYear();
       const month = calendarCursor.getMonth();
@@ -1997,51 +1550,26 @@
       const daysInMonth = new Date(year, month + 1, 0).getDate();
       const offset = (firstDay.getDay() + 6) % 7;
 
-      document.querySelector(".calendar-top h2").textContent =
-        new Intl.DateTimeFormat("pl-PL", {
-          month: "long",
-          year: "numeric"
-        }).format(firstDay);
-
+      document.querySelector(".calendar-top h2").textContent = new Intl.DateTimeFormat("pl-PL", { month: "long", year: "numeric" }).format(firstDay);
       const weekdays = ["Pon", "Wt", "Śr", "Czw", "Pt", "Sob", "Nd"];
-      let html = weekdays
-        .map(day => `<div class="weekday">${day}</div>`)
-        .join("");
+      let html = weekdays.map(day => `<div class="weekday">${day}</div>`).join("");
 
       const previousMonthLastDay = new Date(year, month, 0).getDate();
-
       for (let index = offset; index > 0; index--) {
-        html += `
-          <div class="day muted">
-            <span class="day-num">${previousMonthLastDay - index + 1}</span>
-          </div>
-        `;
+        html += `<div class="day muted"><span class="day-num">${previousMonthLastDay - index + 1}</span></div>`;
       }
 
       const today = new Date();
-
       for (let day = 1; day <= daysInMonth; day++) {
-        const date =
-          `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-
-        const events = orders.filter(order => order.date.startsWith(date));
-
-        const isToday =
-          today.getFullYear() === year &&
-          today.getMonth() === month &&
-          today.getDate() === day;
+        const date = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const events = orders.filter(o => o.date.startsWith(date));
+        const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === day;
 
         html += `
           <div class="day ${isToday ? "today" : ""}">
             <span class="day-num">${day}</span>
-            ${events.slice(0, 2).map(order => `
-              <div class="event ${
-                order.status === "completed"
-                  ? "green"
-                  : order.status === "progress"
-                    ? "orange"
-                    : ""
-              }">${escapeHtml(order.name)}</div>
+            ${events.slice(0, 3).map(order => `
+              <div class="event ${order.status === "completed" ? "green" : order.status === "progress" ? "orange" : ""}">${escapeHtml(order.name)}</div>
             `).join("")}
           </div>
         `;
@@ -2049,10 +1577,7 @@
 
       const usedCells = offset + daysInMonth;
       const additionalCells = (7 - usedCells % 7) % 7;
-
-      for (let day = 1; day <= additionalCells; day++) {
-        html += `<div class="day muted"><span class="day-num">${day}</span></div>`;
-      }
+      for (let day = 1; day <= additionalCells; day++) html += `<div class="day muted"><span class="day-num">${day}</span></div>`;
 
       document.getElementById("calendarGrid").innerHTML = html;
 
@@ -2061,97 +1586,52 @@
         .sort((a, b) => new Date(a.date) - new Date(b.date))
         .slice(0, 5);
 
-      document.getElementById("agendaList").innerHTML =
-        upcoming.map(order => `
-          <div class="agenda-item">
-            <strong>${escapeHtml(order.name)}</strong>
-            <p>${formatDate(order.date)} · ${escapeHtml(order.address)}</p>
-            <span>${escapeHtml(order.vehicle)}</span>
-          </div>
-        `).join("") ||
-        '<div class="empty-state"><p>Brak nadchodzących terminów.</p></div>';
+      document.getElementById("agendaList").innerHTML = upcoming.map(order => `
+        <div class="agenda-item">
+          <strong>${escapeHtml(order.name)}</strong>
+          <p><i class="fa-regular fa-clock"></i> ${formatDate(order.date)}</p>
+          <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(order.address)}</p>
+          <span><i class="fa-solid fa-truck"></i> ${escapeHtml(order.vehicle)}</span>
+        </div>
+      `).join("") || '<div class="empty-state"><p>Brak nadchodzących terminów.</p></div>';
     }
 
     const calendarButtons = document.querySelectorAll(".cal-nav button");
-
-    calendarButtons[0].onclick = () => {
-      calendarCursor.setMonth(calendarCursor.getMonth() - 1);
-      renderCalendar();
-    };
-
-    calendarButtons[1].onclick = () => {
-      calendarCursor.setMonth(calendarCursor.getMonth() + 1);
-      renderCalendar();
-    };
+    calendarButtons[0].onclick = () => { calendarCursor.setMonth(calendarCursor.getMonth() - 1); renderCalendar(); };
+    calendarButtons[1].onclick = () => { calendarCursor.setMonth(calendarCursor.getMonth() + 1); renderCalendar(); };
 
     /* KLIENCI */
-
     function renderClients() {
-      document.getElementById("clientGrid").innerHTML =
-        clients.map(client => `
-          <article class="card client-card">
-            <div class="client-top">
-              <div class="client-avatar">${initials(client.name)}</div>
-              <span class="status ${
-                client.stats?.orders > 1 ? "green" : "gray"
-              }">
-                ${
-                  client.type === "company"
-                    ? "Firma"
-                    : client.stats?.orders > 1
-                      ? "Stały klient"
-                      : "Nowy"
-                }
-              </span>
-            </div>
-
-            <h3>${escapeHtml(client.name)}</h3>
-            <p>${escapeHtml(
-              [client.phone, client.email].filter(Boolean).join(" · ") ||
-              client.address ||
-              "Brak danych kontaktowych"
-            )}</p>
-
-            <div class="client-meta">
-              <div><small>Zlecenia</small><strong>${client.stats?.orders || 0}</strong></div>
-              <div><small>Wartość</small><strong>${money(client.stats?.value || 0)}</strong></div>
-            </div>
-          </article>
-        `).join("") ||
-        '<div class="empty-state"><i class="fa-regular fa-address-book"></i><h3>Brak klientów</h3><p>Dodaj pierwszego klienta.</p></div>';
+      document.getElementById("clientGrid").innerHTML = clients.map(client => `
+        <article class="card client-card">
+          <div class="client-top">
+            <div class="client-avatar">${initials(client.name)}</div>
+            <span class="status ${client.stats?.orders > 1 ? "green" : "gray"}">${client.type === "company" ? "Firma (B2B)" : client.stats?.orders > 1 ? "Stały klient" : "Nowy"}</span>
+          </div>
+          <h3>${escapeHtml(client.name)}</h3>
+          <p><i class="fa-solid fa-phone" style="margin-right:6px"></i>${escapeHtml(client.phone || "Brak")}</p>
+          <p style="margin-top:6px"><i class="fa-solid fa-location-dot" style="margin-right:6px"></i>${escapeHtml(client.address || "Brak adresu")}</p>
+          <div class="client-meta">
+            <div><small>Ilość zleceń</small><strong>${client.stats?.orders || 0}</strong></div>
+            <div><small>Wartość współpracy</small><strong>${money(client.stats?.value || 0)}</strong></div>
+          </div>
+        </article>
+      `).join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-regular fa-address-book"></i><h3>Brak klientów w bazie</h3><p>Dodaj pierwszego klienta, aby budować historię.</p></div>';
     }
 
     /* FLOTA I PRACOWNICY */
-
     function renderFleet() {
       const vehicles = fleet.map(vehicle => `
         <article class="card vehicle-card">
           <div class="client-top">
             <div class="vehicle-icon"><i class="fa-solid fa-van-shuttle"></i></div>
-            <span class="status ${
-              vehicle.status === "available"
-                ? "green"
-                : vehicle.status === "route"
-                  ? "orange"
-                  : "gray"
-            }">
-              ${
-                {
-                  available: "Dostępny",
-                  route: "W trasie",
-                  service: "Serwis",
-                  inactive: "Nieaktywny"
-                }[vehicle.status] || "Dostępny"
-              }
-            </span>
+            <span class="status ${{available: "green", route: "orange"}[vehicle.status] || "gray"}">${{available: "Dostępny", route: "W trasie", service: "Serwis", inactive: "Nieaktywny"}[vehicle.status] || "Dostępny"}</span>
           </div>
-
           <h3>${escapeHtml(vehicle.name)}</h3>
           <p>${escapeHtml(vehicle.plates || "Brak rejestracji")} · ${new Intl.NumberFormat("pl-PL").format(vehicle.mileage || 0)} km</p>
-
           <div class="vehicle-stats">
-            <div>Spalanie<strong>${vehicle.fuelConsumption || 0} l/100</strong></div>
-            <div>Serwis<strong>${vehicle.nextServiceDate ? new Date(vehicle.nextServiceDate).toLocaleDateString("pl-PL") : "Brak terminu"}</strong></div>
+            <div>Spalanie (l/100)<strong>${vehicle.fuelConsumption || "Brak"}</strong></div>
+            <div>Przegląd<strong>${vehicle.nextServiceDate ? new Date(vehicle.nextServiceDate).toLocaleDateString("pl-PL") : "Brak"}</strong></div>
           </div>
         </article>
       `);
@@ -2160,174 +1640,85 @@
         <article class="card vehicle-card">
           <div class="client-top">
             <div class="client-avatar">${initials(employee.name)}</div>
-            <span class="status ${
-              employee.status === "busy"
-                ? "orange"
-                : employee.status === "off"
-                  ? "gray"
-                  : "green"
-            }">
-              ${
-                {
-                  available: "Dostępny",
-                  busy: "Na zleceniu",
-                  off: "Wolne"
-                }[employee.status] || "Dostępny"
-              }
-            </span>
+            <span class="status ${{busy: "orange", off: "gray"}[employee.status] || "green"}">${{available: "Dostępny", busy: "Zlecenie", off: "Wolne"}[employee.status] || "Dostępny"}</span>
           </div>
-
           <h3>${escapeHtml(employee.name)}</h3>
-          <p>${escapeHtml(employee.role || "Pracownik")}</p>
-
+          <p>${escapeHtml(employee.role || "Pracownik fizyczny")}</p>
           <div class="vehicle-stats">
-            <div>Telefon<strong>${escapeHtml(employee.phone || "Brak")}</strong></div>
-            <div>Stawka<strong>${employee.hourlyRate ? money(employee.hourlyRate) + "/h" : "—"}</strong></div>
+            <div>Telefon<strong>${escapeHtml(employee.phone || "Brak danych")}</strong></div>
+            <div>Stawka godzinowa<strong>${employee.hourlyRate ? money(employee.hourlyRate) + "/h" : "Domyślna"}</strong></div>
           </div>
         </article>
       `);
 
-      document.getElementById("fleetGrid").innerHTML =
-        [...vehicles, ...workers].join("") ||
-        '<div class="empty-state"><i class="fa-solid fa-truck"></i><h3>Brak zasobów</h3><p>Dodaj pracownika lub pojazd.</p></div>';
+      document.getElementById("fleetGrid").innerHTML = [...vehicles, ...workers].join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-truck"></i><h3>Brak zasobów operacyjnych</h3><p>Wprowadź pojazdy lub załogę.</p></div>';
     }
 
     /* AUTOMATYZACJE */
-
     function renderAutomations() {
-      const icons = {
-        sms_reminder: "fa-comment-sms",
-        team_daily_plan: "fa-users",
-        invoice_draft: "fa-file-invoice-dollar",
-        google_review: "fa-star",
-        fuel_limit: "fa-gas-pump",
-        route_suggestions: "fa-route"
-      };
-
-      document.getElementById("automationGrid").innerHTML =
-        automations.map(automation => `
-          <article class="card auto-card">
-            <div class="client-top">
-              <div class="auto-icon">
-                <i class="fa-solid ${icons[automation.key] || "fa-wand-magic-sparkles"}"></i>
-              </div>
-
-              <button
-                class="switch ${automation.enabled ? "on" : ""}"
-                data-automation="${automation._id}"
-              ></button>
-            </div>
-
-            <h3>${escapeHtml(automation.name)}</h3>
-            <p>${escapeHtml(automation.description || "")}</p>
-
-            <div class="auto-bottom">
-              <span>Uruchomiono: ${automation.runCount || 0}</span>
-              <span class="status ${automation.enabled ? "green" : "gray"}">
-                ${automation.enabled ? "Aktywna" : "Wyłączona"}
-              </span>
-            </div>
-          </article>
-        `).join("") ||
-        '<div class="empty-state"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Brak automatyzacji</h3><p>Automatyzacje pojawią się po ich utworzeniu na serwerze.</p></div>';
+      const icons = { sms_reminder: "fa-comment-sms", team_daily_plan: "fa-users", invoice_draft: "fa-file-invoice-dollar", google_review: "fa-star", fuel_limit: "fa-gas-pump", route_suggestions: "fa-route" };
+      document.getElementById("automationGrid").innerHTML = automations.map(automation => `
+        <article class="card auto-card">
+          <div class="client-top">
+            <div class="auto-icon"><i class="fa-solid ${icons[automation.key] || "fa-wand-magic-sparkles"}"></i></div>
+            <button class="switch ${automation.enabled ? "on" : ""}" data-automation="${automation._id}"></button>
+          </div>
+          <h3>${escapeHtml(automation.name)}</h3>
+          <p>${escapeHtml(automation.description || "")}</p>
+          <div class="auto-bottom">
+            <span>Uruchomiono: ${automation.runCount || 0}x</span>
+            <span class="status ${automation.enabled ? "green" : "gray"}">${automation.enabled ? "Aktywna" : "Wyłączona"}</span>
+          </div>
+        </article>
+      `).join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Zarządzanie automatyzacjami</h3><p>Moduły pojawią się wkrótce.</p></div>';
 
       document.querySelectorAll("[data-automation]").forEach(button => {
         button.onclick = async () => {
           const enabled = !button.classList.contains("on");
-
           try {
-            await api(`/api/automations/${button.dataset.automation}`, {
-              method: "PATCH",
-              body: JSON.stringify({ enabled })
-            });
-
+            await api(`/api/automations/${button.dataset.automation}`, { method: "PATCH", body: JSON.stringify({ enabled }) });
             await loadBackend();
-            showToast("Ustawienie automatyzacji zostało zmienione");
-          } catch (error) {
-            showToast(error.message);
-          }
+            showToast("Ustawienie zostało zmienione");
+          } catch (error) { showToast(error.message); }
         };
       });
     }
 
     /* FINANSE */
-
     function renderFinances(stats = {}) {
-      const revenue =
-        stats.revenue ??
-        incomes.reduce((sum, item) => sum + Number(item.price || 0), 0);
-
-      const costs =
-        stats.expenses ??
-        expenses.reduce((sum, item) => sum + Number(item.price || 0), 0);
-
+      const revenue = stats.revenue ?? incomes.reduce((sum, item) => sum + Number(item.price || 0), 0);
+      const costs = stats.expenses ?? expenses.reduce((sum, item) => sum + Number(item.price || 0), 0);
       const profit = stats.profit ?? revenue - costs;
       const margin = revenue > 0 ? (profit / revenue) * 100 : 0;
 
-      document.getElementById("financeMargin").innerHTML =
-        `${margin.toFixed(1).replace(".", ",")}<small>%</small>`;
-
-      document.getElementById("financeIncome").innerHTML =
-        `${new Intl.NumberFormat("pl-PL").format(revenue)}<small>zł</small>`;
-
-      document.getElementById("financeExpense").innerHTML =
-        `${new Intl.NumberFormat("pl-PL").format(costs)}<small>zł</small>`;
-
-      document.getElementById("financeProfit").innerHTML =
-        `${new Intl.NumberFormat("pl-PL").format(profit)}<small>zł</small>`;
+      document.getElementById("financeMargin").innerHTML = `${margin.toFixed(1).replace(".", ",")}<small>%</small>`;
+      document.getElementById("financeIncome").innerHTML = `${new Intl.NumberFormat("pl-PL").format(revenue)}<small>zł</small>`;
+      document.getElementById("financeExpense").innerHTML = `${new Intl.NumberFormat("pl-PL").format(costs)}<small>zł</small>`;
+      document.getElementById("financeProfit").innerHTML = `${new Intl.NumberFormat("pl-PL").format(profit)}<small>zł</small>`;
 
       const categories = {};
-
       expenses.forEach(expense => {
         const category = expense.category || "Pozostałe";
-        categories[category] =
-          (categories[category] || 0) + Number(expense.price || 0);
+        categories[category] = (categories[category] || 0) + Number(expense.price || 0);
       });
 
-      const sortedCategories = Object.entries(categories)
-        .sort((a, b) => b[1] - a[1]);
+      const sortedCategories = Object.entries(categories).sort((a, b) => b[1] - a[1]);
+      const colors = ["var(--orange)", "var(--blue)", "var(--purple)", "var(--green)", "var(--red)"];
 
-      const colors = [
-        "var(--orange)",
-        "var(--blue)",
-        "var(--purple)",
-        "var(--green)",
-        "var(--red)"
-      ];
-
-      document.getElementById("expenseBreakdown").innerHTML =
-        sortedCategories.map(([category, value], index) => {
-          const width = costs > 0 ? Math.max(4, value / costs * 100) : 0;
-
-          return `
-            <div class="bar-row">
-              <span>${escapeHtml(category)}</span>
-              <div class="bar">
-                <i style="--w:${width}%;--c:${colors[index % colors.length]}"></i>
-              </div>
-              <strong>${money(value)}</strong>
-            </div>
-          `;
-        }).join("") ||
-        '<div class="empty-state"><p>Dodaj pierwszą operację finansową.</p></div>';
+      document.getElementById("expenseBreakdown").innerHTML = sortedCategories.map(([category, value], index) => {
+        const width = costs > 0 ? Math.max(4, value / costs * 100) : 0;
+        return `<div class="bar-row"><span>${escapeHtml(category)}</span><div class="bar"><i style="--w:${width}%;--c:${colors[index % colors.length]}"></i></div><strong>${money(value)}</strong></div>`;
+      }).join("") || '<div class="empty-state"><p>Brak zapisanych kosztów firmowych.</p></div>';
     }
 
     /* FORMULARZE */
-
     const orderModal = document.getElementById("orderModal");
-
     document.querySelectorAll("[data-open-order]").forEach(button => {
       button.onclick = () => {
         document.getElementById("orderForm").reset();
-
         const tomorrow = new Date(Date.now() + 86400000);
         tomorrow.setHours(9, 0, 0, 0);
-
-        document.getElementById("fDate").value =
-          new Date(tomorrow.getTime() - tomorrow.getTimezoneOffset() * 60000)
-            .toISOString()
-            .slice(0, 16);
-
+        document.getElementById("fDate").value = new Date(tomorrow.getTime() - tomorrow.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
         orderModal.showModal();
       };
     });
@@ -2335,7 +1726,6 @@
     document.getElementById("orderForm").addEventListener("submit", async event => {
       if (event.submitter?.value === "cancel") return;
       event.preventDefault();
-
       const payload = {
         name: document.getElementById("fName").value,
         address: document.getElementById("fAddress").value,
@@ -2347,138 +1737,63 @@
         car: document.getElementById("fVehicle").value,
         desc: document.getElementById("fNote").value
       };
-
       try {
-        await api("/api/tasks", {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-
+        await api("/api/tasks", { method: "POST", body: JSON.stringify(payload) });
         orderModal.close();
         await loadBackend();
         navigate("orders");
-        showToast("Zlecenie zostało dodane");
-      } catch (error) {
-        showToast(error.message);
-      }
+        showToast("Zlecenie zostało dodane do grafiku");
+      } catch (error) { showToast(error.message); }
     });
 
     const expenseModal = document.getElementById("expenseModal");
-
-    document.getElementById("quickExpense").onclick = () => {
-      document.getElementById("expenseForm").reset();
-      document.getElementById("xType").value = "Koszt";
-      expenseModal.showModal();
-    };
-
-    document.getElementById("financeAdd").onclick = () => {
-      document.getElementById("expenseForm").reset();
-      expenseModal.showModal();
-    };
+    document.getElementById("quickExpense").onclick = () => { document.getElementById("expenseForm").reset(); document.getElementById("xType").value = "Koszt"; expenseModal.showModal(); };
+    document.getElementById("financeAdd").onclick = () => { document.getElementById("expenseForm").reset(); expenseModal.showModal(); };
 
     document.getElementById("expenseForm").addEventListener("submit", async event => {
       if (event.submitter?.value === "cancel") return;
       event.preventDefault();
-
       const type = document.getElementById("xType").value;
-
       try {
-        const payload = {
-          price: Number(document.getElementById("xAmount").value),
-          category: document.getElementById("xCategory").value,
-          desc: document.getElementById("xDesc").value
-        };
-
-        const endpoint =
-          type === "Przychód" ? "/api/incomes" : "/api/expenses";
-
-        await api(endpoint, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-
+        const payload = { price: Number(document.getElementById("xAmount").value), category: document.getElementById("xCategory").value, desc: document.getElementById("xDesc").value };
+        await api(type === "Przychód" ? "/api/incomes" : "/api/expenses", { method: "POST", body: JSON.stringify(payload) });
         expenseModal.close();
         await loadBackend();
-        showToast("Operacja finansowa została zapisana");
-      } catch (error) {
-        showToast(error.message);
-      }
+        showToast("Operacja zapisana z sukcesem");
+      } catch (error) { showToast(error.message); }
     });
 
     const clientModal = document.getElementById("clientModal");
-
-    document.getElementById("addClient").onclick = () => {
-      document.getElementById("clientForm").reset();
-      clientModal.showModal();
-    };
+    document.getElementById("addClient").onclick = () => { document.getElementById("clientForm").reset(); clientModal.showModal(); };
 
     document.getElementById("clientForm").addEventListener("submit", async event => {
       if (event.submitter?.value === "cancel") return;
       event.preventDefault();
-
       try {
         await api("/api/clients", {
           method: "POST",
-          body: JSON.stringify({
-            name: document.getElementById("cName").value,
-            type: document.getElementById("cType").value,
-            phone: document.getElementById("cPhone").value,
-            email: document.getElementById("cEmail").value,
-            address: document.getElementById("cAddress").value,
-            notes: document.getElementById("cNotes").value
-          })
+          body: JSON.stringify({ name: document.getElementById("cName").value, type: document.getElementById("cType").value, phone: document.getElementById("cPhone").value, email: document.getElementById("cEmail").value, address: document.getElementById("cAddress").value, notes: document.getElementById("cNotes").value })
         });
-
         clientModal.close();
         await loadBackend();
-        showToast("Klient został dodany");
-      } catch (error) {
-        showToast(error.message);
-      }
+        showToast("Klient zachowany w systemie");
+      } catch (error) { showToast(error.message); }
     });
 
     const resourceModal = document.getElementById("resourceModal");
-
-    document.getElementById("addResource").onclick = () => {
-      document.getElementById("resourceForm").reset();
-      resourceModal.showModal();
-    };
+    document.getElementById("addResource").onclick = () => { document.getElementById("resourceForm").reset(); resourceModal.showModal(); };
 
     document.getElementById("resourceForm").addEventListener("submit", async event => {
       if (event.submitter?.value === "cancel") return;
       event.preventDefault();
-
       const type = document.getElementById("rType").value;
-
-      const payload =
-        type === "employee"
-          ? {
-              name: document.getElementById("rName").value,
-              role: document.getElementById("rDetail").value,
-              phone: document.getElementById("rExtra").value,
-              pin: document.getElementById("rPin").value
-            }
-          : {
-              name: document.getElementById("rName").value,
-              plates: document.getElementById("rDetail").value,
-              mileage: Number(document.getElementById("rExtra").value) || 0
-            };
-
+      const payload = type === "employee" ? { name: document.getElementById("rName").value, role: document.getElementById("rDetail").value, phone: document.getElementById("rExtra").value, pin: document.getElementById("rPin").value } : { name: document.getElementById("rName").value, plates: document.getElementById("rDetail").value, mileage: Number(document.getElementById("rExtra").value) || 0 };
       try {
-        await api(
-          type === "employee" ? "/api/employees" : "/api/fleet",
-          {
-            method: "POST",
-            body: JSON.stringify(payload)
-          }
-        );
-
+        await api(type === "employee" ? "/api/employees" : "/api/fleet", { method: "POST", body: JSON.stringify(payload) });
         resourceModal.close();
         await loadBackend();
-        showToast(type === "employee" ? "Pracownik został dodany" : "Pojazd został dodany");
-      } catch (error) {
-        showToast(error.message);
-      }
+        showToast(type === "employee" ? "Pracownik został dodany do bazy" : "Pojazd wpisany na stan floty");
+      } catch (error) { showToast(error.message); }
     });
 
     renderCalendar();
