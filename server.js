@@ -28,8 +28,70 @@ const AUTH_DISABLED =
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
+const ALLOWED_ORIGINS = String(
+    process.env.ALLOWED_ORIGINS ||
+    process.env.FRONTEND_URL ||
+    ''
+)
+    .split(',')
+    .map(origin => origin.trim().replace(/\/$/, ''))
+    .filter(Boolean);
+
+const USE_CROSS_SITE_SESSION =
+    String(process.env.CROSS_SITE_SESSION || 'false')
+        .toLowerCase() === 'true';
+
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
+
+/*
+|--------------------------------------------------------------------------
+| CORS — potrzebny, gdy panel i API mają różne adresy
+|--------------------------------------------------------------------------
+*/
+
+app.use((req, res, next) => {
+    const origin = req.get('Origin');
+
+    if (!origin) {
+        return next();
+    }
+
+    const requestOrigin = `${req.protocol}://${req.get('host')}`;
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    const allowed =
+        normalizedOrigin === requestOrigin ||
+        ALLOWED_ORIGINS.includes(normalizedOrigin);
+
+    if (!allowed) {
+        if (req.method === 'OPTIONS') {
+            return res.status(403).json({
+                success: false,
+                message: 'Adres panelu nie jest dozwolony przez CORS'
+            });
+        }
+
+        return next();
+    }
+
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader(
+        'Access-Control-Allow-Headers',
+        'Content-Type, X-Requested-With'
+    );
+    res.setHeader(
+        'Access-Control-Allow-Methods',
+        'GET, POST, PUT, PATCH, DELETE, OPTIONS'
+    );
+    res.setHeader('Vary', 'Origin');
+
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(204);
+    }
+
+    next();
+});
 
 app.use(
     helmet({
@@ -71,6 +133,13 @@ app.use(
 );
 
 app.use(express.json({ limit: '250kb' }));
+
+// Odpowiedzi panelu i API nie mogą pochodzić ze starej pamięci podręcznej
+// po wdrożeniu poprawki na Railway.
+app.use('/api', (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+});
 
 mongoose.set('strictQuery', true);
 
@@ -811,8 +880,8 @@ app.use(
 
         cookie: {
             httpOnly: true,
-            secure: IS_PRODUCTION,
-            sameSite: 'lax',
+            secure: IS_PRODUCTION || USE_CROSS_SITE_SESSION,
+            sameSite: USE_CROSS_SITE_SESSION ? 'none' : 'lax',
             maxAge: 1000 * 60 * 60 * 12
         }
     })
@@ -855,7 +924,7 @@ const recordActivity = (
     }).catch(() => null);
 };
 
-function requireAuth(req, res, next) {
+async function requireAuth(req, res, next) {
     if (AUTH_DISABLED) {
         req.user = {
             role: 'admin',
@@ -873,8 +942,43 @@ function requireAuth(req, res, next) {
         });
     }
 
-    req.user = req.session.user;
-    next();
+    try {
+        // Starsza sesja może zawierać nieaktualną rolę. Odświeżamy ją z bazy,
+        // dzięki czemu zmiana pracownika na administratora działa bez czekania
+        // na wygaśnięcie 12-godzinnej sesji.
+        if (req.session.user.employeeId) {
+            const employee = await Employee.findOne({
+                _id: req.session.user.employeeId,
+                active: true
+            }).select('name systemRole');
+
+            if (!employee) {
+                return req.session.destroy(() => {
+                    res.status(401).json({
+                        success: false,
+                        message: 'Konto pracownika jest nieaktywne. Zaloguj się ponownie'
+                    });
+                });
+            }
+
+            req.session.user.role = employee.systemRole || 'worker';
+            req.session.user.name = employee.name;
+        }
+
+        req.user = req.session.user;
+        next();
+    } catch (error) {
+        next(error);
+    }
+}
+
+function saveSession(req) {
+    return new Promise((resolve, reject) => {
+        req.session.save(error => {
+            if (error) reject(error);
+            else resolve();
+        });
+    });
 }
 
 function requireAdmin(req, res, next) {
@@ -984,6 +1088,11 @@ app.post(
                 name: 'Gracjan Błachnio'
             };
 
+            // Nie wysyłamy odpowiedzi przed trwałym zapisaniem sesji.
+            // Eliminuje to sytuację, w której natychmiastowy POST /api/tasks
+            // trafiał do serwera jeszcze bez uprawnień administratora.
+            await saveSession(req);
+
             return res.json({
                 success: true,
                 role: 'admin',
@@ -1034,6 +1143,8 @@ app.post(
             name: employee.name,
             employeeId: employee._id.toString()
         };
+
+        await saveSession(req);
 
         res.json({
             success: true,
@@ -2280,7 +2391,12 @@ const publicDir = path.join(__dirname, 'Public');
 app.use(
     express.static(publicDir, {
         extensions: ['html'],
-        maxAge: IS_PRODUCTION ? '1h' : 0
+        maxAge: IS_PRODUCTION ? '1h' : 0,
+        setHeaders: (res, filePath) => {
+            if (path.basename(filePath) === 'revmi.html') {
+                res.setHeader('Cache-Control', 'no-store');
+            }
+        }
     })
 );
 
@@ -2291,6 +2407,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/revmi', (req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
     res.sendFile(
         path.join(publicDir, 'revmi.html')
     );
