@@ -155,17 +155,12 @@
     .chart-grid span{border-top:1px dashed rgba(255,255,255,.06)}
     .chart-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
     .chart-labels{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;color:#61766c;font-size:11px;font-weight:600}
-
     .legend{display:flex;gap:18px;color:var(--muted);font-size:11px}
     .legend span:before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:2px;background:var(--color)}
 
-    /* KARTY ZLECEŃ NA PULPICIE */
+    /* KARTY ZLECEŃ */
     .today-list{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px }
-
-    .job{
-      padding:20px; display:flex; flex-direction:column; gap:14px;
-      border:1px solid rgba(255,255,255,.07); border-radius:18px; background:rgba(255,255,255,.04); transition:.25s; align-items:flex-start;
-    }
+    .job{ padding:20px; display:flex; flex-direction:column; gap:14px; border:1px solid rgba(255,255,255,.07); border-radius:18px; background:rgba(255,255,255,.04); transition:.25s; align-items:flex-start; }
     .job:hover{ transform:translateY(-4px); border-color:rgba(16,185,129,.3); background:rgba(255,255,255,.06); box-shadow:0 12px 24px rgba(0,0,0,0.2); }
     .job-top { width: 100%; display: flex; justify-content: space-between; align-items: center; }
     .job-time{color:var(--green);font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px;}
@@ -174,19 +169,16 @@
     .job-details p{margin:5px 0 0;color:#a3b0aa;font-size:12px;display:flex;align-items:center;gap:8px;}
     .job-details p i { width: 14px; text-align: center; color:#61766c; }
 
-    /* GŁÓWNA SIATKA ZLECEŃ (ZAMIAST TABELI) */
     .orders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
     .order-card { padding: 22px; display: flex; flex-direction: column; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; transition: 0.25s; }
     .order-card:hover { border-color: rgba(16,185,129,.3); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
     .order-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
     .order-card-title { margin:0 0 4px; font-size:16px; font-weight: 700; color:#fff; line-height:1.2; }
     .order-card-sub { font-size:12px; color:var(--muted); font-family: monospace; }
-    
     .order-details { display:flex; flex-direction: column; gap: 8px; color:#c5d2cc; font-size:13px; margin-bottom: 20px;}
     .order-details p { margin: 0; display:flex; align-items:center; gap: 10px; }
     .order-details p i { width: 16px; text-align: center; color:var(--green); font-size: 14px;}
     .order-details strong { color: #fff; }
-
     .order-actions { display: flex; gap: 10px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.05); }
 
     .status{ padding:6px 10px; display:inline-flex; border-radius:30px; color:var(--blue); background:rgba(59,130,246,.12); font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase }
@@ -251,7 +243,6 @@
     .client-top{display:flex;align-items:flex-start;justify-content:space-between}
     .client-card h3,.vehicle-card h3{margin:16px 0 6px;font-size:16px;color:#fff;}
     .client-card p,.vehicle-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.5;}
-
     .client-meta{margin-top:18px;padding-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px;border-top:1px solid var(--line)}
     .client-meta small{display:block;color:#7f9389;font-size:11px;margin-bottom:4px;}
     .client-meta strong{font-size:14px;color:#fff;}
@@ -326,8 +317,6 @@
     .pin-digit:focus,.pin-digit.filled{ transform:translateY(-2px); border-color:rgba(16,185,129,.55)!important; box-shadow:0 0 0 3px rgba(16,185,129,.08)!important; outline:none }
     .login-error{ height:18px; display:flex; align-items:center; justify-content:center; gap:6px; color:#f87171; font-size:10px; font-weight:700; opacity:0; transform:translateY(-4px); transition:.2s }
     .login-error.show{opacity:1;transform:none}
-    .pin-keypad{ margin:12px 0 17px; display:none; grid-template-columns:repeat(3,52px); justify-content:center; gap:8px }
-    .pin-keypad button{ height:39px; border:1px solid rgba(255,255,255,.075); border-radius:11px; color:#b8c0bc; background:rgba(255,255,255,.025); font-size:13px; font-weight:700; transition:.16s }
     .login-submit{ width:100%; height:48px; border:0; border-radius:13px; display:flex; align-items:center; justify-content:center; gap:9px; color:#031b12; background:linear-gradient(135deg,#10b981,#059669); font-size:12px; font-weight:800; transition:.22s }
     .login-submit:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(16,185,129,.28)}
     .login-submit:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
@@ -338,13 +327,11 @@
     @keyframes grid-drift{to{background-position:44px 44px}}
     @keyframes ring-pulse{50%{transform:scale(1.07);opacity:.35}}
 
-    /* Responsywność */
     @media(max-width:1200px){
       .kpis{grid-template-columns:repeat(2,1fr)}
       .dashboard-grid,.finance-grid{grid-template-columns:1fr}
       .calendar-layout{grid-template-columns:1fr}
     }
-
     @media(max-width:760px){
       .app{display:block}
       .sidebar{width:280px;transform:translateX(-102%);transition:.3s cubic-bezier(0.2, 0.8, 0.2, 1);}
@@ -366,11 +353,9 @@
       .form-grid{grid-template-columns:1fr}
       .field.full{grid-column:auto}
     }
-
     @media(max-width:560px){
       .login-card{padding:28px 20px 22px;border-radius:22px}
       .pin-digit{width:53px;height:59px}
-      .pin-keypad{display:grid}
       .login-logo-wrap,.login-logo{height:46px}
       .login-lock{width:50px;height:50px;margin-bottom:14px}
       .login-copy h1{font-size:21px}
@@ -450,7 +435,7 @@
           </label>
         </div>
         <div class="top-actions">
-          <button class="ghost-btn admin-only" id="quickExpense"><i class="fa-solid fa-receipt"></i>Dodaj koszt</button>
+          <button class="ghost-btn admin-only" id="btn-quick-expense"><i class="fa-solid fa-receipt"></i>Dodaj koszt</button>
           <button class="icon-btn"><i class="fa-regular fa-bell"></i><span class="notify"></span></button>
           <button class="icon-btn" id="logoutBtn" title="Wyloguj"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
           <button class="primary-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
@@ -622,7 +607,7 @@
         <section class="view admin-only" id="view-clients">
           <div class="page-head">
             <div><h1>Baza klientów</h1><p>Kontakty i historia współpracy z klientami.</p></div>
-            <button class="primary-btn" onclick="document.getElementById('clientForm').reset(); document.getElementById('clientModal').showModal();"><i class="fa-solid fa-user-plus"></i>Nowy klient</button>
+            <button class="primary-btn" id="btn-add-client"><i class="fa-solid fa-user-plus"></i>Nowy klient</button>
           </div>
           <div class="client-grid" id="clientGrid"></div>
         </section>
@@ -631,7 +616,7 @@
         <section class="view admin-only" id="view-finances">
           <div class="page-head">
             <div><h1>Finanse</h1><p>Kontrola przychodów i kosztów.</p></div>
-            <button class="primary-btn" onclick="document.getElementById('expenseForm').reset(); document.getElementById('expenseModal').showModal();"><i class="fa-solid fa-plus"></i>Dodaj operację</button>
+            <button class="primary-btn" id="btn-add-finance"><i class="fa-solid fa-plus"></i>Dodaj operację</button>
           </div>
           <div class="kpis">
              <article class="card kpi">
@@ -663,7 +648,7 @@
         <section class="view admin-only" id="view-fleet">
           <div class="page-head">
             <div><h1>Ekipa i flota</h1><p>Pracownicy (wraz z rolami), pojazdy transportowe i dostępność.</p></div>
-            <button class="primary-btn" onclick="document.getElementById('resourceForm').reset(); document.getElementById('resourceModal').showModal(); toggleEmployeeRole();"><i class="fa-solid fa-plus"></i>Dodaj zasób</button>
+            <button class="primary-btn" id="btn-add-resource"><i class="fa-solid fa-plus"></i>Dodaj zasób</button>
           </div>
           <div class="fleet-grid" id="fleetGrid"></div>
         </section>
@@ -681,12 +666,12 @@
     </main>
   </div>
 
-  <!-- MODALE -->
+  <!-- MODALE (ZMIANA: brak method="dialog", polegamy w 100% na JS dla pewności) -->
   <dialog id="orderModal">
-    <form method="dialog" class="modal" id="orderForm" data-edit-id="">
+    <form class="modal" id="orderForm" data-edit-id="" onsubmit="event.preventDefault();">
       <div class="modal-head">
         <div><h2 id="orderModalTitle">Nowe zlecenie</h2><p style="font-size:12px;color:var(--muted)">Wprowadź dane zlecenia do systemu.</p></div>
-        <button class="close" value="cancel" type="button" onclick="document.getElementById('orderModal').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" type="button" onclick="document.getElementById('orderModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full"><label>Nazwa zlecenia</label><input id="fName" required placeholder="np. Przeprowadzka mieszkania"></div>
@@ -708,17 +693,17 @@
         <div class="field full"><label>Notatki operacyjne</label><textarea id="fNote"></textarea></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('orderModal').close()">Anuluj</button>
+        <button class="ghost-btn" type="button" onclick="document.getElementById('orderModal').close()">Anuluj</button>
         <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz zlecenie</button>
       </div>
     </form>
   </dialog>
 
   <dialog id="resourceModal">
-    <form method="dialog" class="modal" id="resourceForm">
+    <form class="modal" id="resourceForm" onsubmit="event.preventDefault();">
       <div class="modal-head">
         <h2>Dodaj zasób do firmy</h2>
-        <button class="close" value="cancel" type="button" onclick="document.getElementById('resourceModal').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" type="button" onclick="document.getElementById('resourceModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full">
@@ -738,17 +723,17 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('resourceModal').close()">Anuluj</button>
+        <button class="ghost-btn" type="button" onclick="document.getElementById('resourceModal').close()">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz zasób</button>
       </div>
     </form>
   </dialog>
 
   <dialog id="autoModal">
-    <form method="dialog" class="modal" id="autoForm" data-edit-id="">
+    <form class="modal" id="autoForm" data-edit-id="" onsubmit="event.preventDefault();">
       <div class="modal-head">
         <div><h2 id="autoModalTitle">Nowa Automatyzacja</h2><p style="font-size:12px;color:var(--muted)">Skonfiguruj skrypt działający w tle.</p></div>
-        <button class="close" value="cancel" type="button" onclick="document.getElementById('autoModal').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" type="button" onclick="document.getElementById('autoModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full"><label>Nazwa procesu</label><input id="aName" required placeholder="np. Przypomnienie SMS"></div>
@@ -764,17 +749,17 @@
         <div class="field full"><label>Opis i wytyczne</label><textarea id="aDesc" required></textarea></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('autoModal').close()">Anuluj</button>
+        <button class="ghost-btn" type="button" onclick="document.getElementById('autoModal').close()">Anuluj</button>
         <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz proces</button>
       </div>
     </form>
   </dialog>
 
   <dialog id="expenseModal">
-    <form method="dialog" class="modal" id="expenseForm">
+    <form class="modal" id="expenseForm" onsubmit="event.preventDefault();">
       <div class="modal-head">
         <h2>Dodaj operację finansową</h2>
-        <button class="close" value="cancel" type="button" onclick="document.getElementById('expenseModal').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" type="button" onclick="document.getElementById('expenseModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field"><label>Typ operacji</label><select id="xType"><option>Koszt</option><option>Przychód</option></select></div>
@@ -783,17 +768,17 @@
         <div class="field full"><label>Opcjonalny opis</label><input id="xDesc"></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('expenseModal').close()">Anuluj</button>
+        <button class="ghost-btn" type="button" onclick="document.getElementById('expenseModal').close()">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz operację</button>
       </div>
     </form>
   </dialog>
 
   <dialog id="clientModal">
-    <form method="dialog" class="modal" id="clientForm">
+    <form class="modal" id="clientForm" onsubmit="event.preventDefault();">
       <div class="modal-head">
         <h2>Baza: Nowy klient</h2>
-        <button class="close" value="cancel" type="button" onclick="document.getElementById('clientModal').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" type="button" onclick="document.getElementById('clientModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="cName" required></div>
@@ -803,7 +788,7 @@
         <div class="field full"><label>Adres domyślny</label><input id="cAddress"></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('clientModal').close()">Anuluj</button>
+        <button class="ghost-btn" type="button" onclick="document.getElementById('clientModal').close()">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz</button>
       </div>
     </form>
@@ -1014,12 +999,7 @@
 
         const dashboard = requests[0].status === "fulfilled" ? requests[0].value : {};
         if (requests[1].status === "fulfilled") { clients = requests[1].value.clients || []; } else { clients = data.clients || []; }
-        if (requests[2].status === "fulfilled") { automations = requests[2].value.automations || []; } else if(automations.length === 0) {
-           automations = [
-             { _id: '1', key: 'sms_reminder', name: 'Przypomnienia SMS', description: 'Wysyła powiadomienie do klienta.', enabled: true, runCount: 15 },
-             { _id: '2', key: 'invoice_draft', name: 'Szkice faktur', description: 'Tworzy szkic faktury w systemie księgowym po realizacji.', enabled: false, runCount: 0 }
-           ];
-        }
+        if (requests[2].status === "fulfilled") { automations = requests[2].value.automations || []; }
         
         renderAll(dashboard.stats || {});
       } catch (error) { console.error(error); showToast(error.message); }
@@ -1141,7 +1121,7 @@
       if(!order) return;
       const statuses = ["new", "planned", "progress", "completed"];
       let nextIdx = statuses.indexOf(order.status) + 1;
-      if (nextIdx >= statuses.length) nextIdx = 1; // z completed wracamy na planned, nie na new
+      if (nextIdx >= statuses.length) nextIdx = 1; 
       
       try {
         await api(`/api/tasks/${order.id}/status`, { method: "PATCH", body: JSON.stringify({ status: statuses[nextIdx], finalPrice: order.price }) }).catch(async () => {
@@ -1153,7 +1133,6 @@
     };
 
     document.getElementById("orderForm").addEventListener("submit", async event => {
-      event.preventDefault();
       const id = event.target.dataset.editId;
       const payload = {
         name: document.getElementById("fName").value,
@@ -1258,7 +1237,6 @@
     }
 
     document.getElementById("clientForm").addEventListener("submit", async event => {
-      event.preventDefault();
       try {
         await api("/api/clients", {
           method: "POST",
@@ -1277,7 +1255,6 @@
     };
 
     document.getElementById("resourceForm").addEventListener("submit", async event => {
-      event.preventDefault();
       const type = document.getElementById("rType").value;
       const payload = type === "employee" ? { 
         name: document.getElementById("rName").value, 
@@ -1360,7 +1337,7 @@
           try {
             await api(`/api/automations/${btn.dataset.autoToggle}`, { method: "PATCH", body: JSON.stringify({ enabled: !btn.classList.contains("on") }) });
             await loadBackend();
-          } catch (e) { showToast("Aktualizacja zapisana testowo"); btn.classList.toggle('on'); }
+          } catch (e) { showToast("Błąd przy zmianie statusu automatyzacji"); btn.classList.toggle('on'); }
         };
       });
     }
@@ -1381,7 +1358,6 @@
     };
 
     document.getElementById("autoForm").addEventListener("submit", async e => {
-      e.preventDefault();
       try {
         const payload = { name: document.getElementById("aName").value, key: document.getElementById("aKey").value, description: document.getElementById("aDesc").value };
         const id = e.target.dataset.editId;
@@ -1389,7 +1365,7 @@
         showToast(id ? "Zaktualizowano proces" : "Proces utworzony");
         document.getElementById("autoModal").close();
         await loadBackend();
-      } catch (err) { showToast("Zapisano automatyzację testowo"); document.getElementById("autoModal").close(); }
+      } catch (err) { showToast("Zapisano automatyzację (testowo)"); document.getElementById("autoModal").close(); }
     });
 
     window.runAutomation = async (id) => {
@@ -1427,11 +1403,7 @@
       }).join("") || '<div class="empty-state"><p>Brak zapisanych kosztów firmowych.</p></div>';
     }
 
-    document.getElementById("quickExpense").onclick = () => { document.getElementById("expenseForm").reset(); document.getElementById("xType").value = "Koszt"; document.getElementById("expenseModal").showModal(); };
-    document.getElementById("financeAdd").onclick = () => { document.getElementById("expenseForm").reset(); document.getElementById("expenseModal").showModal(); };
-
     document.getElementById("expenseForm").addEventListener("submit", async event => {
-      event.preventDefault();
       const type = document.getElementById("xType").value;
       try {
         const payload = { price: Number(document.getElementById("xAmount").value), category: document.getElementById("xCategory").value, desc: document.getElementById("xDesc").value };
@@ -1441,6 +1413,14 @@
         showToast("Operacja zapisana z sukcesem");
       } catch (error) { showToast(error.message); }
     });
+
+    /* BEZPIECZNE PODPIĘCIE PRZYCISKÓW (zabezpiecza skrypt przed błędem, gdy jakiś zniknie z DOM) */
+    const bindBtn = (id, fn) => { const el = document.getElementById(id); if (el) el.onclick = fn; };
+
+    bindBtn("btn-add-client", () => { document.getElementById('clientForm').reset(); document.getElementById('clientModal').showModal(); });
+    bindBtn("btn-add-finance", () => { document.getElementById('expenseForm').reset(); document.getElementById('expenseModal').showModal(); });
+    bindBtn("btn-quick-expense", () => { document.getElementById('expenseForm').reset(); document.getElementById('xType').value = 'Koszt'; document.getElementById('expenseModal').showModal(); });
+    bindBtn("btn-add-resource", () => { document.getElementById('resourceForm').reset(); document.getElementById('resourceModal').showModal(); toggleEmployeeRole(); });
 
     bootstrapAuth();
   </script>
