@@ -280,8 +280,8 @@
     .modal{ max-height:90vh; overflow:auto; padding:28px; border:1px solid rgba(16,185,129,.25); border-radius:24px; background:rgba(12,12,12,.95); backdrop-filter:blur(40px); box-shadow:0 25px 50px rgba(0,0,0,.7) }
     .modal-head{margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
     .modal-head h2{margin:0;font-size:20px}
-    .close{width:38px;height:38px;font-size:16px;display:grid;place-items:center;}
-    .close:hover{background:rgba(255,255,255,0.1);color:#fff;}
+    .close{width:38px;height:38px;font-size:16px;display:grid;place-items:center;background:none;border:none;color:#fff;cursor:pointer;}
+    .close:hover{background:rgba(255,255,255,0.1);color:#fff;border-radius:12px;}
     
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .field.full{grid-column:1/-1}
@@ -668,12 +668,12 @@
     </main>
   </div>
 
-  <!-- MODALE -->
+  <!-- MODALE NATYWNE HTML5 (Bezpieczne zamykanie) -->
   <dialog id="orderModal">
     <form class="modal" id="orderForm" data-edit-id="">
       <div class="modal-head">
         <div><h2 id="orderModalTitle">Nowe zlecenie</h2><p style="font-size:12px;color:var(--muted)">Wprowadź dane zlecenia do systemu.</p></div>
-        <button class="close" type="button" onclick="this.closest('dialog').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full"><label>Nazwa zlecenia</label><input id="fName" required placeholder="np. Przeprowadzka mieszkania"></div>
@@ -695,7 +695,7 @@
         <div class="field full"><label>Notatki operacyjne</label><textarea id="fNote"></textarea></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" type="button" onclick="this.closest('dialog').close()">Anuluj</button>
+        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
         <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz zlecenie</button>
       </div>
     </form>
@@ -705,7 +705,7 @@
     <form class="modal" id="resourceForm">
       <div class="modal-head">
         <h2>Dodaj zasób do firmy</h2>
-        <button class="close" type="button" onclick="this.closest('dialog').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full">
@@ -725,7 +725,7 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" type="button" onclick="this.closest('dialog').close()">Anuluj</button>
+        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz zasób</button>
       </div>
     </form>
@@ -735,7 +735,7 @@
     <form class="modal" id="autoForm" data-edit-id="">
       <div class="modal-head">
         <div><h2 id="autoModalTitle">Nowa Automatyzacja</h2><p style="font-size:12px;color:var(--muted)">Skonfiguruj skrypt działający w tle.</p></div>
-        <button class="close" type="button" onclick="this.closest('dialog').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full"><label>Nazwa procesu</label><input id="aName" required placeholder="np. Przypomnienie SMS"></div>
@@ -751,7 +751,7 @@
         <div class="field full"><label>Opis i wytyczne</label><textarea id="aDesc" required></textarea></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" type="button" onclick="this.closest('dialog').close()">Anuluj</button>
+        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
         <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz proces</button>
       </div>
     </form>
@@ -761,7 +761,7 @@
     <form class="modal" id="expenseForm">
       <div class="modal-head">
         <h2>Dodaj operację finansową</h2>
-        <button class="close" type="button" onclick="this.closest('dialog').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field"><label>Typ operacji</label><select id="xType"><option>Koszt</option><option>Przychód</option></select></div>
@@ -770,7 +770,7 @@
         <div class="field full"><label>Opcjonalny opis</label><input id="xDesc"></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" type="button" onclick="this.closest('dialog').close()">Anuluj</button>
+        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz operację</button>
       </div>
     </form>
@@ -780,7 +780,7 @@
     <form class="modal" id="clientForm">
       <div class="modal-head">
         <h2>Baza: Nowy klient</h2>
-        <button class="close" type="button" onclick="this.closest('dialog').close()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="cName" required></div>
@@ -790,7 +790,7 @@
         <div class="field full"><label>Adres domyślny</label><input id="cAddress"></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" type="button" onclick="this.closest('dialog').close()">Anuluj</button>
+        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz</button>
       </div>
     </form>
@@ -802,6 +802,14 @@
 
   <!-- SKRYPTY -->
   <script>
+    // ======= WAŻNE =======
+    // Jeśli plik index.html odpalasz w przeglądarce bezpośrednio z pulpitu (adres na górze to file:///...),
+    // zapytania do backendu nie zadziałają, dopóki nie podasz pełnego adresu do Twojej aplikacji na Railway!
+    // Wpisz poniżej swój adres, np. 'https://revmi-twoja-aplikacja.up.railway.app' 
+    // (Zostaw puste "" jeśli aplikacja i serwer Node.js działają z tego samego adresu/domeny)
+    const API_URL = ""; 
+    // =====================
+
     let orders = [];
     let clients = [];
     let employees = [];
@@ -827,79 +835,21 @@
       return new Intl.DateTimeFormat("pl-PL", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }).format(d);
     };
 
-    /* --- BAZA LOKALNA (TRYB HYBRYDOWY OFFLINE) --- */
-    const localDB = {
-       tasks: JSON.parse(localStorage.getItem('revmi_tasks')) || [],
-       employees: JSON.parse(localStorage.getItem('revmi_employees')) || [],
-       fleet: JSON.parse(localStorage.getItem('revmi_fleet')) || [],
-       clients: JSON.parse(localStorage.getItem('revmi_clients')) || [],
-       expenses: JSON.parse(localStorage.getItem('revmi_expenses')) || [],
-       incomes: JSON.parse(localStorage.getItem('revmi_incomes')) || [],
-       automations: JSON.parse(localStorage.getItem('revmi_automations')) || [
-         { _id: "auto1", name: "Przypomnienie SMS", key: "sms_reminder", description: "Wysyła SMS do klienta przed zleceniem", enabled: true, runCount: 0 }
-       ]
-    };
-
-    function saveLocal(key) { localStorage.setItem('revmi_' + key, JSON.stringify(localDB[key])); }
-    const genId = () => Math.random().toString(36).substring(2, 9);
-
-    async function handleLocalAPI(url, options) {
-       const method = options.method || "GET";
-       const body = options.body ? JSON.parse(options.body) : null;
-       
-       if (method === "GET") {
-          if (url.includes("/api/data")) return { tasks: localDB.tasks, employees: localDB.employees, fleet: localDB.fleet, expenses: localDB.expenses, incomes: localDB.incomes, clients: localDB.clients };
-          if (url.includes("/api/dashboard")) return { stats: {} };
-          if (url.includes("/api/clients")) return { clients: localDB.clients };
-          if (url.includes("/api/automations")) return { automations: localDB.automations };
-          if (url.includes("/api/auth/session")) return { authenticated: true, role: 'admin', name: 'Admin (Offline)' };
-       }
-
-       if (method === "POST") {
-          const item = { _id: genId(), id: genId(), ...body, createdAt: new Date().toISOString() };
-          if (url.includes("/api/tasks")) { localDB.tasks.push(item); saveLocal('tasks'); return item; }
-          if (url.includes("/api/clients")) { localDB.clients.push(item); saveLocal('clients'); return item; }
-          if (url.includes("/api/employees")) { localDB.employees.push(item); saveLocal('employees'); return item; }
-          if (url.includes("/api/fleet")) { localDB.fleet.push(item); saveLocal('fleet'); return item; }
-          if (url.includes("/api/expenses")) { localDB.expenses.push(item); saveLocal('expenses'); return item; }
-          if (url.includes("/api/incomes")) { localDB.incomes.push(item); saveLocal('incomes'); return item; }
-          if (url.includes("/api/automations") && !url.includes("/run")) { localDB.automations.push(item); saveLocal('automations'); return item; }
-          if (url.includes("/api/login")) return { authenticated: true, role: 'admin' };
-          if (url.includes("/api/automations/") && url.includes("/run")) return { success: true };
-       }
-
-       if (method === "PUT" || method === "PATCH") {
-          const parts = url.split("/");
-          const id = parts[parts.length - (url.includes('/status') ? 2 : 1)];
-          const updateArray = (arr, key) => {
-             const idx = arr.findIndex(i => String(i._id) === String(id) || String(i.id) === String(id));
-             if(idx > -1) { arr[idx] = { ...arr[idx], ...body }; saveLocal(key); return arr[idx]; }
-             return null;
-          };
-          if (url.includes("/api/tasks")) return updateArray(localDB.tasks, 'tasks');
-          if (url.includes("/api/automations")) return updateArray(localDB.automations, 'automations');
-       }
-       return { success: true };
-    }
-
-    async function api(url, options = {}) {
-      try {
-        const response = await fetch(url, {
-          credentials: "same-origin",
-          headers: { "Content-Type": "application/json", ...(options.headers || {}) },
-          ...options
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          if (response.status === 401 && !url.includes("/api/login")) lockPanel();
-          throw new Error(data.message || data.error || "Błąd serwera");
-        }
-        return data;
-      } catch (error) {
-        // Backend nie odpowiada (np. test lokalny html) - używamy pamięci przeglądarki
-        console.warn("Backend niedostępny, używam bazy lokalnej (LocalStorage) dla:", url);
-        return handleLocalAPI(url, options);
+    /* --- SOLIDNE API --- */
+    async function api(endpoint, options = {}) {
+      const url = API_URL ? API_URL + endpoint : endpoint;
+      const response = await fetch(url, {
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json", ...(options.headers || {}) },
+        ...options
+      });
+      const data = await response.json().catch(() => ({}));
+      
+      if (!response.ok) {
+        if (response.status === 401 && !url.includes("/api/login")) lockPanel();
+        throw new Error(data.message || data.error || `Błąd serwera (${response.status})`);
       }
+      return data;
     }
 
     function showToast(message) {
@@ -1065,7 +1015,10 @@
         if (requests[2].status === "fulfilled") { automations = requests[2].value.automations || []; }
         
         renderAll(dashboard.stats || {});
-      } catch (error) { console.error(error); showToast(error.message); }
+      } catch (error) { 
+        console.error(error); 
+        showToast("Błąd łączenia z systemem: " + error.message); 
+      }
     }
 
     function renderAll(stats = {}) {
@@ -1156,20 +1109,20 @@
     window.openOrderModal = (id = null) => {
       const form = document.getElementById("orderForm");
       form.reset();
-      form.dataset.editId = (id && typeof id === 'string') ? id : "";
-      document.getElementById("orderModalTitle").textContent = (id && typeof id === 'string') ? "Edycja zlecenia" : "Nowe zlecenie";
+      form.dataset.editId = id || "";
+      document.getElementById("orderModalTitle").textContent = id ? "Edycja zlecenia" : "Nowe zlecenie";
 
-      if (id && typeof id === 'string') {
+      if (id) {
         const order = orders.find(o => String(o.id) === String(id));
         if (order) {
-          document.getElementById("fName").value = order.name;
-          document.getElementById("fClient").value = order.client;
-          document.getElementById("fPhone").value = order.phone;
-          document.getElementById("fAddress").value = order.address;
+          document.getElementById("fName").value = order.name || "";
+          document.getElementById("fClient").value = order.client || "";
+          document.getElementById("fPhone").value = order.phone || "";
+          document.getElementById("fAddress").value = order.address || "";
           document.getElementById("fDate").value = order.date ? order.date.slice(0, 16) : "";
-          document.getElementById("fPrice").value = order.price;
-          document.getElementById("fStatus").value = order.status;
-          document.getElementById("fVehicle").value = order.vehicle;
+          document.getElementById("fPrice").value = order.price || 0;
+          document.getElementById("fStatus").value = order.status || "planned";
+          document.getElementById("fVehicle").value = order.vehicle || "";
           document.getElementById("fNote").value = order.desc || "";
         }
       } else {
@@ -1195,14 +1148,15 @@
            await api(`/api/tasks/${order.id}`, { method: "PUT", body: JSON.stringify({ status: statuses[nextIdx], completed: statuses[nextIdx] === "completed" }) });
            await loadBackend();
            showToast("Zmieniono status na: " + statusNames[statuses[nextIdx]]);
-        } catch(e) { showToast(e.message); }
+        } catch(e) { showToast("Nie udało się zmienić statusu: " + e.message); }
       }
     };
 
     document.getElementById("orderForm").addEventListener("submit", async event => {
       event.preventDefault();
       const form = event.target;
-      const id = form.dataset.editId;
+      const dialog = form.closest('dialog');
+      
       const payload = {
         name: document.getElementById("fName").value,
         address: document.getElementById("fAddress").value,
@@ -1215,18 +1169,20 @@
         desc: document.getElementById("fNote").value
       };
 
-      form.closest('dialog').close(); // Natychmiastowe zamykanie formularza
+      // Zamykamy okno NATYCHMIAST żeby odblokować panel
+      if (dialog) dialog.close();
+      showToast("Zapisywanie zlecenia...");
       
       try {
-        if (id) {
-          await api(`/api/tasks/${id}`, { method: "PUT", body: JSON.stringify(payload) });
+        if (form.dataset.editId) {
+          await api(`/api/tasks/${form.dataset.editId}`, { method: "PUT", body: JSON.stringify(payload) });
           showToast("Zlecenie zaktualizowane");
         } else {
           await api("/api/tasks", { method: "POST", body: JSON.stringify(payload) });
           showToast("Dodano nowe zlecenie");
         }
         await loadBackend();
-      } catch (error) { showToast(error.message); }
+      } catch (error) { showToast("Błąd zapisu: " + error.message); }
     });
 
     /* --- KALENDARZ --- */
@@ -1308,14 +1264,19 @@
 
     document.getElementById("clientForm").addEventListener("submit", async event => {
       event.preventDefault();
+      const form = event.target;
+      const dialog = form.closest('dialog');
+      
       const payload = { name: document.getElementById("cName").value, type: document.getElementById("cType").value, phone: document.getElementById("cPhone").value, email: document.getElementById("cEmail").value, address: document.getElementById("cAddress").value };
-      event.target.closest('dialog').close(); // Natychmiastowe zamykanie formularza
+      
+      if (dialog) dialog.close();
+      showToast("Zapisywanie klienta...");
 
       try {
         await api("/api/clients", { method: "POST", body: JSON.stringify(payload) });
         await loadBackend();
         showToast("Klient zachowany w systemie");
-      } catch (error) { showToast(error.message); }
+      } catch (error) { showToast("Błąd zapisu: " + error.message); }
     });
 
     /* --- FLOTA I PRACOWNICY --- */
@@ -1326,7 +1287,10 @@
 
     document.getElementById("resourceForm").addEventListener("submit", async event => {
       event.preventDefault();
+      const form = event.target;
+      const dialog = form.closest('dialog');
       const type = document.getElementById("rType").value;
+      
       const payload = type === "employee" ? { 
         name: document.getElementById("rName").value, 
         role: document.getElementById("rDetail").value, 
@@ -1339,13 +1303,14 @@
         mileage: Number(document.getElementById("rExtra").value) || 0 
       };
 
-      event.target.closest('dialog').close(); // Natychmiastowe zamykanie formularza
+      if (dialog) dialog.close();
+      showToast("Zapisywanie zasobu...");
 
       try {
         await api(type === "employee" ? "/api/employees" : "/api/fleet", { method: "POST", body: JSON.stringify(payload) });
         await loadBackend();
         showToast(type === "employee" ? "Pracownik został dodany do bazy" : "Pojazd wpisany na stan floty");
-      } catch (error) { showToast(error.message); }
+      } catch (error) { showToast("Błąd zapisu: " + error.message); }
     });
 
     function renderFleet() {
@@ -1382,7 +1347,7 @@
       document.getElementById("fleetGrid").innerHTML = [...vehicles, ...workers].join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-truck"></i><h3>Brak zasobów operacyjnych</h3><p>Wprowadź pojazdy lub załogę.</p></div>';
     }
 
-    /* --- AUTOMATYZACJE (ZARZĄDZANIE I URUCHAMIANIE) --- */
+    /* --- AUTOMATYZACJE --- */
     function renderAutomations() {
       const icons = { sms_reminder: "fa-comment-sms", team_daily_plan: "fa-users", invoice_draft: "fa-file-invoice-dollar", google_review: "fa-star", fuel_limit: "fa-gas-pump", route_suggestions: "fa-route" };
       document.getElementById("automationGrid").innerHTML = automations.map(auto => `
@@ -1417,9 +1382,10 @@
     window.openAutoModal = (id = null) => {
       const form = document.getElementById("autoForm");
       form.reset(); 
-      form.dataset.editId = (id && typeof id === 'string') ? id : "";
-      document.getElementById("autoModalTitle").textContent = (id && typeof id === 'string') ? "Edytuj automatyzację" : "Nowa Automatyzacja";
-      if (id && typeof id === 'string') {
+      form.dataset.editId = id || "";
+      document.getElementById("autoModalTitle").textContent = id ? "Edytuj automatyzację" : "Nowa Automatyzacja";
+      
+      if (id) {
         const auto = automations.find(a => String(a._id) === String(id));
         if (auto) {
           document.getElementById("aName").value = auto.name;
@@ -1430,18 +1396,21 @@
       document.getElementById("autoModal").showModal();
     };
 
-    document.getElementById("autoForm").addEventListener("submit", async e => {
-      e.preventDefault();
-      const id = e.target.dataset.editId;
+    document.getElementById("autoForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const form = event.target;
+      const dialog = form.closest('dialog');
+      const id = form.dataset.editId;
       const payload = { name: document.getElementById("aName").value, key: document.getElementById("aKey").value, description: document.getElementById("aDesc").value };
       
-      e.target.closest('dialog').close(); // Natychmiastowe zamykanie formularza
+      if (dialog) dialog.close();
+      showToast("Zapisywanie automatyzacji...");
 
       try {
         await api(id ? `/api/automations/${id}` : "/api/automations", { method: id ? "PUT" : "POST", body: JSON.stringify(payload) });
         showToast(id ? "Zaktualizowano proces" : "Proces utworzony");
         await loadBackend();
-      } catch (err) { showToast(err.message); }
+      } catch (err) { showToast("Błąd: " + err.message); }
     });
 
     window.runAutomation = async (id) => {
@@ -1449,7 +1418,7 @@
       try {
         await api(`/api/automations/${id}/run`, { method: "POST" });
         setTimeout(() => { showToast("Automatyzacja zakończona pomyślnie!"); loadBackend(); }, 1500);
-      } catch { setTimeout(() => showToast("Proces wywołany ręcznie pomyślnie."), 1000); }
+      } catch(err) { showToast("Błąd wykonywania: " + err.message); }
     };
 
     /* --- FINANSE --- */
@@ -1481,16 +1450,19 @@
 
     document.getElementById("expenseForm").addEventListener("submit", async event => {
       event.preventDefault();
+      const form = event.target;
+      const dialog = form.closest('dialog');
       const type = document.getElementById("xType").value;
       const payload = { price: Number(document.getElementById("xAmount").value), category: document.getElementById("xCategory").value, desc: document.getElementById("xDesc").value };
       
-      event.target.closest('dialog').close(); // Natychmiastowe zamykanie formularza
+      if (dialog) dialog.close();
+      showToast("Zapisywanie operacji...");
 
       try {
         await api(type === "Przychód" ? "/api/incomes" : "/api/expenses", { method: "POST", body: JSON.stringify(payload) });
         await loadBackend();
         showToast("Operacja zapisana z sukcesem");
-      } catch (error) { showToast(error.message); }
+      } catch (error) { showToast("Błąd zapisu: " + error.message); }
     });
 
     /* BEZPIECZNE PODPIĘCIE PRZYCISKÓW */
