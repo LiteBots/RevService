@@ -673,7 +673,7 @@
     <form class="modal" id="orderForm" data-edit-id="">
       <div class="modal-head">
         <div><h2 id="orderModalTitle">Nowe zlecenie</h2><p style="font-size:12px;color:var(--muted)">Wprowadź dane zlecenia do systemu.</p></div>
-        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="close" data-close-dialog="orderModal" aria-label="Zamknij"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full"><label>Nazwa zlecenia</label><input id="fName" required placeholder="np. Przeprowadzka mieszkania"></div>
@@ -695,17 +695,17 @@
         <div class="field full"><label>Notatki operacyjne</label><textarea id="fNote"></textarea></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
+        <button type="button" class="ghost-btn" data-close-dialog="orderModal">Anuluj</button>
         <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz zlecenie</button>
       </div>
     </form>
   </dialog>
 
   <dialog id="resourceModal">
-    <form class="modal" id="resourceForm">
+    <form class="modal" id="resourceForm" data-edit-id="" data-edit-type="">
       <div class="modal-head">
-        <h2>Dodaj zasób do firmy</h2>
-        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
+        <h2 id="resourceModalTitle">Dodaj zasób do firmy</h2>
+        <button type="button" class="close" data-close-dialog="resourceModal" aria-label="Zamknij"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full">
@@ -725,7 +725,7 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
+        <button type="button" class="ghost-btn" data-close-dialog="resourceModal">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz zasób</button>
       </div>
     </form>
@@ -735,7 +735,7 @@
     <form class="modal" id="autoForm" data-edit-id="">
       <div class="modal-head">
         <div><h2 id="autoModalTitle">Nowa Automatyzacja</h2><p style="font-size:12px;color:var(--muted)">Skonfiguruj skrypt działający w tle.</p></div>
-        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="close" data-close-dialog="autoModal" aria-label="Zamknij"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field full"><label>Nazwa procesu</label><input id="aName" required placeholder="np. Przypomnienie SMS"></div>
@@ -751,7 +751,7 @@
         <div class="field full"><label>Opis i wytyczne</label><textarea id="aDesc" required></textarea></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
+        <button type="button" class="ghost-btn" data-close-dialog="autoModal">Anuluj</button>
         <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz proces</button>
       </div>
     </form>
@@ -761,7 +761,7 @@
     <form class="modal" id="expenseForm">
       <div class="modal-head">
         <h2>Dodaj operację finansową</h2>
-        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
+        <button type="button" class="close" data-close-dialog="expenseModal" aria-label="Zamknij"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field"><label>Typ operacji</label><select id="xType"><option>Koszt</option><option>Przychód</option></select></div>
@@ -770,17 +770,17 @@
         <div class="field full"><label>Opcjonalny opis</label><input id="xDesc"></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
+        <button type="button" class="ghost-btn" data-close-dialog="expenseModal">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz operację</button>
       </div>
     </form>
   </dialog>
 
   <dialog id="clientModal">
-    <form class="modal" id="clientForm">
+    <form class="modal" id="clientForm" data-edit-id="">
       <div class="modal-head">
-        <h2>Baza: Nowy klient</h2>
-        <button class="close" formnovalidate formmethod="dialog"><i class="fa-solid fa-xmark"></i></button>
+        <h2 id="clientModalTitle">Baza: Nowy klient</h2>
+        <button type="button" class="close" data-close-dialog="clientModal" aria-label="Zamknij"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="cName" required></div>
@@ -790,7 +790,7 @@
         <div class="field full"><label>Adres domyślny</label><input id="cAddress"></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" formnovalidate formmethod="dialog">Anuluj</button>
+        <button type="button" class="ghost-btn" data-close-dialog="clientModal">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz</button>
       </div>
     </form>
@@ -807,7 +807,7 @@
     // zapytania do backendu nie zadziałają, dopóki nie podasz pełnego adresu do Twojej aplikacji na Railway!
     // Wpisz poniżej swój adres, np. 'https://revmi-twoja-aplikacja.up.railway.app' 
     // (Zostaw puste "" jeśli aplikacja i serwer Node.js działają z tego samego adresu/domeny)
-    const API_URL = ""; 
+    const API_URL = "";
     // =====================
 
     let orders = [];
@@ -837,20 +837,55 @@
 
     /* --- SOLIDNE API --- */
     async function api(endpoint, options = {}) {
-      const url = API_URL ? API_URL + endpoint : endpoint;
-      const response = await fetch(url, {
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/json", ...(options.headers || {}) },
-        ...options
-      });
-      const data = await response.json().catch(() => ({}));
-      
+      const base = API_URL.trim().replace(/\/$/, "");
+      const url = base ? base + endpoint : endpoint;
+      const headers = { "Content-Type": "application/json", ...(options.headers || {}) };
+      let response;
+
+      try {
+        response = await fetch(url, {
+          ...options,
+          headers,
+          // „include” działa także dla tego samego adresu, a przy osobnym adresie API
+          // nie gubi ciasteczka sesji po zalogowaniu.
+          credentials: "include"
+        });
+      } catch (error) {
+        throw new Error(base
+          ? "Brak połączenia z API. Sprawdź adres API i ustawienia CORS na serwerze."
+          : "Brak połączenia z serwerem. Otwórz panel przez aplikację Node.js/Railway, nie jako sam plik.");
+      }
+
+      const contentType = response.headers?.get?.("content-type") || "";
+      const data = contentType.includes("application/json")
+        ? await response.json().catch(() => ({}))
+        : { message: await response.text().catch(() => "") };
+
       if (!response.ok) {
         if (response.status === 401 && !url.includes("/api/login")) lockPanel();
-        throw new Error(data.message || data.error || `Błąd serwera (${response.status})`);
+        const serverMessage = String(data.message || data.error || "").trim();
+        throw new Error(serverMessage && !serverMessage.startsWith("<!doctype")
+          ? serverMessage
+          : `Błąd serwera (${response.status})`);
       }
       return data;
     }
+
+    function setFormBusy(form, busy) {
+      form.querySelectorAll("button, input, select, textarea").forEach(element => {
+        element.disabled = busy;
+      });
+    }
+
+    document.querySelectorAll("[data-close-dialog]").forEach(button => {
+      button.addEventListener("click", () => document.getElementById(button.dataset.closeDialog)?.close());
+    });
+
+    document.querySelectorAll("dialog").forEach(dialog => {
+      dialog.addEventListener("click", event => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
 
     function showToast(message) {
       const toast = document.getElementById("toast");
@@ -1169,10 +1204,9 @@
         desc: document.getElementById("fNote").value
       };
 
-      // Zamykamy okno NATYCHMIAST żeby odblokować panel
-      if (dialog) dialog.close();
       showToast("Zapisywanie zlecenia...");
-      
+      setFormBusy(form, true);
+
       try {
         if (form.dataset.editId) {
           await api(`/api/tasks/${form.dataset.editId}`, { method: "PUT", body: JSON.stringify(payload) });
@@ -1182,7 +1216,12 @@
           showToast("Dodano nowe zlecenie");
         }
         await loadBackend();
-      } catch (error) { showToast("Błąd zapisu: " + error.message); }
+        if (dialog?.open) dialog.close();
+      } catch (error) {
+        showToast("Błąd zapisu: " + error.message);
+      } finally {
+        setFormBusy(form, false);
+      }
     });
 
     /* --- KALENDARZ --- */
@@ -1258,6 +1297,9 @@
             <div><small>Ilość zleceń</small><strong>${client.stats?.orders || 0}</strong></div>
             <div><small>Wartość współpracy</small><strong>${money(client.stats?.value || 0)}</strong></div>
           </div>
+          <div class="order-actions">
+            <button class="ghost-btn" style="width:100%" onclick="openClientModal('${client._id || client.id}')"><i class="fa-solid fa-pen"></i> Edytuj klienta</button>
+          </div>
         </article>
       `).join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-regular fa-address-book"></i><h3>Brak klientów w bazie</h3><p>Dodaj pierwszego klienta, aby budować historię.</p></div>';
     }
@@ -1269,15 +1311,38 @@
       
       const payload = { name: document.getElementById("cName").value, type: document.getElementById("cType").value, phone: document.getElementById("cPhone").value, email: document.getElementById("cEmail").value, address: document.getElementById("cAddress").value };
       
-      if (dialog) dialog.close();
       showToast("Zapisywanie klienta...");
+      setFormBusy(form, true);
 
       try {
-        await api("/api/clients", { method: "POST", body: JSON.stringify(payload) });
+        const id = form.dataset.editId;
+        await api(id ? `/api/clients/${id}` : "/api/clients", { method: id ? "PUT" : "POST", body: JSON.stringify(payload) });
         await loadBackend();
-        showToast("Klient zachowany w systemie");
-      } catch (error) { showToast("Błąd zapisu: " + error.message); }
+        if (dialog?.open) dialog.close();
+        showToast(id ? "Dane klienta zostały zaktualizowane" : "Klient zachowany w systemie");
+      } catch (error) {
+        showToast("Błąd zapisu: " + error.message);
+      } finally {
+        setFormBusy(form, false);
+      }
     });
+
+    window.openClientModal = (id = null) => {
+      const form = document.getElementById("clientForm");
+      form.reset();
+      form.dataset.editId = id || "";
+      document.getElementById("clientModalTitle").textContent = id ? "Baza: Edycja klienta" : "Baza: Nowy klient";
+      if (id) {
+        const client = clients.find(item => String(item._id || item.id) === String(id));
+        if (!client) return showToast("Nie znaleziono klienta do edycji");
+        document.getElementById("cName").value = client.name || "";
+        document.getElementById("cType").value = client.type || "person";
+        document.getElementById("cPhone").value = client.phone || "";
+        document.getElementById("cEmail").value = client.email || "";
+        document.getElementById("cAddress").value = client.address || "";
+      }
+      document.getElementById("clientModal").showModal();
+    };
 
     /* --- FLOTA I PRACOWNICY --- */
     window.toggleEmployeeRole = () => {
@@ -1303,15 +1368,46 @@
         mileage: Number(document.getElementById("rExtra").value) || 0 
       };
 
-      if (dialog) dialog.close();
       showToast("Zapisywanie zasobu...");
+      setFormBusy(form, true);
 
       try {
-        await api(type === "employee" ? "/api/employees" : "/api/fleet", { method: "POST", body: JSON.stringify(payload) });
+        const id = form.dataset.editId;
+        const route = type === "employee" ? "/api/employees" : "/api/fleet";
+        await api(id ? `${route}/${id}` : route, { method: id ? "PUT" : "POST", body: JSON.stringify(payload) });
         await loadBackend();
-        showToast(type === "employee" ? "Pracownik został dodany do bazy" : "Pojazd wpisany na stan floty");
-      } catch (error) { showToast("Błąd zapisu: " + error.message); }
+        if (dialog?.open) dialog.close();
+        showToast(id ? "Zasób został zaktualizowany" : type === "employee" ? "Pracownik został dodany do bazy" : "Pojazd wpisany na stan floty");
+      } catch (error) {
+        showToast("Błąd zapisu: " + error.message);
+      } finally {
+        setFormBusy(form, false);
+      }
     });
+
+    window.openResourceModal = (type = "employee", id = null) => {
+      const form = document.getElementById("resourceForm");
+      form.reset();
+      form.dataset.editId = id || "";
+      form.dataset.editType = type;
+      document.getElementById("rType").value = type;
+      document.getElementById("rType").disabled = Boolean(id);
+      document.getElementById("resourceModalTitle").textContent = id
+        ? (type === "employee" ? "Edytuj pracownika" : "Edytuj pojazd")
+        : "Dodaj zasób do firmy";
+
+      if (id) {
+        const collection = type === "employee" ? employees : fleet;
+        const resource = collection.find(item => String(item._id || item.id) === String(id));
+        if (!resource) return showToast("Nie znaleziono zasobu do edycji");
+        document.getElementById("rName").value = resource.name || "";
+        document.getElementById("rDetail").value = type === "employee" ? (resource.role || "") : (resource.plates || "");
+        document.getElementById("rExtra").value = type === "employee" ? (resource.phone || "") : (resource.mileage || 0);
+        document.getElementById("rRole").value = resource.systemRole || "worker";
+      }
+      toggleEmployeeRole();
+      document.getElementById("resourceModal").showModal();
+    };
 
     function renderFleet() {
       const vehicles = fleet.map(vehicle => `
@@ -1325,6 +1421,9 @@
           <div class="vehicle-stats">
             <div>Spalanie (l/100)<strong>${vehicle.fuelConsumption || "Brak"}</strong></div>
             <div>Przegląd<strong>${vehicle.nextServiceDate ? new Date(vehicle.nextServiceDate).toLocaleDateString("pl-PL") : "Brak"}</strong></div>
+          </div>
+          <div class="order-actions">
+            <button class="ghost-btn" style="width:100%" onclick="openResourceModal('fleet','${vehicle._id || vehicle.id}')"><i class="fa-solid fa-pen"></i> Edytuj pojazd</button>
           </div>
         </article>
       `);
@@ -1340,6 +1439,9 @@
           <div class="vehicle-stats">
             <div>Telefon<strong>${escapeHtml(employee.phone || "Brak danych")}</strong></div>
             <div>Stawka godzinowa<strong>${employee.hourlyRate ? money(employee.hourlyRate) + "/h" : "Domyślna"}</strong></div>
+          </div>
+          <div class="order-actions">
+            <button class="ghost-btn" style="width:100%" onclick="openResourceModal('employee','${employee._id || employee.id}')"><i class="fa-solid fa-pen"></i> Edytuj pracownika</button>
           </div>
         </article>
       `);
@@ -1403,14 +1505,19 @@
       const id = form.dataset.editId;
       const payload = { name: document.getElementById("aName").value, key: document.getElementById("aKey").value, description: document.getElementById("aDesc").value };
       
-      if (dialog) dialog.close();
       showToast("Zapisywanie automatyzacji...");
+      setFormBusy(form, true);
 
       try {
         await api(id ? `/api/automations/${id}` : "/api/automations", { method: id ? "PUT" : "POST", body: JSON.stringify(payload) });
         showToast(id ? "Zaktualizowano proces" : "Proces utworzony");
         await loadBackend();
-      } catch (err) { showToast("Błąd: " + err.message); }
+        if (dialog?.open) dialog.close();
+      } catch (err) {
+        showToast("Błąd: " + err.message);
+      } finally {
+        setFormBusy(form, false);
+      }
     });
 
     window.runAutomation = async (id) => {
@@ -1455,23 +1562,28 @@
       const type = document.getElementById("xType").value;
       const payload = { price: Number(document.getElementById("xAmount").value), category: document.getElementById("xCategory").value, desc: document.getElementById("xDesc").value };
       
-      if (dialog) dialog.close();
       showToast("Zapisywanie operacji...");
+      setFormBusy(form, true);
 
       try {
         await api(type === "Przychód" ? "/api/incomes" : "/api/expenses", { method: "POST", body: JSON.stringify(payload) });
         await loadBackend();
+        if (dialog?.open) dialog.close();
         showToast("Operacja zapisana z sukcesem");
-      } catch (error) { showToast("Błąd zapisu: " + error.message); }
+      } catch (error) {
+        showToast("Błąd zapisu: " + error.message);
+      } finally {
+        setFormBusy(form, false);
+      }
     });
 
     /* BEZPIECZNE PODPIĘCIE PRZYCISKÓW */
     const bindBtn = (id, fn) => { const el = document.getElementById(id); if (el) el.onclick = fn; };
 
-    bindBtn("btn-add-client", () => { document.getElementById('clientForm').reset(); document.getElementById('clientModal').showModal(); });
+    bindBtn("btn-add-client", () => openClientModal(null));
     bindBtn("btn-add-finance", () => { document.getElementById('expenseForm').reset(); document.getElementById('expenseModal').showModal(); });
     bindBtn("btn-quick-expense", () => { document.getElementById('expenseForm').reset(); document.getElementById('xType').value = 'Koszt'; document.getElementById('expenseModal').showModal(); });
-    bindBtn("btn-add-resource", () => { document.getElementById('resourceForm').reset(); document.getElementById('resourceModal').showModal(); toggleEmployeeRole(); });
+    bindBtn("btn-add-resource", () => openResourceModal("employee", null));
 
     bootstrapAuth();
   </script>
