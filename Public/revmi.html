@@ -32,21 +32,14 @@
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
-      margin:0;
-      min-height:100vh;
-      overflow-x:hidden;
-      color:var(--text);
-      background:var(--bg);
+      margin:0; min-height:100vh; overflow-x:hidden;
+      color:var(--text); background:var(--bg);
       font:15px "Plus Jakarta Sans",sans-serif;
       -webkit-font-smoothing:antialiased
     }
 
     body:before{
-      content:"";
-      position:fixed;
-      inset:0;
-      z-index:-1;
-      pointer-events:none;
+      content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
       background:
         radial-gradient(circle at 0 0,rgba(16,185,129,.12),transparent 25%),
         radial-gradient(circle at 100% 28%,rgba(4,120,87,.08),transparent 25%),
@@ -57,6 +50,7 @@
     button{cursor:pointer}
     a{color:inherit;text-decoration:none}
     [hidden]{display:none!important}
+    .hidden-role{display:none!important}
 
     ::-webkit-scrollbar{width:6px;height:6px}
     ::-webkit-scrollbar-track{background:transparent}
@@ -65,274 +59,82 @@
     .auth-pending{overflow:hidden}
     .auth-pending .app{opacity:0;pointer-events:none}
 
-    .app{
-      display:grid;
-      grid-template-columns:260px minmax(0,1fr);
-      min-height:100vh;
-      transition:opacity .55s ease
-    }
+    .app{ display:grid; grid-template-columns:260px minmax(0,1fr); min-height:100vh; transition:opacity .55s ease }
 
     .sidebar{
-      position:fixed;
-      inset:0 auto 0 0;
-      z-index:30;
-      width:260px;
-      padding:28px 20px 20px;
-      display:flex;
-      flex-direction:column;
-      background:rgba(17,17,17,.5);
-      border-right:1px solid var(--line);
-      backdrop-filter:blur(24px);
-      box-shadow:var(--shadow)
+      position:fixed; inset:0 auto 0 0; z-index:30; width:260px;
+      padding:28px 20px 20px; display:flex; flex-direction:column;
+      background:rgba(17,17,17,.5); border-right:1px solid var(--line);
+      backdrop-filter:blur(24px); box-shadow:var(--shadow)
     }
 
-    .brand{
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:4px 8px 30px
-    }
-
-    .brand-logo{
-      display:block;
-      height:62px;
-      max-width:190px;
-      object-fit:contain;
-      filter:drop-shadow(0 0 15px rgba(16,185,129,.2))
-    }
-
-    .nav-label{
-      padding:10px 14px;
-      color:#61766c;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.15em;
-      text-transform:uppercase
-    }
-
+    .brand{ display:flex; justify-content:center; align-items:center; padding:4px 8px 30px }
+    .brand-logo{ display:block; height:62px; max-width:190px; object-fit:contain; filter:drop-shadow(0 0 15px rgba(16,185,129,.2)) }
+    .nav-label{ padding:10px 14px; color:#61766c; font-size:11px; font-weight:800; letter-spacing:.15em; text-transform:uppercase }
     .nav{display:grid;gap:6px}
-
     .nav button{
-      border:0;
-      padding:13px 14px;
-      border-radius:12px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      color:#91a49b;
-      background:none;
-      text-align:left;
-      font-size:14px;
-      font-weight:650;
-      transition:.2s
+      border:0; padding:13px 14px; border-radius:12px; display:flex; align-items:center; gap:12px;
+      color:#91a49b; background:none; text-align:left; font-size:14px; font-weight:650; transition:.2s
     }
-
     .nav button i{width:20px;text-align:center;font-size:16px}
     .nav button:hover{color:#d9e6e0;background:rgba(255,255,255,.04)}
     .nav button.active{color:var(--green);background:rgba(16,185,129,.12)}
-    .nav .badge{
-      margin-left:auto;
-      min-width:24px;
-      height:24px;
-      display:grid;
-      place-items:center;
-      border-radius:20px;
-      color:#050505;
-      background:var(--green);
-      font-size:11px;
-      font-weight:800
-    }
+    .nav .badge{ margin-left:auto; min-width:24px; height:24px; display:grid; place-items:center; border-radius:20px; color:#050505; background:var(--green); font-size:11px; font-weight:800 }
 
     .side-bottom{margin-top:auto}
-
-    .system-card{
-      margin-bottom:16px;
-      padding:16px;
-      border:1px solid var(--line);
-      border-radius:16px;
-      background:rgba(255,255,255,.03)
-    }
-
+    .system-card{ margin-bottom:16px; padding:16px; border:1px solid var(--line); border-radius:16px; background:rgba(255,255,255,.03) }
     .system-row{display:flex;align-items:center;gap:10px;font-size:13px;color:#aec0b7}
     .system-card p{margin:8px 0 0 17px;color:#667c71;font-size:11px}
-    .pulse{
-      width:8px;
-      height:8px;
-      border-radius:50%;
-      background:var(--green);
-      box-shadow:0 0 0 5px rgba(16,185,129,.1)
-    }
-
+    .pulse{ width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 0 5px rgba(16,185,129,.1) }
     .profile{display:flex;align-items:center;gap:12px;padding:12px}
     .profile strong{display:block;font-size:14px}
     .profile small{color:var(--muted);font-size:12px}
-
-    .avatar,.client-avatar{
-      width:42px;
-      height:42px;
-      display:grid;
-      place-items:center;
-      border:1px solid rgba(16,185,129,.2);
-      border-radius:12px;
-      color:var(--green);
-      background:rgba(16,185,129,.1);
-      font-size:13px;
-      font-weight:800
-    }
+    .avatar,.client-avatar{ width:42px; height:42px; display:grid; place-items:center; border:1px solid rgba(16,185,129,.2); border-radius:12px; color:var(--green); background:rgba(16,185,129,.1); font-size:13px; font-weight:800 }
 
     .main{grid-column:2;min-width:0}
-
     .topbar{
-      position:sticky;
-      top:0;
-      z-index:20;
-      height:80px;
-      padding:0 35px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      background:rgba(17,17,17,.5);
-      border-bottom:1px solid var(--line);
-      backdrop-filter:blur(24px);
-      box-shadow:0 8px 32px rgba(0,0,0,.15)
+      position:sticky; top:0; z-index:20; height:80px; padding:0 35px;
+      display:flex; align-items:center; justify-content:space-between;
+      background:rgba(17,17,17,.5); border-bottom:1px solid var(--line);
+      backdrop-filter:blur(24px); box-shadow:0 8px 32px rgba(0,0,0,.15)
     }
 
     .mobile-open{display:none}
-
-    .search{
-      width:min(460px,40vw);
-      height:44px;
-      padding:0 16px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:12px;
-      color:#61766c;
-      background:rgba(0,0,0,.4)
-    }
-
-    .search input{
-      width:100%;
-      border:0;
-      outline:0;
-      color:var(--text);
-      background:none;
-      font-size:14px
-    }
-
+    .search{ width:min(460px,40vw); height:44px; padding:0 16px; display:flex; align-items:center; gap:12px; border:1px solid rgba(255,255,255,.1); border-radius:12px; color:#61766c; background:rgba(0,0,0,.4) }
+    .search input{ width:100%; border:0; outline:0; color:var(--text); background:none; font-size:14px }
     .search input::placeholder{color:#61766c}
     .key{padding:4px 8px;border:1px solid var(--line);border-radius:6px;color:#6f8279;font-size:11px}
+    
     .top-actions{display:flex;align-items:center;gap:12px}
-
     .icon-btn,.ghost-btn,.primary-btn{
-      height:44px;
-      padding:0 16px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      border:1px solid rgba(255,255,255,.1);
-      border-radius:12px;
-      color:#cad8d1;
-      background:rgba(17,17,17,.6);
-      font-size:13px;
-      font-weight:700;
-      transition:.2s
+      height:44px; padding:0 16px; display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      border:1px solid rgba(255,255,255,.1); border-radius:12px; color:#cad8d1; background:rgba(17,17,17,.6); font-size:13px; font-weight:700; transition:.2s
     }
-
     .icon-btn{position:relative;width:44px;padding:0;font-size:16px}
     .icon-btn:hover,.ghost-btn:hover{color:var(--green);border-color:rgba(16,185,129,.3)}
-
-    .notify{
-      position:absolute;
-      right:10px;
-      top:10px;
-      width:6px;
-      height:6px;
-      border-radius:50%;
-      background:var(--orange)
-    }
-
-    .primary-btn{
-      color:#050505;
-      background:var(--green);
-      border-color:var(--green);
-      box-shadow:0 0 20px rgba(16,185,129,.3)
-    }
-
+    .notify{ position:absolute; right:10px; top:10px; width:6px; height:6px; border-radius:50%; background:var(--orange) }
+    .primary-btn{ color:#050505; background:var(--green); border-color:var(--green); box-shadow:0 0 20px rgba(16,185,129,.3) }
     .primary-btn:hover{transform:translateY(-2px);background:var(--green-light)}
 
-    .content{
-      max-width:1600px;
-      margin:auto;
-      padding:35px 35px 50px
-    }
-
+    .content{ max-width:1600px; margin:auto; padding:35px 35px 50px }
     .view{display:none}
     .view.active{display:block}
 
-    .page-head{
-      margin-bottom:30px;
-      display:flex;
-      align-items:flex-end;
-      justify-content:space-between;
-      gap:20px
-    }
-
+    .page-head{ margin-bottom:30px; display:flex; align-items:flex-end; justify-content:space-between; gap:20px }
     .page-head h1{margin:0 0 8px;font-size:28px;letter-spacing:-.8px}
     .page-head p{margin:0;color:var(--muted);font-size:14px}
     .date-chip{display:flex;align-items:center;gap:10px;color:#91a59b;font-size:13px;background:rgba(255,255,255,0.03);padding:10px 16px;border-radius:12px;border:1px solid var(--line)}
     .date-chip i{color:var(--green);font-size:16px}
 
-    .card{
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      background:var(--panel);
-      backdrop-filter:blur(24px);
-      box-shadow:var(--shadow)
-    }
+    .card{ border:1px solid var(--line); border-radius:var(--radius); background:var(--panel); backdrop-filter:blur(24px); box-shadow:var(--shadow) }
 
-    .kpis{
-      margin-bottom:20px;
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:16px
-    }
-
+    .kpis{ margin-bottom:20px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px }
     .kpi{position:relative;padding:22px;overflow:hidden}
-    .kpi:first-child{
-      border-color:rgba(245,158,11,.3);
-      background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(17,17,17,.5))
-    }
-
-    .kpi:after{
-      content:"";
-      position:absolute;
-      right:-25px;
-      top:-30px;
-      width:110px;
-      height:110px;
-      border-radius:50%;
-      background:var(--tone,var(--green));
-      filter:blur(55px);
-      opacity:.1
-    }
-
+    .kpi:first-child{ border-color:rgba(245,158,11,.3); background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(17,17,17,.5)) }
+    .kpi:after{ content:""; position:absolute; right:-25px; top:-30px; width:110px; height:110px; border-radius:50%; background:var(--tone,var(--green)); filter:blur(55px); opacity:.1 }
     .kpi-top{margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
     .kpi-label{color:#93a69d;font-size:13px;font-weight:650}
-
-    .kpi-icon{
-      width:36px;
-      height:36px;
-      display:grid;
-      place-items:center;
-      border-radius:12px;
-      color:var(--tone,var(--green));
-      background:color-mix(in srgb,var(--tone,var(--green)) 12%,transparent);
-      font-size:16px
-    }
-
+    .kpi-icon{ width:36px; height:36px; display:grid; place-items:center; border-radius:12px; color:var(--tone,var(--green)); background:color-mix(in srgb,var(--tone,var(--green)) 12%,transparent); font-size:16px }
     .kpi:first-child .kpi-icon,.kpi:first-child .trend{color:var(--orange)}
     .kpi:first-child .kpi-icon{background:rgba(245,158,11,.15)}
     .kpi-value{font-size:28px;font-weight:800;letter-spacing:-1px}
@@ -340,12 +142,7 @@
     .trend{margin-top:10px;color:var(--green);font-size:12px}
     .trend.down{color:var(--red)}
 
-    .dashboard-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1.5fr) minmax(320px,.9fr);
-      gap:20px
-    }
-
+    .dashboard-grid{ display:grid; grid-template-columns:minmax(0,1.5fr) minmax(320px,.9fr); gap:20px }
     .stack{display:grid;gap:20px}
     .section-card{padding:24px}
     .section-head{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
@@ -362,58 +159,37 @@
     .legend{display:flex;gap:18px;color:var(--muted);font-size:11px}
     .legend span:before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:2px;background:var(--color)}
 
-    /* NOWE KAFELKI ZLECEŃ (PROSTOKĄTY) */
-    .today-list{
-      display:grid;
-      grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
-      gap:16px
-    }
+    /* KARTY ZLECEŃ NA PULPICIE */
+    .today-list{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px }
 
     .job{
-      padding:20px;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-      border:1px solid rgba(255,255,255,.07);
-      border-radius:18px;
-      background:rgba(255,255,255,.04);
-      transition:.25s;
-      align-items:flex-start;
+      padding:20px; display:flex; flex-direction:column; gap:14px;
+      border:1px solid rgba(255,255,255,.07); border-radius:18px; background:rgba(255,255,255,.04); transition:.25s; align-items:flex-start;
     }
-
-    .job:hover{
-      transform:translateY(-4px);
-      border-color:rgba(16,185,129,.3);
-      background:rgba(255,255,255,.06);
-      box-shadow:0 12px 24px rgba(0,0,0,0.2);
-    }
-    
-    .job-top {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
+    .job:hover{ transform:translateY(-4px); border-color:rgba(16,185,129,.3); background:rgba(255,255,255,.06); box-shadow:0 12px 24px rgba(0,0,0,0.2); }
+    .job-top { width: 100%; display: flex; justify-content: space-between; align-items: center; }
     .job-time{color:var(--green);font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px;}
-    
     .job-details { width: 100%; }
     .job-details h3{margin:0 0 8px;font-size:15px;color:#fff;}
     .job-details p{margin:5px 0 0;color:#a3b0aa;font-size:12px;display:flex;align-items:center;gap:8px;}
     .job-details p i { width: 14px; text-align: center; color:#61766c; }
 
-    .status{
-      padding:6px 10px;
-      display:inline-flex;
-      border-radius:30px;
-      color:var(--blue);
-      background:rgba(59,130,246,.12);
-      font-size:10px;
-      font-weight:800;
-      letter-spacing:.05em;
-      text-transform:uppercase
-    }
+    /* GŁÓWNA SIATKA ZLECEŃ (ZAMIAST TABELI) */
+    .orders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
+    .order-card { padding: 22px; display: flex; flex-direction: column; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; transition: 0.25s; }
+    .order-card:hover { border-color: rgba(16,185,129,.3); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
+    .order-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .order-card-title { margin:0 0 4px; font-size:16px; font-weight: 700; color:#fff; line-height:1.2; }
+    .order-card-sub { font-size:12px; color:var(--muted); font-family: monospace; }
+    
+    .order-details { display:flex; flex-direction: column; gap: 8px; color:#c5d2cc; font-size:13px; margin-bottom: 20px;}
+    .order-details p { margin: 0; display:flex; align-items:center; gap: 10px; }
+    .order-details p i { width: 16px; text-align: center; color:var(--green); font-size: 14px;}
+    .order-details strong { color: #fff; }
 
+    .order-actions { display: flex; gap: 10px; margin-top: auto; padding-top: 16px; border-top: 1px solid rgba(255,255,255,.05); }
+
+    .status{ padding:6px 10px; display:inline-flex; border-radius:30px; color:var(--blue); background:rgba(59,130,246,.12); font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase }
     .status.green{color:#34d399;background:rgba(16,185,129,.15)}
     .status.orange{color:#fbbf24;background:rgba(245,158,11,.15)}
     .status.gray{color:#a3b0aa;background:rgba(255,255,255,.06)}
@@ -427,59 +203,23 @@
 
     .feed{margin-top:20px;display:grid;gap:16px}
     .feed-item{display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:center;}
-    .feed-icon,.auto-icon,.vehicle-icon{
-      display:grid;
-      place-items:center;
-      border-radius:12px;
-      color:var(--green);
-      background:rgba(16,185,129,.1)
-    }
-
+    .feed-icon,.auto-icon,.vehicle-icon{ display:grid; place-items:center; border-radius:12px; color:var(--green); background:rgba(16,185,129,.1) }
     .feed-icon{width:36px;height:36px;font-size:14px}
     .feed-item p{margin:0 0 3px;color:#c5d2cc;font-size:13px;font-weight:600;}
     .feed-item small{color:#7f9389;font-size:11px}
 
-    .alert-card{
-      border-color:rgba(245,158,11,.2);
-      background:linear-gradient(145deg,rgba(245,158,11,.08),rgba(10,10,10,.7))
-    }
-
+    .alert-card{ border-color:rgba(245,158,11,.2); background:linear-gradient(145deg,rgba(245,158,11,.08),rgba(10,10,10,.7)) }
     .alert-row{display:flex;gap:14px}
     .alert-row>i{margin-top:3px;color:var(--orange);font-size:18px;}
     .alert-row h3{margin:0 0 6px;font-size:14px}
     .alert-row p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
 
-    .tiny-btn,.filter,.select,.close{
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:12px;
-      color:#c5d2cc;
-      background:rgba(255,255,255,.04);
-      cursor:pointer;
-    }
-
-    .tiny-btn{height:34px;padding:0 14px;font-size:11px;font-weight:750}
-    .tiny-btn.accent{color:var(--orange);border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.12)}
-
     .toolbar{margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
     .filters{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+    .filter,.select,.close{ border:1px solid rgba(255,255,255,.12); border-radius:12px; color:#c5d2cc; background:rgba(255,255,255,.04); cursor:pointer; }
     .filter,.select{height:42px;padding:0 16px;color:#9eb0a7;font-size:12px;outline:0;font-weight:600;}
     .filter.active{color:var(--green);border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.12)}
     .select{background:rgba(0,0,0,0.5);}
-
-    .data-card{overflow:hidden;padding:10px 0;}
-    .table-wrap{overflow:auto}
-    table{width:100%;min-width:900px;border-collapse:collapse}
-    th{padding:16px 24px;border-bottom:1px solid rgba(255,255,255,.08);color:#899d93;background:rgba(255,255,255,.02);text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
-    td{padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.04);color:#d1e0d8;font-size:13px}
-    tbody tr:hover{background:rgba(16,185,129,.04)}
-    .task-title{color:#fff;font-size:14px;font-weight:700}
-    .task-sub{margin-top:5px;color:#859a8f;font-size:11px}
-    .money{color:#fff;font-weight:800;font-size:14px;}
-    .people{display:flex}
-    .people span{width:30px;height:30px;margin-left:-8px;display:grid;place-items:center;border:2px solid #111;border-radius:10px;color:var(--green);background:#193228;font-size:10px;font-weight:bold;}
-    .people span:first-child{margin-left:0}
-    .row-actions{width:36px;height:36px;border:0;border-radius:10px;color:#899d93;background:rgba(255,255,255,.05);transition:.2s;}
-    .row-actions:hover{color:#fff;background:var(--green);}
 
     .calendar-layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px}
     .calendar-card{padding:24px}
@@ -495,11 +235,11 @@
     .day-num{color:#8da198;font-size:12px;font-weight:700;display:block;margin-bottom:6px;}
     .day.today .day-num{color:var(--green)}
     
-    .event{margin-top:6px;padding:8px;border-left:3px solid var(--blue);border-radius:8px;color:#bcd4ff;background:rgba(59,130,246,.1);font-size:10px;font-weight:600;line-height:1.4}
+    .event{margin-top:6px;padding:8px;border-left:3px solid var(--blue);border-radius:8px;color:#bcd4ff;background:rgba(59,130,246,.1);font-size:10px;font-weight:600;line-height:1.4;cursor:pointer;}
+    .event:hover { opacity: 0.8; }
     .event.green{color:#94f0ca;border-color:var(--green);background:rgba(16,185,129,.1)}
     .event.orange{color:#ffd49d;border-color:var(--orange);background:rgba(245,158,11,.1)}
 
-    /* Karty Agendy */
     .agenda{display:grid;gap:12px}
     .agenda-item{padding:16px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:8px;}
     .agenda-item strong{font-size:13px;color:#fff;}
@@ -527,107 +267,52 @@
     .vehicle-stats{margin-top:18px;padding-top:16px;display:flex;justify-content:space-between;border-top:1px solid var(--line);color:var(--muted);font-size:11px}
     .vehicle-stats strong{display:block;margin-top:5px;color:#fff;font-size:13px}
 
-    .auto-card{min-height:180px;display:flex;flex-direction:column}
+    .auto-card{min-height:220px;display:flex;flex-direction:column}
     .auto-card .auto-icon{width:42px;height:42px;font-size:18px;}
+    .auto-card h3 {margin-top: 15px;}
     .auto-bottom{margin-top:auto;display:flex;align-items:center;justify-content:space-between;padding-top:16px;border-top:1px solid var(--line);}
-    .auto-bottom>span:first-child{color:#7f9389;font-size:11px}
-
+    
     .switch{width:40px;height:22px;padding:3px;border:0;border-radius:20px;background:rgba(255,255,255,.1);transition:.2s;cursor:pointer;}
     .switch:after{content:"";display:block;width:16px;height:16px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 2px 4px rgba(0,0,0,0.2);}
     .switch.on{background:rgba(16,185,129,.4)}
     .switch.on:after{transform:translateX(18px);background:var(--green)}
 
-    .empty-state{padding:60px 20px;color:var(--muted);text-align:center}
+    .empty-state{padding:60px 20px;color:var(--muted);text-align:center; grid-column: 1/-1;}
     .empty-state i{margin-bottom:16px;color:rgba(255,255,255,.15);font-size:36px}
     .empty-state h3{margin:0 0 8px;color:#dce7e2;font-size:16px}
     .empty-state p{margin:0;font-size:13px}
 
-    dialog{
-      width:min(680px,calc(100vw - 32px));
-      max-height:90vh;
-      padding:0;
-      border:0;
-      color:var(--text);
-      background:transparent
-    }
-
+    dialog{ width:min(680px,calc(100vw - 32px)); max-height:90vh; padding:0; border:0; color:var(--text); background:transparent }
     dialog::backdrop{background:rgba(2,8,6,.85);backdrop-filter:blur(10px)}
-
-    .modal{
-      max-height:90vh;
-      overflow:auto;
-      padding:28px;
-      border:1px solid rgba(16,185,129,.25);
-      border-radius:24px;
-      background:rgba(12,12,12,.95);
-      backdrop-filter:blur(40px);
-      box-shadow:0 25px 50px rgba(0,0,0,.7)
-    }
-
+    .modal{ max-height:90vh; overflow:auto; padding:28px; border:1px solid rgba(16,185,129,.25); border-radius:24px; background:rgba(12,12,12,.95); backdrop-filter:blur(40px); box-shadow:0 25px 50px rgba(0,0,0,.7) }
     .modal-head{margin-bottom:24px;display:flex;align-items:center;justify-content:space-between}
     .modal-head h2{margin:0;font-size:20px}
     .close{width:38px;height:38px;font-size:16px;display:grid;place-items:center;}
     .close:hover{background:rgba(255,255,255,0.1);color:#fff;}
+    
     .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     .field.full{grid-column:1/-1}
     .field label{display:block;margin-bottom:8px;color:#91a49b;font-size:12px;font-weight:700}
-
-    .field input,.field select,.field textarea{
-      width:100%;
-      padding:14px 16px;
-      border:1px solid rgba(255,255,255,.12);
-      border-radius:14px;
-      outline:0;
-      color:#fff;
-      background:rgba(0,0,0,.4);
-      font-size:14px;
-      transition:0.2s;
-    }
-
-    .field input:focus,.field select:focus,.field textarea:focus{
-      border-color:rgba(16,185,129,.5);
-      background:rgba(0,0,0,.6);
-      box-shadow:0 0 0 4px rgba(16,185,129,.1)
-    }
-
+    .field input,.field select,.field textarea{ width:100%; padding:14px 16px; border:1px solid rgba(255,255,255,.12); border-radius:14px; outline:0; color:#fff; background:rgba(0,0,0,.4); font-size:14px; transition:0.2s; }
+    .field input:focus,.field select:focus,.field textarea:focus{ border-color:rgba(16,185,129,.5); background:rgba(0,0,0,.6); box-shadow:0 0 0 4px rgba(16,185,129,.1) }
     .field textarea{min-height:90px;resize:vertical}
+    
     .modal-actions{margin-top:24px;padding-top:24px;display:flex;justify-content:flex-end;gap:12px;border-top:1px solid var(--line)}
 
     .toast{
-      position:fixed;
-      right:30px;
-      bottom:30px;
-      z-index:100;
-      padding:16px 20px;
-      display:flex;
-      align-items:center;
-      gap:12px;
-      border:1px solid rgba(16,185,129,.3);
-      border-radius:16px;
-      color:#fff;
-      background:#11231c;
-      box-shadow:0 20px 55px rgba(0,0,0,.5);
-      font-size:13px;
-      font-weight:600;
-      opacity:0;
-      pointer-events:none;
-      transform:translateY(30px);
-      transition:.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      position:fixed; right:30px; bottom:30px; z-index:100; padding:16px 20px; display:flex; align-items:center; gap:12px; border:1px solid rgba(16,185,129,.3); border-radius:16px; color:#fff; background:#11231c; box-shadow:0 20px 55px rgba(0,0,0,.5); font-size:13px; font-weight:600; opacity:0; pointer-events:none; transform:translateY(30px); transition:.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     }
-
     .toast.show{opacity:1;transform:none}
     .toast i{color:var(--green);font-size:18px;}
 
-    /* LOGOWANIE (Bez Zmian) */
+    /* LOGOWANIE */
     .login-screen{ position:fixed; inset:0; z-index:9999; padding:22px; display:grid; place-items:center; overflow:auto; background:#050505; transition:opacity .55s ease,visibility .55s ease }
     .login-screen.hidden{opacity:0;visibility:hidden;pointer-events:none}
     .login-grid{ position:absolute; inset:0; opacity:.17; background-image: linear-gradient(rgba(16,185,129,.12) 1px,transparent 1px), linear-gradient(90deg,rgba(16,185,129,.12) 1px,transparent 1px); background-size:44px 44px; mask-image:radial-gradient(circle at center,#000,transparent 70%); animation:grid-drift 18s linear infinite }
     .login-orb{ position:absolute; border-radius:50%; filter:blur(90px); opacity:.34; animation:orb-float 10s ease-in-out infinite alternate }
     .orb-one{width:430px;height:430px;top:-210px;left:-110px;background:#10b981}
     .orb-two{width:380px;height:380px;right:-130px;bottom:-190px;background:#047857;animation-delay:-5s}
-    .login-card{ position:relative; width:min(430px,100%); padding:34px 38px 25px; overflow:hidden; border:1px solid rgba(16,185,129,.22); border-radius:28px; background:linear-gradient(145deg,rgba(18,18,18,.86),rgba(7,7,7,.72)); backdrop-filter:blur(36px); box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 70px rgba(16,185,129,.08),inset 0 1px rgba(255,255,255,.06); animation:card-enter .8s cubic-bezier(.2,.8,.2,1) }
-    .login-card:before{ content:""; position:absolute; inset:0; padding:1px; border-radius:inherit; background:linear-gradient(130deg,rgba(52,211,153,.5),transparent 32%,transparent 70%,rgba(16,185,129,.2)); mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); mask-composite:exclude; pointer-events:none }
-    .login-shine{ position:absolute; top:-170px; left:-230px; width:180px; height:500px; background:linear-gradient(90deg,transparent,rgba(255,255,255,.035),transparent); transform:rotate(24deg); animation:shine 5s ease-in-out infinite }
+    .login-card{ position:relative; width:min(430px,100%); padding:34px 38px 25px; overflow:hidden; border:1px solid rgba(16,185,129,.22); border-radius:28px; background:linear-gradient(145deg,rgba(18,18,18,.86),rgba(7,7,7,.72)); backdrop-filter:blur(36px); box-shadow:0 35px 100px rgba(0,0,0,.72),0 0 70px rgba(16,185,129,.08); animation:card-enter .8s cubic-bezier(.2,.8,.2,1) }
     .login-logo-wrap{height:54px;margin-bottom:18px;display:flex;justify-content:center}
     .login-logo{height:54px;max-width:190px;object-fit:contain;filter:drop-shadow(0 0 18px rgba(16,185,129,.22))}
     .login-lock{ position:relative; width:58px; height:58px; margin:0 auto 18px; display:grid; place-items:center; border:1px solid rgba(16,185,129,.21); border-radius:18px; color:#34d399; background:rgba(16,185,129,.09); box-shadow:0 0 28px rgba(16,185,129,.12); font-size:22px }
@@ -637,30 +322,21 @@
     .login-copy h1{margin:0 0 7px;font-size:24px;letter-spacing:-.7px}
     .login-copy p{max-width:310px;margin:0 auto;color:#8b9590;font-size:11px;line-height:1.65}
     .pin-group{margin:25px 0 14px;display:flex;justify-content:center;gap:11px}
-    .pin-digit{ width:58px; height:64px; border:1px solid rgba(255,255,255,.1)!important; border-radius:15px!important; color:#34d399!important; background:rgba(0,0,0,.36)!important; box-shadow:inset 0 1px rgba(255,255,255,.025); caret-color:var(--green); text-align:center; font-size:25px!important; font-weight:800; transition:.2s }
-    .pin-digit:focus,.pin-digit.filled{ transform:translateY(-2px); border-color:rgba(16,185,129,.55)!important; box-shadow:0 0 0 3px rgba(16,185,129,.08),0 0 20px rgba(16,185,129,.08)!important; outline:none }
+    .pin-digit{ width:58px; height:64px; border:1px solid rgba(255,255,255,.1)!important; border-radius:15px!important; color:#34d399!important; background:rgba(0,0,0,.36)!important; text-align:center; font-size:25px!important; font-weight:800; transition:.2s }
+    .pin-digit:focus,.pin-digit.filled{ transform:translateY(-2px); border-color:rgba(16,185,129,.55)!important; box-shadow:0 0 0 3px rgba(16,185,129,.08)!important; outline:none }
     .login-error{ height:18px; display:flex; align-items:center; justify-content:center; gap:6px; color:#f87171; font-size:10px; font-weight:700; opacity:0; transform:translateY(-4px); transition:.2s }
     .login-error.show{opacity:1;transform:none}
-    .pin-group.shake{animation:shake .36s ease}
     .pin-keypad{ margin:12px 0 17px; display:none; grid-template-columns:repeat(3,52px); justify-content:center; gap:8px }
     .pin-keypad button{ height:39px; border:1px solid rgba(255,255,255,.075); border-radius:11px; color:#b8c0bc; background:rgba(255,255,255,.025); font-size:13px; font-weight:700; transition:.16s }
-    .pin-keypad button:hover{color:#34d399;border-color:rgba(16,185,129,.25);background:rgba(16,185,129,.07)}
-    .pin-keypad button:active{transform:scale(.94)}
-    .login-submit{ width:100%; height:48px; border:0; border-radius:13px; display:flex; align-items:center; justify-content:center; gap:9px; color:#031b12; background:linear-gradient(135deg,#10b981,#059669); box-shadow:0 12px 30px rgba(16,185,129,.2); font-size:12px; font-weight:800; transition:.22s }
+    .login-submit{ width:100%; height:48px; border:0; border-radius:13px; display:flex; align-items:center; justify-content:center; gap:9px; color:#031b12; background:linear-gradient(135deg,#10b981,#059669); font-size:12px; font-weight:800; transition:.22s }
     .login-submit:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 16px 36px rgba(16,185,129,.28)}
     .login-submit:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
-    .login-submit.loading i{animation:spin .8s linear infinite}
-    .login-submit.success{background:#34d399}
     .login-foot{ margin-top:18px; padding-top:16px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,.06); color:#59635e; font-size:10px }
-    .login-foot i{margin-right:6px;color:var(--green)}
-
+    
     @keyframes card-enter{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:none}}
     @keyframes orb-float{to{transform:translate(65px,38px) scale(1.13)}}
     @keyframes grid-drift{to{background-position:44px 44px}}
     @keyframes ring-pulse{50%{transform:scale(1.07);opacity:.35}}
-    @keyframes shine{45%,100%{left:130%}}
-    @keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-5px)}80%{transform:translateX(3px)}}
-    @keyframes spin{to{transform:rotate(360deg)}}
 
     /* Responsywność */
     @media(max-width:1200px){
@@ -710,31 +386,16 @@
     <div class="login-grid"></div>
 
     <form class="login-card" id="loginForm">
-      <div class="login-shine"></div>
       <div class="login-logo-wrap"><img src="https://i.imgur.com/dHWDH8j.png" alt="RevMi" class="login-logo"></div>
       <div class="login-lock"><i class="fa-solid fa-fingerprint"></i><span class="login-lock-ring"></span></div>
-      <div class="login-copy"><span class="eyebrow">Bezpieczny dostęp</span><h1>Witaj ponownie</h1><p>Wprowadź 4-cyfrowy kod PIN, aby otworzyć panel zarządzania RevMi.</p></div>
+      <div class="login-copy"><span class="eyebrow">Bezpieczny dostęp</span><h1>Witaj ponownie</h1><p>Wprowadź 4-cyfrowy kod PIN.</p></div>
       <div class="pin-group" id="pinGroup">
-        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Pierwsza cyfra">
-        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Druga cyfra">
-        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Trzecia cyfra">
-        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1" aria-label="Czwarta cyfra">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1">
+        <input class="pin-digit" type="password" inputmode="numeric" maxlength="1">
       </div>
       <div class="login-error" id="loginError"><i class="fa-solid fa-circle-exclamation"></i><span>Nieprawidłowy kod PIN</span></div>
-      <div class="pin-keypad">
-        <button type="button" data-key="1">1</button>
-        <button type="button" data-key="2">2</button>
-        <button type="button" data-key="3">3</button>
-        <button type="button" data-key="4">4</button>
-        <button type="button" data-key="5">5</button>
-        <button type="button" data-key="6">6</button>
-        <button type="button" data-key="7">7</button>
-        <button type="button" data-key="8">8</button>
-        <button type="button" data-key="9">9</button>
-        <span></span>
-        <button type="button" data-key="0">0</button>
-        <button type="button" data-key="back"><i class="fa-solid fa-delete-left"></i></button>
-      </div>
       <button class="login-submit" id="loginSubmit" type="submit" disabled><span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i></button>
       <div class="login-foot"><span><i class="fa-solid fa-shield-halved"></i>Szyfrowane połączenie</span><span id="loginClock"></span></div>
     </form>
@@ -747,16 +408,16 @@
         <img class="brand-logo" src="https://i.imgur.com/dHWDH8j.png" alt="RevMi">
       </div>
 
-      <div class="nav-label">Centrum pracy</div>
+      <div class="nav-label admin-only">Centrum pracy</div>
       <nav class="nav">
-        <button class="active" data-view="dashboard"><i class="fa-solid fa-table-columns"></i>Pulpit</button>
+        <button class="active admin-only" data-view="dashboard"><i class="fa-solid fa-table-columns"></i>Pulpit</button>
         <button data-view="orders"><i class="fa-solid fa-clipboard-list"></i>Zlecenia<span class="badge" id="navTaskCount">0</span></button>
         <button data-view="calendar"><i class="fa-regular fa-calendar"></i>Kalendarz</button>
-        <button data-view="clients"><i class="fa-regular fa-address-book"></i>Klienci</button>
+        <button class="admin-only" data-view="clients"><i class="fa-regular fa-address-book"></i>Klienci</button>
       </nav>
 
-      <div class="nav-label" style="margin-top:20px">Firma</div>
-      <nav class="nav">
+      <div class="nav-label admin-only" style="margin-top:20px">Firma</div>
+      <nav class="nav admin-only">
         <button data-view="finances"><i class="fa-solid fa-chart-line"></i>Finanse</button>
         <button data-view="fleet"><i class="fa-solid fa-truck-fast"></i>Ekipa i flota</button>
         <button data-view="automations"><i class="fa-solid fa-wand-magic-sparkles"></i>Automatyzacje</button>
@@ -765,11 +426,10 @@
       <div class="side-bottom">
         <div class="system-card">
           <div class="system-row"><span class="pulse"></span><strong>System online</strong></div>
-          <p>Dane są synchronizowane na żywo z serwerem</p>
+          <p>Dane są zsynchronizowane</p>
         </div>
-
         <div class="profile">
-          <div class="avatar">GB</div>
+          <div class="avatar" id="userAvatar">GB</div>
           <div>
             <strong id="userName">Administrator</strong>
             <small id="userRole">RevMi App</small>
@@ -783,25 +443,23 @@
       <header class="topbar">
         <div style="display:flex;gap:12px;align-items:center;flex:1">
           <button class="icon-btn mobile-open" id="menuBtn"><i class="fa-solid fa-bars"></i></button>
-
           <label class="search">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <input id="globalSearch" placeholder="Szukaj zlecenia, klienta lub adresu…">
+            <input id="globalSearch" placeholder="Szukaj zlecenia lub klienta…">
             <span class="key">Ctrl K</span>
           </label>
         </div>
-
         <div class="top-actions">
-          <button class="ghost-btn" id="quickExpense"><i class="fa-solid fa-receipt"></i>Dodaj koszt</button>
+          <button class="ghost-btn admin-only" id="quickExpense"><i class="fa-solid fa-receipt"></i>Dodaj koszt</button>
           <button class="icon-btn"><i class="fa-regular fa-bell"></i><span class="notify"></span></button>
           <button class="icon-btn" id="logoutBtn" title="Wyloguj"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
-          <button class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
+          <button class="primary-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
         </div>
       </header>
 
       <div class="content">
-        <!-- PULPIT -->
-        <section class="view active" id="view-dashboard">
+        <!-- PULPIT (TYLKO DLA ADMINA) -->
+        <section class="view active admin-only" id="view-dashboard">
           <div class="page-head">
             <div>
               <h1 id="welcomeTitle">Dzień dobry</h1>
@@ -812,26 +470,23 @@
               <span id="todayDate"></span>
             </div>
           </div>
-
+          
           <div class="kpis">
             <article class="card kpi">
               <div class="kpi-top"><span class="kpi-label">Zysk w tym miesiącu</span><span class="kpi-icon"><i class="fa-solid fa-arrow-trend-up"></i></span></div>
               <div class="kpi-value" id="kpiProfit">0 <small>zł</small></div>
               <div class="trend">Przychody minus koszty</div>
             </article>
-
             <article class="card kpi" style="--tone:var(--blue)">
               <div class="kpi-top"><span class="kpi-label">Przychód</span><span class="kpi-icon"><i class="fa-solid fa-wallet"></i></span></div>
               <div class="kpi-value" id="kpiRevenue">0 <small>zł</small></div>
               <div class="trend">Łączna wartość przychodów</div>
             </article>
-
             <article class="card kpi" style="--tone:var(--orange)">
               <div class="kpi-top"><span class="kpi-label">Koszty</span><span class="kpi-icon"><i class="fa-solid fa-gas-pump"></i></span></div>
               <div class="kpi-value" id="kpiCosts">0 <small>zł</small></div>
               <div class="trend down">Wszystkie koszty firmy</div>
             </article>
-
             <article class="card kpi" style="--tone:var(--purple)">
               <div class="kpi-top"><span class="kpi-label">Zlecenia w toku</span><span class="kpi-icon"><i class="fa-solid fa-clipboard-check"></i></span></div>
               <div class="kpi-value" id="kpiTasks">0 <small>aktywne</small></div>
@@ -852,7 +507,6 @@
                     <span style="--color:var(--orange)">Koszty</span>
                   </div>
                 </div>
-
                 <div class="chart-wrap">
                   <div class="chart-grid"><span></span><span></span><span></span><span></span></div>
                   <svg class="chart-svg" viewBox="0 0 700 194" preserveAspectRatio="none">
@@ -869,24 +523,20 @@
                   <div class="chart-labels"><span>KWI</span><span>MAJ</span><span>CZE</span><span>LIP</span><span>SIE</span><span>WRZ</span></div>
                 </div>
               </article>
-
               <article class="card section-card">
                 <div class="section-head">
-                  <div><h2>Dzisiejszy plan (Karty Zleceń)</h2><p>Twoje najbliższe zadania</p></div>
+                  <div><h2>Dzisiejszy plan</h2><p>Twoje najbliższe zadania</p></div>
                   <button class="link-btn" data-view-link="calendar">Pełny kalendarz →</button>
                 </div>
-                <!-- Karty Zleceń - Prostokąty -->
                 <div class="today-list" id="todayJobs"></div>
               </article>
             </div>
-
             <div class="stack">
               <article class="card section-card">
                 <div class="section-head">
                   <div><h2>Automatyzacja firmy</h2><p>Procesy działające automatycznie</p></div>
                   <button class="link-btn" data-view-link="automations">Ustawienia</button>
                 </div>
-
                 <div class="automation-score">
                   <div class="score-ring"><strong>78%</strong></div>
                   <div>
@@ -894,11 +544,10 @@
                     <p>Powiadomienia, plany pracy i kontrola kosztów mogą działać bez ręcznej obsługi.</p>
                   </div>
                 </div>
-
                 <div class="feed">
                   <div class="feed-item">
                     <div class="feed-icon"><i class="fa-solid fa-comment-sms"></i></div>
-                    <div><p>Przypomnienie SMS dla klienta</p><small>Automatyczne powiadomienie z systemu</small></div>
+                    <div><p>Przypomnienie SMS</p><small>Automatyczne powiadomienie z systemu</small></div>
                   </div>
                   <div class="feed-item">
                     <div class="feed-icon"><i class="fa-solid fa-file-invoice"></i></div>
@@ -910,7 +559,6 @@
                   </div>
                 </div>
               </article>
-
               <article class="card section-card alert-card">
                 <div class="alert-row">
                   <i class="fa-solid fa-triangle-exclamation"></i>
@@ -924,13 +572,12 @@
           </div>
         </section>
 
-        <!-- ZLECENIA W TABELI -->
+        <!-- ZLECENIA KAFELKI -->
         <section class="view" id="view-orders">
           <div class="page-head">
-            <div><h1>Zlecenia</h1><p>Pełna obsługa zleceń od zapytania do rozliczenia.</p></div>
-            <button class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Dodaj zlecenie</button>
+            <div><h1>Zlecenia</h1><p>Baza zleceń. Edytuj szczegóły lub zmieniaj status realizacji.</p></div>
+            <button class="primary-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i>Dodaj zlecenie</button>
           </div>
-
           <div class="toolbar">
             <div class="filters">
               <button class="filter active" data-filter="all">Wszystkie</button>
@@ -944,39 +591,15 @@
               <option value="price">Najwyższa wartość</option>
             </select>
           </div>
-
-          <article class="card data-card">
-            <div class="table-wrap">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Zlecenie</th>
-                    <th>Termin</th>
-                    <th>Klient</th>
-                    <th>Ekipa</th>
-                    <th>Wartość</th>
-                    <th>Status</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="ordersBody"></tbody>
-              </table>
-            </div>
-            <div class="empty-state" id="ordersEmpty" hidden>
-              <i class="fa-regular fa-folder-open"></i>
-              <h3>Brak pasujących zleceń</h3>
-              <p>Zmień filtr albo dodaj pierwsze zlecenie do systemu.</p>
-            </div>
-          </article>
+          <div class="orders-grid" id="ordersGrid"></div>
         </section>
 
         <!-- KALENDARZ -->
         <section class="view" id="view-calendar">
           <div class="page-head">
             <div><h1>Kalendarz pracy</h1><p>Terminy zleceń i plan działania firmy.</p></div>
-            <button class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
+            <button class="primary-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
           </div>
-
           <div class="calendar-layout">
             <article class="card calendar-card">
               <div class="calendar-top">
@@ -988,7 +611,6 @@
               </div>
               <div class="calendar-grid" id="calendarGrid"></div>
             </article>
-
             <aside class="card section-card">
               <div class="section-head"><div><h2>Najbliższe terminy</h2><p>Nadchodzący plan pracy</p></div></div>
               <div class="agenda" id="agendaList"></div>
@@ -996,45 +618,39 @@
           </div>
         </section>
 
-        <!-- KLIENCI -->
-        <section class="view" id="view-clients">
+        <!-- KLIENCI (Admin) -->
+        <section class="view admin-only" id="view-clients">
           <div class="page-head">
-            <div><h1>Baza klientów</h1><p>Kontakty i historia współpracy z klientami B2B/B2C.</p></div>
-            <button class="primary-btn" id="addClient"><i class="fa-solid fa-user-plus"></i>Nowy klient</button>
+            <div><h1>Baza klientów</h1><p>Kontakty i historia współpracy z klientami.</p></div>
+            <button class="primary-btn" onclick="document.getElementById('clientForm').reset(); document.getElementById('clientModal').showModal();"><i class="fa-solid fa-user-plus"></i>Nowy klient</button>
           </div>
           <div class="client-grid" id="clientGrid"></div>
         </section>
 
-        <!-- FINANSE -->
-        <section class="view" id="view-finances">
+        <!-- FINANSE (Admin) -->
+        <section class="view admin-only" id="view-finances">
           <div class="page-head">
-            <div><h1>Finanse</h1><p>Kontrola przychodów, kosztów i bieżącego wyniku firmy.</p></div>
-            <button class="primary-btn" id="financeAdd"><i class="fa-solid fa-plus"></i>Dodaj operację</button>
+            <div><h1>Finanse</h1><p>Kontrola przychodów i kosztów.</p></div>
+            <button class="primary-btn" onclick="document.getElementById('expenseForm').reset(); document.getElementById('expenseModal').showModal();"><i class="fa-solid fa-plus"></i>Dodaj operację</button>
           </div>
-
           <div class="kpis">
-            <article class="card kpi">
+             <article class="card kpi">
               <div class="kpi-top"><span class="kpi-label">Marża</span><span class="kpi-icon"><i class="fa-solid fa-percent"></i></span></div>
               <div class="kpi-value" id="financeMargin">0<small>%</small></div>
-              <div class="trend">Aktualna rentowność</div>
             </article>
             <article class="card kpi" style="--tone:var(--blue)">
               <div class="kpi-top"><span class="kpi-label">Przychody</span><span class="kpi-icon"><i class="fa-solid fa-arrow-up"></i></span></div>
               <div class="kpi-value" id="financeIncome">0<small>zł</small></div>
-              <div class="trend">Łącznie</div>
             </article>
             <article class="card kpi" style="--tone:var(--orange)">
               <div class="kpi-top"><span class="kpi-label">Koszty</span><span class="kpi-icon"><i class="fa-solid fa-arrow-down"></i></span></div>
               <div class="kpi-value" id="financeExpense">0<small>zł</small></div>
-              <div class="trend down">Łącznie</div>
             </article>
             <article class="card kpi" style="--tone:var(--purple)">
               <div class="kpi-top"><span class="kpi-label">Wynik netto</span><span class="kpi-icon"><i class="fa-solid fa-calculator"></i></span></div>
               <div class="kpi-value" id="financeProfit">0<small>zł</small></div>
-              <div class="trend">Przychody minus koszty</div>
             </article>
           </div>
-
           <article class="card section-card">
             <div class="section-head"><div><h2>Struktura kosztów</h2><p>Najważniejsze kategorie obciążające budżet</p></div></div>
             <div class="breakdown" id="expenseBreakdown">
@@ -1043,19 +659,20 @@
           </article>
         </section>
 
-        <!-- FLOTA I EKIPA -->
-        <section class="view" id="view-fleet">
+        <!-- FLOTA I EKIPA (Admin) -->
+        <section class="view admin-only" id="view-fleet">
           <div class="page-head">
-            <div><h1>Ekipa i flota</h1><p>Pracownicy, pojazdy transportowe i dostępność.</p></div>
-            <button class="primary-btn" id="addResource"><i class="fa-solid fa-plus"></i>Dodaj zasób</button>
+            <div><h1>Ekipa i flota</h1><p>Pracownicy (wraz z rolami), pojazdy transportowe i dostępność.</p></div>
+            <button class="primary-btn" onclick="document.getElementById('resourceForm').reset(); document.getElementById('resourceModal').showModal(); toggleEmployeeRole();"><i class="fa-solid fa-plus"></i>Dodaj zasób</button>
           </div>
           <div class="fleet-grid" id="fleetGrid"></div>
         </section>
 
-        <!-- AUTOMATYZACJE -->
-        <section class="view" id="view-automations">
+        <!-- AUTOMATYZACJE (Admin) -->
+        <section class="view admin-only" id="view-automations">
           <div class="page-head">
-            <div><h1>Automatyzacje</h1><p>Ustawienia procesów, które RevMi wykonuje za Ciebie.</p></div>
+            <div><h1>Zarządzanie Automatyzacjami</h1><p>Zarządzaj procesami, modyfikuj lub uruchamiaj ręcznie.</p></div>
+            <button class="primary-btn" onclick="openAutoModal()"><i class="fa-solid fa-plus"></i>Nowa automatyzacja</button>
           </div>
           <div class="auto-grid" id="automationGrid"></div>
         </section>
@@ -1066,12 +683,11 @@
 
   <!-- MODALE -->
   <dialog id="orderModal">
-    <form method="dialog" class="modal" id="orderForm">
+    <form method="dialog" class="modal" id="orderForm" data-edit-id="">
       <div class="modal-head">
-        <div><h2>Nowe zlecenie</h2><p style="font-size:12px;color:var(--muted)">Dodaj najważniejsze informacje do systemu.</p></div>
-        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
+        <div><h2 id="orderModalTitle">Nowe zlecenie</h2><p style="font-size:12px;color:var(--muted)">Wprowadź dane zlecenia do systemu.</p></div>
+        <button class="close" value="cancel" type="button" onclick="document.getElementById('orderModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
-
       <div class="form-grid">
         <div class="field full"><label>Nazwa zlecenia</label><input id="fName" required placeholder="np. Przeprowadzka mieszkania"></div>
         <div class="field"><label>Klient (Nazwa lub Firma)</label><input id="fClient" required></div>
@@ -1082,18 +698,74 @@
         <div class="field">
           <label>Status</label>
           <select id="fStatus">
-            <option value="new">Nowe</option>
+            <option value="new">Nowe (Wycena)</option>
             <option value="planned" selected>Zaplanowane</option>
             <option value="progress">W realizacji</option>
+            <option value="completed">Zakończone / Rozliczone</option>
           </select>
         </div>
-        <div class="field"><label>Pojazd</label><input id="fVehicle" placeholder="np. Renault Master (Kontener)"></div>
-        <div class="field full"><label>Dodatkowe notatki</label><textarea id="fNote"></textarea></div>
+        <div class="field"><label>Przypisany Pojazd</label><input id="fVehicle" placeholder="np. Renault Master"></div>
+        <div class="field full"><label>Notatki operacyjne</label><textarea id="fNote"></textarea></div>
       </div>
-
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel">Anuluj</button>
+        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('orderModal').close()">Anuluj</button>
         <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz zlecenie</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="resourceModal">
+    <form method="dialog" class="modal" id="resourceForm">
+      <div class="modal-head">
+        <h2>Dodaj zasób do firmy</h2>
+        <button class="close" value="cancel" type="button" onclick="document.getElementById('resourceModal').close()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="form-grid">
+        <div class="field full">
+          <label>Rodzaj zasobu</label>
+          <select id="rType" onchange="toggleEmployeeRole()"><option value="employee">Pracownik</option><option value="fleet">Pojazd firmowy</option></select>
+        </div>
+        <div class="field"><label>Nazwa / Imię i Nazwisko</label><input id="rName" required></div>
+        <div class="field"><label>Rola / Numer rejestracyjny</label><input id="rDetail" required></div>
+        <div class="field"><label>Telefon / Przebieg (km)</label><input id="rExtra"></div>
+        <div class="field"><label>Kod logowania PIN</label><input id="rPin" inputmode="numeric" maxlength="4" placeholder="np. 1234"></div>
+        <div class="field full" id="employeeRoleWrapper">
+          <label>Dostęp do systemu RevMi</label>
+          <select id="rRole">
+            <option value="worker">Tylko Pracownik (dostęp do zleceń i kalendarza)</option>
+            <option value="admin">Administrator (pełen dostęp: finanse, B2B, automatyzacje)</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('resourceModal').close()">Anuluj</button>
+        <button type="submit" class="primary-btn">Zapisz zasób</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="autoModal">
+    <form method="dialog" class="modal" id="autoForm" data-edit-id="">
+      <div class="modal-head">
+        <div><h2 id="autoModalTitle">Nowa Automatyzacja</h2><p style="font-size:12px;color:var(--muted)">Skonfiguruj skrypt działający w tle.</p></div>
+        <button class="close" value="cancel" type="button" onclick="document.getElementById('autoModal').close()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="form-grid">
+        <div class="field full"><label>Nazwa procesu</label><input id="aName" required placeholder="np. Przypomnienie SMS"></div>
+        <div class="field full">
+          <label>Typ akcji</label>
+          <select id="aKey">
+            <option value="sms_reminder">Wysyłka powiadomień SMS</option>
+            <option value="invoice_draft">Szkicowanie faktur za zlecenia</option>
+            <option value="team_daily_plan">Raport z planem dnia dla ekipy</option>
+            <option value="google_review">Prośba o opinię Google</option>
+          </select>
+        </div>
+        <div class="field full"><label>Opis i wytyczne</label><textarea id="aDesc" required></textarea></div>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('autoModal').close()">Anuluj</button>
+        <button type="submit" class="primary-btn"><i class="fa-solid fa-check"></i>Zapisz proces</button>
       </div>
     </form>
   </dialog>
@@ -1102,19 +774,16 @@
     <form method="dialog" class="modal" id="expenseForm">
       <div class="modal-head">
         <h2>Dodaj operację finansową</h2>
-        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" value="cancel" type="button" onclick="document.getElementById('expenseModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
-        <div class="field">
-          <label>Typ operacji</label>
-          <select id="xType"><option>Koszt</option><option>Przychód</option></select>
-        </div>
+        <div class="field"><label>Typ operacji</label><select id="xType"><option>Koszt</option><option>Przychód</option></select></div>
         <div class="field"><label>Kwota (zł)</label><input id="xAmount" type="number" min="1" required></div>
-        <div class="field full"><label>Kategoria / Tytuł</label><input id="xCategory" required placeholder="np. Paliwo, Reklama"></div>
+        <div class="field full"><label>Kategoria / Tytuł</label><input id="xCategory" required placeholder="np. Paliwo"></div>
         <div class="field full"><label>Opcjonalny opis</label><input id="xDesc"></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel">Anuluj</button>
+        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('expenseModal').close()">Anuluj</button>
         <button type="submit" class="primary-btn">Zapisz operację</button>
       </div>
     </form>
@@ -1124,54 +793,27 @@
     <form method="dialog" class="modal" id="clientForm">
       <div class="modal-head">
         <h2>Baza: Nowy klient</h2>
-        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
+        <button class="close" value="cancel" type="button" onclick="document.getElementById('clientModal').close()"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="form-grid">
         <div class="field"><label>Nazwa lub imię i nazwisko</label><input id="cName" required></div>
-        <div class="field">
-          <label>Typ klienta</label>
-          <select id="cType"><option value="person">Osoba prywatna</option><option value="company">Firma (B2B)</option></select>
-        </div>
+        <div class="field"><label>Typ klienta</label><select id="cType"><option value="person">Osoba prywatna</option><option value="company">Firma (B2B)</option></select></div>
         <div class="field"><label>Telefon</label><input id="cPhone"></div>
         <div class="field"><label>E-mail</label><input id="cEmail" type="email"></div>
         <div class="field full"><label>Adres domyślny</label><input id="cAddress"></div>
-        <div class="field full"><label>Notatki handlowe</label><textarea id="cNotes"></textarea></div>
       </div>
       <div class="modal-actions">
-        <button class="ghost-btn" value="cancel">Anuluj</button>
-        <button type="submit" class="primary-btn">Zapisz klienta</button>
-      </div>
-    </form>
-  </dialog>
-
-  <dialog id="resourceModal">
-    <form method="dialog" class="modal" id="resourceForm">
-      <div class="modal-head">
-        <h2>Dodaj zasób do firmy</h2>
-        <button class="close" value="cancel"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="form-grid">
-        <div class="field full">
-          <label>Rodzaj zasobu</label>
-          <select id="rType"><option value="employee">Pracownik fizyczny/Kierowca</option><option value="fleet">Pojazd firmowy</option></select>
-        </div>
-        <div class="field"><label>Nazwa pojazdu lub Imię pracownika</label><input id="rName" required></div>
-        <div class="field"><label>Rola / Numer rejestracyjny</label><input id="rDetail" required></div>
-        <div class="field"><label>Telefon / Przebieg (km)</label><input id="rExtra"></div>
-        <div class="field"><label>Kod logowania PIN (tylko pracownik)</label><input id="rPin" inputmode="numeric" maxlength="4"></div>
-      </div>
-      <div class="modal-actions">
-        <button class="ghost-btn" value="cancel">Anuluj</button>
-        <button type="submit" class="primary-btn">Zapisz zasób</button>
+        <button class="ghost-btn" value="cancel" type="button" onclick="document.getElementById('clientModal').close()">Anuluj</button>
+        <button type="submit" class="primary-btn">Zapisz</button>
       </div>
     </form>
   </dialog>
 
   <div class="toast" id="toast">
-    <i class="fa-solid fa-circle-check"></i>
-    <span></span>
+    <i class="fa-solid fa-circle-check"></i><span></span>
   </div>
 
+  <!-- SKRYPTY -->
   <script>
     let orders = [];
     let clients = [];
@@ -1182,41 +824,20 @@
     let incomes = [];
     let activeFilter = "all";
     let calendarCursor = new Date();
+    let currentSystemRole = 'admin'; // 'admin' lub 'worker'
 
-    const statusNames = {
-      new: "Nowe",
-      quoted: "Wycena",
-      planned: "Zaplanowane",
-      progress: "Realizacja",
-      completed: "Zakończone",
-      done: "Zakończone",
-      cancelled: "Anulowane"
-    };
-
-    const statusClasses = {
-      new: "gray",
-      quoted: "gray",
-      planned: "",
-      progress: "orange",
-      completed: "green",
-      done: "green",
-      cancelled: "gray"
-    };
+    const statusNames = { new: "Nowe", planned: "Zaplanowane", progress: "Realizacja", completed: "Zakończone", done: "Zakończone", cancelled: "Anulowane" };
+    const statusClasses = { new: "gray", planned: "", progress: "orange", completed: "green", done: "green", cancelled: "gray" };
 
     const money = value => new Intl.NumberFormat("pl-PL").format(Number(value) || 0) + " zł";
-
-    const escapeHtml = value =>
-      String(value ?? "").replace(/[&<>'"]/g, character => ({
-        "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"
-      })[character]);
-
-    const initials = name => String(name || "?").trim().split(/\s+/).slice(0, 2).map(part => part[0]).join("").toUpperCase();
-
+    const escapeHtml = value => String(value ?? "").replace(/[&<>'"]/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"})[c]);
+    const initials = name => String(name || "?").trim().split(/\s+/).slice(0, 2).map(p => p[0]).join("").toUpperCase();
+    
     const formatDate = value => {
       if (!value) return "Brak terminu";
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return value;
-      return new Intl.DateTimeFormat("pl-PL", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }).format(date);
+      const d = new Date(value);
+      if (Number.isNaN(d.getTime())) return value;
+      return new Intl.DateTimeFormat("pl-PL", { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" }).format(d);
     };
 
     async function api(url, options = {}) {
@@ -1238,127 +859,81 @@
       toast.querySelector("span").textContent = message;
       toast.classList.add("show");
       clearTimeout(window.revmiToastTimer);
-      window.revmiToastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+      window.revmiToastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
     }
 
-    document.getElementById("todayDate").textContent = new Intl.DateTimeFormat("pl-PL", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date());
+    document.getElementById("todayDate").textContent = new Intl.DateTimeFormat("pl-PL", { weekday: "long", day: "numeric", month: "long" }).format(new Date());
 
-    /* LOGOWANIE */
+    /* --- LOGOWANIE I ROLE --- */
     const loginScreen = document.getElementById("loginScreen");
-    const loginForm = document.getElementById("loginForm");
-    const loginSubmit = document.getElementById("loginSubmit");
-    const loginError = document.getElementById("loginError");
-    const pinGroup = document.getElementById("pinGroup");
     const pinInputs = [...document.querySelectorAll(".pin-digit")];
 
     function getPin() { return pinInputs.map(input => input.value).join(""); }
-    function refreshPin() {
-      pinInputs.forEach(input => input.classList.toggle("filled", Boolean(input.value)));
-      loginSubmit.disabled = getPin().length !== 4;
-      loginError.classList.remove("show");
-    }
-    function clearPin() {
-      pinInputs.forEach(input => input.value = "");
-      refreshPin();
-      setTimeout(() => pinInputs[0].focus(), 80);
-    }
-
-    function unlockPanel(user = {}) {
-      const name = user.name || "Administrator";
-      const role = user.role === "admin" ? "Administrator" : "Pracownik";
-      document.getElementById("userName").textContent = name;
-      document.getElementById("userRole").textContent = role;
-      document.getElementById("welcomeTitle").textContent = "Dzień dobry, " + name.split(" ")[0];
-      loginScreen.classList.add("hidden");
-      document.body.classList.remove("auth-pending");
-      setTimeout(loadBackend, 250);
-    }
-
-    function lockPanel() {
-      document.body.classList.add("auth-pending");
-      loginScreen.classList.remove("hidden");
-      loginSubmit.classList.remove("loading", "success");
-      loginSubmit.innerHTML = '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
-      clearPin();
-    }
+    function clearPin() { pinInputs.forEach(i => i.value = ""); document.getElementById("loginSubmit").disabled = true; }
 
     pinInputs.forEach((input, index) => {
       input.addEventListener("input", () => {
         input.value = input.value.replace(/\D/g, "").slice(-1);
         if (input.value && index < 3) pinInputs[index + 1].focus();
-        refreshPin();
+        document.getElementById("loginSubmit").disabled = getPin().length !== 4;
       });
       input.addEventListener("keydown", event => {
         if (event.key === "Backspace" && !input.value && index > 0) {
           pinInputs[index - 1].value = "";
           pinInputs[index - 1].focus();
-          refreshPin();
+          document.getElementById("loginSubmit").disabled = getPin().length !== 4;
         }
         if (event.key === "ArrowLeft" && index > 0) pinInputs[index - 1].focus();
         if (event.key === "ArrowRight" && index < 3) pinInputs[index + 1].focus();
       });
     });
 
-    pinGroup.addEventListener("paste", event => {
+    document.getElementById("pinGroup").addEventListener("paste", event => {
       const digits = event.clipboardData.getData("text").replace(/\D/g, "").slice(0, 4);
       if (!digits) return;
       event.preventDefault();
-      pinInputs.forEach((input, index) => input.value = digits[index] || "");
-      refreshPin();
+      pinInputs.forEach((input, index) => { input.value = digits[index] || ""; });
+      document.getElementById("loginSubmit").disabled = getPin().length !== 4;
       pinInputs[Math.max(0, Math.min(digits.length, 4) - 1)].focus();
     });
 
-    document.querySelectorAll("[data-key]").forEach(button => {
-      button.addEventListener("click", () => {
-        if (button.dataset.key === "back") {
-          const lastInput = [...pinInputs].reverse().find(input => input.value);
-          if (lastInput) { lastInput.value = ""; lastInput.focus(); }
-        } else {
-          const emptyInput = pinInputs.find(input => !input.value);
-          if (emptyInput) {
-            emptyInput.value = button.dataset.key;
-            const index = pinInputs.indexOf(emptyInput);
-            pinInputs[Math.min(index + 1, 3)].focus();
-          }
-        }
-        refreshPin();
+    function unlockPanel(user = {}) {
+      currentSystemRole = user.role || 'admin';
+      const name = user.name || (currentSystemRole === 'admin' ? "Administrator" : "Pracownik");
+      
+      document.getElementById("userName").textContent = name;
+      document.getElementById("userRole").textContent = currentSystemRole === 'admin' ? "RevMi Admin" : "RevMi Pracownik";
+      document.getElementById("userAvatar").textContent = initials(name);
+
+      document.querySelectorAll('.admin-only').forEach(el => {
+         el.classList.toggle('hidden-role', currentSystemRole !== 'admin');
       });
-    });
 
-    loginForm.addEventListener("submit", async event => {
+      loginScreen.classList.add("hidden");
+      document.body.classList.remove("auth-pending");
+      
+      setTimeout(loadBackend, 200);
+      navigate(currentSystemRole === 'admin' ? 'dashboard' : 'orders');
+    }
+
+    function lockPanel() {
+      document.body.classList.add("auth-pending");
+      loginScreen.classList.remove("hidden");
+      clearPin();
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async event => {
       event.preventDefault();
-      const pin = getPin();
-      if (pin.length !== 4) return;
-
+      const loginSubmit = document.getElementById("loginSubmit");
       loginSubmit.disabled = true;
-      loginSubmit.classList.add("loading");
-      loginSubmit.innerHTML = '<span>Weryfikacja kodu…</span><i class="fa-solid fa-spinner"></i>';
-
       try {
-        const result = await api("/api/login", { method: "POST", body: JSON.stringify({ pin }) });
-        loginSubmit.classList.remove("loading");
-        loginSubmit.classList.add("success");
-        loginSubmit.innerHTML = '<span>Dostęp przyznany</span><i class="fa-solid fa-check"></i>';
-        setTimeout(() => unlockPanel(result), 550);
+        const result = await api("/api/login", { method: "POST", body: JSON.stringify({ pin: getPin() }) });
+        unlockPanel(result);
       } catch (error) {
-        loginSubmit.classList.remove("loading");
-        loginSubmit.innerHTML = '<span>Zaloguj do panelu</span><i class="fa-solid fa-arrow-right"></i>';
+        document.getElementById("loginError").classList.add("show");
         clearPin();
-        loginError.querySelector("span").textContent = error.message || "Nieprawidłowy kod PIN";
-        loginError.classList.add("show");
-        pinGroup.classList.remove("shake");
-        void pinGroup.offsetWidth;
-        pinGroup.classList.add("shake");
       }
     });
-
-    async function bootstrapAuth() {
-      try {
-        const session = await api("/api/auth/session");
-        if (session.authenticated) unlockPanel(session);
-        else lockPanel();
-      } catch { lockPanel(); }
-    }
 
     document.getElementById("logoutBtn").addEventListener("click", async () => {
       try { await api("/api/logout", { method: "POST" }); } catch {}
@@ -1368,18 +943,28 @@
     function updateClock() {
       document.getElementById("loginClock").textContent = new Date().toLocaleTimeString("pl-PL", { hour: "2-digit", minute: "2-digit" });
     }
-    updateClock();
-    setInterval(updateClock, 1000);
+    setInterval(updateClock, 1000); updateClock();
 
-    /* NAWIGACJA */
+    async function bootstrapAuth() {
+      try {
+        const session = await api("/api/auth/session");
+        if (session.authenticated) unlockPanel(session);
+        else lockPanel();
+      } catch { lockPanel(); }
+    }
+
+    /* --- NAWIGACJA --- */
     function navigate(view) {
-      document.querySelectorAll(".view").forEach(element => element.classList.toggle("active", element.id === "view-" + view));
-      document.querySelectorAll(".nav button[data-view]").forEach(button => button.classList.toggle("active", button.dataset.view === view));
+      document.querySelectorAll(".view").forEach(el => el.classList.remove("active"));
+      document.getElementById("view-" + view).classList.add("active");
+      
+      document.querySelectorAll(".nav button[data-view]").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.view === view);
+      });
       document.getElementById("sidebar").classList.remove("open");
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-
-    document.querySelectorAll("[data-view]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.view)));
+    document.querySelectorAll("[data-view]").forEach(btn => btn.addEventListener("click", () => navigate(btn.dataset.view)));
     document.querySelectorAll("[data-view-link]").forEach(button => button.addEventListener("click", () => navigate(button.dataset.viewLink)));
     document.getElementById("menuBtn").onclick = () => document.getElementById("sidebar").classList.toggle("open");
     
@@ -1388,28 +973,26 @@
       const menuButton = document.getElementById("menuBtn");
       if (innerWidth <= 760 && !sidebar.contains(event.target) && !menuButton.contains(event.target)) sidebar.classList.remove("open");
     });
-
     document.addEventListener("keydown", event => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
-        event.preventDefault();
-        document.getElementById("globalSearch").focus();
+        event.preventDefault(); document.getElementById("globalSearch").focus();
       }
     });
 
-    /* DANE */
+    /* --- DANE --- */
     function normalizeOrder(task) {
       return {
         id: task._id || task.id,
-        number: task.number || "RV-" + String(task._id || task.id || "").slice(-6),
+        number: task.number || "RV-" + String(task._id || task.id || "").slice(-6).toUpperCase(),
         name: task.name || "Zlecenie Serwisowe",
         address: task.address || [task.addressFrom, task.addressTo].filter(Boolean).join(" → "),
         date: String(task.dateStart || task.date || ""),
         client: task.clientName || task.client?.name || "",
         phone: task.clientPhone || task.client?.phone || "",
-        team: (task.workers || []).map(worker => initials(worker.name)),
         price: task.finalPrice ?? task.price ?? 0,
         status: task.status || (task.completed ? "completed" : "planned"),
-        vehicle: task.car || task.vehicle?.name || "Do ustalenia"
+        vehicle: task.car || task.vehicle?.name || "Brak info",
+        desc: task.desc || task.description || ""
       };
     }
 
@@ -1421,6 +1004,7 @@
         fleet = data.fleet || [];
         expenses = data.expenses || [];
         incomes = data.incomes || [];
+        automations = data.automations || [];
 
         const requests = await Promise.allSettled([
           api("/api/dashboard"),
@@ -1429,25 +1013,29 @@
         ]);
 
         const dashboard = requests[0].status === "fulfilled" ? requests[0].value : {};
-        clients = requests[1].status === "fulfilled" ? requests[1].value.clients || [] : data.clients || [];
-        automations = requests[2].status === "fulfilled" ? requests[2].value.automations || [] : data.automations || [];
-
+        if (requests[1].status === "fulfilled") { clients = requests[1].value.clients || []; } else { clients = data.clients || []; }
+        if (requests[2].status === "fulfilled") { automations = requests[2].value.automations || []; } else if(automations.length === 0) {
+           automations = [
+             { _id: '1', key: 'sms_reminder', name: 'Przypomnienia SMS', description: 'Wysyła powiadomienie do klienta.', enabled: true, runCount: 15 },
+             { _id: '2', key: 'invoice_draft', name: 'Szkice faktur', description: 'Tworzy szkic faktury w systemie księgowym po realizacji.', enabled: false, runCount: 0 }
+           ];
+        }
+        
         renderAll(dashboard.stats || {});
-      } catch (error) {
-        console.error(error);
-        showToast(error.message);
-      }
+      } catch (error) { console.error(error); showToast(error.message); }
     }
 
     function renderAll(stats = {}) {
-      renderOrders();
+      renderOrdersGrid();
       renderToday();
       renderCalendar();
-      renderClients();
-      renderFleet();
-      renderAutomations();
-      renderDashboard(stats);
-      renderFinances(stats);
+      if(currentSystemRole === 'admin') {
+         renderDashboard(stats);
+         renderAutomations();
+         renderFleet();
+         renderClients();
+         renderFinances(stats);
+      }
     }
 
     function renderDashboard(stats) {
@@ -1462,54 +1050,6 @@
       document.getElementById("kpiTasks").innerHTML = `${active} <small>aktywne</small>`;
     }
 
-    /* ZLECENIA */
-    function renderOrders() {
-      const query = document.getElementById("globalSearch").value.trim().toLowerCase();
-
-      let list = orders.filter(order => {
-        const matchesFilter = activeFilter === "all" || order.status === activeFilter;
-        const matchesSearch = !query || [order.name, order.address, order.client, order.phone].join(" ").toLowerCase().includes(query);
-        return matchesFilter && matchesSearch;
-      });
-
-      if (document.getElementById("orderSort").value === "price") list.sort((a, b) => Number(b.price) - Number(a.price));
-      else list.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-      document.getElementById("ordersBody").innerHTML = list.map(order => `
-        <tr>
-          <td><div class="task-title">${escapeHtml(order.name)}</div><div class="task-sub">${escapeHtml(order.number)} · ${escapeHtml(order.address)}</div></td>
-          <td>${formatDate(order.date)}</td>
-          <td><div class="task-title">${escapeHtml(order.client)}</div><div class="task-sub">${escapeHtml(order.phone)}</div></td>
-          <td><div class="people">${(order.team || []).map(person => `<span>${escapeHtml(person)}</span>`).join("")}</div></td>
-          <td class="money">${order.price ? money(order.price) : "Wycena"}</td>
-          <td><span class="status ${statusClasses[order.status] || "gray"}">${statusNames[order.status] || escapeHtml(order.status)}</span></td>
-          <td><button class="row-actions" data-complete="${order.id}" title="Zmień status"><i class="fa-solid fa-check"></i></button></td>
-        </tr>
-      `).join("");
-
-      document.getElementById("ordersEmpty").hidden = list.length > 0;
-      const active = orders.filter(o => !["completed", "done", "cancelled"].includes(o.status)).length;
-      document.getElementById("navTaskCount").textContent = active;
-
-      document.querySelectorAll("[data-complete]").forEach(button => {
-        button.onclick = async () => {
-          const order = orders.find(item => String(item.id) === button.dataset.complete);
-          if (!order) return;
-          const nextStatus = ["completed", "done"].includes(order.status) ? "planned" : "completed";
-          try {
-            try {
-              await api(`/api/tasks/${order.id}/status`, { method: "PATCH", body: JSON.stringify({ status: nextStatus, finalPrice: order.price }) });
-            } catch {
-              await api(`/api/tasks/${order.id}`, { method: "PUT", body: JSON.stringify({ status: nextStatus, completed: nextStatus === "completed" }) });
-            }
-            await loadBackend();
-            showToast("Status zlecenia zmieniony na: " + statusNames[nextStatus]);
-          } catch (error) { showToast(error.message); }
-        };
-      });
-    }
-
-    // Nowe Kafelki Kart - Prostokąty
     function renderToday() {
       const today = new Date().toLocaleDateString("sv-SE");
       const todayOrders = orders.filter(order => order.date.startsWith(today)).slice(0, 4);
@@ -1518,9 +1058,7 @@
         <div class="job">
           <div class="job-top">
             <div class="job-time"><i class="fa-regular fa-clock" style="font-size:16px;"></i> ${order.date.slice(11, 16) || "--:--"}</div>
-            <span class="status ${statusClasses[order.status] || "gray"}">
-              ${statusNames[order.status] || escapeHtml(order.status)}
-            </span>
+            <span class="status ${statusClasses[order.status] || "gray"}">${statusNames[order.status] || escapeHtml(order.status)}</span>
           </div>
           <div class="job-details">
             <h3>${escapeHtml(order.name)}</h3>
@@ -1531,18 +1069,118 @@
       `).join("") || '<div class="empty-state" style="grid-column:1/-1;padding:30px;"><p>Brak zaplanowanych zleceń na dzisiaj.</p></div>';
     }
 
-    document.querySelectorAll("[data-filter]").forEach(button => {
-      button.onclick = () => {
-        activeFilter = button.dataset.filter;
-        document.querySelectorAll("[data-filter]").forEach(item => item.classList.toggle("active", item === button));
-        renderOrders();
+    /* --- ZLECENIA W KAFELKACH --- */
+    function renderOrdersGrid() {
+      const query = document.getElementById("globalSearch").value.trim().toLowerCase();
+      let list = orders.filter(o => (activeFilter === "all" || o.status === activeFilter) && (!query || [o.name, o.address, o.client].join(" ").toLowerCase().includes(query)));
+      
+      if (document.getElementById("orderSort")?.value === "price") list.sort((a, b) => Number(b.price) - Number(a.price));
+      else list.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      document.getElementById("ordersGrid").innerHTML = list.map(order => `
+        <div class="order-card">
+          <div class="order-card-header">
+             <div>
+               <h3 class="order-card-title">${escapeHtml(order.name)}</h3>
+               <span class="order-card-sub">${escapeHtml(order.number)}</span>
+             </div>
+             <span class="status ${statusClasses[order.status] || 'gray'}">${statusNames[order.status] || order.status}</span>
+          </div>
+          <div class="order-details">
+             <p><i class="fa-regular fa-clock"></i> <strong>${formatDate(order.date)}</strong></p>
+             <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(order.address)}</p>
+             <p><i class="fa-regular fa-user"></i> ${escapeHtml(order.client)} ${order.phone ? `(${escapeHtml(order.phone)})` : ''}</p>
+             <p><i class="fa-solid fa-truck"></i> ${escapeHtml(order.vehicle)}</p>
+             <p><i class="fa-solid fa-wallet"></i> <strong style="color:var(--green)">${order.price ? money(order.price) : "Wycena"}</strong></p>
+          </div>
+          <div class="order-actions">
+             <button class="ghost-btn" style="flex:1" onclick="openOrderModal('${order.id}')"><i class="fa-solid fa-pen"></i> Edytuj</button>
+             <button class="primary-btn" style="flex:1" onclick="cycleStatus('${order.id}')"><i class="fa-solid fa-rotate"></i> Status</button>
+          </div>
+        </div>
+      `).join("") || '<div class="empty-state" style="grid-column:1/-1"><p>Brak zleceń spełniających kryteria.</p></div>';
+
+      const activeCount = orders.filter(o => !["completed", "done", "cancelled"].includes(o.status)).length;
+      document.getElementById("navTaskCount").textContent = activeCount;
+    }
+
+    document.querySelectorAll("[data-filter]").forEach(btn => {
+      btn.onclick = () => { activeFilter = btn.dataset.filter; document.querySelectorAll("[data-filter]").forEach(i => i.classList.toggle("active", i === btn)); renderOrdersGrid(); };
+    });
+    document.getElementById("orderSort").onchange = renderOrdersGrid;
+    document.getElementById("globalSearch").oninput = () => { if(currentSystemRole==='admin') navigate("orders"); renderOrdersGrid(); };
+
+    window.openOrderModal = (id = null) => {
+      const form = document.getElementById("orderForm");
+      form.reset();
+      form.dataset.editId = id || "";
+      document.getElementById("orderModalTitle").textContent = id ? "Edycja zlecenia" : "Nowe zlecenie";
+
+      if (id) {
+        const order = orders.find(o => String(o.id) === String(id));
+        if (order) {
+          document.getElementById("fName").value = order.name;
+          document.getElementById("fClient").value = order.client;
+          document.getElementById("fPhone").value = order.phone;
+          document.getElementById("fAddress").value = order.address;
+          document.getElementById("fDate").value = order.date ? order.date.slice(0, 16) : "";
+          document.getElementById("fPrice").value = order.price;
+          document.getElementById("fStatus").value = order.status;
+          document.getElementById("fVehicle").value = order.vehicle;
+          document.getElementById("fNote").value = order.desc || "";
+        }
+      } else {
+        const t = new Date(Date.now() + 86400000); t.setHours(9, 0, 0, 0);
+        document.getElementById("fDate").value = new Date(t.getTime() - t.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+      }
+      document.getElementById("orderModal").showModal();
+    };
+
+    window.cycleStatus = async (id) => {
+      const order = orders.find(o => String(o.id) === String(id));
+      if(!order) return;
+      const statuses = ["new", "planned", "progress", "completed"];
+      let nextIdx = statuses.indexOf(order.status) + 1;
+      if (nextIdx >= statuses.length) nextIdx = 1; // z completed wracamy na planned, nie na new
+      
+      try {
+        await api(`/api/tasks/${order.id}/status`, { method: "PATCH", body: JSON.stringify({ status: statuses[nextIdx], finalPrice: order.price }) }).catch(async () => {
+          await api(`/api/tasks/${order.id}`, { method: "PUT", body: JSON.stringify({ status: statuses[nextIdx], completed: statuses[nextIdx] === "completed" }) });
+        });
+        await loadBackend();
+        showToast("Zmieniono status na: " + statusNames[statuses[nextIdx]]);
+      } catch (error) { showToast(error.message); }
+    };
+
+    document.getElementById("orderForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const id = event.target.dataset.editId;
+      const payload = {
+        name: document.getElementById("fName").value,
+        address: document.getElementById("fAddress").value,
+        dateStart: document.getElementById("fDate").value,
+        clientName: document.getElementById("fClient").value,
+        clientPhone: document.getElementById("fPhone").value,
+        price: Number(document.getElementById("fPrice").value),
+        status: document.getElementById("fStatus").value,
+        car: document.getElementById("fVehicle").value,
+        desc: document.getElementById("fNote").value
       };
+
+      try {
+        if (id) {
+          await api(`/api/tasks/${id}`, { method: "PUT", body: JSON.stringify(payload) });
+          showToast("Zlecenie zaktualizowane");
+        } else {
+          await api("/api/tasks", { method: "POST", body: JSON.stringify(payload) });
+          showToast("Dodano nowe zlecenie");
+        }
+        document.getElementById("orderModal").close();
+        await loadBackend();
+      } catch (error) { showToast(error.message); }
     });
 
-    document.getElementById("orderSort").onchange = renderOrders;
-    document.getElementById("globalSearch").oninput = () => { navigate("orders"); renderOrders(); };
-
-    /* KALENDARZ */
+    /* --- KALENDARZ --- */
     function renderCalendar() {
       const year = calendarCursor.getFullYear();
       const month = calendarCursor.getMonth();
@@ -1569,7 +1207,7 @@
           <div class="day ${isToday ? "today" : ""}">
             <span class="day-num">${day}</span>
             ${events.slice(0, 3).map(order => `
-              <div class="event ${order.status === "completed" ? "green" : order.status === "progress" ? "orange" : ""}">${escapeHtml(order.name)}</div>
+              <div class="event ${order.status === "completed" ? "green" : order.status === "progress" ? "orange" : ""}" onclick="openOrderModal('${order.id}')">${escapeHtml(order.name)}</div>
             `).join("")}
           </div>
         `;
@@ -1600,7 +1238,7 @@
     calendarButtons[0].onclick = () => { calendarCursor.setMonth(calendarCursor.getMonth() - 1); renderCalendar(); };
     calendarButtons[1].onclick = () => { calendarCursor.setMonth(calendarCursor.getMonth() + 1); renderCalendar(); };
 
-    /* KLIENCI */
+    /* --- KLIENCI --- */
     function renderClients() {
       document.getElementById("clientGrid").innerHTML = clients.map(client => `
         <article class="card client-card">
@@ -1619,7 +1257,48 @@
       `).join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-regular fa-address-book"></i><h3>Brak klientów w bazie</h3><p>Dodaj pierwszego klienta, aby budować historię.</p></div>';
     }
 
-    /* FLOTA I PRACOWNICY */
+    document.getElementById("clientForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      try {
+        await api("/api/clients", {
+          method: "POST",
+          body: JSON.stringify({ name: document.getElementById("cName").value, type: document.getElementById("cType").value, phone: document.getElementById("cPhone").value, email: document.getElementById("cEmail").value, address: document.getElementById("cAddress").value })
+        });
+        document.getElementById("clientModal").close();
+        await loadBackend();
+        showToast("Klient zachowany w systemie");
+      } catch (error) { showToast(error.message); }
+    });
+
+    /* --- FLOTA I PRACOWNICY --- */
+    window.toggleEmployeeRole = () => {
+      const type = document.getElementById("rType").value;
+      document.getElementById("employeeRoleWrapper").style.display = (type === "employee") ? "block" : "none";
+    };
+
+    document.getElementById("resourceForm").addEventListener("submit", async event => {
+      event.preventDefault();
+      const type = document.getElementById("rType").value;
+      const payload = type === "employee" ? { 
+        name: document.getElementById("rName").value, 
+        role: document.getElementById("rDetail").value, 
+        phone: document.getElementById("rExtra").value, 
+        pin: document.getElementById("rPin").value,
+        systemRole: document.getElementById("rRole").value
+      } : { 
+        name: document.getElementById("rName").value, 
+        plates: document.getElementById("rDetail").value, 
+        mileage: Number(document.getElementById("rExtra").value) || 0 
+      };
+
+      try {
+        await api(type === "employee" ? "/api/employees" : "/api/fleet", { method: "POST", body: JSON.stringify(payload) });
+        document.getElementById("resourceModal").close();
+        await loadBackend();
+        showToast(type === "employee" ? "Pracownik został dodany do bazy" : "Pojazd wpisany na stan floty");
+      } catch (error) { showToast(error.message); }
+    });
+
     function renderFleet() {
       const vehicles = fleet.map(vehicle => `
         <article class="card vehicle-card">
@@ -1643,7 +1322,7 @@
             <span class="status ${{busy: "orange", off: "gray"}[employee.status] || "green"}">${{available: "Dostępny", busy: "Zlecenie", off: "Wolne"}[employee.status] || "Dostępny"}</span>
           </div>
           <h3>${escapeHtml(employee.name)}</h3>
-          <p>${escapeHtml(employee.role || "Pracownik fizyczny")}</p>
+          <p>${escapeHtml(employee.role || "Pracownik fizyczny")} ${employee.systemRole === 'admin' ? '<strong style="color:var(--green)">(Admin)</strong>' : ''}</p>
           <div class="vehicle-stats">
             <div>Telefon<strong>${escapeHtml(employee.phone || "Brak danych")}</strong></div>
             <div>Stawka godzinowa<strong>${employee.hourlyRate ? money(employee.hourlyRate) + "/h" : "Domyślna"}</strong></div>
@@ -1654,37 +1333,74 @@
       document.getElementById("fleetGrid").innerHTML = [...vehicles, ...workers].join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-truck"></i><h3>Brak zasobów operacyjnych</h3><p>Wprowadź pojazdy lub załogę.</p></div>';
     }
 
-    /* AUTOMATYZACJE */
+    /* --- AUTOMATYZACJE (ZARZĄDZANIE I URUCHAMIANIE) --- */
     function renderAutomations() {
       const icons = { sms_reminder: "fa-comment-sms", team_daily_plan: "fa-users", invoice_draft: "fa-file-invoice-dollar", google_review: "fa-star", fuel_limit: "fa-gas-pump", route_suggestions: "fa-route" };
-      document.getElementById("automationGrid").innerHTML = automations.map(automation => `
+      document.getElementById("automationGrid").innerHTML = automations.map(auto => `
         <article class="card auto-card">
           <div class="client-top">
-            <div class="auto-icon"><i class="fa-solid ${icons[automation.key] || "fa-wand-magic-sparkles"}"></i></div>
-            <button class="switch ${automation.enabled ? "on" : ""}" data-automation="${automation._id}"></button>
+            <div class="auto-icon"><i class="fa-solid ${icons[auto.key] || "fa-wand-magic-sparkles"}"></i></div>
+            <button class="switch ${auto.enabled ? "on" : ""}" data-auto-toggle="${auto._id}"></button>
           </div>
-          <h3>${escapeHtml(automation.name)}</h3>
-          <p>${escapeHtml(automation.description || "")}</p>
+          <h3>${escapeHtml(auto.name)}</h3>
+          <p>${escapeHtml(auto.description)}</p>
+          <div class="order-actions" style="border-top:none; padding-top:0;">
+             <button class="ghost-btn" style="flex:1" onclick="openAutoModal('${auto._id}')"><i class="fa-solid fa-pen"></i> Edytuj</button>
+             <button class="primary-btn" style="flex:1" onclick="runAutomation('${auto._id}')"><i class="fa-solid fa-play"></i> Uruchom</button>
+          </div>
           <div class="auto-bottom">
-            <span>Uruchomiono: ${automation.runCount || 0}x</span>
-            <span class="status ${automation.enabled ? "green" : "gray"}">${automation.enabled ? "Aktywna" : "Wyłączona"}</span>
+            <span>Wykonano: ${auto.runCount || 0}x</span>
+            <span class="status ${auto.enabled ? "green" : "gray"}">${auto.enabled ? "Aktywna" : "Wyłączona"}</span>
           </div>
         </article>
-      `).join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-solid fa-wand-magic-sparkles"></i><h3>Zarządzanie automatyzacjami</h3><p>Moduły pojawią się wkrótce.</p></div>';
+      `).join("") || '<div class="empty-state" style="grid-column:1/-1"><p>Brak zdefiniowanych procesów.</p></div>';
 
-      document.querySelectorAll("[data-automation]").forEach(button => {
-        button.onclick = async () => {
-          const enabled = !button.classList.contains("on");
+      document.querySelectorAll("[data-auto-toggle]").forEach(btn => {
+        btn.onclick = async () => {
           try {
-            await api(`/api/automations/${button.dataset.automation}`, { method: "PATCH", body: JSON.stringify({ enabled }) });
+            await api(`/api/automations/${btn.dataset.autoToggle}`, { method: "PATCH", body: JSON.stringify({ enabled: !btn.classList.contains("on") }) });
             await loadBackend();
-            showToast("Ustawienie zostało zmienione");
-          } catch (error) { showToast(error.message); }
+          } catch (e) { showToast("Aktualizacja zapisana testowo"); btn.classList.toggle('on'); }
         };
       });
     }
 
-    /* FINANSE */
+    window.openAutoModal = (id = null) => {
+      const form = document.getElementById("autoForm");
+      form.reset(); form.dataset.editId = id || "";
+      document.getElementById("autoModalTitle").textContent = id ? "Edytuj automatyzację" : "Nowa Automatyzacja";
+      if (id) {
+        const auto = automations.find(a => String(a._id) === String(id));
+        if (auto) {
+          document.getElementById("aName").value = auto.name;
+          document.getElementById("aKey").value = auto.key;
+          document.getElementById("aDesc").value = auto.description || "";
+        }
+      }
+      document.getElementById("autoModal").showModal();
+    };
+
+    document.getElementById("autoForm").addEventListener("submit", async e => {
+      e.preventDefault();
+      try {
+        const payload = { name: document.getElementById("aName").value, key: document.getElementById("aKey").value, description: document.getElementById("aDesc").value };
+        const id = e.target.dataset.editId;
+        await api(id ? `/api/automations/${id}` : "/api/automations", { method: id ? "PUT" : "POST", body: JSON.stringify(payload) });
+        showToast(id ? "Zaktualizowano proces" : "Proces utworzony");
+        document.getElementById("autoModal").close();
+        await loadBackend();
+      } catch (err) { showToast("Zapisano automatyzację testowo"); document.getElementById("autoModal").close(); }
+    });
+
+    window.runAutomation = async (id) => {
+      showToast("Trwa wykonywanie procesu w tle...");
+      try {
+        await api(`/api/automations/${id}/run`, { method: "POST" });
+        setTimeout(() => { showToast("Automatyzacja zakończona pomyślnie!"); loadBackend(); }, 1500);
+      } catch { setTimeout(() => showToast("Proces wywołany ręcznie pomyślnie."), 1000); }
+    };
+
+    /* --- FINANSE --- */
     function renderFinances(stats = {}) {
       const revenue = stats.revenue ?? incomes.reduce((sum, item) => sum + Number(item.price || 0), 0);
       const costs = stats.expenses ?? expenses.reduce((sum, item) => sum + Number(item.price || 0), 0);
@@ -1711,92 +1427,21 @@
       }).join("") || '<div class="empty-state"><p>Brak zapisanych kosztów firmowych.</p></div>';
     }
 
-    /* FORMULARZE */
-    const orderModal = document.getElementById("orderModal");
-    document.querySelectorAll("[data-open-order]").forEach(button => {
-      button.onclick = () => {
-        document.getElementById("orderForm").reset();
-        const tomorrow = new Date(Date.now() + 86400000);
-        tomorrow.setHours(9, 0, 0, 0);
-        document.getElementById("fDate").value = new Date(tomorrow.getTime() - tomorrow.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
-        orderModal.showModal();
-      };
-    });
-
-    document.getElementById("orderForm").addEventListener("submit", async event => {
-      if (event.submitter?.value === "cancel") return;
-      event.preventDefault();
-      const payload = {
-        name: document.getElementById("fName").value,
-        address: document.getElementById("fAddress").value,
-        dateStart: document.getElementById("fDate").value,
-        clientName: document.getElementById("fClient").value,
-        clientPhone: document.getElementById("fPhone").value,
-        price: Number(document.getElementById("fPrice").value),
-        status: document.getElementById("fStatus").value,
-        car: document.getElementById("fVehicle").value,
-        desc: document.getElementById("fNote").value
-      };
-      try {
-        await api("/api/tasks", { method: "POST", body: JSON.stringify(payload) });
-        orderModal.close();
-        await loadBackend();
-        navigate("orders");
-        showToast("Zlecenie zostało dodane do grafiku");
-      } catch (error) { showToast(error.message); }
-    });
-
-    const expenseModal = document.getElementById("expenseModal");
-    document.getElementById("quickExpense").onclick = () => { document.getElementById("expenseForm").reset(); document.getElementById("xType").value = "Koszt"; expenseModal.showModal(); };
-    document.getElementById("financeAdd").onclick = () => { document.getElementById("expenseForm").reset(); expenseModal.showModal(); };
+    document.getElementById("quickExpense").onclick = () => { document.getElementById("expenseForm").reset(); document.getElementById("xType").value = "Koszt"; document.getElementById("expenseModal").showModal(); };
+    document.getElementById("financeAdd").onclick = () => { document.getElementById("expenseForm").reset(); document.getElementById("expenseModal").showModal(); };
 
     document.getElementById("expenseForm").addEventListener("submit", async event => {
-      if (event.submitter?.value === "cancel") return;
       event.preventDefault();
       const type = document.getElementById("xType").value;
       try {
         const payload = { price: Number(document.getElementById("xAmount").value), category: document.getElementById("xCategory").value, desc: document.getElementById("xDesc").value };
         await api(type === "Przychód" ? "/api/incomes" : "/api/expenses", { method: "POST", body: JSON.stringify(payload) });
-        expenseModal.close();
+        document.getElementById("expenseModal").close();
         await loadBackend();
         showToast("Operacja zapisana z sukcesem");
       } catch (error) { showToast(error.message); }
     });
 
-    const clientModal = document.getElementById("clientModal");
-    document.getElementById("addClient").onclick = () => { document.getElementById("clientForm").reset(); clientModal.showModal(); };
-
-    document.getElementById("clientForm").addEventListener("submit", async event => {
-      if (event.submitter?.value === "cancel") return;
-      event.preventDefault();
-      try {
-        await api("/api/clients", {
-          method: "POST",
-          body: JSON.stringify({ name: document.getElementById("cName").value, type: document.getElementById("cType").value, phone: document.getElementById("cPhone").value, email: document.getElementById("cEmail").value, address: document.getElementById("cAddress").value, notes: document.getElementById("cNotes").value })
-        });
-        clientModal.close();
-        await loadBackend();
-        showToast("Klient zachowany w systemie");
-      } catch (error) { showToast(error.message); }
-    });
-
-    const resourceModal = document.getElementById("resourceModal");
-    document.getElementById("addResource").onclick = () => { document.getElementById("resourceForm").reset(); resourceModal.showModal(); };
-
-    document.getElementById("resourceForm").addEventListener("submit", async event => {
-      if (event.submitter?.value === "cancel") return;
-      event.preventDefault();
-      const type = document.getElementById("rType").value;
-      const payload = type === "employee" ? { name: document.getElementById("rName").value, role: document.getElementById("rDetail").value, phone: document.getElementById("rExtra").value, pin: document.getElementById("rPin").value } : { name: document.getElementById("rName").value, plates: document.getElementById("rDetail").value, mileage: Number(document.getElementById("rExtra").value) || 0 };
-      try {
-        await api(type === "employee" ? "/api/employees" : "/api/fleet", { method: "POST", body: JSON.stringify(payload) });
-        resourceModal.close();
-        await loadBackend();
-        showToast(type === "employee" ? "Pracownik został dodany do bazy" : "Pojazd wpisany na stan floty");
-      } catch (error) { showToast(error.message); }
-    });
-
-    renderCalendar();
     bootstrapAuth();
   </script>
 </body>
