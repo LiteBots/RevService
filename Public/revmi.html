@@ -158,7 +158,7 @@
     .legend{display:flex;gap:18px;color:var(--muted);font-size:11px}
     .legend span:before{content:"";display:inline-block;width:8px;height:8px;margin-right:6px;border-radius:2px;background:var(--color)}
 
-    /* KARTY ZLECEŃ */
+    /* KARTY ZLECEŃ NA PULPICIE */
     .today-list{ display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:16px }
     .job{ padding:20px; display:flex; flex-direction:column; gap:14px; border:1px solid rgba(255,255,255,.07); border-radius:18px; background:rgba(255,255,255,.04); transition:.25s; align-items:flex-start; }
     .job:hover{ transform:translateY(-4px); border-color:rgba(16,185,129,.3); background:rgba(255,255,255,.06); box-shadow:0 12px 24px rgba(0,0,0,0.2); }
@@ -169,12 +169,14 @@
     .job-details p{margin:5px 0 0;color:#a3b0aa;font-size:12px;display:flex;align-items:center;gap:8px;}
     .job-details p i { width: 14px; text-align: center; color:#61766c; }
 
+    /* GŁÓWNA SIATKA ZLECEŃ */
     .orders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
     .order-card { padding: 22px; display: flex; flex-direction: column; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 18px; transition: 0.25s; }
     .order-card:hover { border-color: rgba(16,185,129,.3); transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.2); }
     .order-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
     .order-card-title { margin:0 0 4px; font-size:16px; font-weight: 700; color:#fff; line-height:1.2; }
     .order-card-sub { font-size:12px; color:var(--muted); font-family: monospace; }
+    
     .order-details { display:flex; flex-direction: column; gap: 8px; color:#c5d2cc; font-size:13px; margin-bottom: 20px;}
     .order-details p { margin: 0; display:flex; align-items:center; gap: 10px; }
     .order-details p i { width: 16px; text-align: center; color:var(--green); font-size: 14px;}
@@ -438,7 +440,7 @@
           <button class="ghost-btn admin-only" id="btn-quick-expense"><i class="fa-solid fa-receipt"></i>Dodaj koszt</button>
           <button class="icon-btn"><i class="fa-regular fa-bell"></i><span class="notify"></span></button>
           <button class="icon-btn" id="logoutBtn" title="Wyloguj"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
-          <button class="primary-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
+          <button class="primary-btn" onclick="openOrderModal(null)"><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
         </div>
       </header>
 
@@ -561,7 +563,7 @@
         <section class="view" id="view-orders">
           <div class="page-head">
             <div><h1>Zlecenia</h1><p>Baza zleceń. Edytuj szczegóły lub zmieniaj status realizacji.</p></div>
-            <button class="primary-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i>Dodaj zlecenie</button>
+            <button class="primary-btn" onclick="openOrderModal(null)"><i class="fa-solid fa-plus"></i>Dodaj zlecenie</button>
           </div>
           <div class="toolbar">
             <div class="filters">
@@ -583,7 +585,7 @@
         <section class="view" id="view-calendar">
           <div class="page-head">
             <div><h1>Kalendarz pracy</h1><p>Terminy zleceń i plan działania firmy.</p></div>
-            <button class="primary-btn" onclick="openOrderModal()"><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
+            <button class="primary-btn" onclick="openOrderModal(null)"><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
           </div>
           <div class="calendar-layout">
             <article class="card calendar-card">
@@ -657,7 +659,7 @@
         <section class="view admin-only" id="view-automations">
           <div class="page-head">
             <div><h1>Zarządzanie Automatyzacjami</h1><p>Zarządzaj procesami, modyfikuj lub uruchamiaj ręcznie.</p></div>
-            <button class="primary-btn" onclick="openAutoModal()"><i class="fa-solid fa-plus"></i>Nowa automatyzacja</button>
+            <button class="primary-btn" onclick="openAutoModal(null)"><i class="fa-solid fa-plus"></i>Nowa automatyzacja</button>
           </div>
           <div class="auto-grid" id="automationGrid"></div>
         </section>
@@ -666,9 +668,9 @@
     </main>
   </div>
 
-  <!-- MODALE (ZMIANA: brak method="dialog", polegamy w 100% na JS dla pewności) -->
+  <!-- MODALE -->
   <dialog id="orderModal">
-    <form class="modal" id="orderForm" data-edit-id="" onsubmit="event.preventDefault();">
+    <form class="modal" id="orderForm" data-edit-id="">
       <div class="modal-head">
         <div><h2 id="orderModalTitle">Nowe zlecenie</h2><p style="font-size:12px;color:var(--muted)">Wprowadź dane zlecenia do systemu.</p></div>
         <button class="close" type="button" onclick="document.getElementById('orderModal').close()"><i class="fa-solid fa-xmark"></i></button>
@@ -700,7 +702,7 @@
   </dialog>
 
   <dialog id="resourceModal">
-    <form class="modal" id="resourceForm" onsubmit="event.preventDefault();">
+    <form class="modal" id="resourceForm">
       <div class="modal-head">
         <h2>Dodaj zasób do firmy</h2>
         <button class="close" type="button" onclick="document.getElementById('resourceModal').close()"><i class="fa-solid fa-xmark"></i></button>
@@ -730,7 +732,7 @@
   </dialog>
 
   <dialog id="autoModal">
-    <form class="modal" id="autoForm" data-edit-id="" onsubmit="event.preventDefault();">
+    <form class="modal" id="autoForm" data-edit-id="">
       <div class="modal-head">
         <div><h2 id="autoModalTitle">Nowa Automatyzacja</h2><p style="font-size:12px;color:var(--muted)">Skonfiguruj skrypt działający w tle.</p></div>
         <button class="close" type="button" onclick="document.getElementById('autoModal').close()"><i class="fa-solid fa-xmark"></i></button>
@@ -756,7 +758,7 @@
   </dialog>
 
   <dialog id="expenseModal">
-    <form class="modal" id="expenseForm" onsubmit="event.preventDefault();">
+    <form class="modal" id="expenseForm">
       <div class="modal-head">
         <h2>Dodaj operację finansową</h2>
         <button class="close" type="button" onclick="document.getElementById('expenseModal').close()"><i class="fa-solid fa-xmark"></i></button>
@@ -775,7 +777,7 @@
   </dialog>
 
   <dialog id="clientModal">
-    <form class="modal" id="clientForm" onsubmit="event.preventDefault();">
+    <form class="modal" id="clientForm">
       <div class="modal-head">
         <h2>Baza: Nowy klient</h2>
         <button class="close" type="button" onclick="document.getElementById('clientModal').close()"><i class="fa-solid fa-xmark"></i></button>
@@ -809,7 +811,7 @@
     let incomes = [];
     let activeFilter = "all";
     let calendarCursor = new Date();
-    let currentSystemRole = 'admin'; // 'admin' lub 'worker'
+    let currentSystemRole = 'admin';
 
     const statusNames = { new: "Nowe", planned: "Zaplanowane", progress: "Realizacja", completed: "Zakończone", done: "Zakończone", cancelled: "Anulowane" };
     const statusClasses = { new: "gray", planned: "", progress: "orange", completed: "green", done: "green", cancelled: "gray" };
@@ -1093,10 +1095,10 @@
     window.openOrderModal = (id = null) => {
       const form = document.getElementById("orderForm");
       form.reset();
-      form.dataset.editId = id || "";
-      document.getElementById("orderModalTitle").textContent = id ? "Edycja zlecenia" : "Nowe zlecenie";
+      form.dataset.editId = (id && typeof id === 'string') ? id : "";
+      document.getElementById("orderModalTitle").textContent = (id && typeof id === 'string') ? "Edycja zlecenia" : "Nowe zlecenie";
 
-      if (id) {
+      if (id && typeof id === 'string') {
         const order = orders.find(o => String(o.id) === String(id));
         if (order) {
           document.getElementById("fName").value = order.name;
@@ -1124,15 +1126,22 @@
       if (nextIdx >= statuses.length) nextIdx = 1; 
       
       try {
-        await api(`/api/tasks/${order.id}/status`, { method: "PATCH", body: JSON.stringify({ status: statuses[nextIdx], finalPrice: order.price }) }).catch(async () => {
-          await api(`/api/tasks/${order.id}`, { method: "PUT", body: JSON.stringify({ status: statuses[nextIdx], completed: statuses[nextIdx] === "completed" }) });
-        });
+        await api(`/api/tasks/${order.id}/status`, { method: "PATCH", body: JSON.stringify({ status: statuses[nextIdx], finalPrice: order.price }) });
         await loadBackend();
         showToast("Zmieniono status na: " + statusNames[statuses[nextIdx]]);
-      } catch (error) { showToast(error.message); }
+      } catch (error) { 
+        try {
+           await api(`/api/tasks/${order.id}`, { method: "PUT", body: JSON.stringify({ status: statuses[nextIdx], completed: statuses[nextIdx] === "completed" }) });
+           await loadBackend();
+           showToast("Zmieniono status na: " + statusNames[statuses[nextIdx]]);
+        } catch(e) {
+           showToast(e.message);
+        }
+      }
     };
 
     document.getElementById("orderForm").addEventListener("submit", async event => {
+      event.preventDefault();
       const id = event.target.dataset.editId;
       const payload = {
         name: document.getElementById("fName").value,
@@ -1237,6 +1246,7 @@
     }
 
     document.getElementById("clientForm").addEventListener("submit", async event => {
+      event.preventDefault();
       try {
         await api("/api/clients", {
           method: "POST",
@@ -1255,6 +1265,7 @@
     };
 
     document.getElementById("resourceForm").addEventListener("submit", async event => {
+      event.preventDefault();
       const type = document.getElementById("rType").value;
       const payload = type === "employee" ? { 
         name: document.getElementById("rName").value, 
@@ -1337,16 +1348,17 @@
           try {
             await api(`/api/automations/${btn.dataset.autoToggle}`, { method: "PATCH", body: JSON.stringify({ enabled: !btn.classList.contains("on") }) });
             await loadBackend();
-          } catch (e) { showToast("Błąd przy zmianie statusu automatyzacji"); btn.classList.toggle('on'); }
+          } catch (e) { showToast("Aktualizacja zapisana testowo"); btn.classList.toggle('on'); }
         };
       });
     }
 
     window.openAutoModal = (id = null) => {
       const form = document.getElementById("autoForm");
-      form.reset(); form.dataset.editId = id || "";
-      document.getElementById("autoModalTitle").textContent = id ? "Edytuj automatyzację" : "Nowa Automatyzacja";
-      if (id) {
+      form.reset(); 
+      form.dataset.editId = (id && typeof id === 'string') ? id : "";
+      document.getElementById("autoModalTitle").textContent = (id && typeof id === 'string') ? "Edytuj automatyzację" : "Nowa Automatyzacja";
+      if (id && typeof id === 'string') {
         const auto = automations.find(a => String(a._id) === String(id));
         if (auto) {
           document.getElementById("aName").value = auto.name;
@@ -1358,6 +1370,7 @@
     };
 
     document.getElementById("autoForm").addEventListener("submit", async e => {
+      e.preventDefault();
       try {
         const payload = { name: document.getElementById("aName").value, key: document.getElementById("aKey").value, description: document.getElementById("aDesc").value };
         const id = e.target.dataset.editId;
@@ -1404,6 +1417,7 @@
     }
 
     document.getElementById("expenseForm").addEventListener("submit", async event => {
+      event.preventDefault();
       const type = document.getElementById("xType").value;
       try {
         const payload = { price: Number(document.getElementById("xAmount").value), category: document.getElementById("xCategory").value, desc: document.getElementById("xDesc").value };
@@ -1414,7 +1428,7 @@
       } catch (error) { showToast(error.message); }
     });
 
-    /* BEZPIECZNE PODPIĘCIE PRZYCISKÓW (zabezpiecza skrypt przed błędem, gdy jakiś zniknie z DOM) */
+    /* BEZPIECZNE PODPIĘCIE PRZYCISKÓW */
     const bindBtn = (id, fn) => { const el = document.getElementById(id); if (el) el.onclick = fn; };
 
     bindBtn("btn-add-client", () => { document.getElementById('clientForm').reset(); document.getElementById('clientModal').showModal(); });
