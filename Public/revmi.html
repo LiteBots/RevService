@@ -440,7 +440,7 @@
           <button class="ghost-btn admin-only" id="btn-quick-expense"><i class="fa-solid fa-receipt"></i>Dodaj koszt</button>
           <button class="icon-btn"><i class="fa-regular fa-bell"></i><span class="notify"></span></button>
           <button class="icon-btn" id="logoutBtn" title="Wyloguj"><i class="fa-solid fa-arrow-right-from-bracket"></i></button>
-          <button class="primary-btn" onclick="openOrderModal(null)"><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
+          <button type="button" class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Nowe zlecenie</button>
         </div>
       </header>
 
@@ -563,7 +563,7 @@
         <section class="view" id="view-orders">
           <div class="page-head">
             <div><h1>Zlecenia</h1><p>Baza zleceń. Edytuj szczegóły lub zmieniaj status realizacji.</p></div>
-            <button class="primary-btn" onclick="openOrderModal(null)"><i class="fa-solid fa-plus"></i>Dodaj zlecenie</button>
+            <button type="button" class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Dodaj zlecenie</button>
           </div>
           <div class="toolbar">
             <div class="filters">
@@ -585,7 +585,7 @@
         <section class="view" id="view-calendar">
           <div class="page-head">
             <div><h1>Kalendarz pracy</h1><p>Terminy zleceń i plan działania firmy.</p></div>
-            <button class="primary-btn" onclick="openOrderModal(null)"><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
+            <button type="button" class="primary-btn" data-open-order><i class="fa-solid fa-plus"></i>Zaplanuj zlecenie</button>
           </div>
           <div class="calendar-layout">
             <article class="card calendar-card">
@@ -659,7 +659,7 @@
         <section class="view admin-only" id="view-automations">
           <div class="page-head">
             <div><h1>Zarządzanie Automatyzacjami</h1><p>Zarządzaj procesami, modyfikuj lub uruchamiaj ręcznie.</p></div>
-            <button class="primary-btn" onclick="openAutoModal(null)"><i class="fa-solid fa-plus"></i>Nowa automatyzacja</button>
+            <button type="button" class="primary-btn" data-open-auto><i class="fa-solid fa-plus"></i>Nowa automatyzacja</button>
           </div>
           <div class="auto-grid" id="automationGrid"></div>
         </section>
@@ -710,7 +710,7 @@
       <div class="form-grid">
         <div class="field full">
           <label>Rodzaj zasobu</label>
-          <select id="rType" onchange="toggleEmployeeRole()"><option value="employee">Pracownik</option><option value="fleet">Pojazd firmowy</option></select>
+          <select id="rType"><option value="employee">Pracownik</option><option value="fleet">Pojazd firmowy</option></select>
         </div>
         <div class="field"><label>Nazwa / Imię i Nazwisko</label><input id="rName" required></div>
         <div class="field"><label>Rola / Numer rejestracyjny</label><input id="rDetail" required></div>
@@ -875,6 +875,13 @@
       form.querySelectorAll("button, input, select, textarea").forEach(element => {
         element.disabled = busy;
       });
+    }
+
+    function showDialog(id) {
+      const dialog = document.getElementById(id);
+      if (!dialog || dialog.open) return;
+      if (typeof dialog.showModal === "function") dialog.showModal();
+      else dialog.setAttribute("open", "");
     }
 
     document.querySelectorAll("[data-close-dialog]").forEach(button => {
@@ -1125,8 +1132,8 @@
              <p><i class="fa-solid fa-wallet"></i> <strong style="color:var(--green)">${order.price ? money(order.price) : "Wycena"}</strong></p>
           </div>
           <div class="order-actions">
-             <button class="ghost-btn" style="flex:1" onclick="openOrderModal('${order.id}')"><i class="fa-solid fa-pen"></i> Edytuj</button>
-             <button class="primary-btn" style="flex:1" onclick="cycleStatus('${order.id}')"><i class="fa-solid fa-rotate"></i> Status</button>
+             <button type="button" class="ghost-btn" style="flex:1" data-open-order="${escapeHtml(order.id)}"><i class="fa-solid fa-pen"></i> Edytuj</button>
+             <button type="button" class="primary-btn" style="flex:1" data-cycle-status="${escapeHtml(order.id)}"><i class="fa-solid fa-rotate"></i> Status</button>
           </div>
         </div>
       `).join("") || '<div class="empty-state" style="grid-column:1/-1"><p>Brak zleceń spełniających kryteria.</p></div>';
@@ -1141,7 +1148,7 @@
     document.getElementById("orderSort").onchange = renderOrdersGrid;
     document.getElementById("globalSearch").oninput = () => { if(currentSystemRole==='admin') navigate("orders"); renderOrdersGrid(); };
 
-    window.openOrderModal = (id = null) => {
+    function openOrderModal(id = null) {
       const form = document.getElementById("orderForm");
       form.reset();
       form.dataset.editId = id || "";
@@ -1164,8 +1171,9 @@
         const t = new Date(Date.now() + 86400000); t.setHours(9, 0, 0, 0);
         document.getElementById("fDate").value = new Date(t.getTime() - t.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
       }
-      document.getElementById("orderModal").showModal();
-    };
+      showDialog("orderModal");
+    }
+    window.openOrderModal = openOrderModal;
 
     window.cycleStatus = async (id) => {
       const order = orders.find(o => String(o.id) === String(id));
@@ -1251,7 +1259,7 @@
           <div class="day ${isToday ? "today" : ""}">
             <span class="day-num">${day}</span>
             ${events.slice(0, 3).map(order => `
-              <div class="event ${order.status === "completed" ? "green" : order.status === "progress" ? "orange" : ""}" onclick="openOrderModal('${order.id}')">${escapeHtml(order.name)}</div>
+              <div class="event ${order.status === "completed" ? "green" : order.status === "progress" ? "orange" : ""}" data-open-order="${escapeHtml(order.id)}">${escapeHtml(order.name)}</div>
             `).join("")}
           </div>
         `;
@@ -1298,7 +1306,7 @@
             <div><small>Wartość współpracy</small><strong>${money(client.stats?.value || 0)}</strong></div>
           </div>
           <div class="order-actions">
-            <button class="ghost-btn" style="width:100%" onclick="openClientModal('${client._id || client.id}')"><i class="fa-solid fa-pen"></i> Edytuj klienta</button>
+            <button type="button" class="ghost-btn" style="width:100%" data-open-client="${escapeHtml(client._id || client.id)}"><i class="fa-solid fa-pen"></i> Edytuj klienta</button>
           </div>
         </article>
       `).join("") || '<div class="empty-state" style="grid-column:1/-1"><i class="fa-regular fa-address-book"></i><h3>Brak klientów w bazie</h3><p>Dodaj pierwszego klienta, aby budować historię.</p></div>';
@@ -1341,7 +1349,7 @@
         document.getElementById("cEmail").value = client.email || "";
         document.getElementById("cAddress").value = client.address || "";
       }
-      document.getElementById("clientModal").showModal();
+      showDialog("clientModal");
     };
 
     /* --- FLOTA I PRACOWNICY --- */
@@ -1406,7 +1414,7 @@
         document.getElementById("rRole").value = resource.systemRole || "worker";
       }
       toggleEmployeeRole();
-      document.getElementById("resourceModal").showModal();
+      showDialog("resourceModal");
     };
 
     function renderFleet() {
@@ -1423,7 +1431,7 @@
             <div>Przegląd<strong>${vehicle.nextServiceDate ? new Date(vehicle.nextServiceDate).toLocaleDateString("pl-PL") : "Brak"}</strong></div>
           </div>
           <div class="order-actions">
-            <button class="ghost-btn" style="width:100%" onclick="openResourceModal('fleet','${vehicle._id || vehicle.id}')"><i class="fa-solid fa-pen"></i> Edytuj pojazd</button>
+            <button type="button" class="ghost-btn" style="width:100%" data-open-resource="fleet" data-resource-id="${escapeHtml(vehicle._id || vehicle.id)}"><i class="fa-solid fa-pen"></i> Edytuj pojazd</button>
           </div>
         </article>
       `);
@@ -1441,7 +1449,7 @@
             <div>Stawka godzinowa<strong>${employee.hourlyRate ? money(employee.hourlyRate) + "/h" : "Domyślna"}</strong></div>
           </div>
           <div class="order-actions">
-            <button class="ghost-btn" style="width:100%" onclick="openResourceModal('employee','${employee._id || employee.id}')"><i class="fa-solid fa-pen"></i> Edytuj pracownika</button>
+            <button type="button" class="ghost-btn" style="width:100%" data-open-resource="employee" data-resource-id="${escapeHtml(employee._id || employee.id)}"><i class="fa-solid fa-pen"></i> Edytuj pracownika</button>
           </div>
         </article>
       `);
@@ -1461,8 +1469,8 @@
           <h3>${escapeHtml(auto.name)}</h3>
           <p>${escapeHtml(auto.description)}</p>
           <div class="order-actions" style="border-top:none; padding-top:0;">
-             <button class="ghost-btn" style="flex:1" onclick="openAutoModal('${auto._id}')"><i class="fa-solid fa-pen"></i> Edytuj</button>
-             <button class="primary-btn" style="flex:1" onclick="runAutomation('${auto._id}')"><i class="fa-solid fa-play"></i> Uruchom</button>
+             <button type="button" class="ghost-btn" style="flex:1" data-open-auto="${escapeHtml(auto._id)}"><i class="fa-solid fa-pen"></i> Edytuj</button>
+             <button type="button" class="primary-btn" style="flex:1" data-run-auto="${escapeHtml(auto._id)}"><i class="fa-solid fa-play"></i> Uruchom</button>
           </div>
           <div class="auto-bottom">
             <span>Wykonano: ${auto.runCount || 0}x</span>
@@ -1495,7 +1503,7 @@
           document.getElementById("aDesc").value = auto.description || "";
         }
       }
-      document.getElementById("autoModal").showModal();
+      showDialog("autoModal");
     };
 
     document.getElementById("autoForm").addEventListener("submit", async event => {
@@ -1581,13 +1589,58 @@
     const bindBtn = (id, fn) => { const el = document.getElementById(id); if (el) el.onclick = fn; };
 
     bindBtn("btn-add-client", () => openClientModal(null));
-    bindBtn("btn-add-finance", () => { document.getElementById('expenseForm').reset(); document.getElementById('expenseModal').showModal(); });
-    bindBtn("btn-quick-expense", () => { document.getElementById('expenseForm').reset(); document.getElementById('xType').value = 'Koszt'; document.getElementById('expenseModal').showModal(); });
+    bindBtn("btn-add-finance", () => { document.getElementById('expenseForm').reset(); showDialog('expenseModal'); });
+    bindBtn("btn-quick-expense", () => { document.getElementById('expenseForm').reset(); document.getElementById('xType').value = 'Koszt'; showDialog('expenseModal'); });
     bindBtn("btn-add-resource", () => openResourceModal("employee", null));
+
+    document.getElementById("rType").addEventListener("change", toggleEmployeeRole);
+
+    // Delegacja zdarzeń zamiast atrybutów onclick. Dzięki temu przyciski działają
+    // również wtedy, gdy polityka CSP serwera blokuje kod JavaScript w HTML.
+    document.addEventListener("click", event => {
+      const orderButton = event.target.closest("[data-open-order]");
+      if (orderButton) {
+        event.preventDefault();
+        openOrderModal(orderButton.dataset.openOrder || null);
+        return;
+      }
+
+      const statusButton = event.target.closest("[data-cycle-status]");
+      if (statusButton) {
+        event.preventDefault();
+        cycleStatus(statusButton.dataset.cycleStatus);
+        return;
+      }
+
+      const clientButton = event.target.closest("[data-open-client]");
+      if (clientButton) {
+        event.preventDefault();
+        openClientModal(clientButton.dataset.openClient);
+        return;
+      }
+
+      const resourceButton = event.target.closest("[data-open-resource]");
+      if (resourceButton) {
+        event.preventDefault();
+        openResourceModal(resourceButton.dataset.openResource, resourceButton.dataset.resourceId || null);
+        return;
+      }
+
+      const autoButton = event.target.closest("[data-open-auto]");
+      if (autoButton) {
+        event.preventDefault();
+        openAutoModal(autoButton.dataset.openAuto || null);
+        return;
+      }
+
+      const runButton = event.target.closest("[data-run-auto]");
+      if (runButton) {
+        event.preventDefault();
+        runAutomation(runButton.dataset.runAuto);
+      }
+    });
 
     bootstrapAuth();
   </script>
 </body>
 </html>
-
-
