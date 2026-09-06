@@ -560,6 +560,12 @@ const EmployeeSchema = new mongoose.Schema(
             maxlength: 100
         },
 
+        systemRole: {
+            type: String,
+            enum: ['admin', 'worker'],
+            default: 'worker'
+        },
+
         phone: {
             type: String,
             trim: true,
@@ -1020,15 +1026,18 @@ app.post(
             });
         }
 
+        // POBIERANIE ROLI Z BAZY DANYCH (systemRole) ZAMIAST TWARDEGO 'worker'
+        const sysRole = employee.systemRole || 'worker';
+
         req.session.user = {
-            role: 'worker',
+            role: sysRole,
             name: employee.name,
             employeeId: employee._id.toString()
         };
 
         res.json({
             success: true,
-            role: 'worker',
+            role: sysRole,
             name: employee.name
         });
     })
@@ -2128,7 +2137,7 @@ app.delete(
 
 /*
 |--------------------------------------------------------------------------
-| AUTOMATYZACJE
+| AUTOMATYZACJE (Nowe i zaaktualizowane endpointy)
 |--------------------------------------------------------------------------
 */
 
@@ -2136,58 +2145,30 @@ const defaultAutomations = [
     {
         key: 'sms_reminder',
         name: 'SMS przed zleceniem',
-        description:
-            'Potwierdzenie 24 godziny przed terminem',
+        description: 'Potwierdzenie 24 godziny przed terminem',
         enabled: true,
-        config: {
-            hoursBefore: 24
-        }
+        config: { hoursBefore: 24 }
     },
     {
         key: 'team_daily_plan',
         name: 'Plan dnia dla ekipy',
-        description:
-            'Plan na kolejny dzień o 18:00',
+        description: 'Plan na kolejny dzień o 18:00',
         enabled: true,
-        config: {
-            sendAt: '18:00'
-        }
+        config: { sendAt: '18:00' }
     },
     {
         key: 'invoice_draft',
         name: 'Szkic faktury po realizacji',
-        description:
-            'Tworzy szkic dokumentu po zakończeniu',
+        description: 'Tworzy szkic dokumentu po zakończeniu',
         enabled: true,
         config: {}
     },
     {
         key: 'google_review',
         name: 'Prośba o opinię Google',
-        description:
-            'Wiadomość 2 godziny po zleceniu',
+        description: 'Wiadomość 2 godziny po zleceniu',
         enabled: false,
-        config: {
-            hoursAfter: 2
-        }
-    },
-    {
-        key: 'fuel_limit',
-        name: 'Kontrola kosztów paliwa',
-        description:
-            'Alarm po przekroczeniu limitu',
-        enabled: true,
-        config: {
-            weeklyLimit: 1500
-        }
-    },
-    {
-        key: 'route_suggestions',
-        name: 'Łączenie podobnych tras',
-        description:
-            'Sugestie grupowania zleceń',
-        enabled: false,
-        config: {}
+        config: { hoursAfter: 2 }
     }
 ];
 
@@ -2195,25 +2176,44 @@ app.get(
     '/api/automations',
     requireAdmin,
     asyncRoute(async (req, res) => {
-        const count =
-            await Automation.countDocuments();
+        const count = await Automation.countDocuments();
 
         if (count === 0) {
-            await Automation.insertMany(
-                defaultAutomations,
-                {
-                    ordered: false
-                }
-            ).catch(() => null);
+            await Automation.insertMany(defaultAutomations, { ordered: false }).catch(() => null);
         }
 
-        const automations = await Automation.find()
-            .sort({ name: 1 })
-            .lean();
+        const automations = await Automation.find().sort({ name: 1 }).lean();
+        res.json({ automations });
+    })
+);
 
-        res.json({
-            automations
-        });
+// NOWE: Dodawanie nowej automatyzacji
+app.post(
+    '/api/automations',
+    requireAdmin,
+    asyncRoute(async (req, res) => {
+        const automation = await Automation.create(req.body);
+        res.status(201).json({ success: true, automation });
+    })
+);
+
+// ZAAKTUALIZOWANE: Pełna aktualizacja automatyzacji (zamiast tylko enabled/config)
+app.put(
+    '/api/automations/:id',
+    requireAdmin,
+    validateId,
+    asyncRoute(async (req, res) => {
+        const automation = await Automation.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+
+        if (!automation) {
+            return res.status(404).json({ success: false, message: 'Nie znaleziono automatyzacji' });
+        }
+
+        res.json({ success: true, automation });
     })
 );
 
@@ -2230,30 +2230,44 @@ app.patch(
             }
         }
 
-        const automation =
-            await Automation.findByIdAndUpdate(
-                req.params.id,
-                allowed,
-                {
-                    new: true,
-                    runValidators: true
-                }
-            );
+        const automation = await Automation.findByIdAndUpdate(
+            req.params.id,
+            allowed,
+            { new: true, runValidators: true }
+        );
 
         if (!automation) {
-            return res.status(404).json({
-                success: false,
-                message:
-                    'Nie znaleziono automatyzacji'
-            });
+            return res.status(404).json({ success: false, message: 'Nie znaleziono automatyzacji' });
         }
 
-        res.json({
-            success: true,
-            automation
-        });
+        res.json({ success: true, automation });
     })
 );
+
+// NOWE: Ręczne uruchamianie automatyzacji
+app.post(
+    '/api/automations/:id/run',
+    requireAdmin,
+    validateId,
+    asyncRoute(async (req, res) => {
+        const automation = await Automation.findByIdAndUpdate(
+            req.params.id,
+            {
+                $inc: { runCount: 1 },
+                lastRunAt: new Date()
+            },
+            { new: true }
+        );
+
+        if (!automation) {
+            return res.status(404).json({ success: false, message: 'Nie znaleziono automatyzacji' });
+        }
+
+        // Tutaj w przyszłości można dopiąć wywoływanie rzeczywistego skryptu / usługi
+        res.json({ success: true, message: 'Proces został uruchomiony pomyślnie', automation });
+    })
+);
+
 
 /*
 |--------------------------------------------------------------------------
