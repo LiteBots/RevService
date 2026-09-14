@@ -568,7 +568,7 @@
           <div class="toolbar">
             <div class="filters">
               <button class="filter active" data-filter="all">Wszystkie</button>
-              <button class="filter" data-filter="new">Nowe</button>
+              <button class="filter" data-filter="new">Nowe / Wyceny</button>
               <button class="filter" data-filter="planned">Zaplanowane</button>
               <button class="filter" data-filter="progress">W realizacji</button>
               <button class="filter" data-filter="completed">Zakończone</button>
@@ -821,7 +821,7 @@
     let calendarCursor = new Date();
     let currentSystemRole = 'admin';
 
-    const statusNames = { new: "Nowe", planned: "Zaplanowane", progress: "Realizacja", completed: "Zakończone", done: "Zakończone", cancelled: "Anulowane" };
+    const statusNames = { new: "Nowe / Wycena", quoted: "Wycenione", planned: "Zaplanowane", progress: "Realizacja", completed: "Zakończone", done: "Zakończone", cancelled: "Anulowane" };
     const statusClasses = { new: "gray", planned: "", progress: "orange", completed: "green", done: "green", cancelled: "gray" };
 
     const money = value => new Intl.NumberFormat("pl-PL").format(Number(value) || 0) + " zł";
@@ -1026,7 +1026,7 @@
         number: task.number || "RV-" + String(task._id || task.id || "").slice(-6).toUpperCase(),
         name: task.name || "Zlecenie Serwisowe",
         address: task.address || [task.addressFrom, task.addressTo].filter(Boolean).join(" → "),
-        date: String(task.dateStart || task.date || ""),
+        date: task.source === "Formularz index" && ["new", "quoted"].includes(task.status) ? "" : String(task.dateStart || task.date || ""),
         client: task.clientName || task.client?.name || "",
         phone: task.clientPhone || task.client?.phone || "",
         price: task.finalPrice ?? task.price ?? 0,
@@ -1036,7 +1036,13 @@
       };
     }
 
+    let backendLoading = false;
+    setInterval(() => {
+      if (!document.hidden && !document.body.classList.contains('auth-pending') && !document.querySelector('dialog[open]')) loadBackend();
+    }, 15000);
     async function loadBackend() {
+      if (backendLoading) return;
+      backendLoading = true;
       try {
         const data = await api("/api/data");
         orders = (data.tasks || []).map(normalizeOrder);
@@ -1060,7 +1066,7 @@
       } catch (error) { 
         console.error(error); 
         showToast("Błąd łączenia z systemem: " + error.message); 
-      }
+      } finally { backendLoading = false; }
     }
 
     function renderAll(stats = {}) {
@@ -1125,7 +1131,7 @@
              <span class="status ${statusClasses[order.status] || 'gray'}">${statusNames[order.status] || order.status}</span>
           </div>
           <div class="order-details">
-             <p><i class="fa-regular fa-clock"></i> <strong>${formatDate(order.date)}</strong></p>
+             <p><i class="fa-regular fa-clock"></i> <strong>${order.date ? formatDate(order.date) : "Termin do ustalenia — zobacz opis"}</strong></p>
              <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(order.address)}</p>
              <p><i class="fa-regular fa-user"></i> ${escapeHtml(order.client)} ${order.phone ? `(${escapeHtml(order.phone)})` : ''}</p>
              <p><i class="fa-solid fa-truck"></i> ${escapeHtml(order.vehicle)}</p>
