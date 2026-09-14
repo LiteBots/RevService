@@ -1890,7 +1890,7 @@ app.patch(
         }
 
         const update = {
-            status            status: req.body.status,
+            status: req.body.status,
             completed: req.body.status === 'completed'
         };
 
