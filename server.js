@@ -8,10 +8,16 @@ const MongoStore = require('connect-mongo');
 const bcrypt = require('bcryptjs');
 const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
+const https = require('https');
 
 const app = express();
 
+const DISCORD_WEBHOOK_URL =
+    process.env.DISCORD_WEBHOOK_URL ||
+    'https://discord.com/api/webhooks/1531466380413505586/bGxQiaSJAn-WgWOYxWaBFxNcQaf6AUTcy9cYfGawqnnZ1rKH3JdVHUzFKhsHPeh63RZu';
+
 const PORT = Number(process.env.PORT) || 3000;
+
 const MONGO_URL =
     process.env.MONGO_URL ||
     process.env.MONGO_URI ||
@@ -46,7 +52,7 @@ app.disable('x-powered-by');
 
 /*
 |--------------------------------------------------------------------------
-| CORS — potrzebny, gdy panel i API mają różne adresy
+| CORS
 |--------------------------------------------------------------------------
 */
 
@@ -59,6 +65,7 @@ app.use((req, res, next) => {
 
     const requestOrigin = `${req.protocol}://${req.get('host')}`;
     const normalizedOrigin = origin.replace(/\/$/, '');
+
     const allowed =
         normalizedOrigin === requestOrigin ||
         ALLOWED_ORIGINS.includes(normalizedOrigin);
@@ -76,14 +83,17 @@ app.use((req, res, next) => {
 
     res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Access-Control-Allow-Credentials', 'true');
+
     res.setHeader(
         'Access-Control-Allow-Headers',
         'Content-Type, X-Requested-With'
     );
+
     res.setHeader(
         'Access-Control-Allow-Methods',
         'GET, POST, PUT, PATCH, DELETE, OPTIONS'
     );
+
     res.setHeader('Vary', 'Origin');
 
     if (req.method === 'OPTIONS') {
@@ -93,49 +103,68 @@ app.use((req, res, next) => {
     next();
 });
 
+/*
+|--------------------------------------------------------------------------
+| ZABEZPIECZENIA I GOOGLE ANALYTICS
+|--------------------------------------------------------------------------
+*/
+
 app.use(
     helmet({
         contentSecurityPolicy: {
             directives: {
                 defaultSrc: ["'self'"],
+
                 scriptSrc: [
                     "'self'",
                     "'unsafe-inline'",
+                    'https://www.googletagmanager.com',
                     'https://cdn.tailwindcss.com',
                     'https://cdn.jsdelivr.net',
                     'https://cdnjs.cloudflare.com'
                 ],
+
                 styleSrc: [
                     "'self'",
                     "'unsafe-inline'",
                     'https://fonts.googleapis.com',
                     'https://cdnjs.cloudflare.com'
                 ],
+
                 fontSrc: [
                     "'self'",
                     'https://fonts.gstatic.com',
                     'https://cdnjs.cloudflare.com',
                     'data:'
                 ],
+
                 imgSrc: [
                     "'self'",
                     'data:',
-                    'https://i.imgur.com'
+                    'https://i.imgur.com',
+                    'https://*.google-analytics.com',
+                    'https://*.googletagmanager.com'
                 ],
-                connectSrc: ["'self'"],
+
+                connectSrc: [
+                    "'self'",
+                    'https://*.google-analytics.com',
+                    'https://*.analytics.google.com',
+                    'https://*.googletagmanager.com'
+                ],
+
                 objectSrc: ["'none'"],
                 baseUri: ["'self'"],
                 frameAncestors: ["'self'"]
             }
         },
+
         crossOriginEmbedderPolicy: false
     })
 );
 
 app.use(express.json({ limit: '250kb' }));
 
-// Odpowiedzi panelu i API nie mogą pochodzić ze starej pamięci podręcznej
-// po wdrożeniu poprawki na Railway.
 app.use('/api', (req, res, next) => {
     res.setHeader('Cache-Control', 'no-store');
     next();
@@ -177,12 +206,28 @@ const WorkerAssignmentSchema = new mongoose.Schema(
 
 /*
 |--------------------------------------------------------------------------
-| ZLECENIA
+| ZLECENIA I WYCENY
 |--------------------------------------------------------------------------
 */
 
 const TaskSchema = new mongoose.Schema(
     {
+        quoteRequestId: {
+            type: String,
+            unique: true,
+            sparse: true
+        },
+
+        discordPending: {
+            type: Boolean,
+            default: false
+        },
+
+        discordNextAttempt: {
+            type: Date,
+            default: Date.now
+        },
+
         number: {
             type: String,
             trim: true,
@@ -924,6 +969,12 @@ const recordActivity = (
     }).catch(() => null);
 };
 
+/*
+|--------------------------------------------------------------------------
+| UPRAWNIENIA I FUNKCJE POMOCNICZE
+|--------------------------------------------------------------------------
+*/
+
 async function requireAuth(req, res, next) {
     if (AUTH_DISABLED) {
         req.user = {
@@ -943,9 +994,6 @@ async function requireAuth(req, res, next) {
     }
 
     try {
-        // Starsza sesja może zawierać nieaktualną rolę. Odświeżamy ją z bazy,
-        // dzięki czemu zmiana pracownika na administratora działa bez czekania
-        // na wygaśnięcie 12-godzinnej sesji.
         if (req.session.user.employeeId) {
             const employee = await Employee.findOne({
                 _id: req.session.user.employeeId,
@@ -956,7 +1004,8 @@ async function requireAuth(req, res, next) {
                 return req.session.destroy(() => {
                     res.status(401).json({
                         success: false,
-                        message: 'Konto pracownika jest nieaktywne. Zaloguj się ponownie'
+                        message:
+                            'Konto pracownika jest nieaktywne. Zaloguj się ponownie'
                     });
                 });
             }
@@ -975,8 +1024,11 @@ async function requireAuth(req, res, next) {
 function saveSession(req) {
     return new Promise((resolve, reject) => {
         req.session.save(error => {
-            if (error) reject(error);
-            else resolve();
+            if (error) {
+                reject(error);
+            } else {
+                resolve();
+            }
         });
     });
 }
@@ -1088,9 +1140,6 @@ app.post(
                 name: 'Gracjan Błachnio'
             };
 
-            // Nie wysyłamy odpowiedzi przed trwałym zapisaniem sesji.
-            // Eliminuje to sytuację, w której natychmiastowy POST /api/tasks
-            // trafiał do serwera jeszcze bez uprawnień administratora.
             await saveSession(req);
 
             return res.json({
@@ -1135,7 +1184,6 @@ app.post(
             });
         }
 
-        // POBIERANIE ROLI Z BAZY DANYCH (systemRole) ZAMIAST TWARDEGO 'worker'
         const sysRole = employee.systemRole || 'worker';
 
         req.session.user = {
@@ -1176,7 +1224,9 @@ app.post('/api/logout', (req, res, next) => {
             return next(error);
         }
 
-        res.json({ success: true });
+        res.json({
+            success: true
+        });
     });
 });
 
@@ -1190,6 +1240,241 @@ app.get('/api/health', (req, res) => {
         authDisabled: AUTH_DISABLED
     });
 });
+
+/*
+|--------------------------------------------------------------------------
+| PUBLICZNE WYCENY I POWIADOMIENIA DISCORD
+|--------------------------------------------------------------------------
+*/
+
+const quoteLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 10,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+
+    message: {
+        success: false,
+        message: 'Za dużo zgłoszeń. Spróbuj za 15 minut.'
+    }
+});
+
+function sendQuoteNotification() {
+    return new Promise((resolve, reject) => {
+        const payload = JSON.stringify({
+            content: '<@913479364883136532> Wpadła nowa wycena',
+
+            allowed_mentions: {
+                parse: [],
+                users: ['913479364883136532']
+            }
+        });
+
+        const request = https.request(
+            DISCORD_WEBHOOK_URL,
+            {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Content-Length': Buffer.byteLength(payload)
+                }
+            },
+            response => {
+                response.resume();
+
+                response.on('end', () => {
+                    if (
+                        response.statusCode >= 200 &&
+                        response.statusCode < 300
+                    ) {
+                        resolve();
+                    } else {
+                        reject(
+                            new Error(
+                                'Discord HTTP ' + response.statusCode
+                            )
+                        );
+                    }
+                });
+
+                response.on('error', reject);
+            }
+        );
+
+        request.setTimeout(10000, () => {
+            request.destroy(new Error('Discord timeout'));
+        });
+
+        request.on('error', reject);
+        request.end(payload);
+    });
+}
+
+let quoteNotificationsBusy = false;
+
+async function flushQuoteNotifications() {
+    if (
+        quoteNotificationsBusy ||
+        mongoose.connection.readyState !== 1
+    ) {
+        return;
+    }
+
+    quoteNotificationsBusy = true;
+
+    try {
+        // Rezerwacja wiadomości również przy kilku instancjach backendu.
+        const task = await Task.findOneAndUpdate(
+            {
+                discordPending: true,
+
+                discordNextAttempt: {
+                    $lte: new Date()
+                }
+            },
+            {
+                $set: {
+                    discordNextAttempt: new Date(
+                        Date.now() + 60000
+                    )
+                }
+            },
+            {
+                new: true
+            }
+        );
+
+        if (!task) {
+            return;
+        }
+
+        await sendQuoteNotification();
+
+        await Task.updateOne(
+            {
+                _id: task._id
+            },
+            {
+                $set: {
+                    discordPending: false
+                }
+            }
+        );
+    } catch (error) {
+        console.error(
+            'Powiadomienie wyceny nie zostało wysłane; ponowienie za minutę.'
+        );
+    } finally {
+        quoteNotificationsBusy = false;
+    }
+}
+
+setInterval(flushQuoteNotifications, 5000).unref();
+
+// Endpoint publiczny musi znajdować się przed requireAuth.
+app.post(
+    '/api/quotes',
+    quoteLimiter,
+    asyncRoute(async (req, res) => {
+        const input = req.body || {};
+
+        const limits = {
+            service: 80,
+            route: 300,
+            date: 200,
+            description: 3500,
+            clientName: 140,
+            phone: 40,
+            requestId: 80
+        };
+
+        for (const [key, max] of Object.entries(limits)) {
+            if (
+                typeof input[key] !== 'string' ||
+                input[key].length > max
+            ) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Nieprawidłowe pole: ' + key
+                });
+            }
+        }
+
+        const phone = input.phone.replace(/\D/g, '');
+
+        if (
+            !/^[0-9]{9}$/.test(phone) ||
+            !/^[a-zA-Z0-9-]{16,80}$/.test(input.requestId) ||
+            !input.service.trim()
+        ) {
+            return res.status(400).json({
+                success: false,
+                message:
+                    'Sprawdź usługę i 9-cyfrowy numer telefonu.'
+            });
+        }
+
+        let task = await Task.findOne({
+            quoteRequestId: input.requestId
+        });
+
+        if (!task) {
+            try {
+                task = await Task.create({
+                    quoteRequestId: input.requestId,
+
+                    name: 'Wycena: ' + input.service.trim(),
+                    type: input.service.trim(),
+
+                    status: 'new',
+                    source: 'Formularz index',
+                    price: 0,
+
+                    dateStart: new Date(),
+
+                    clientName: input.clientName.trim(),
+                    clientPhone: phone,
+                    address: input.route.trim(),
+
+                    desc:
+                        'Termin zgłoszony przez klienta: ' +
+                        (input.date.trim() || 'Do ustalenia') +
+                        '\n\n' +
+                        input.description.trim(),
+
+                    discordPending: true,
+                    discordNextAttempt: new Date()
+                });
+            } catch (error) {
+                if (error.code !== 11000) {
+                    throw error;
+                }
+
+                task = await Task.findOne({
+                    quoteRequestId: input.requestId
+                });
+
+                if (!task) {
+                    throw error;
+                }
+            }
+        }
+
+        // Potwierdzamy zapis niezależnie od dostępności Discorda.
+        res.status(201).json({
+            success: true
+        });
+
+        void flushQuoteNotifications();
+    })
+);
+
+/*
+|--------------------------------------------------------------------------
+| OD TEGO MIEJSCA API WYMAGA LOGOWANIA
+|--------------------------------------------------------------------------
+*/
 
 app.use('/api', requireAuth);
 
@@ -1208,6 +1493,7 @@ app.get(
 
         const completedFilter = {
             status: 'completed',
+
             completedAt: {
                 $gte: from,
                 $lt: to
@@ -1230,11 +1516,13 @@ app.get(
                 {
                     $group: {
                         _id: null,
+
                         total: {
                             $sum: {
                                 $ifNull: ['$finalPrice', '$price']
                             }
                         },
+
                         count: {
                             $sum: 1
                         }
@@ -1254,6 +1542,7 @@ app.get(
                 {
                     $group: {
                         _id: null,
+
                         total: {
                             $sum: '$price'
                         }
@@ -1273,6 +1562,7 @@ app.get(
                 {
                     $group: {
                         _id: null,
+
                         total: {
                             $sum: '$price'
                         }
@@ -1293,6 +1583,7 @@ app.get(
 
             Task.countDocuments({
                 status: 'completed',
+
                 paymentStatus: {
                     $ne: 'paid'
                 }
@@ -1315,6 +1606,7 @@ app.get(
                 {
                     $group: {
                         _id: '$category',
+
                         total: {
                             $sum: '$price'
                         }
@@ -1343,9 +1635,11 @@ app.get(
                 revenue,
                 expenses,
                 profit: revenue - expenses,
+
                 margin: revenue
                     ? ((revenue - expenses) / revenue) * 100
                     : 0,
+
                 completedTasks: taskTotals[0]?.count || 0,
                 activeTasks,
                 unpaidTasks
@@ -1369,9 +1663,7 @@ app.get(
             clients,
             automations
         ] = await Promise.all([
-            // Pracownik widzi wszystkie zlecenia operacyjne. Poprzedni filtr
-            // zwracał pustą listę, ponieważ prosty formularz nie zapisuje
-            // przypisania workers.employee.
+            // Pracownicy widzą wszystkie zlecenia operacyjne.
             Task.find({})
                 .sort({ dateStart: 1 })
                 .lean(),
@@ -1443,13 +1735,11 @@ app.get(
             filter.dateStart = {};
 
             if (req.query.from) {
-                filter.dateStart.$gte =
-                    new Date(req.query.from);
+                filter.dateStart.$gte = new Date(req.query.from);
             }
 
             if (req.query.to) {
-                filter.dateStart.$lt =
-                    new Date(req.query.to);
+                filter.dateStart.$lt = new Date(req.query.to);
             }
         }
 
@@ -1480,7 +1770,9 @@ app.get(
             .limit(500)
             .lean();
 
-        res.json({ tasks });
+        res.json({
+            tasks
+        });
     })
 );
 
@@ -1500,6 +1792,7 @@ app.get(
                 $gte: from,
                 $lt: to
             },
+
             status: {
                 $ne: 'cancelled'
             }
@@ -1597,7 +1890,7 @@ app.patch(
         }
 
         const update = {
-            status: req.body.status,
+            status            status: req.body.status,
             completed: req.body.status === 'completed'
         };
 
@@ -1605,8 +1898,7 @@ app.patch(
             update.completedAt = new Date();
 
             if (req.body.finalPrice !== undefined) {
-                update.finalPrice =
-                    Number(req.body.finalPrice);
+                update.finalPrice = Number(req.body.finalPrice);
             }
         } else {
             update.completedAt = null;
@@ -1654,8 +1946,7 @@ app.post(
         };
 
         if (req.body.finalPrice !== undefined) {
-            update.finalPrice =
-                Number(req.body.finalPrice);
+            update.finalPrice = Number(req.body.finalPrice);
         }
 
         const task = await Task.findByIdAndUpdate(
@@ -1743,20 +2034,24 @@ app.get(
                     client: {
                         $in: ids
                     },
+
                     status: 'completed'
                 }
             },
             {
                 $group: {
                     _id: '$client',
+
                     orders: {
                         $sum: 1
                     },
+
                     value: {
                         $sum: {
                             $ifNull: ['$finalPrice', '$price']
                         }
                     },
+
                     lastOrderAt: {
                         $max: '$completedAt'
                     }
@@ -1774,6 +2069,7 @@ app.get(
         res.json({
             clients: clients.map(client => ({
                 ...client,
+
                 stats:
                     statsMap.get(String(client._id)) || {
                         orders: 0,
@@ -1920,9 +2216,11 @@ app.post(
 
         const entry = await Model.create({
             ...req.body,
+
             price: Number(
                 req.body.price ?? req.body.amount
             ),
+
             date: req.body.date || new Date()
         });
 
@@ -2080,6 +2378,7 @@ app.post(
         const employee = await Employee.create({
             ...req.body,
             pin: undefined,
+
             pinHash: pin
                 ? await bcrypt.hash(pin, 12)
                 : undefined
@@ -2111,15 +2410,14 @@ app.put(
             );
         }
 
-        const employee =
-            await Employee.findByIdAndUpdate(
-                req.params.id,
-                update,
-                {
-                    new: true,
-                    runValidators: true
-                }
-            );
+        const employee = await Employee.findByIdAndUpdate(
+            req.params.id,
+            update,
+            {
+                new: true,
+                runValidators: true
+            }
+        );
 
         if (!employee) {
             return res.status(404).json({
@@ -2235,7 +2533,7 @@ app.delete(
 
 /*
 |--------------------------------------------------------------------------
-| AUTOMATYZACJE (Nowe i zaaktualizowane endpointy)
+| AUTOMATYZACJE
 |--------------------------------------------------------------------------
 */
 
@@ -2245,14 +2543,18 @@ const defaultAutomations = [
         name: 'SMS przed zleceniem',
         description: 'Potwierdzenie 24 godziny przed terminem',
         enabled: true,
-        config: { hoursBefore: 24 }
+        config: {
+            hoursBefore: 24
+        }
     },
     {
         key: 'team_daily_plan',
         name: 'Plan dnia dla ekipy',
         description: 'Plan na kolejny dzień o 18:00',
         enabled: true,
-        config: { sendAt: '18:00' }
+        config: {
+            sendAt: '18:00'
+        }
     },
     {
         key: 'invoice_draft',
@@ -2266,7 +2568,9 @@ const defaultAutomations = [
         name: 'Prośba o opinię Google',
         description: 'Wiadomość 2 godziny po zleceniu',
         enabled: false,
-        config: { hoursAfter: 2 }
+        config: {
+            hoursAfter: 2
+        }
     }
 ];
 
@@ -2277,25 +2581,37 @@ app.get(
         const count = await Automation.countDocuments();
 
         if (count === 0) {
-            await Automation.insertMany(defaultAutomations, { ordered: false }).catch(() => null);
+            await Automation.insertMany(
+                defaultAutomations,
+                {
+                    ordered: false
+                }
+            ).catch(() => null);
         }
 
-        const automations = await Automation.find().sort({ name: 1 }).lean();
-        res.json({ automations });
+        const automations = await Automation.find()
+            .sort({ name: 1 })
+            .lean();
+
+        res.json({
+            automations
+        });
     })
 );
 
-// NOWE: Dodawanie nowej automatyzacji
 app.post(
     '/api/automations',
     requireAdmin,
     asyncRoute(async (req, res) => {
         const automation = await Automation.create(req.body);
-        res.status(201).json({ success: true, automation });
+
+        res.status(201).json({
+            success: true,
+            automation
+        });
     })
 );
 
-// ZAAKTUALIZOWANE: Pełna aktualizacja automatyzacji (zamiast tylko enabled/config)
 app.put(
     '/api/automations/:id',
     requireAdmin,
@@ -2304,14 +2620,23 @@ app.put(
         const automation = await Automation.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true, runValidators: true }
+            {
+                new: true,
+                runValidators: true
+            }
         );
 
         if (!automation) {
-            return res.status(404).json({ success: false, message: 'Nie znaleziono automatyzacji' });
+            return res.status(404).json({
+                success: false,
+                message: 'Nie znaleziono automatyzacji'
+            });
         }
 
-        res.json({ success: true, automation });
+        res.json({
+            success: true,
+            automation
+        });
     })
 );
 
@@ -2331,18 +2656,26 @@ app.patch(
         const automation = await Automation.findByIdAndUpdate(
             req.params.id,
             allowed,
-            { new: true, runValidators: true }
+            {
+                new: true,
+                runValidators: true
+            }
         );
 
         if (!automation) {
-            return res.status(404).json({ success: false, message: 'Nie znaleziono automatyzacji' });
+            return res.status(404).json({
+                success: false,
+                message: 'Nie znaleziono automatyzacji'
+            });
         }
 
-        res.json({ success: true, automation });
+        res.json({
+            success: true,
+            automation
+        });
     })
 );
 
-// NOWE: Ręczne uruchamianie automatyzacji
 app.post(
     '/api/automations/:id/run',
     requireAdmin,
@@ -2351,21 +2684,32 @@ app.post(
         const automation = await Automation.findByIdAndUpdate(
             req.params.id,
             {
-                $inc: { runCount: 1 },
+                $inc: {
+                    runCount: 1
+                },
+
                 lastRunAt: new Date()
             },
-            { new: true }
+            {
+                new: true
+            }
         );
 
         if (!automation) {
-            return res.status(404).json({ success: false, message: 'Nie znaleziono automatyzacji' });
+            return res.status(404).json({
+                success: false,
+                message: 'Nie znaleziono automatyzacji'
+            });
         }
 
-        // Tutaj w przyszłości można dopiąć wywoływanie rzeczywistego skryptu / usługi
-        res.json({ success: true, message: 'Proces został uruchomiony pomyślnie', automation });
+        // Miejsce na podpięcie właściwego wykonania automatyzacji.
+        res.json({
+            success: true,
+            message: 'Proces został uruchomiony pomyślnie',
+            automation
+        });
     })
 );
-
 
 /*
 |--------------------------------------------------------------------------
@@ -2379,6 +2723,7 @@ app.use(
     express.static(publicDir, {
         extensions: ['html'],
         maxAge: IS_PRODUCTION ? '1h' : 0,
+
         setHeaders: (res, filePath) => {
             if (path.basename(filePath) === 'revmi.html') {
                 res.setHeader('Cache-Control', 'no-store');
@@ -2395,6 +2740,7 @@ app.get('/', (req, res) => {
 
 app.get('/revmi', (req, res) => {
     res.setHeader('Cache-Control', 'no-store');
+
     res.sendFile(
         path.join(publicDir, 'revmi.html')
     );
@@ -2444,7 +2790,7 @@ app.get(
 
 /*
 |--------------------------------------------------------------------------
-| BŁĘDY
+| OBSŁUGA BŁĘDÓW
 |--------------------------------------------------------------------------
 */
 
@@ -2469,6 +2815,7 @@ app.use((error, req, res, next) => {
 
     res.status(status).json({
         success: false,
+
         message:
             status === 500
                 ? 'Wewnętrzny błąd serwera'
@@ -2478,7 +2825,7 @@ app.use((error, req, res, next) => {
 
 /*
 |--------------------------------------------------------------------------
-| URUCHOMIENIE
+| URUCHOMIENIE I MIGRACJA STARSZYCH DANYCH
 |--------------------------------------------------------------------------
 */
 
@@ -2582,6 +2929,7 @@ async function start() {
                 completed: {
                     $ne: true
                 },
+
                 status: {
                     $exists: false
                 }
