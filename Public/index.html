@@ -1,6 +1,26 @@
+
+
 <!DOCTYPE html>
 <html lang="pl" class="scroll-smooth">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VTLZW64VGN"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-VTLZW64VGN');
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VTLZW64VGN">
+</script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VTLZW64VGN');
+</script>
+</script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RevSerwis - Przeprowadzki, Transport, B2B i Mycie Ciśnieniowe</title>
@@ -610,17 +630,17 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div class="input-field relative group">
                                 <label class="block text-sm font-bold text-gray-300 mb-2 group-focus-within:text-brand-400 transition-colors">Lokalizacja (lub trasa Od-Do)</label>
-                                <input type="text" id="route" placeholder="np. Słupsk - Gdańsk, lub Adres Posesji" class="w-full bg-dark-900 border border-white/10 text-white rounded-xl px-5 py-4 focus:outline-none transition-all placeholder-gray-600 focus:border-brand-500">
+                                <input type="text" id="route" maxlength="300" placeholder="np. Słupsk - Gdańsk, lub Adres Posesji" class="w-full bg-dark-900 border border-white/10 text-white rounded-xl px-5 py-4 focus:outline-none transition-all placeholder-gray-600 focus:border-brand-500">
                             </div>
                             <div class="input-field relative group">
                                 <label class="block text-sm font-bold text-gray-300 mb-2 group-focus-within:text-brand-400 transition-colors">Termin</label>
-                                <input type="text" id="date" placeholder="np. Przyszły tydzień / Jak najszybciej" class="w-full bg-dark-900 border border-white/10 text-white rounded-xl px-5 py-4 focus:outline-none transition-all placeholder-gray-600 focus:border-brand-500">
+                                <input type="text" id="date" maxlength="200" placeholder="np. Przyszły tydzień / Jak najszybciej" class="w-full bg-dark-900 border border-white/10 text-white rounded-xl px-5 py-4 focus:outline-none transition-all placeholder-gray-600 focus:border-brand-500">
                             </div>
                         </div>
 
                         <div class="input-field group">
                             <label class="block text-sm font-bold text-gray-300 mb-2 group-focus-within:text-brand-400 transition-colors">Szczegóły / Co mamy zrobić?</label>
-                            <textarea id="description" rows="3" placeholder="Opisz gabaryty mebli, metraż kostki do umycia..." class="w-full bg-dark-900 border border-white/10 text-white rounded-xl px-5 py-4 focus:outline-none transition-all placeholder-gray-600 resize-none focus:border-brand-500"></textarea>
+                            <textarea id="description" maxlength="3500" rows="3" placeholder="Opisz gabaryty mebli, metraż kostki do umycia..." class="w-full bg-dark-900 border border-white/10 text-white rounded-xl px-5 py-4 focus:outline-none transition-all placeholder-gray-600 resize-none focus:border-brand-500"></textarea>
                         </div>
 
                         <div class="border-t border-white/10 pt-8 mt-8">
@@ -630,7 +650,7 @@
                                     <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                                         <i class="fa-solid fa-user text-gray-500"></i>
                                     </div>
-                                    <input type="text" id="clientName" placeholder="Imię lub Nazwa Firmy" class="w-full bg-dark-900 border border-white/10 text-white rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-brand-500 transition-all">
+                                    <input type="text" id="clientName" maxlength="140" placeholder="Imię lub Nazwa Firmy" class="w-full bg-dark-900 border border-white/10 text-white rounded-xl pl-12 pr-4 py-4 focus:outline-none focus:border-brand-500 transition-all">
                                 </div>
                                 <div class="input-field relative">
                                     <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
@@ -812,8 +832,9 @@
 
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
+                if (document.getElementById('submit-btn').disabled) return;
                 
-                if(phoneInput.value.length < 9) {
+                if(phoneInput.value.replace(/\D/g, '').length !== 9) {
                     phoneInput.parentElement.classList.add('border-red-500', 'ring-red-500/20');
                     setTimeout(() => phoneInput.parentElement.classList.remove('border-red-500', 'ring-red-500/20'), 2000);
                     return;
@@ -836,41 +857,24 @@
                 const clientName = document.getElementById('clientName').value || 'Brak';
                 const phoneVal = phoneInput.value;
 
-                const webhookUrl = 'https://discord.com/api/webhooks/1531466380413505586/bGxQiaSJAn-WgWOYxWaBFxNcQaf6AUTcy9cYfGawqnnZ1rKH3JdVHUzFKhsHPeh63RZu';
-                const mention = '<@913479364883136532>';
-
-                const payload = {
-                    content: `${mention} 🔔 **Nowe zapytanie ze strony!**`,
-                    embeds: [{
-                        color: 1092163,
-                        title: "📝 Nowa wycena: " + service,
-                        fields: [
-                            { name: "👤 Klient / Firma", value: clientName, inline: true },
-                            { name: "📞 Telefon", value: phoneVal, inline: true },
-                            { name: "📅 Termin", value: dateInfo, inline: true },
-                            { name: "📍 Trasa / Adres", value: routeInfo, inline: false },
-                            { name: "💬 Szczegóły", value: description, inline: false }
-                        ],
-                        timestamp: new Date().toISOString()
-                    }]
-                };
-
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                // Puste = ta sama domena co backend; przy osobnym hostingu wpisz adres API.
+                const API_URL = "";
+                const payload = { service, route: routeInfo, date: dateInfo,
+                    description, clientName, phone: phoneVal,
+                    requestId: form.dataset.requestId || (form.dataset.requestId = crypto.randomUUID()) };
+                fetch(API_URL + '/api/quotes', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 })
-                .then(response => {
-                    if (response.ok) {
-                        form.classList.add('hidden');
-                        successMsg.classList.remove('hidden');
-                    } else {
-                        alert('Wystąpił błąd. Skontaktuj się z nami telefonicznie.');
-                    }
+                .then(async response => {
+                    const result = await response.json().catch(() => ({}));
+                    if (!response.ok || !result.success) throw new Error(result.message || 'Nie udało się zapisać wyceny.');
+                    delete form.dataset.requestId;
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    alert('Błąd połączenia. Spróbuj ponownie za chwilę.');
+                    alert(error.message || 'Błąd połączenia. Spróbuj ponownie.');
                 })
                 .finally(() => {
                     submitBtn.disabled = false;
@@ -883,3 +887,8 @@
     </script>
 </body>
 </html>
+
+
+
+
+
