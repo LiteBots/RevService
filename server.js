@@ -10,7 +10,30 @@ const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
 const https = require('https');
 const { randomUUID } = require('crypto');
-const { validateQuote, preparePhotos, fingerprint } = require('./lib/quote-input');
+
+const sharp = require('sharp');
+const { createHash } = require('crypto');
+function bad(message){const e=new Error(message);e.status=400;throw e}
+function validateQuote(input){
+ if(!input||typeof input!=='object'||Array.isArray(input))bad('Nieprawidłowe zgłoszenie.');
+ const limits={service:80,route:300,date:200,description:3500,clientName:140,phone:40,requestId:80};
+ for(const [key,max] of Object.entries(limits))if(typeof input[key]!=='string'||input[key].length>max)bad('Nieprawidłowe pole: '+key);
+ if(input.website)bad('Nie udało się przyjąć zgłoszenia. Skontaktuj się telefonicznie.');
+ const raw=input.phone.trim();let digits=raw.replace(/\D/g,'');if(raw.startsWith('00'))digits=digits.slice(2);
+ if(!/^[+\d\s()-]+$/.test(raw)||digits.length<7||digits.length>15)bad('Wpisz prawidłowy numer telefonu. Dla numerów zagranicznych dodaj prefiks.');
+ if(!/^[a-zA-Z0-9-]{16,80}$/.test(input.requestId)||!input.service.trim())bad('Sprawdź usługę i spróbuj ponownie.');
+ const photos=input.photos===undefined?[]:input.photos;
+ if(!Array.isArray(photos)||photos.length>3)bad('Maksymalnie 3 zdjęcia.');
+ for(const photo of photos)if(!photo||typeof photo.data!=='string'||photo.data.length>1400000||!/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/.test(photo.data))bad('Nieprawidłowy plik zdjęcia.');
+ const details=input.details===undefined?{}:input.details;
+ if(!details||typeof details!=='object'||Array.isArray(details)||Object.keys(details).length>20)bad('Nieprawidłowe szczegóły zlecenia.');
+ const cleanDetails={};for(const [k,v] of Object.entries(details)){if(k.length>80||/[.$]/.test(k)||['__proto__','constructor','prototype'].includes(k)||typeof v!=='string'||v.length>200)bad('Nieprawidłowe szczegóły zlecenia.');cleanDetails[k]=v.trim()}
+ return {...Object.fromEntries(Object.keys(limits).map(k=>[k,input[k].trim()])),phone:(raw.startsWith('+')||raw.startsWith('00')?'+':'')+digits,details:cleanDetails,photos};
+}
+async function preparePhotos(photos){const output=[];for(const p of photos){try{const bytes=Buffer.from(p.data.split(',')[1],'base64');const img=sharp(bytes,{limitInputPixels:24000000,failOn:'warning'});const meta=await img.metadata();if(!['jpeg','png','webp'].includes(meta.format)||meta.pages>1)bad('Obsługiwane są statyczne zdjęcia JPG, PNG i WebP.');const data=await img.rotate().resize({width:1600,height:1600,fit:'inside',withoutEnlargement:true}).flatten({background:'#ffffff'}).jpeg({quality:80}).toBuffer();output.push({data,contentType:'image/jpeg'})}catch(e){if(e.status)throw e;bad('Nie można odczytać zdjęcia. Wybierz inny plik JPG, PNG lub WebP.')}}return output}
+function fingerprint(input){return createHash('sha256').update(JSON.stringify([input.service,input.route,input.date,input.description,input.clientName,input.phone,input.details,input.photos.map(p=>createHash('sha256').update(p.data).digest('hex'))])).digest('hex')}
+
+
 
 const app = express();
 
@@ -214,6 +237,10 @@ const WorkerAssignmentSchema = new mongoose.Schema(
 
 const TaskSchema = new mongoose.Schema(
     {
+        offerScope: {type:String, default:'', maxlength:2500},
+        offerMessage: {type:String, default:'', maxlength:5000},
+        offerDate: Date, acceptedAt: Date,
+        workflowEvents: {type:[{requestId:String,at:Date,from:String,to:String,cost:{type:Number,min:0},costDescription:String,costCategory:String,vehicle:{type:mongoose.Schema.Types.ObjectId,ref:'Fleet'},actor:String}], default:[]},
         quoteRequestId: {
             type: String,
             unique: true,
@@ -467,6 +494,8 @@ TaskSchema.pre('validate', function syncTaskState(next) {
 
 const ClientSchema = new mongoose.Schema(
     {
+        phoneNormalized: {type:String,unique:true,sparse:true},
+        services: {type:[String],default:[]},
         name: {
             type: String,
             required: true,
@@ -549,6 +578,9 @@ const ClientSchema = new mongoose.Schema(
 */
 
 const ExpenseSchema = new mongoose.Schema({
+    requestId: {type:String,unique:true,sparse:true},
+    employee: {type:mongoose.Schema.Types.ObjectId,ref:'Employee',default:null},
+    hours: {type:Number,min:0,default:0}, rateSnapshot:{type:Number,min:0,default:0},
     price: {
         type: Number,
         required: true,
@@ -607,6 +639,7 @@ const ExpenseSchema = new mongoose.Schema({
 */
 
 const IncomeSchema = new mongoose.Schema({
+    requestId: {type:String,unique:true,sparse:true},
     price: {
         type: Number,
         required: true,
@@ -666,6 +699,9 @@ const IncomeSchema = new mongoose.Schema({
 
 const EmployeeSchema = new mongoose.Schema(
     {
+        monthlySalary:{type:Number,min:0,default:0},
+        employmentType:{type:String,default:'',maxlength:80},
+        startDate:Date,notes:{type:String,default:'',maxlength:2000},
         name: {
             type: String,
             required: true,
@@ -1251,6 +1287,24 @@ app.get('/api/health', (req, res) => {
 |--------------------------------------------------------------------------
 */
 
+const WF_TRANSITIONS={new:['quoted','cancelled'],quoted:['quoted','planned','cancelled'],planned:['progress','cancelled'],progress:['planned','completed','cancelled'],completed:[],cancelled:[]};
+function wfError(message,status=400){const e=new Error(message);e.status=status;throw e;}
+function wfMoney(value,label='Kwota'){if(value===''||value===null||value===undefined)wfError(label+' jest wymagana (wpisz 0, jeśli brak kosztów).');const n=Number(String(value).replace(',','.'));if(!Number.isFinite(n)||n<0||n>100000000)wfError(label+' musi być liczbą od 0 do 100 000 000.');return Math.round(n*100)/100;}
+function wfText(value,max=1000){if(value===undefined||value===null)return '';if(typeof value!=='string'||value.length>max)wfError('Nieprawidłowa długość tekstu.');return value.trim();}
+function wfMonth(date){if(!date)return '';const d=new Date(date);if(Number.isNaN(d.getTime()))return '';return new Intl.DateTimeFormat('en-CA',{timeZone:'Europe/Warsaw',year:'numeric',month:'2-digit'}).format(d).slice(0,7);}
+function wfId(value){return value?String(value._id||value):'';}
+function wfDate(value,required=false){if(!value){if(required)wfError('Podaj datę.');return null;}const d=new Date(value);if(Number.isNaN(d.getTime()))wfError('Nieprawidłowa data.');return d;}
+function wfPhone(value){let x=String(value||'').replace(/\D/g,'');if(x.startsWith('00'))x=x.slice(2);if(x.length===9)x='48'+x;return x;}
+function wfLedger(tasks,expenses,incomes,month){
+ const costs=expenses.map(e=>({id:wfId(e),date:e.date||e.createdAt,amount:e.price,description:e.desc,category:e.category,task:wfId(e.task),employee:wfId(e.employee),vehicle:wfId(e.vehicle),hours:e.hours||0,origin:'expense'}));
+ for(const t of tasks)for(const e of t.workflowEvents||[])if(e.cost>0)costs.push({id:wfId(t)+':'+e.requestId,date:e.at,amount:e.cost,description:e.costDescription,category:e.costCategory||'Koszt zlecenia',task:wfId(t),employee:'',vehicle:wfId(e.vehicle||t.vehicle),origin:'status'});
+ const revenue=tasks.filter(t=>t.status==='completed'||t.completed).map(t=>({id:'task:'+wfId(t),date:t.completedAt||t.updatedAt||t.dateStart,amount:t.finalPrice??t.price??0,description:t.name,category:'Zrealizowane zlecenie',task:wfId(t),client:wfId(t.client),paymentStatus:t.paymentStatus||'unpaid',origin:'task'}));
+ for(const i of incomes)revenue.push({id:wfId(i),date:i.date||i.createdAt,amount:i.price,description:i.desc,category:i.category,task:wfId(i.task),client:wfId(i.client),origin:'manual'});
+ const sum=arr=>Math.round(arr.reduce((n,x)=>n+Math.round(Number(x.amount||0)*100),0))/100;
+ const allIncome=sum(revenue),allCost=sum(costs),income=sum(revenue.filter(x=>wfMonth(x.date)===month)),cost=sum(costs.filter(x=>wfMonth(x.date)===month));
+ return {costs:costs.sort((a,b)=>new Date(b.date)-new Date(a.date)),revenue:revenue.sort((a,b)=>new Date(b.date)-new Date(a.date)),totals:{income,cost,profit:Math.round((income-cost)*100)/100,allIncome,allCost,allProfit:Math.round((allIncome-allCost)*100)/100,completed:tasks.filter(t=>t.status==='completed'&&wfMonth(t.completedAt||t.updatedAt||t.dateStart)===month).length,newQuotes:tasks.filter(t=>wfMonth(t.createdAt)===month&&t.source==='Formularz index').length}};
+}
+
 const quoteLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 10,
@@ -1409,6 +1463,7 @@ app.post('/api/quotes', quoteLimiter, express.json({ limit: '5mb' }), asyncRoute
             if (task.quoteFingerprint !== hash) return res.status(409).json({ success: false, message: 'Identyfikator zgłoszenia został już użyty. Odśwież stronę.' });
         }
     }
+    try { await wfSyncClient(task); } catch (error) { console.error('Synchronizacja klienta zostanie ponowiona w panelu.'); }
     res.status(201).json({ success: true, number: task.number });
     void flushQuoteNotifications();
 }));
@@ -1420,6 +1475,63 @@ app.post('/api/quotes', quoteLimiter, express.json({ limit: '5mb' }), asyncRoute
 */
 
 app.use('/api', requireAuth);
+app.use('/api', (req,res,next) => { if(req.user.role !== 'admin' && req.path !== '/v3/data') return res.status(403).json({success:false,message:'Ta operacja wymaga administratora.'}); next(); });
+async function wfSyncClient(task){
+ const key=wfPhone(task.clientPhone);if(!key)return null;
+ let client=task.client?await Client.findById(task.client):null;
+ if(!client)client=await Client.findOne({phoneNormalized:key});
+ if(!client){const old=await Client.find({phone:{$ne:''}}).select('phone');const match=old.find(c=>wfPhone(c.phone)===key);if(match)client=await Client.findById(match._id);}
+ const data={phone:task.clientPhone,address:task.address||task.addressFrom||'',archived:false};if(task.clientName)data.name=task.clientName;
+ try{if(client)client=await Client.findByIdAndUpdate(client._id,{$set:{...data,phoneNormalized:key},$addToSet:{services:task.type||'Inne'}},{new:true,runValidators:true});else client=await Client.findOneAndUpdate({phoneNormalized:key},{$set:{...data,name:task.clientName||'Klient '+task.clientPhone},$setOnInsert:{source:'Wycena / zlecenie'},$addToSet:{services:task.type||'Inne'}},{upsert:true,new:true,runValidators:true});}catch(e){if(e.code!==11000)throw e;client=await Client.findOne({phoneNormalized:key});}
+ if(client&&!task.client)await Task.updateOne({_id:task._id,client:null},{$set:{client:client._id}});return client;
+}
+app.get('/api/v3/data',asyncRoute(async(req,res)=>{
+ const month=String(req.query.month||wfMonth(new Date()));if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))wfError('Nieprawidłowy miesiąc.');const admin=req.user.role==='admin';
+ if(admin){const pending=await Task.find({client:null,clientPhone:{$exists:true,$nin:['',null]}}).limit(100);for(const t of pending)await wfSyncClient(t);}
+ const [tasks,employees,fleet,clients,expenses,incomes]=await Promise.all([Task.find({}).sort({createdAt:-1}).lean(),admin?Employee.find().sort({name:1}).lean():[],Fleet.find().sort({name:1}).lean(),admin?Client.find().sort({updatedAt:-1}).lean():[],admin?Expense.find().sort({date:-1}).lean():[],admin?Income.find().sort({date:-1}).lean():[]]);
+ if(!admin)return res.json({month,tasks:tasks.filter(t=>['planned','progress'].includes(t.status)).map(t=>({_id:t._id,number:t.number,name:t.name,type:t.type,status:t.status,dateStart:t.dateStart,clientName:t.clientName,clientPhone:t.clientPhone,address:t.address,desc:t.desc,workers:t.workers,vehicle:t.vehicle,car:t.car,quotePhotoCount:0,updatedAt:t.updatedAt})),employees:[],fleet:fleet.map(f=>({_id:f._id,name:f.name,plates:f.plates,status:f.status})),clients:[],ledger:null});
+ res.json({month,tasks,employees:employees.map(publicEmployee),fleet,clients,ledger:wfLedger(tasks,expenses,incomes,month)});
+}));
+app.post('/api/v3/tasks/:id/status',requireAdmin,validateId,asyncRoute(async(req,res)=>{
+ const input=req.body||{},requestId=wfText(input.requestId,80);if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))wfError('Brak identyfikatora operacji.');let current=await Task.findById(req.params.id);if(!current)wfError('Nie znaleziono zlecenia.',404);
+ if((current.workflowEvents||[]).some(e=>e.requestId===requestId))return res.json({success:true,task:current});
+ if(current.status!==input.expectedStatus)wfError('Status zmienił się w innym oknie. Odśwież dane.',409);
+ const status=input.status;if(!(WF_TRANSITIONS[current.status]||[]).includes(status))wfError('Niedozwolona zmiana statusu.');
+ const cost=wfMoney(input.cost,'Koszt'),costDescription=wfText(input.costDescription,1000);if(cost>0&&!costDescription)wfError('Opisz koszt, np. paliwo i bramki.');
+ const at=new Date(),update={status,completed:status==='completed',updatedAt:at};
+ if(status==='quoted'){update.price=wfMoney(input.price,'Cena oferty');update.offerScope=wfText(input.offerScope,2500);update.offerMessage=wfText(input.offerMessage,5000);update.offerDate=at;if(!update.offerMessage)wfError('Przygotuj treść wyceny.');}
+ if(status==='planned'&&current.status==='quoted'){if(input.clientAccepted!==true)wfError('Potwierdź zgodę klienta.');update.acceptedAt=at;update.dateStart=wfDate(input.dateStart,true);}
+ if(status==='completed'){update.finalPrice=wfMoney(input.finalPrice,'Kwota końcowa');update.completedAt=at;update.paymentStatus=input.paymentStatus==='paid'?'paid':'unpaid';}
+ const event={requestId,at,from:current.status,to:status,vehicle:current.vehicle||null,cost,costDescription:costDescription||'Brak nowych kosztów',costCategory:wfText(input.costCategory||'Koszt zlecenia',100),actor:req.user.name||'Administrator'};
+ const task=await Task.findOneAndUpdate({_id:current._id,status:current.status,updatedAt:current.updatedAt,'workflowEvents.requestId':{$ne:requestId}},{$set:update,$push:{workflowEvents:event}},{new:true,runValidators:true});
+ if(!task){current=await Task.findById(req.params.id);if(current?.workflowEvents?.some(e=>e.requestId===requestId))return res.json({success:true,task:current});wfError('Zlecenie zostało zmienione. Odśwież i spróbuj ponownie.',409);}
+ await recordActivity('workflow','Zmieniono '+task.number+' → '+status,'Task',task._id,req.user.name);res.json({success:true,task});
+}));
+app.post('/api/v3/tasks',requireAdmin,asyncRoute(async(req,res)=>{const b=req.body,name=wfText(b.name,160);if(!name)wfError('Podaj nazwę zlecenia.');const task=await Task.create({name,type:wfText(b.type,80)||'Inne',status:'new',source:'Ręcznie',price:0,dateStart:new Date(),clientName:wfText(b.clientName,140),clientPhone:wfText(b.clientPhone,40),address:wfText(b.address,300),desc:wfText(b.desc,4000)});await wfSyncClient(task);res.status(201).json({success:true,task});}));
+app.put('/api/v3/tasks/:id',requireAdmin,validateId,asyncRoute(async(req,res)=>{
+ const current=await Task.findById(req.params.id);if(!current)wfError('Brak zlecenia.',404);if(['completed','cancelled'].includes(current.status))wfError('Archiwalne zlecenie pozostaje tylko do odczytu.');
+ const b=req.body,update={};for(const [key,max] of Object.entries({name:160,type:80,clientName:140,clientPhone:40,address:300,desc:4000}))if(b[key]!==undefined)update[key]=wfText(b[key],max);if(b.dateStart!==undefined)update.dateStart=wfDate(b.dateStart,true);
+ if(b.vehicle!==undefined){if(b.vehicle){if(!isObjectId(b.vehicle))wfError('Nieprawidłowy pojazd.');const f=await Fleet.findOne({_id:b.vehicle,active:true,status:{$nin:['inactive','service']}});if(!f)wfError('Pojazd jest nieaktywny lub w serwisie.');update.vehicle=f._id;update.car=f.name+' '+f.plates;}else{update.vehicle=null;update.car='';}}
+ if(b.workers!==undefined){if(!Array.isArray(b.workers)||b.workers.length>30)wfError('Nieprawidłowa ekipa.');const ids=[...new Set(b.workers.map(String))];if(ids.some(x=>!isObjectId(x)))wfError('Nieprawidłowy pracownik.');const crew=await Employee.find({_id:{$in:ids},active:true});if(crew.length!==ids.length)wfError('Wybrany pracownik jest nieaktywny.');update.workers=crew.map(e=>({employee:e._id,name:e.name,role:e.role}));}
+ const task=await Task.findOneAndUpdate({_id:current._id,updatedAt:current.updatedAt},{$set:update},{new:true,runValidators:true});if(!task)wfError('Dane zmieniły się w innym oknie.',409);await wfSyncClient(task);res.json({success:true,task});
+}));
+app.patch('/api/v3/tasks/:id/payment',requireAdmin,validateId,asyncRoute(async(req,res)=>{if(!['paid','unpaid','partial'].includes(req.body.paymentStatus))wfError('Nieprawidłowa płatność.');const t=await Task.findByIdAndUpdate(req.params.id,{$set:{paymentStatus:req.body.paymentStatus}},{new:true,runValidators:true});if(!t)wfError('Brak zlecenia.',404);res.json({success:true});}));
+app.post('/api/v3/finance',requireAdmin,asyncRoute(async(req,res)=>{
+ const b=req.body,requestId=wfText(b.requestId,80);if(!/^[a-zA-Z0-9-]{16,80}$/.test(requestId))wfError('Brak identyfikatora operacji.');if(!['expense','income','payroll'].includes(b.kind))wfError('Nieprawidłowy rodzaj wpisu.');
+ const Model=b.kind==='income'?Income:Expense,existing=await Model.findOne({requestId});if(existing)return res.json({success:true,entry:existing});
+ const data={requestId,category:wfText(b.category,100)||'Inne',desc:wfText(b.desc,1000),price:wfMoney(b.price),date:wfDate(b.date,true)};if(!data.desc)wfError('Podaj opis: czego dotyczy wpis.');
+ for(const [key,ModelRef] of [['task',Task],['vehicle',Fleet]])if(b[key]){if(b.kind==='income'&&key==='task')wfError('Przychód zakończonego zlecenia liczy się automatycznie.');if(!isObjectId(b[key])||!await ModelRef.exists({_id:b[key]}))wfError('Nie znaleziono '+key);data[key]=b[key];}
+ if(b.kind==='payroll'){if(!isObjectId(b.employee))wfError('Wybierz pracownika.');const e=await Employee.findById(b.employee);if(!e)wfError('Brak pracownika.');data.employee=e._id;data.hours=wfMoney(b.hours??0,'Godziny');data.rateSnapshot=wfMoney(b.rate??0,'Stawka');data.category='Wynagrodzenie';}
+ let entry;try{entry=await Model.create(data)}catch(e){if(e.code!==11000)throw e;entry=await Model.findOne({requestId});if(!entry)throw e;}res.status(201).json({success:true,entry});
+}));
+app.put('/api/v3/clients/:id',requireAdmin,validateId,asyncRoute(async(req,res)=>{const b=req.body,update={};for(const [key,max] of Object.entries({name:160,company:180,phone:40,email:160,address:300,notes:4000}))if(b[key]!==undefined)update[key]=wfText(b[key],max);if(update.phone!==undefined){if(!wfPhone(update.phone))wfError('Podaj telefon.');update.phoneNormalized=wfPhone(update.phone);}if(b.archived!==undefined)update.archived=Boolean(b.archived);const c=await Client.findByIdAndUpdate(req.params.id,{$set:update},{new:true,runValidators:true});if(!c)wfError('Brak klienta.',404);res.json({success:true});}));
+async function wfEmployee(b,id){const data={};for(const [k,max] of Object.entries({name:140,role:100,phone:40,notes:2000,employmentType:80}))data[k]=wfText(b[k],max);if(!data.name||!data.role)wfError('Podaj imię, nazwisko i stanowisko.');data.hourlyRate=wfMoney(b.hourlyRate??0,'Stawka godzinowa');data.monthlySalary=wfMoney(b.monthlySalary??0,'Stawka miesięczna');data.status=['available','busy','off'].includes(b.status)?b.status:'available';data.systemRole=b.systemRole==='admin'?'admin':'worker';data.active=b.active!==false;data.startDate=wfDate(b.startDate);if(b.pin){const pin=String(b.pin);if(!/^\d{4,8}$/.test(pin))wfError('PIN musi mieć 4–8 cyfr.');if(pin===ADMIN_PIN)wfError('PIN jest już używany.');const all=await Employee.find({_id:{$ne:id||null}}).select('+pin +pinHash');for(const e of all)if(e.pin===pin||(e.pinHash&&await bcrypt.compare(pin,e.pinHash)))wfError('PIN jest już używany.');data.pinHash=await bcrypt.hash(pin,12);data.pin=undefined;}return data;}
+app.post('/api/v3/employees',requireAdmin,asyncRoute(async(req,res)=>{const e=await Employee.create(await wfEmployee(req.body));res.status(201).json({success:true,employee:publicEmployee(e)});}));
+app.put('/api/v3/employees/:id',requireAdmin,validateId,asyncRoute(async(req,res)=>{const d=await wfEmployee(req.body,req.params.id);if(req.user.employeeId===req.params.id&&(d.active===false||d.systemRole==='worker'))wfError('Nie możesz odebrać dostępu własnemu kontu.');const e=await Employee.findByIdAndUpdate(req.params.id,{$set:d},{new:true,runValidators:true});if(!e)wfError('Brak pracownika.',404);res.json({success:true,employee:publicEmployee(e)});}));
+function wfFleet(b){const d={name:wfText(b.name,140),plates:wfText(b.plates,20),notes:wfText(b.notes,2000),status:b.status,active:b.active!==false};if(!d.name||!d.plates)wfError('Podaj pojazd i rejestrację.');if(!['available','route','service','inactive'].includes(d.status))wfError('Nieprawidłowy status pojazdu.');for(const k of ['mileage','fuelConsumption'])d[k]=wfMoney(b[k]??0,k);for(const k of ['nextServiceDate','insuranceUntil','inspectionUntil'])d[k]=wfDate(b[k]);d.serviceMileage=b.serviceMileage?wfMoney(b.serviceMileage):null;return d;}
+app.post('/api/v3/fleet',requireAdmin,asyncRoute(async(req,res)=>{const f=await Fleet.create(wfFleet(req.body));res.status(201).json({success:true,vehicle:f});}));
+app.put('/api/v3/fleet/:id',requireAdmin,validateId,asyncRoute(async(req,res)=>{const f=await Fleet.findByIdAndUpdate(req.params.id,{$set:wfFleet(req.body)},{new:true,runValidators:true});if(!f)wfError('Brak pojazdu.',404);res.json({success:true,vehicle:f});}));
+
 
 // Zdjęcia są prywatne. Pobiera je wyłącznie zalogowany administrator RevMi.
 app.get('/api/tasks/:id/photos/:index', requireAdmin, validateId, asyncRoute(async (req, res) => {
@@ -1792,6 +1904,7 @@ app.put(
     '/api/tasks/:id',
     requireAdmin,
     validateId,
+    (req,res,next) => { if (['status','completed','completedAt','finalPrice','price'].some(k=>req.body[k]!==undefined)) return res.status(409).json({success:false,message:'Status i kwotę zmieniaj przez nowy obieg wyceny.'}); next(); },
     asyncRoute(async (req, res) => {
         const task = await Task.findByIdAndUpdate(
             req.params.id,
@@ -1826,6 +1939,7 @@ app.put(
 
 app.patch(
     '/api/tasks/:id/status',
+    (req,res) => res.status(409).json({success:false,message:'Użyj nowego panelu: zmiana statusu wymaga podania kosztów.'}),
     validateId,
     asyncRoute(async (req, res) => {
         const allowedStatuses = [
@@ -1892,6 +2006,7 @@ app.patch(
 
 app.post(
     '/api/tasks/:id/complete',
+    (req,res) => res.status(409).json({success:false,message:'Zakończ zlecenie w nowym panelu z rozliczeniem kosztów.'}),
     validateId,
     asyncRoute(async (req, res) => {
         const update = {
@@ -2761,7 +2876,7 @@ app.use('/api', (req, res) => {
 });
 
 app.use((error, req, res, next) => {
-    console.error(error);
+    if (!error.status || error.status >= 500) console.error(error);
 
     const status =
         error.status ||
@@ -2937,4 +3052,4 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
     shutdown('SIGINT');
 });
-module.exports = { app, Task, sessionStore };
+module.exports = { app, Task, Client, Employee, Fleet, Expense, Income, Activity, sessionStore, wfLedger, wfMonth, wfMoney, WF_TRANSITIONS };
