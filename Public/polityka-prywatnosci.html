@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pl" class="scroll-smooth">
+<head>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polityka Prywatności | RevSerwis</title>
+    <meta name="description" content="Polityka Prywatności i zasady przetwarzania danych osobowych (RODO) w firmie RevSerwis. Sprawdź, jak chronimy Twoje dane.">
+    
+    <link rel="icon" href="https://i.imgur.com/dHWDH8j.png" type="image/png">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/dHWDH8j.png">
+
+    <meta property="og:image" content="https://i.imgur.com/dHWDH8j.png">
+    <meta property="og:title" content="Polityka Prywatności | RevSerwis">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.revserwis.pl/polityka-prywatnosci.html">
+    
+    <link rel="stylesheet" href="assets/tailwind.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            background-color: #030303;
+            color: #f3f4f6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        
+        .fade-up.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(20,20,20,0.7) 0%, rgba(10,10,10,0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030303; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #10b981; }
+
+        .bg-grid {
+            background-size: 50px 50px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+        }
+
+        .text-glow {
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
+        }
+
+        /* Style specyficzne dla dokumentów prawnych */
+        .legal-content h2 {
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .legal-content h2 i {
+            color: #10b981;
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+        .legal-content p {
+            color: #9ca3af;
+            line-height: 1.75;
+            margin-bottom: 1rem;
+        }
+        .legal-content ul {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 1.5rem;
+        }
+        .legal-content ul li {
+            position: relative;
+            padding-left: 1.5rem;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+        }
+        .legal-content ul li::before {
+            content: "•";
+            color: #10b981;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+        }
+        .legal-content strong {
+            color: #e5e7eb;
+            font-weight: 600;
+        }
+    </style>
+<link rel="canonical" href="https://www.revserwis.pl/polityka-prywatnosci.html"><meta property="og:description" content="Polityka Prywatności i zasady przetwarzania danych osobowych (RODO) w firmie RevSerwis. Sprawdź, jak chronimy Twoje dane."><link rel="stylesheet" href="assets/enhancements.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "@id": "https://www.revserwis.pl/#organization", "name": "RevSerwis", "url": "https://www.revserwis.pl/", "telephone": "+48735396534", "email": "kontakt@revserwis.pl", "logo": "https://i.imgur.com/dHWDH8j.png", "areaServed": ["Słupsk", "Pomorskie", "Zachodniopomorskie"]}</script><script defer src="assets/site.js"></script><script defer src="assets/quote.js"></script><noscript><style>.fade-up{opacity:1;transform:none}</style></noscript></head>
+<body class="flex flex-col min-h-screen relative overflow-x-hidden"><a class="rv-skip" href="#main-content">Przejdź do treści</a>
+
+    <!-- Floating Header -->
+    <header class="fixed w-full z-50 transition-all duration-500 top-0 left-0 pt-4" id="header-wrapper">
+        <div id="header-inner" class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-500">
+            <div class="flex justify-between items-center py-4 px-2" id="nav-container">
+                
+                <div class="flex-shrink-0 cursor-pointer flex items-center">
+                    <a href="index.html">
+                        <img class="h-16 w-auto transition-transform hover:scale-105 duration-300" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis Logo">
+                    </a>
+                </div>
+                
+                <nav class="hidden lg:flex space-x-5 items-center" aria-label="Menu główne"><a href="index.html#uslugi" class="text-gray-300 hover:text-brand-400 font-medium text-sm">Usługi</a><a href="dla-firm.html" class="text-gray-300 hover:text-brand-400 font-medium text-sm">Dla firm</a><a href="realizacje.html" class="text-gray-300 hover:text-brand-400 font-medium text-sm">Realizacje</a><a href="obszar-dzialania.html" class="text-gray-300 hover:text-brand-400 font-medium text-sm">Obszar</a><a href="kontakt.html" class="text-gray-300 hover:text-brand-400 font-medium text-sm">Kontakt</a><a href="tel:+48735396534" class="text-white font-bold text-sm">735 396 534</a><a href="wycena.html" class="bg-white text-dark-900 hover:bg-brand-500 font-bold px-5 py-2.5 rounded-full transition-all">Wyceń online</a></nav>
+                
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none p-2 bg-white/5 rounded-lg border border-white/10">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu mobilne -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-dark-900/95 backdrop-blur-xl border-b border-white/10 absolute w-full left-0 top-full shadow-2xl mt-4">
+            <div class="px-4 pt-4 pb-6 space-y-2">
+                <a href="index.html#uslugi" class="mobile-link block text-gray-300 text-lg font-medium py-3 border-b border-white/5">Nasze usługi</a>
+                <a href="dla-firm.html" class="mobile-link block text-brand-400 text-lg font-bold py-3 border-b border-white/5"><i class="fa-solid fa-briefcase mr-2"></i>Oferta B2B</a>
+                <a href="index.html#flota" class="mobile-link block text-gray-300 text-lg font-medium py-3 border-b border-white/5">Nasza flota</a>
+                <a href="index.html#faq" class="mobile-link block text-gray-300 text-lg font-medium py-3 border-b border-white/5">FAQ</a>
+                
+                <div class="pt-6 flex flex-col gap-3">
+                    <a href="tel:+48735396534" class="flex items-center justify-center w-full bg-white/5 border border-white/10 text-white font-bold py-3.5 rounded-xl">
+                        <i class="fa-solid fa-phone mr-2 text-brand-500"></i> 735 396 534
+                    </a>
+                    <a href="wycena.html?usluga=" class="mobile-link flex items-center justify-center w-full bg-brand-500 text-dark-900 font-bold py-3.5 rounded-xl">
+                        Zamów bezpłatną wycenę
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow" id="main-content">
+        
+        <!-- Sekcja Hero (Nagłówek podstrony) -->
+        <section class="relative pt-40 pb-20 overflow-hidden flex items-center">
+            <div class="bg-grid"></div>
+            <!-- Światła w tle -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-gradient-radial from-brand-500/10 to-transparent blur-[120px] pointer-events-none"></div>
+            
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+                <div class="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-6 fade-up backdrop-blur-md mx-auto">
+                    <i class="fa-solid fa-shield-halved text-brand-500"></i>
+                    <span class="text-xs font-semibold text-gray-300 uppercase tracking-widest">Bezpieczeństwo Danych</span>
+                </div>
+                
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white fade-up" style="transition-delay: 100ms;">
+                    Polityka <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-emerald-700 text-glow">Prywatności</span>
+                </h1>
+                
+                <p class="text-lg text-gray-400 leading-relaxed mx-auto fade-up" style="transition-delay: 200ms;">
+                    Dbamy o Twoją prywatność. Przeczytaj, w jaki sposób gromadzimy, przetwarzamy i chronimy Twoje dane osobowe (zgodnie z przepisami RODO).
+                </p>
+            </div>
+        </section>
+
+        <!-- Główna sekcja z treścią prawną -->
+        <section class="py-12 relative z-20 mb-20">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="glass-card rounded-[2rem] p-8 md:p-12 lg:p-16 fade-up relative overflow-hidden legal-content border-brand-500/20">
+                    
+                    <p>
+                        Niniejsza Polityka Prywatności określa zasady przetwarzania i ochrony danych osobowych przekazanych przez Użytkowników w związku z korzystaniem z serwisu internetowego <strong>RevSerwis</strong> (dostępnego pod adresem www.revserwis.pl).
+                    </p>
+
+                    <h2><i class="fa-solid fa-building"></i> 1. Administrator Danych Osobowych</h2>
+                    <p>
+                        Administratorem Twoich danych osobowych jest <strong>RevSerwis</strong>. We wszelkich sprawach związanych z przetwarzaniem danych osobowych możesz skontaktować się z Administratorem za pośrednictwem:
+                    </p>
+                    <ul>
+                        <li>Adresu e-mail: <strong>kontakt@revserwis.pl</strong></li>
+                        <li>Numeru telefonu: <strong>735 396 534</strong></li>
+                    </ul>
+
+                    <h2><i class="fa-solid fa-crosshairs"></i> 2. Cel i podstawy prawne przetwarzania danych</h2>
+                    <p>
+                        Twoje dane osobowe przetwarzane są w następujących celach:
+                    </p>
+                    <ul>
+                        <li><strong>Obsługa zapytań i wycen:</strong> Przetwarzamy Twoje dane (imię, numer telefonu, lokalizacja/trasa) podane w formularzu wyceny online lub podczas kontaktu telefonicznego w celu przygotowania oferty i udzielenia odpowiedzi. Podstawą prawną jest niezbędność przetwarzania do podjęcia działań na żądanie osoby, której dane dotyczą, przed zawarciem umowy (art. 6 ust. 1 lit. b RODO).</li>
+                        <li><strong>Wykonanie umowy:</strong> W przypadku zlecenia nam usługi (przeprowadzka, transport, przewóz osób, mycie ciśnieniowe itp.), dane przetwarzane są w celu prawidłowej realizacji zlecenia oraz wystawienia rachunku lub faktury (art. 6 ust. 1 lit. b i c RODO).</li>
+                        <li><strong>Analiza i statystyka:</strong> Google Analytics uruchamiamy po zaakceptowaniu analityki w ustawieniach cookies. Możesz odmówić bez utraty dostępu do formularza i zmienić decyzję przyciskiem w stopce.</li>
+                    </ul>
+
+                    <h2><i class="fa-solid fa-list-check"></i> 3. Rodzaj gromadzonych danych</h2>
+                    <p>
+                        W zależności od Twojej aktywności, możemy gromadzić następujące informacje:
+                    </p>
+                    <ul>
+                        <li>Imię i nazwisko lub nazwa firmy;</li>
+                        <li>Numer telefonu;</li>
+                        <li>Informacje o lokalizacji (adres początkowy i końcowy zlecenia);</li>
+                        <li>Szczegóły zlecenia, odpowiedzi na pytania dotyczące usługi oraz opcjonalne zdjęcia przesłane do wyceny;</li>
+                        <li>Dane zbierane automatycznie (pliki cookies, adres IP, typ urządzenia) na potrzeby analityczne.</li>
+                    </ul>
+
+                    <p>Zdjęcia przesłane w formularzu przechowujemy razem ze zgłoszeniem. Są dostępne administratorowi panelu i nie są automatycznie publikowane w galerii realizacji.</p><h2><i class="fa-solid fa-share-nodes"></i> 4. Odbiorcy danych osobowych</h2>
+                    <p>
+                        Twoje dane osobowe mogą być przekazywane podmiotom przetwarzającym je na nasze zlecenie, m.in.:
+                    </p>
+                    <ul>
+                        <li>Dostawcom usług hostingowych oraz IT (utrzymanie strony www i poczty e-mail);</li>
+                        <li>Dostawcom systemów analitycznych (np. Google LLC w związku z usługą Google Analytics);</li>
+                        <li>Firmom księgowym (w przypadku wystawienia faktury za wykonaną usługę);</li>
+                        <li>Pracownikom i podwykonawcom (np. kierowcom, dyspozytorom) wyłącznie w zakresie niezbędnym do realizacji zlecenia logistycznego.</li>
+                    </ul>
+
+                    <h2><i class="fa-solid fa-clock-rotate-left"></i> 5. Okres przechowywania danych</h2>
+                    <p>
+                        Czas przechowywania Twoich danych zależy od celu, w jakim zostały zebrane:
+                    </p>
+                    <ul>
+                        <li><strong>Zapytania ofertowe:</strong> Dane z formularza przechowujemy przez czas niezbędny do udzielenia odpowiedzi i prowadzenia negocjacji, a po tym czasie do upływu terminu przedawnienia ewentualnych roszczeń.</li>
+                        <li><strong>Realizacja usług:</strong> Dane zawarte na fakturach i dokumentach księgowych przechowujemy przez 5 lat od końca roku kalendarzowego, w którym upłynął termin płatności podatku (zgodnie z przepisami prawa).</li>
+                    </ul>
+
+                    <h2><i class="fa-solid fa-scale-balanced"></i> 6. Prawa Użytkowników (RODO)</h2>
+                    <p>
+                        W związku z przetwarzaniem danych osobowych przysługują Ci następujące prawa:
+                    </p>
+                    <ul>
+                        <li>Prawo dostępu do swoich danych oraz otrzymania ich kopii;</li>
+                        <li>Prawo do sprostowania (poprawiania) swoich danych;</li>
+                        <li>Prawo do usunięcia danych ("prawo do bycia zapomnianym") – jeśli nie ma podstaw do ich dalszego przetwarzania;</li>
+                        <li>Prawo do ograniczenia przetwarzania danych;</li>
+                        <li>Prawo do wniesienia sprzeciwu wobec przetwarzania;</li>
+                        <li>Prawo do przenoszenia danych;</li>
+                        <li>Prawo do wniesienia skargi do organu nadzorczego (Prezesa Urzędu Ochrony Danych Osobowych w Polsce).</li>
+                    </ul>
+
+                    <h2><i class="fa-solid fa-cookie-bite"></i> 7. Pliki Cookies (Ciasteczka) i Google Analytics</h2>
+                    <p>
+                        Nasza strona wykorzystuje pliki cookies (ciasteczka) w celu zapewnienia jej prawidłowego działania oraz w celach statystycznych.
+                    </p>
+                    <p>
+                        Korzystamy z narzędzia <strong>Google Analytics 4</strong> dostarczanego przez Google LLC (identyfikator pomiaru: G-VTLZW64VGN). Narzędzie to zbiera informacje o Twoich odwiedzinach na naszej stronie, takich jak podstrony, które wyświetliłeś, czas spędzony na stronie, przejścia pomiędzy podstronami oraz źródło ruchu. 
+                    </p>
+                    <p>
+                        Analityka jest opcjonalna. Swoją decyzję zmienisz przyciskiem „Ustawienia cookies” w stopce. Przechowujemy wybór w pamięci lokalnej przeglądarki. Formularz działa również po odmowie analityki.
+                    </p>
+
+                    <h2><i class="fa-solid fa-file-contract"></i> 8. Postanowienia końcowe</h2>
+                    <p>
+                        Administrator zastrzega sobie prawo do wprowadzania zmian w Polityce Prywatności w przypadku zmiany przepisów prawa lub wdrażania nowych rozwiązań technologicznych.
+                    </p>
+                    <p>
+                        Niniejsza Polityka Prywatności obowiązuje od dnia publikacji i znajduje zastosowanie do wszelkich usług oferowanych przez RevSerwis.
+                    </p>
+
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- Stopka -->
+    <footer class="bg-dark-900 border-t border-white/5 pt-16 pb-8 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12 border-b border-white/5 pb-12">
+                
+                <div class="md:col-span-5">
+                    <img class="h-12 w-auto mb-6 opacity-90" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis">
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6 pr-4">
+                        RevSerwis to partner w logistyce, przeprowadzkach i dbałości o posesję. Obsługujemy firmy (B2B) i klientów indywidualnych w Słupsku, Polsce i Europie.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/profile.php?id=61591448955070" class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                    </div>
+                </div>
+
+                <div class="md:col-span-3">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Na skróty</h4>
+                    <ul class="space-y-3">
+                        <li><a href="index.html#uslugi" class="text-gray-500 hover:text-brand-400 transition-colors text-sm">Nasze Usługi</a></li>
+                        <li><a href="index.html#flota" class="text-gray-500 hover:text-brand-400 transition-colors text-sm">Nasza Flota</a></li>
+                        <li><a href="dla-firm.html" class="text-gray-500 hover:text-brand-400 transition-colors text-sm">Dla Firm B2B</a></li>
+                        <li><a href="wycena.html?usluga=" class="text-brand-500 hover:text-brand-400 transition-colors text-sm font-semibold">Darmowa Wycena</a></li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-4">
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Kontakt 24/7</h4>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-brand-500 mr-4 shrink-0">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-1 uppercase tracking-widest">Infolinia / Dyspozytor</p>
+                                <a href="tel:+48735396534" class="text-white font-bold text-lg hover:text-brand-400 transition-colors">735 396 534</a>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-brand-500 mr-4 shrink-0">
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div>
+                                <p class="text-gray-500 text-xs mb-1 uppercase tracking-widest">Napisz do nas</p>
+                                <a href="mailto:kontakt@revserwis.pl" class="text-white font-medium hover:text-brand-400 transition-colors">kontakt@revserwis.pl</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-between items-center w-full">
+                <p class="text-gray-600 text-sm mb-4 md:mb-0">
+                    &copy; 2026 RevSerwis. Wszystkie prawa zastrzeżone. | <a href="#" class="hover:text-brand-500 transition-colors">Polityka Prywatności</a>
+                </p>
+            </div>
+        </div>
+    <div class="max-w-7xl mx-auto px-4 py-8 flex flex-wrap gap-5 text-sm border-t border-white/5"><a class="text-gray-400 hover:text-brand-400" href="cennik.html">Jak wyceniamy</a><a class="text-gray-400 hover:text-brand-400" href="obszar-dzialania.html">Obszar działania</a><a class="text-gray-400 hover:text-brand-400" href="realizacje.html">Realizacje</a><a class="text-gray-400 hover:text-brand-400" href="odbior-odpadow.html">Odbiór gabarytów</a><a class="text-gray-400 hover:text-brand-400" href="mycie-cisnieniowe.html">Mycie ciśnieniowe</a><a class="text-gray-400 hover:text-brand-400" href="kontakt.html">Kontakt</a><a class="text-gray-400 hover:text-brand-400" href="polityka-prywatnosci.html">Polityka prywatności</a><button type="button" data-cookie-settings class="text-gray-400">Ustawienia cookies</button></div></footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile Menu
+            const btn = document.getElementById('mobile-menu-btn');
+            const menu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+            const icon = btn.querySelector('i');
+
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('hidden');
+                if(menu.classList.contains('hidden')){
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    menu.classList.add('hidden');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                });
+            });
+
+            // Floating Header
+            const headerWrapper = document.getElementById('header-wrapper');
+            const headerInner = document.getElementById('header-inner');
+            const navContainer = document.getElementById('nav-container');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 20) {
+                    headerWrapper.classList.remove('pt-4');
+                    headerWrapper.classList.add('pt-2');
+                    
+                    headerInner.classList.remove('max-w-7xl');
+                    headerInner.classList.add('max-w-5xl');
+                    
+                    navContainer.classList.add('bg-dark-900/80', 'backdrop-blur-xl', 'border', 'border-white/10', 'shadow-2xl', 'rounded-full');
+                    navContainer.classList.remove('py-4', 'px-2');
+                    navContainer.classList.add('py-2', 'px-6');
+                } else {
+                    headerWrapper.classList.add('pt-4');
+                    headerWrapper.classList.remove('pt-2');
+                    
+                    headerInner.classList.add('max-w-7xl');
+                    headerInner.classList.remove('max-w-5xl');
+                    
+                    navContainer.classList.remove('bg-dark-900/80', 'backdrop-blur-xl', 'border', 'border-white/10', 'shadow-2xl', 'rounded-full');
+                    navContainer.classList.add('py-4', 'px-2');
+                    navContainer.classList.remove('py-2', 'px-6');
+                }
+            });
+
+            // Fade Animations
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-up').forEach(element => {
+                observer.observe(element);
+            });
+        });
+    </script>
+<div class="rv-mobile-bar"><a href="tel:+48735396534"><i class="fa-solid fa-phone" aria-hidden="true"></i> Zadzwoń</a><a href="wycena.html?usluga="><i class="fa-solid fa-clipboard-list" aria-hidden="true"></i> Wyceń usługę</a></div></body>
+</html>
