@@ -1,58 +1,28 @@
 <!DOCTYPE html>
 <html lang="pl" class="scroll-smooth">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VTLZW64VGN"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-VTLZW64VGN');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opróżnianie mieszkań, piwnic i domów - Obszar Działania | RevSerwis</title>
+    <meta name="description" content="Kompleksowe opróżnianie mieszkań, domów, piwnic, strychów, garaży i firm. Wywóz starych mebli i utylizacja w województwie pomorskim i zachodniopomorskim.">
     
-    <!-- ================= SEO & META TAGI ================= -->
-    <title>Opróżnianie Mieszkań i Utylizacja Odpadów | RevSerwis</title>
-    <meta name="description" content="Kompleksowe opróżnianie mieszkań, piwnic, strychów i działek. Odbiór starych mebli, AGD i RTV. Legalna i ekologiczna utylizacja. Zamów darmową wycenę!">
-    <meta name="keywords" content="opróżnianie mieszkań, wywóz starych mebli, utylizacja mebli, wywóz gabarytów, opróżnianie piwnic, sprzątanie działek, utylizacja elektrośmieci, wywóz gruzu">
-    <meta name="author" content="RevSerwis">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Link Kanoniczny -->
-    <link rel="canonical" href="https://www.revserwis.pl/utylizacja.html">
-
-    <!-- Open Graph (Facebook, LinkedIn, komunikatory) -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.revserwis.pl/utylizacja.html">
-    <meta property="og:title" content="Opróżnianie Mieszkań i Utylizacja | RevSerwis">
-    <meta property="og:description" content="Szybki wywóz starych mebli, opróżnianie piwnic i działek. Legalna utylizacja odpadów. Pozbądź się problemu z RevSerwis!">
-    <meta property="og:image" content="https://www.revserwis.pl/favicon.png">
-
-    <!-- Ikony -->
     <link rel="icon" href="/favicon.png" type="image/png">
     <link rel="apple-touch-icon" href="/favicon.png">
 
-    <!-- Uporządkowane dane Schema.org (LocalBusiness / WasteManagement) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "LocalBusiness",
-      "name": "RevSerwis",
-      "image": "https://i.imgur.com/dHWDH8j.png",
-      "@id": "https://www.revserwis.pl",
-      "url": "https://www.revserwis.pl",
-      "telephone": "+48735396534",
-      "email": "kontakt@revserwis.pl",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Słupsk",
-        "addressCountry": "PL"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 54.4641,
-        "longitude": 17.0285
-      },
-      "areaServed": ["Polska"],
-      "priceRange": "$$",
-      "description": "Profesjonalne opróżnianie mieszkań, domów, piwnic i działek. Legalny wywóz i ekologiczna utylizacja starych mebli, sprzętu AGD/RTV oraz gabarytów."
-    }
-    </script>
-    <!-- ================= KONIEC SEO ================= -->
-
+    <meta property="og:image" content="https://www.revserwis.pl/favicon.png">
+    <meta property="og:title" content="RevSerwis - Profesjonalne Opróżnianie Lokali i Posesji">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.revserwis.pl/oproznianie-obszar">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
     <script>
@@ -67,24 +37,26 @@
                             700: '#047857',
                         },
                         dark: {
-                            900: '#050505',
-                            800: '#111111',
-                            700: '#1a1a1a',
-                            600: '#2a2a2a',
+                            900: '#030303',
+                            800: '#0a0a0a',
+                            700: '#121212',
+                            600: '#1a1a1a',
                         }
                     },
                     fontFamily: {
                         sans: ['"Plus Jakarta Sans"', 'sans-serif'],
                     },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
-                        'float-delayed': 'float 6s ease-in-out 3s infinite',
                         'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
+                            '50%': { transform: 'translateY(-15px)' },
                         }
                     }
                 }
@@ -99,31 +71,27 @@
     
     <style>
         body {
-            background-color: #050505;
+            background-color: #030303;
             color: #f3f4f6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
         }
 
-        .header-glass {
-            background: rgba(5, 5, 5, 0.85);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-panel {
-            background: rgba(17, 17, 17, 0.6);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
         }
 
         .fade-up {
             opacity: 0;
             transform: translateY(30px);
-            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         
         .fade-up.is-visible {
@@ -131,125 +99,109 @@
             transform: translateY(0);
         }
 
-        .text-glow {
-            text-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
-        }
-
-        .bento-card {
-            background: linear-gradient(145deg, #111111 0%, #0a0a0a 100%);
-            border: 1px solid #1a1a1a;
-            border-radius: 1.5rem;
-            position: relative;
-            overflow: hidden;
+        .glass-card {
+            background: linear-gradient(145deg, rgba(20,20,20,0.7) 0%, rgba(10,10,10,0.8) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        .bento-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            border-radius: 1.5rem;
-            padding: 2px;
-            background: linear-gradient(135deg, rgba(16,185,129,0.5), transparent 50%, rgba(16,185,129,0.1));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        .bento-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.15);
-        }
-
-        .bento-card:hover::after {
-            opacity: 1;
+        .glass-card:hover {
+            border-color: rgba(16, 185, 129, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(16, 185, 129, 0.2);
         }
 
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #050505; }
-        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #030303; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #10b981; }
 
         .bg-grid {
             background-size: 50px 50px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
             position: absolute;
             inset: 0;
             z-index: 0;
             pointer-events: none;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
         }
 
-        .timeline-line {
-            position: absolute;
-            left: 24px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(to bottom, #10b981 0%, #1a1a1a 100%);
-            z-index: 0;
+        .text-glow {
+            text-shadow: 0 0 30px rgba(16, 185, 129, 0.5);
         }
-        @media (min-width: 768px) {
-            .timeline-line {
-                left: 50%;
-                transform: translateX(-50%);
-            }
+        
+        .city-tag {
+            transition: all 0.3s ease;
+        }
+        
+        .city-tag:hover {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.5);
+            color: #fff;
+            transform: scale(1.05);
         }
     </style>
 </head>
 <body class="flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <!-- Nawigacja (Usunięto przycisk RevControl zgodnie z dyspozycją) -->
-    <header class="fixed w-full z-50 transition-all duration-300 header-glass" id="header">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-3 md:py-4">
+    <!-- Floating Header -->
+    <header class="fixed w-full z-50 transition-all duration-500 top-0 left-0 pt-4" id="header-wrapper">
+        <div id="header-inner" class="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 transition-all duration-500">
+            <div class="flex justify-between items-center py-4 px-2" id="nav-container">
                 
-                <a href="/index.html" class="flex-shrink-0 cursor-pointer flex items-center" aria-label="RevSerwis Strona Główna">
-                    <img class="h-16 md:h-24 w-auto transition-transform hover:scale-105 duration-300" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis Logo - Opróżnianie i Utylizacja">
-                </a>
+                <div class="flex-shrink-0 cursor-pointer flex items-center">
+                    <a href="index.html">
+                        <img class="h-16 w-auto transition-transform hover:scale-105 duration-300" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis Logo">
+                    </a>
+                </div>
                 
-                <nav class="hidden lg:flex space-x-6 xl:space-x-8 items-center" aria-label="Nawigacja główna">
-                    <a href="/index.html#problemy" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Dla kogo?</a>
-                    <a href="/index.html#uslugi" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Co robimy</a>
-                    <a href="/index.html#marki" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Nasze filary</a>
-                    <a href="#proces" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Jak działamy</a>
+                <nav class="hidden lg:flex space-x-8 items-center">
+                    <a href="index.html#uslugi" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Usługi</a>
+                    <a href="index.html#b2b" class="text-brand-400 hover:text-brand-300 font-bold text-sm tracking-wide transition-colors flex items-center">
+                        <i class="fa-solid fa-briefcase mr-1.5"></i> B2B
+                    </a>
+                    <a href="index.html#flota" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">Zaplecze</a>
+                    <a href="index.html#faq" class="text-gray-300 hover:text-white font-medium text-sm tracking-wide transition-colors">FAQ</a>
                     
-                    <div class="flex items-center space-x-4 xl:space-x-5 border-l border-dark-700 pl-4 xl:pl-6">
+                    <div class="flex items-center space-x-5 border-l border-white/10 pl-6">
                         <div class="flex flex-col items-end">
-                            <span class="text-xs text-gray-400">Infolinia</span>
+                            <span class="text-[10px] text-gray-500 font-semibold uppercase tracking-widest">Infolinia</span>
                             <a href="tel:+48735396534" class="text-white font-bold text-base hover:text-brand-400 transition-colors">
                                 735 396 534
                             </a>
                         </div>
-                        <a href="/index.html#wycena" class="bg-brand-500 hover:bg-brand-400 text-dark-900 font-bold px-5 py-2.5 rounded-lg transition-all transform hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(16,185,129,0.39)] hover:shadow-[0_6px_20px_rgba(16,185,129,0.23)]">
-                            Darmowa Wycena
+                        <a href="index.html#wycena" class="bg-white text-dark-900 hover:bg-brand-500 hover:text-white font-bold px-6 py-2.5 rounded-full transition-all transform hover:-translate-y-0.5 shadow-lg hover:shadow-brand-500/30">
+                            Wyceń online
                         </a>
                     </div>
                 </nav>
                 
                 <div class="lg:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-white focus:outline-none p-2 bg-dark-800 rounded-lg border border-dark-700" aria-label="Otwórz menu mobilne">
+                    <button id="mobile-menu-btn" class="text-white focus:outline-none p-2 bg-white/5 rounded-lg border border-white/10">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Menu Mobilne -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-dark-900 border-b border-dark-700 absolute w-full left-0 top-full shadow-2xl">
+        <!-- Menu mobilne -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-dark-900/95 backdrop-blur-xl border-b border-white/10 absolute w-full left-0 top-full shadow-2xl mt-4">
             <div class="px-4 pt-4 pb-6 space-y-2">
-                <a href="/index.html#problemy" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Dla kogo jesteśmy?</a>
-                <a href="/index.html#uslugi" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Nasze usługi</a>
-                <a href="/index.html#marki" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Nasze filary</a>
-                <a href="#proces" class="mobile-link block text-gray-300 text-base font-medium py-3 border-b border-dark-800">Jak działamy</a>
+                <a href="index.html#uslugi" class="mobile-link block text-gray-300 text-lg font-medium py-3 border-b border-white/5">Nasze usługi</a>
+                <a href="index.html#b2b" class="mobile-link block text-brand-400 text-lg font-bold py-3 border-b border-white/5"><i class="fa-solid fa-briefcase mr-2"></i>Oferta B2B</a>
+                <a href="index.html#flota" class="mobile-link block text-gray-300 text-lg font-medium py-3 border-b border-white/5">Nasza flota</a>
+                <a href="index.html#faq" class="mobile-link block text-gray-300 text-lg font-medium py-3 border-b border-white/5">FAQ</a>
                 
-                <div class="pt-4 flex flex-col gap-3">
-                    <a href="tel:+48735396534" class="flex items-center justify-center w-full bg-dark-800 border border-dark-700 text-white font-bold py-3 rounded-lg">
-                        <i class="fa-solid fa-phone mr-2 text-brand-500"></i> Zadzwoń: 735 396 534
+                <div class="pt-6 flex flex-col gap-3">
+                    <a href="tel:+48735396534" class="flex items-center justify-center w-full bg-white/5 border border-white/10 text-white font-bold py-3.5 rounded-xl">
+                        <i class="fa-solid fa-phone mr-2 text-brand-500"></i> 735 396 534
                     </a>
-                    <a href="/index.html#wycena" class="mobile-link flex items-center justify-center w-full bg-brand-500 text-dark-900 font-bold py-3 rounded-lg">
+                    <a href="index.html#wycena" class="mobile-link flex items-center justify-center w-full bg-brand-500 text-dark-900 font-bold py-3.5 rounded-xl">
                         Zamów bezpłatną wycenę
                     </a>
                 </div>
@@ -259,351 +211,217 @@
 
     <main class="flex-grow">
         
-        <!-- ================= HERO SECTION ================= -->
-        <section class="relative pt-28 md:pt-40 lg:pt-48 pb-16 md:pb-20 overflow-hidden min-h-[85vh] flex items-center border-b border-dark-800">
+        <!-- Sekcja Hero (Nagłówek podstrony) -->
+        <section class="relative pt-40 pb-20 overflow-hidden flex items-center">
             <div class="bg-grid"></div>
+            <!-- Światła w tle -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-full bg-gradient-radial from-brand-500/20 to-transparent blur-[120px] pointer-events-none"></div>
             
-            <div class="absolute top-1/4 left-1/2 md:left-1/4 -translate-x-1/2 md:translate-x-0 w-64 md:w-96 h-64 md:h-96 bg-brand-500/20 rounded-full blur-[90px] md:blur-[120px] pointer-events-none animate-pulse-slow"></div>
-            
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center lg:text-left">
-                <div class="grid lg:grid-cols-2 gap-10 lg:gap-8 items-center">
-                    
-                    <div class="max-w-2xl mx-auto lg:mx-0 fade-up z-20">
-                        <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-4 md:mb-6 leading-[1.1] text-white">
-                            Pozbądź się <br class="hidden sm:block">
-                            <span class="text-brand-500 text-glow">balastu.</span>
-                        </h1>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full text-center">
+                <div class="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-6 fade-up backdrop-blur-md mx-auto">
+                    <i class="fa-solid fa-dumpster text-brand-500"></i>
+                    <span class="text-xs font-semibold text-gray-300 uppercase tracking-widest">Opróżnianie i Utylizacja</span>
+                </div>
+                
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 leading-[1.1] text-white fade-up" style="transition-delay: 100ms;">
+                    Opróżnimy każdą <br>
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-brand-400 to-emerald-700 text-glow">przestrzeń.</span>
+                </h1>
+                
+                <p class="text-lg sm:text-xl text-gray-400 mb-10 leading-relaxed max-w-3xl mx-auto fade-up" style="transition-delay: 200ms;">
+                    Specjalizujemy się w kompleksowym opróżnianiu mieszkań, domów, piwnic, strychów, garaży, posesji oraz lokali firmowych. Sprawdź nasz główny obszar działania – ale pamiętaj, że <strong>wywóz i utylizację realizujemy wszędzie, gdzie tylko nas potrzebujesz.</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- Główna sekcja z listą miast -->
+        <section class="py-12 relative z-20">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <!-- Województwo Pomorskie -->
+                    <div class="glass-card rounded-[2rem] p-8 md:p-12 fade-up relative overflow-hidden group">
+                        <div class="absolute top-0 right-0 p-8 text-8xl text-white/[0.02] transform translate-x-4 -translate-y-4 transition-transform group-hover:scale-110 pointer-events-none">
+                            <i class="fa-solid fa-dumpster-fire"></i>
+                        </div>
                         
-                        <p class="text-base sm:text-lg md:text-xl text-gray-400 mb-8 md:mb-10 leading-relaxed lg:border-l-2 lg:border-brand-500 lg:pl-6 max-w-xl mx-auto lg:mx-0">
-                            Kompleksowe opróżnianie mieszkań, domów, piwnic i posesji. Wynosimy ciężkie gabaryty i dbamy o w 100% <strong>legalną, ekologiczną utylizację</strong> starych mebli oraz sprzętu. Odzyskaj swoją przestrzeń bez wysiłku.
+                        <div class="flex items-center mb-8 relative z-10">
+                            <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-center text-brand-500 text-xl mr-4">
+                                1
+                            </div>
+                            <div>
+                                <h2 class="text-3xl font-bold text-white tracking-tight">Woj. Pomorskie</h2>
+                                <p class="text-brand-400 text-sm mt-1 font-medium">Wywóz mebli i opróżnianie lokali</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3 relative z-10">
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Gdańsk</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Gdynia</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Sopot</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-brand-500/10 border border-brand-500/40 text-brand-400 font-bold text-sm flex items-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.15)]"><i class="fa-solid fa-building-flag text-brand-500 text-xs"></i> Słupsk (Nasza Baza)</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Tczew</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Rumia</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Wejherowo</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Starogard Gdański</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Chojnice</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Kwidzyn</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Malbork</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Lębork</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Pruszcz Gdański</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Reda</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Kościerzyna</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Bytów</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Kartuzy</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Ustka</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Człuchów</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Puck</span>
+                        </div>
+                    </div>
+
+                    <!-- Województwo Zachodniopomorskie -->
+                    <div class="glass-card rounded-[2rem] p-8 md:p-12 fade-up relative overflow-hidden group" style="transition-delay: 150ms;">
+                        <div class="absolute top-0 right-0 p-8 text-8xl text-white/[0.02] transform translate-x-4 -translate-y-4 transition-transform group-hover:scale-110 pointer-events-none">
+                            <i class="fa-solid fa-building-circle-exclamation"></i>
+                        </div>
+                        
+                        <div class="flex items-center mb-8 relative z-10">
+                            <div class="w-12 h-12 bg-brand-500/10 border border-brand-500/30 rounded-xl flex items-center justify-center text-brand-500 text-xl mr-4">
+                                2
+                            </div>
+                            <div>
+                                <h2 class="text-3xl font-bold text-white tracking-tight">Woj. Zachodniopomorskie</h2>
+                                <p class="text-brand-400 text-sm mt-1 font-medium">Kompleksowe czyszczenie obiektów</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex flex-wrap gap-3 relative z-10">
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Szczecin</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Koszalin</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Stargard</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Kołobrzeg</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Świnoujście</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Szczecinek</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Police</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Goleniów</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Wałcz</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Białogard</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Gryfino</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Gryfice</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Nowogard</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Choszczno</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Świdwin</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Barlinek</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Dębno</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Darłowo</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Złocieniec</span>
+                            <span class="city-tag px-4 py-2 rounded-lg bg-dark-900 border border-white/10 text-gray-300 font-medium text-sm flex items-center gap-2"><i class="fa-solid fa-trash-can text-brand-500/50 text-xs"></i> Pyrzyce</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Potężna Sekcja CTA na niestandardowe zlecenia utylizacji -->
+        <section class="py-24 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+                <div class="bg-gradient-to-br from-dark-800 to-dark-900 rounded-[2.5rem] border border-brand-500/30 p-8 md:p-16 text-center relative overflow-hidden shadow-[0_0_50px_rgba(16,185,129,0.1)] fade-up">
+                    
+                    <!-- Dekoracje w tle sekcji CTA -->
+                    <div class="absolute -top-24 -left-24 w-64 h-64 bg-brand-500/20 rounded-full blur-[80px] pointer-events-none"></div>
+                    <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-blue-900/20 rounded-full blur-[80px] pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CgkJPHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPgoJCTxwYXRoIGQ9Ik00MCAwaC0xdjQwaDFWMHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMikiLz4KCQk8cGF0aCBkPSJNMCAzOWg0MHYxaC00MHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMikiLz4KCTwvc3ZnPg==')] opacity-50"></div>
+                    
+                    <div class="relative z-10">
+                        <div class="w-20 h-20 bg-dark-900 rounded-full flex items-center justify-center border border-white/10 text-3xl text-brand-500 mx-auto mb-8 shadow-[0_0_20px_rgba(16,185,129,0.3)] animate-pulse-slow">
+                            <i class="fa-solid fa-broom"></i>
+                        </div>
+                        
+                        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-6">Inne miasto? Nietypowy obiekt do opróżnienia?</h2>
+                        <p class="text-xl text-gray-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+                            Powyższa lista to nasz główny rejon działań. <span class="text-white font-semibold">Jeśli jednak masz do opróżnienia halę magazynową, zaniedbaną posesję czy dom w innej części kraju – jesteśmy gotowi do pracy.</span> 
+                            Zapewniamy pełne wsparcie, załadunek, wywóz gabarytów i legalną utylizację (m.in. PSZOK).
                         </p>
                         
-                        <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                            <a href="/index.html#wycena" class="inline-flex justify-center items-center px-6 md:px-8 py-3.5 md:py-4 text-base md:text-lg font-bold rounded-xl text-dark-900 bg-brand-500 hover:bg-brand-400 transition-all transform hover:-translate-y-1 shadow-[0_0_20px_rgba(16,185,129,0.4)] w-full sm:w-auto">
-                                Darmowa Wycena
-                                <i class="fa-solid fa-arrow-right ml-3"></i>
+                        <div class="flex flex-col sm:flex-row gap-5 justify-center">
+                            <a href="index.html#wycena" class="inline-flex justify-center items-center px-10 py-5 text-lg font-bold rounded-xl text-dark-900 bg-brand-500 hover:bg-brand-400 transition-all transform hover:-translate-y-1 shadow-[0_0_30px_rgba(16,185,129,0.3)] group">
+                                Zamów wycenę opróżniania
+                                <i class="fa-solid fa-arrow-right ml-3 transform group-hover:translate-x-1 transition-transform"></i>
                             </a>
-                            <a href="#zakres-uslug" class="inline-flex justify-center items-center px-6 md:px-8 py-3.5 md:py-4 text-base md:text-lg font-bold rounded-xl text-white bg-dark-800/50 backdrop-blur-md border border-dark-600 hover:bg-dark-700 transition-all w-full sm:w-auto">
-                                Zobacz jak działamy
+                            <a href="tel:+48735396534" class="inline-flex justify-center items-center px-10 py-5 text-lg font-bold rounded-xl text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all transform hover:-translate-y-1">
+                                <i class="fa-solid fa-phone mr-3 text-brand-500"></i> Zadzwoń do dyspozytora
                             </a>
                         </div>
                     </div>
-                    
-                    <div class="relative h-[400px] md:h-[500px] hidden lg:block fade-up" style="transition-delay: 200ms;">
-                        <div class="absolute right-0 top-1/2 -translate-y-1/2 w-full max-w-md h-[350px] md:h-[400px] rounded-3xl overflow-hidden border border-dark-700 shadow-2xl animate-float">
-                            <!-- Zdjęcie nawiązujące do pustego/sprzątanego pomieszczenia -->
-                            <img src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Opróżnianie mieszkań, czyste wnętrze" class="w-full h-full object-cover opacity-60 mix-blend-luminosity">
-                            <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-transparent to-transparent"></div>
-                        </div>
-
-                        <div class="absolute -left-8 md:-left-12 top-10 md:top-20 glass-panel rounded-2xl p-4 md:p-5 w-56 md:w-64 animate-float-delayed z-20">
-                            <div class="flex items-center space-x-3 md:space-x-4">
-                                <div class="w-10 h-10 md:w-12 md:h-12 bg-brand-500/20 rounded-full flex shrink-0 items-center justify-center text-brand-500 text-lg md:text-xl">
-                                    <i class="fa-solid fa-leaf"></i>
-                                </div>
-                                <div>
-                                    <p class="text-white font-bold text-sm md:text-lg leading-tight">Utylizacja EKO</p>
-                                    <p class="text-[10px] md:text-xs text-gray-400">Legalnie, zgodnie z prawem</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="absolute right-4 md:right-10 -bottom-4 md:-bottom-10 glass-panel rounded-2xl p-4 md:p-5 w-64 md:w-72 animate-float z-20" style="animation-delay: 1.5s;">
-                            <div class="flex items-center space-x-3 md:space-x-4">
-                                <div class="w-10 h-10 md:w-12 md:h-12 bg-brand-500 rounded-full flex shrink-0 items-center justify-center text-dark-900 text-lg md:text-xl">
-                                    <i class="fa-solid fa-truck-ramp-box"></i>
-                                </div>
-                                <div>
-                                    <p class="text-white font-bold text-sm md:text-lg leading-tight">Wynosimy wszystko</p>
-                                    <p class="text-[10px] md:text-xs text-brand-400">Piętro i brak windy to nie problem</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
-
-        <!-- ================= STATYSTYKI ================= -->
-        <section class="border-b border-dark-800 bg-dark-900 relative z-20">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-12">
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 md:divide-x md:divide-dark-700/50">
-                    <div class="text-center px-2 md:px-4 fade-up">
-                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">100<span class="text-brand-500">%</span></div>
-                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Legalność Utylizacji (PSZOK)</h2>
-                    </div>
-                    <div class="text-center px-2 md:px-4 fade-up md:delay-100">
-                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">48<span class="text-brand-500">h</span></div>
-                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Średni czas realizacji</h2>
-                    </div>
-                    <div class="text-center px-2 md:px-4 fade-up md:delay-200">
-                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">∞<span class="text-brand-500"></span></div>
-                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Zniesionych Gabarytów</h2>
-                    </div>
-                    <div class="text-center px-2 md:px-4 fade-up md:delay-300">
-                        <div class="text-3xl sm:text-4xl lg:text-5xl font-black text-white mb-1 md:mb-2 tracking-tight">0<span class="text-brand-500"></span></div>
-                        <h2 class="text-[10px] sm:text-xs md:text-sm text-gray-400 font-medium uppercase tracking-wider">Ukrytych kosztów</h2>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= BENTO GRID: ZAKRES USŁUG ================= -->
-        <section id="zakres-uslug" class="py-16 md:py-24 bg-dark-800 relative">
-            <div class="absolute inset-0 bg-gradient-to-b from-dark-900 to-transparent opacity-50"></div>
-            
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                <div class="mb-10 md:mb-16 max-w-3xl fade-up">
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">Kompleksowe oczyszczanie przestrzeni</h2>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:auto-rows-[minmax(250px,_auto)]">
-                    
-                    <!-- Karta 1: Duża (Mieszkania i Piwnice) -->
-                    <div class="bento-card md:col-span-2 lg:row-span-2 p-6 sm:p-8 lg:p-12 flex flex-col justify-end fade-up relative group min-h-[350px] lg:min-h-0">
-                        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center opacity-20 group-hover:opacity-30 transition-opacity duration-700 mix-blend-luminosity"></div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/90 to-transparent"></div>
-                        
-                        <div class="relative z-10 mt-auto">
-                            <div class="w-12 h-12 md:w-14 md:h-14 bg-brand-500 rounded-xl flex items-center justify-center text-dark-900 text-xl md:text-2xl mb-4 md:mb-6 shadow-lg shadow-brand-500/20">
-                                <i class="fa-solid fa-house-chimney-crack"></i>
-                            </div>
-                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-3 md:mb-4">Opróżnianie Mieszkań i Piwnic</h3>
-                            <p class="text-gray-400 text-base md:text-lg max-w-lg mb-4 md:mb-6">
-                                Kupiłeś mieszkanie z rynku wtórnego do remontu? Odziedziczyłeś dom pełen starych rzeczy? Zapakujemy, zniesiemy i wywieziemy absolutnie wszystko – od meblościanek, przez elektrośmieci, po zalegające w piwnicy kartony.
-                            </p>
-                            <div class="flex flex-wrap gap-2 md:gap-3">
-                                <span class="bg-dark-900/80 backdrop-blur border border-dark-600 text-gray-300 text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 rounded-lg">Pokoje pod klucz</span>
-                                <span class="bg-dark-900/80 backdrop-blur border border-dark-600 text-gray-300 text-xs md:text-sm px-3 md:px-4 py-1.5 md:py-2 rounded-lg">Strychy i garaże</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Karta 2: Średnia (Utylizacja) -->
-                    <div class="bento-card p-6 md:p-8 flex flex-col justify-between fade-up lg:delay-100">
-                        <div class="w-10 h-10 md:w-12 md:h-12 bg-dark-800 border border-dark-600 rounded-xl flex items-center justify-center text-brand-500 text-lg md:text-xl mb-4 md:mb-6">
-                            <i class="fa-solid fa-recycle"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Ekologiczna Utylizacja</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">
-                                Działamy etycznie. Twoje odpady trafiają do legalnych Punktów Selektywnego Zbierania Odpadów Komunalnych (PSZOK) lub na profesjonalne składowiska. Nie zaśmiecamy lasów.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Karta 3: Średnia (Wynoszenie z piętra) -->
-                    <div class="bento-card p-6 md:p-8 flex flex-col justify-between fade-up lg:delay-200">
-                        <div class="w-10 h-10 md:w-12 md:h-12 bg-dark-800 border border-dark-600 rounded-xl flex items-center justify-center text-brand-500 text-lg md:text-xl mb-4 md:mb-6">
-                            <i class="fa-solid fa-dumbbell"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">Gabaryty i brak windy</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">
-                                Brak windy na 4 piętrze to nasz chleb powszedni. Demontujemy duże szafy i bezpiecznie znosimy ciężkie pralki czy lodówki side-by-side, dbając o czystość klatki schodowej.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Karta 4: Pełna szerokość (Działki) -->
-                    <div class="bento-card md:col-span-2 lg:col-span-3 p-6 md:p-8 flex flex-col lg:flex-row items-start lg:items-center gap-6 lg:gap-8 fade-up lg:delay-300">
-                        <div class="w-16 h-16 md:w-20 md:h-20 shrink-0 bg-brand-500/10 border border-brand-500/30 rounded-2xl flex items-center justify-center text-brand-500 text-2xl md:text-3xl">
-                            <i class="fa-solid fa-tree-city"></i>
-                        </div>
-                        <div class="flex-grow">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2">Oczyszczanie działek i posesji</h3>
-                            <p class="text-gray-400 text-sm md:text-base leading-relaxed">
-                                Przygotowujesz teren pod budowę, lub porządkujesz zaniedbany ogród? Usuniemy stare materiały budowlane po małych remontach, gruz w workach, rozbierzemy starą altanę i wywieziemy zalegający złom.
-                            </p>
-                        </div>
-                        <a href="/index.html#wycena" class="shrink-0 w-full lg:w-auto text-center bg-dark-900 border border-dark-600 hover:border-brand-500 hover:text-brand-500 text-white font-bold py-3.5 px-8 rounded-xl transition-all">
-                            Wyceń porządkowanie
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= OŚ CZASU (PROCES) ================= -->
-        <section id="proces" class="py-16 md:py-24 bg-dark-900 relative">
-            <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-                
-                <div class="text-center mb-16 md:mb-20 fade-up">
-                    <span class="text-brand-500 font-bold uppercase tracking-widest text-xs md:text-sm mb-2 md:mb-3 block">Proces</span>
-                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">Jak to działa w praktyce?</h2>
-                </div>
-
-                <div class="relative">
-                    <!-- Linia osi czasu -->
-                    <div class="timeline-line"></div>
-
-                    <!-- Krok 1 -->
-                    <div class="relative flex flex-col md:flex-row items-start md:items-center mb-12 md:mb-20 fade-up group">
-                        <div class="hidden md:block w-1/2 pr-12 text-right">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-brand-500 transition-colors">1. Wycena na podstawie opisu</h3>
-                            <p class="text-gray-400 text-sm md:text-base">Wysyłasz zapytanie przez formularz, krótko opisując co jest do wywiezienia. (W przypadku dużych mieszkań możesz podesłać zdjęcia). Wyceniamy koszt usługi z góry.</p>
-                        </div>
-                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-dark-900 border-[3px] md:border-4 border-brand-500 flex items-center justify-center z-10 shadow-[0_0_15px_rgba(16,185,129,0.5)]">
-                            <span class="text-white font-black text-sm md:text-base">1</span>
-                        </div>
-                        <div class="md:hidden pl-14 sm:pl-16 w-full">
-                            <h3 class="text-lg font-bold text-white mb-1">Wycena wstępna</h3>
-                            <p class="text-gray-400 text-sm">Przedstawiasz nam skalę prac, a my podajemy transparentną cenę za cały proces.</p>
-                        </div>
-                        <div class="hidden md:block w-1/2 pl-12">
-                            <div class="glass-panel p-3 md:p-4 rounded-xl border-l-4 border-l-brand-500 text-gray-300 text-xs md:text-sm italic w-max">
-                                <i class="fa-solid fa-quote-left text-brand-500/50 mr-2"></i>"Brak ukrytych dopłat za piętra bez windy."
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Krok 2 -->
-                    <div class="relative flex flex-col md:flex-row items-start md:items-center mb-12 md:mb-20 fade-up group">
-                        <div class="hidden md:flex w-1/2 pr-12 justify-end">
-                            <div class="w-16 h-16 md:w-20 md:h-20 bg-dark-800 rounded-2xl flex items-center justify-center text-2xl text-gray-500 border border-dark-700">
-                                <i class="fa-solid fa-boxes-packing"></i>
-                            </div>
-                        </div>
-                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-dark-900 border-[3px] md:border-4 border-dark-700 group-hover:border-brand-500 transition-colors flex items-center justify-center z-10">
-                            <span class="text-white font-black text-sm md:text-base">2</span>
-                        </div>
-                        <div class="pl-14 sm:pl-16 md:pl-12 w-full md:w-1/2">
-                            <h3 class="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2 group-hover:text-brand-500 transition-colors">Segregacja i Wynoszenie</h3>
-                            <p class="text-gray-400 text-sm md:text-base">Nasza ekipa wchodzi na obiekt. Demontujemy meble by ułatwić wynoszenie i optymalnie wykorzystać przestrzeń w autach. Wynosimy wszystko, zostawiając puste ściany.</p>
-                        </div>
-                    </div>
-
-                    <!-- Krok 3 -->
-                    <div class="relative flex flex-col md:flex-row items-start md:items-center mb-12 md:mb-20 fade-up group">
-                        <div class="hidden md:block w-1/2 pr-12 text-right">
-                            <h3 class="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-brand-500 transition-colors">3. Transport</h3>
-                            <p class="text-gray-400 text-sm md:text-base">Załadowane mienie trafia na nasze pojazdy dostawcze. Zabezpieczamy ładunek, by nic nie wysypało się na drogę i ruszamy w kierunku punktu zbiórki.</p>
-                        </div>
-                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-10 h-10 md:w-12 md:h-12 rounded-full bg-dark-900 border-[3px] md:border-4 border-dark-700 group-hover:border-brand-500 transition-colors flex items-center justify-center z-10">
-                            <span class="text-white font-black text-sm md:text-base">3</span>
-                        </div>
-                        <div class="md:hidden pl-14 sm:pl-16 w-full">
-                            <h3 class="text-lg font-bold text-white mb-1">Załadunek i Transport</h3>
-                            <p class="text-gray-400 text-sm">Sprawnie ładujemy busy i wywozimy niechciane sprzęty.</p>
-                        </div>
-                        <div class="hidden md:flex w-1/2 pl-12 justify-start">
-                             <div class="w-16 h-16 md:w-20 md:h-20 bg-dark-800 rounded-2xl flex items-center justify-center text-2xl text-gray-500 border border-dark-700">
-                                <i class="fa-solid fa-truck-moving"></i>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Krok 4 -->
-                    <div class="relative flex flex-col md:flex-row items-start md:items-center fade-up group">
-                        <div class="hidden md:block w-1/2 pr-12"></div>
-                        <div class="absolute left-[24px] md:left-1/2 transform -translate-x-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-brand-500 border-[3px] md:border-4 border-dark-900 flex items-center justify-center z-10 shadow-[0_0_20px_rgba(16,185,129,0.8)]">
-                            <i class="fa-solid fa-leaf text-dark-900 text-xl md:text-2xl"></i>
-                        </div>
-                        <div class="pl-16 md:pl-12 w-full md:w-1/2 mt-1 md:mt-0">
-                            <h3 class="text-lg md:text-2xl font-bold text-white mb-1 md:mb-2">Legalna Utylizacja (PSZOK)</h3>
-                            <p class="text-gray-400 text-sm md:text-base">Sortujemy sprzęt i przekazujemy go do legalnych punktów przetwarzania. Masz pewność, że Twoje śmieci nie obciążą środowiska, a usługa wykonana jest w 100% zgodnie z prawem.</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- ================= CTA (CALL TO ACTION) ================= -->
-        <section class="py-16 md:py-24 bg-dark-800 relative overflow-hidden border-t border-brand-500/20 z-20">
-            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-brand-900/15 via-dark-800 to-dark-900 pointer-events-none"></div>
-            
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center fade-up">
-                <div class="inline-block mb-4 md:mb-6">
-                    <i class="fa-solid fa-broom text-3xl md:text-4xl text-brand-500 block"></i>
-                </div>
-                <h2 class="text-3xl md:text-5xl lg:text-6xl font-extrabold text-white mb-4 md:mb-6 leading-tight">
-                    Czysta przestrzeń, <br class="hidden md:block"><span class="text-brand-500 text-glow">zero problemów.</span>
-                </h2>
-                <p class="text-gray-400 text-base md:text-xl mb-8 md:mb-12 max-w-2xl mx-auto">
-                    Masz do posprzątania piwnicę, dom po dziadkach lub po prostu kupiłeś nową kanapę i chcesz wyrzucić starą? Zostaw kontakt, przygotujemy ofertę w 15 minut.
-                </p>
-                
-                <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
-                    <a href="/index.html#wycena" class="group relative inline-flex items-center justify-center w-full sm:w-auto bg-brand-500 text-dark-900 font-black text-lg md:text-xl py-4 md:py-5 px-8 md:px-12 rounded-xl transition-all overflow-hidden">
-                        <span class="absolute w-0 h-0 transition-all duration-500 ease-out bg-white rounded-full group-hover:w-full group-hover:h-56 opacity-10"></span>
-                        <span class="relative">Wyceń Wywóz</span>
-                        <i class="fa-solid fa-arrow-right ml-3 relative group-hover:translate-x-2 transition-transform"></i> 
-                    </a>
-                    <a href="tel:+48735396534" class="flex items-center justify-center w-full sm:w-auto bg-dark-900 border border-dark-600 hover:border-brand-500 text-white font-bold text-base md:text-lg py-4 md:py-5 px-6 md:px-8 rounded-xl transition-colors">
-                        <i class="fa-solid fa-phone mr-3 text-brand-500"></i> +48 735 396 534
-                    </a>
-                </div>
-            </div>
-        </section>
-
+        
     </main>
 
-    <!-- ================= STOPKA ================= -->
-    <footer class="bg-dark-900 border-t border-dark-700 pt-12 md:pt-16 pb-8">
+    <!-- Stopka -->
+    <footer class="bg-dark-900 border-t border-white/5 pt-16 pb-8 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 mb-10 md:mb-12 border-b border-dark-800 pb-10 md:pb-12">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12 border-b border-white/5 pb-12">
                 
                 <div class="md:col-span-5">
-                    <img class="h-12 md:h-14 w-auto mb-4 md:mb-6" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis Logo - Utylizacja">
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6 lg:pr-4">
-                        RevSerwis to zaufana firma transportowa. Oferujemy rzetelne usługi wywozu gabarytów, opróżniania mieszkań i relokacji. Odciążamy naszych klientów, stawiając na legalność i ekologię.
+                    <img class="h-12 w-auto mb-6 opacity-90" src="https://i.imgur.com/dHWDH8j.png" alt="RevSerwis">
+                    <p class="text-gray-500 text-sm leading-relaxed mb-6 pr-4">
+                        RevSerwis to partner w logistyce, przeprowadzkach i dbałości o posesję. Obsługujemy firmy (B2B) i klientów indywidualnych w Słupsku, Polsce i Europie.
                     </p>
                     <div class="flex space-x-4">
-                        <a href="https://www.facebook.com/profile.php?id=61591448955070" aria-label="Facebook RevSerwis" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
-                        <!-- Link do Instagrama -->
-                        <a href="https://www.instagram.com/revserwis_/" aria-label="Instagram RevSerwis" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.facebook.com/profile.php?id=61591448955070" class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-gray-400 hover:bg-brand-500 hover:text-dark-900 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
                     </div>
                 </div>
 
                 <div class="md:col-span-3">
-                    <h3 class="text-white font-bold mb-4 md:mb-6 text-sm uppercase tracking-wider">Usługi</h3>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Na skróty</h4>
                     <ul class="space-y-3">
-                        <li><a href="/przewozy-osob.html" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Przewozy Osób & Transfery</a></li>
-                        <li><a href="/przeprowadzki.html" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Przeprowadzki i Relokacje</a></li>
-                        <li><a href="/index.html#uslugi" class="text-gray-400 hover:text-brand-400 transition-colors text-sm">Transport Mebli ze sklepów</a></li>
-                        <li><a href="/utylizacja.html" class="text-brand-400 font-medium transition-colors text-sm">Opróżnianie i Utylizacja Eko</a></li>
+                        <li><a href="index.html#uslugi" class="text-gray-500 hover:text-brand-400 transition-colors text-sm">Nasze Usługi</a></li>
+                        <li><a href="index.html#flota" class="text-gray-500 hover:text-brand-400 transition-colors text-sm">Nasza Flota</a></li>
+                        <li><a href="index.html#b2b" class="text-gray-500 hover:text-brand-400 transition-colors text-sm">Dla Firm B2B</a></li>
+                        <li><a href="index.html#wycena" class="text-brand-500 hover:text-brand-400 transition-colors text-sm font-semibold">Darmowa Wycena</a></li>
                     </ul>
                 </div>
 
                 <div class="md:col-span-4">
-                    <h3 class="text-white font-bold mb-4 md:mb-6 text-sm uppercase tracking-wider">Kontakt dla Klientów</h3>
+                    <h4 class="text-white font-bold mb-6 text-sm uppercase tracking-wider">Kontakt 24/7</h4>
                     <ul class="space-y-4">
                         <li class="flex items-start">
-                            <div class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-brand-500 mr-4 shrink-0">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-brand-500 mr-4 shrink-0">
                                 <i class="fa-solid fa-phone"></i>
                             </div>
                             <div>
-                                <p class="text-gray-400 text-xs mb-1">Infolinia Transportowa</p>
-                                <a href="tel:+48735396534" class="text-white font-bold text-base md:text-lg hover:text-brand-400 transition-colors">+48 735 396 534</a>
+                                <p class="text-gray-500 text-xs mb-1 uppercase tracking-widest">Infolinia / Dyspozytor</p>
+                                <a href="tel:+48735396534" class="text-white font-bold text-lg hover:text-brand-400 transition-colors">735 396 534</a>
                             </div>
                         </li>
                         <li class="flex items-start">
-                            <div class="w-10 h-10 rounded-full bg-dark-800 flex items-center justify-center text-brand-500 mr-4 shrink-0">
+                            <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/5 flex items-center justify-center text-brand-500 mr-4 shrink-0">
                                 <i class="fa-solid fa-envelope"></i>
                             </div>
                             <div>
-                                <p class="text-gray-400 text-xs mb-1">Zapytania i Wyceny e-mail</p>
+                                <p class="text-gray-500 text-xs mb-1 uppercase tracking-widest">Napisz do nas</p>
                                 <a href="mailto:kontakt@revserwis.pl" class="text-white font-medium hover:text-brand-400 transition-colors">kontakt@revserwis.pl</a>
                             </div>
                         </li>
                     </ul>
                 </div>
+
             </div>
             
-            <div class="flex flex-col md:flex-row justify-between items-center w-full gap-4 md:gap-0 text-center md:text-left">
-                <p class="text-gray-600 text-xs md:text-sm">
-                    &copy; 2026 RevSerwis (www.revserwis.pl). Wszelkie prawa zastrzeżone. 
+            <div class="flex flex-col md:flex-row justify-between items-center w-full">
+                <p class="text-gray-600 text-sm mb-4 md:mb-0">
+                    &copy; 2026 RevSerwis. Wszystkie prawa zastrzeżone.
                 </p>
-                <a href="/prywatnosc.html" class="text-gray-600 hover:text-gray-400 text-xs md:text-sm transition-colors">Polityka Prywatności</a>
             </div>
         </div>
     </footer>
 
-    <!-- Skrypty UI -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // Menu mobilne
+            // Mobile Menu
             const btn = document.getElementById('mobile-menu-btn');
             const menu = document.getElementById('mobile-menu');
             const mobileLinks = document.querySelectorAll('.mobile-link');
@@ -628,27 +446,37 @@
                 });
             });
 
-            // Glassmorphism navbar na scroll
-            const header = document.getElementById('header');
+            // Floating Header
+            const headerWrapper = document.getElementById('header-wrapper');
+            const headerInner = document.getElementById('header-inner');
+            const navContainer = document.getElementById('nav-container');
+
             window.addEventListener('scroll', () => {
                 if (window.scrollY > 20) {
-                    header.classList.add('py-1');
-                    header.classList.remove('py-3', 'md:py-4');
-                    header.style.backgroundColor = 'rgba(5, 5, 5, 0.95)';
+                    headerWrapper.classList.remove('pt-4');
+                    headerWrapper.classList.add('pt-2');
+                    
+                    headerInner.classList.remove('max-w-7xl');
+                    headerInner.classList.add('max-w-5xl');
+                    
+                    navContainer.classList.add('bg-dark-900/80', 'backdrop-blur-xl', 'border', 'border-white/10', 'shadow-2xl', 'rounded-full');
+                    navContainer.classList.remove('py-4', 'px-2');
+                    navContainer.classList.add('py-2', 'px-6');
                 } else {
-                    header.classList.add('py-3', 'md:py-4');
-                    header.classList.remove('py-1');
-                    header.style.backgroundColor = 'rgba(5, 5, 5, 0.85)';
+                    headerWrapper.classList.add('pt-4');
+                    headerWrapper.classList.remove('pt-2');
+                    
+                    headerInner.classList.add('max-w-7xl');
+                    headerInner.classList.remove('max-w-5xl');
+                    
+                    navContainer.classList.remove('bg-dark-900/80', 'backdrop-blur-xl', 'border', 'border-white/10', 'shadow-2xl', 'rounded-full');
+                    navContainer.classList.add('py-4', 'px-2');
+                    navContainer.classList.remove('py-2', 'px-6');
                 }
             });
 
-            // Intersection Observer do płynnych animacji scrollowania (Fade-up)
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
+            // Fade Animations
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.1 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -664,4 +492,4 @@
         });
     </script>
 </body>
-</html>s
+</html>
