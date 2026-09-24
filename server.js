@@ -1475,6 +1475,182 @@ app.post('/api/quotes', quoteLimiter, express.json({ limit: '5mb' }), asyncRoute
 */
 
 app.use('/api', requireAuth);
+
+/* RevSerwis Business Panel — isolated collections; existing RevMi APIs retained. */
+const business = (() => {
+    const S = mongoose.Schema;
+    const opts = {timestamps:true, optimisticConcurrency:true};
+    const Contact = mongoose.model('BusinessContact', new S({
+        company:{type:String,required:true},name:String,email:String,phone:String,industry:String,city:String,
+        list:String,stage:{type:String,default:'new'},owner:String,source:String,notes:String,
+        emailPermission:{type:Boolean,default:false},permissionNote:String,blocked:{type:Boolean,default:false},
+        history:{type:[{at:Date,channel:String,note:String,actor:String}],default:[]}
+    },opts));
+    Contact.schema.index({email:1},{unique:true,partialFilterExpression:{email:{$type:'string',$gt:''}}});
+    const List = mongoose.model('BusinessList',new S({name:{type:String,required:true,unique:true},description:String},opts));
+    const Action = mongoose.model('BusinessAction',new S({title:String,contact:String,due:Date,channel:String,owner:String,status:String,notes:String},opts));
+    const Deal = mongoose.model('BusinessDeal',new S({title:String,contact:String,value:Number,stage:String,deadline:Date,notes:String},opts));
+    const Contract = mongoose.model('BusinessContract',new S({title:String,contact:String,number:String,start:Date,end:Date,status:String,value:Number,noticeDays:Number,notes:String,url:String},opts));
+    const Invoice = mongoose.model('BusinessInvoice',new S({number:{type:String,unique:true,required:true},contact:String,company:String,nip:String,address:String,issue:Date,due:Date,kind:String,net:Number,vat:Number,gross:Number,paid:Number,description:String,url:String},opts));
+    const Template = mongoose.model('BusinessTemplate',new S({name:String,subject:String,body:String},opts));
+    const Campaign = mongoose.model('BusinessCampaign',new S({name:String,subject:String,body:String,contactIds:[String],status:{type:String,default:'draft'},queuedAt:Date,finishedAt:Date,actor:String,recipients:{type:[{contact:String,email:String,name:String,company:String,status:String,at:Date,error:String,messageId:String}],default:[]}},opts));
+    const Audit = mongoose.model('BusinessAudit',new S({actor:String,action:String,entity:String,entityId:String}, {timestamps:true}));
+    const Settings = mongoose.model('BusinessSettings',new S({key:{type:String,unique:true},company:String,nip:String,address:String,email:String,phone:String,iban:String,signature:String},opts));
+    const models={contacts:Contact,lists:List,actions:Action,deals:Deal,contracts:Contract,invoices:Invoice,templates:Template,campaigns:Campaign};
+    function fail(message,status=400){const e=new Error(message);e.status=status;throw e;}
+    const str=(v,n=500)=>{if(v===undefined||v===null)return '';if(typeof v!=='string'||v.length>n)fail('Nieprawidłowa długość lub typ pola.');return v.trim();};
+    function num(v,max=100000000){if(v===''||v===undefined||v===null)return 0;const x=Number(v);if(!Number.isFinite(x)||x<0||x>max)fail('Nieprawidłowa kwota lub liczba.');return Math.round(x*100)/100;}
+    function date(v){if(!v)return null;const x=new Date(v);if(isNaN(x.getTime()))fail('Nieprawidłowa data.');return x;}
+    function choice(v,values){if(!values.includes(v))fail('Nieprawidłowy status.');return v;}
+    function email(v){const x=str(v,200).toLowerCase();if(x&&!/^[^\s<>@,;]+@[^\s<>@,;]+\.[^\s<>@,;]+$/.test(x))fail('Nieprawidłowy adres e-mail.');return x;}
+    function url(v){const x=str(v,1000);if(x){try{if(new URL(x).protocol!=='https:')fail('Link musi zaczynać się od https://');}catch{fail('Nieprawidłowy link HTTPS.');}}return x;}
+    async function reference(v){const x=str(v,24);if(x&&(!isObjectId(x)||!await Contact.exists({_id:x})))fail('Nie znaleziono kontaktu.');return x;}
+    async function payload(type,b){
+        if(!b||typeof b!=='object'||Array.isArray(b))fail('Nieprawidłowe dane.');
+        let d={};
+        if(type==='contacts'){
+            for(const k of ['company','name','phone','industry','city','list','owner','source','permissionNote'])d[k]=str(b[k],300);
+            if(!d.company)fail('Podaj nazwę firmy.');d.email=email(b.email);d.notes=str(b.notes,12000);
+            d.stage=choice(b.stage,['new','contacted','interested','partner','lost']);
+            d.emailPermission=b.emailPermission===true;d.blocked=b.blocked===true;
+            if(d.emailPermission&&!d.permissionNote)fail('Opisz podstawę i źródło zgody na kontakt e-mail.');
+            if(d.list&&!await List.exists({_id:d.list}).catch(()=>null))fail('Nie znaleziono listy.');
+        }else if(type==='lists'){d={name:str(b.name,120),description:str(b.description,1000)};if(!d.name)fail('Podaj nazwę listy.');}
+        else if(type==='templates'){d={name:str(b.name,160),subject:str(b.subject,200),body:str(b.body,16000)};if(!d.name||!d.subject||!d.body)fail('Uzupełnij nazwę, temat i treść.');}
+        else if(type==='campaigns'){
+            d={name:str(b.name,160),subject:str(b.subject,200),body:str(b.body,16000)};
+            if(!d.name||!d.subject||!d.body||/[\r\n]/.test(d.subject))fail('Uzupełnij nazwę, poprawny temat i treść.');
+            if(!Array.isArray(b.contactIds)||b.contactIds.length>500)fail('Wybierz maksymalnie 500 kontaktów.');
+            d.contactIds=[...new Set(b.contactIds.map(x=>str(x,24)))];if(d.contactIds.some(x=>!isObjectId(x)))fail('Nieprawidłowy kontakt.');
+            if(await Contact.countDocuments({_id:{$in:d.contactIds}})!==d.contactIds.length)fail('Nie znaleziono wszystkich kontaktów.');
+        }else{
+            d.contact=await reference(b.contact);d.notes=str(b.notes,12000);
+            if(type!=='invoices'){d.title=str(b.title,200);if(!d.title)fail('Podaj nazwę.');}
+            if(type==='actions'){
+                d.due=date(b.due);if(!d.due)fail('Podaj termin działania.');d.channel=choice(b.channel,['email','phone','meeting','other']);d.owner=str(b.owner,160);d.status=choice(b.status,['planned','done','cancelled']);
+            }
+            if(type==='deals'){d.value=num(b.value);d.stage=choice(b.stage,['lead','offer','negotiation','won','lost']);d.deadline=date(b.deadline);}
+            if(type==='contracts'){
+                d.number=str(b.number,120);d.start=date(b.start);d.end=date(b.end);if(d.start&&d.end&&d.end<d.start)fail('Koniec umowy musi przypadać po początku.');
+                d.value=num(b.value);d.noticeDays=num(b.noticeDays,3650);d.status=choice(b.status,['draft','negotiation','signed','ended']);d.url=url(b.url);
+            }
+            if(type==='invoices'){
+                d.number=str(b.number,120);d.company=str(b.company,300);d.nip=str(b.nip,40);d.address=str(b.address,500);d.issue=date(b.issue);d.due=date(b.due);
+                if(!d.number||!d.company||!d.issue||!d.due)fail('Podaj numer, kontrahenta i daty.');
+                if(d.due<d.issue)fail('Termin płatności nie może poprzedzać daty dokumentu.');
+                d.kind=choice(b.kind,['sale','purchase']);d.net=num(b.net);d.vat=num(b.vat);d.gross=Math.round((d.net+d.vat)*100)/100;d.paid=num(b.paid);if(d.paid>d.gross)fail('Zapłata przekracza kwotę brutto.');d.description=str(b.description,6000);d.url=url(b.url);delete d.notes;
+            }
+        }
+        return d;
+    }
+    const log=(req,action,entity,entityId)=>Audit.create({actor:req.user.name||'Administrator',action,entity,entityId:String(entityId||'')}).catch(e=>console.error('Business audit:',e.message));
+    const wrap=fn=>async(req,res,next)=>{try{await fn(req,res);}catch(e){if(e.code===11000)return res.status(409).json({message:'Taki e-mail, numer dokumentu lub nazwa listy już istnieje.'});if(e.name==='VersionError')return res.status(409).json({message:'Wpis zmienił się w innym oknie. Odśwież panel.'});if(e.name==='CastError'||e.name==='ValidationError')return res.status(400).json({message:'Sprawdź dane formularza.'});next(e);}};
+    const router=express.Router();
+    router.use(requireAdmin,(req,res,next)=>{
+        // Never expose business data through the legacy demo bypass.
+        if(AUTH_DISABLED||!req.session.user)return res.status(403).json({message:'Panel biznesowy wymaga aktywnego logowania. Ustaw AUTH_DISABLED=false.'});
+        if(!['GET','HEAD','OPTIONS'].includes(req.method)){
+            const origin=req.get('Origin');const same=`${req.protocol}://${req.get('host')}`;
+            if(origin&&origin!==same&&!ALLOWED_ORIGINS.includes(origin))return res.status(403).json({message:'Niedozwolone pochodzenie żądania.'});
+            if(req.get('X-Requested-With')!=='RevBusiness')return res.status(403).json({message:'Odśwież panel przed zapisaniem.'});
+            if(!req.is('application/json'))return res.status(415).json({message:'Wymagany JSON.'});
+        }
+        next();
+    });
+    let mailer=null;
+    const smtpReady=()=>Boolean(process.env.SMTP_HOST&&process.env.SMTP_USER&&process.env.SMTP_PASS&&process.env.SMTP_FROM);
+    function transport(){
+        if(!smtpReady())fail('Skonfiguruj SMTP_HOST, SMTP_USER, SMTP_PASS i SMTP_FROM na serwerze.',503);
+        if(!mailer){let nodemailer;try{nodemailer=require('nodemailer');}catch{fail('Zainstaluj nodemailer na serwerze: npm install nodemailer',503);}
+            const port=Number(process.env.SMTP_PORT||465);
+            mailer=nodemailer.createTransport({host:process.env.SMTP_HOST,port,secure:port===465,requireTLS:port!==465,
+                auth:{user:process.env.SMTP_USER,pass:process.env.SMTP_PASS},connectionTimeout:20000,greetingTimeout:20000,socketTimeout:60000,
+                disableFileAccess:true,disableUrlAccess:true});
+        }return mailer;
+    }
+    router.get('/data',wrap(async(req,res)=>{
+        const result={};await Promise.all(Object.entries(models).map(async([k,M])=>{result[k]=await M.find().sort({createdAt:-1}).lean();}));
+        result.audit=await Audit.find().sort({createdAt:-1}).limit(100).lean();result.settings=await Settings.findOne({key:'company'}).lean()||{};
+        result.smtp={configured:smtpReady(),from:process.env.SMTP_FROM||'',intervalSeconds:Math.max(5,Number(process.env.BUSINESS_MAIL_INTERVAL_SECONDS)||10)};
+        result.serverTime=new Date();res.json(result);
+    }));
+    router.put('/settings',wrap(async(req,res)=>{const d={};for(const k of ['company','nip','address','phone','iban'])d[k]=str(req.body[k],500);d.email=email(req.body.email);d.signature=str(req.body.signature,2000);const item=await Settings.findOneAndUpdate({key:'company'},{$set:d},{upsert:true,new:true,runValidators:true});await log(req,'Zmieniono ustawienia firmy','settings',item._id);res.json({item});}));
+    router.post('/smtp/verify',wrap(async(req,res)=>{await transport().verify();res.json({message:'Połączenie ze skrzynką SMTP działa.'});}));
+    router.post('/contacts/:id/history',validateId,wrap(async(req,res)=>{
+        const note=str(req.body.note,4000);if(!note)fail('Wpisz notatkę.');const channel=choice(req.body.channel,['email','phone','meeting','other']);
+        const c=await Contact.findByIdAndUpdate(req.params.id,{$push:{history:{at:new Date(),channel,note,actor:req.user.name}}},{new:true});if(!c)fail('Brak kontaktu.',404);await log(req,'Dodano notatkę kontaktu','contacts',c._id);res.json({item:c});
+    }));
+    router.post('/contacts/import',wrap(async(req,res)=>{
+        if(!Array.isArray(req.body.rows)||req.body.rows.length>200)fail('Importuj maksymalnie 200 wierszy jednocześnie.');const report=[];
+        for(const [i,row] of req.body.rows.entries()){try{const d=await payload('contacts',{...row,stage:'new',emailPermission:false,blocked:false});const c=await Contact.create(d);report.push({row:i+2,status:'created',id:c._id});}catch(e){report.push({row:i+2,status:'error',message:e.code===11000?'E-mail już istnieje.':e.message});}}
+        await log(req,'Import kontaktów: '+report.filter(x=>x.status==='created').length,'contacts','');res.json({report});
+    }));
+    const eligible=c=>Boolean(c&&c.email&&c.emailPermission&&!c.blocked);
+    async function recipients(c){const contacts=await Contact.find({_id:{$in:c.contactIds}}).lean();return {eligible:contacts.filter(eligible),excluded:contacts.filter(x=>!eligible(x)),missing:c.contactIds.length-contacts.length};}
+    router.get('/campaigns/:id/preview',validateId,wrap(async(req,res)=>{const c=await Campaign.findById(req.params.id);if(!c)fail('Brak kampanii.',404);const r=await recipients(c);res.json({campaign:c,...r});}));
+    router.post('/campaigns/:id/send',validateId,wrap(async(req,res)=>{
+        transport();const c=await Campaign.findById(req.params.id);if(!c)fail('Brak kampanii.',404);
+        if(c.status!=='draft')fail('Ta kampania została już zatwierdzona.',409);
+        const r=await recipients(c);if(!r.eligible.length)fail('Brak odbiorców z adresem e-mail i zezwoleniem na kontakt.');
+        if(req.body.expectedVersion!==c.__v||req.body.recipientCount!==r.eligible.length)fail('Lista lub treść uległa zmianie. Otwórz podgląd ponownie.',409);
+        const saved=await Campaign.findOneAndUpdate({_id:c._id,status:'draft',__v:c.__v},{$set:{status:'queued',queuedAt:new Date(),actor:req.user.name,recipients:r.eligible.map(x=>({contact:String(x._id),email:x.email,name:x.name,company:x.company,status:'pending'}))},$inc:{__v:1}},{new:true});
+        if(!saved)fail('Kampania została już zatwierdzona lub zmieniona.',409);
+        await log(req,'Zatwierdzono wysyłkę do '+r.eligible.length+' odbiorców','campaigns',c._id);res.json({item:saved});
+    }));
+    router.post('/campaigns/:id/cancel',validateId,wrap(async(req,res)=>{
+        const item=await Campaign.findOneAndUpdate({_id:req.params.id,status:{$in:['queued','sending']}},{$set:{status:'cancelled','recipients.$[r].status':'cancelled',finishedAt:new Date()},$inc:{__v:1}},{new:true,arrayFilters:[{'r.status':'pending'}]});
+        if(!item)fail('Kampania nie oczekuje na wysyłkę.',409);await log(req,'Zatrzymano kampanię','campaigns',item._id);res.json({item});
+    }));
+    router.post('/:type',wrap(async(req,res)=>{const M=models[req.params.type];if(!M)fail('Brak zasobu.',404);const d=await payload(req.params.type,req.body);const item=await M.create(d);await log(req,'Dodano wpis',req.params.type,item._id);res.status(201).json({item});}));
+    router.put('/:type/:id',validateId,wrap(async(req,res)=>{
+        const M=models[req.params.type];if(!M)fail('Brak zasobu.',404);const item=await M.findById(req.params.id);if(!item)fail('Nie znaleziono wpisu.',404);
+        if(req.body.__v!==item.__v)fail('Wpis zmienił się. Odśwież panel przed zapisem.',409);
+        if(req.params.type==='campaigns'&&item.status!=='draft')fail('Treść zatwierdzonej kampanii jest zablokowana.',409);
+        Object.assign(item,await payload(req.params.type,req.body));await item.save();await log(req,'Zmieniono wpis',req.params.type,item._id);res.json({item});
+    }));
+    router.delete('/:type/:id',validateId,wrap(async(req,res)=>{
+        const type=req.params.type,M=models[type];if(!M)fail('Brak zasobu.',404);
+        if(type==='contacts'){
+            if(await Promise.all([Action,Deal,Contract,Invoice].map(m=>m.exists({contact:req.params.id}))).then(a=>a.some(Boolean))||await Campaign.exists({contactIds:req.params.id}))fail('Kontakt jest powiązany z dokumentami lub działaniami. Zablokuj go zamiast usuwać.',409);
+        }
+        if(type==='lists'&&await Contact.exists({list:req.params.id}))fail('Najpierw przenieś kontakty z tej listy.',409);
+        const query={_id:req.params.id,__v:req.body.__v};if(type==='campaigns')query.status='draft';
+        const item=await M.findOneAndDelete(query);if(!item)fail('Wpis zmieniono lub nie można go usunąć.',409);
+        await log(req,'Usunięto wpis',type,item._id);res.json({success:true});
+    }));
+    app.use('/api/business',router);
+    const personalize=(text,c)=>String(text).replace(/\{\{(firma|imie)\}\}/g,(_,k)=>k==='firma'?c.company||'':c.name||'');
+    let working=false,timer;
+    async function tick(){
+        if(working||!smtpReady()||AUTH_DISABLED||mongoose.connection.readyState!==1)return;working=true;
+        try{
+            // A crash after SMTP acceptance is ambiguous: never resend automatically.
+            await Campaign.updateMany({recipients:{$elemMatch:{status:'sending',at:{$lt:new Date(Date.now()-180000)}}}},{$set:{'recipients.$[r].status':'unknown','recipients.$[r].error':'Przerwano wysyłkę. Sprawdź skrzynkę nadawczą przed ponowieniem.'}}, {arrayFilters:[{'r.status':'sending','r.at':{$lt:new Date(Date.now()-180000)}}]});
+            const c=await Campaign.findOne({status:{$in:['queued','sending']},'recipients.status':'pending'}).sort({queuedAt:1}).lean();
+            if(c){
+                const r=c.recipients.find(x=>x.status==='pending');
+                const claim=await Campaign.updateOne({_id:c._id,status:{$in:['queued','sending']},recipients:{$elemMatch:{_id:r._id,status:'pending'}}},{$set:{status:'sending','recipients.$.status':'sending','recipients.$.at':new Date()}});
+                if(claim.modifiedCount){
+                    let update={status:'skipped',error:'Kontakt zablokowany, zmieniony adres lub brak zezwolenia.'};
+                    const live=await Contact.findById(r.contact).lean();
+                    const stillActive=await Campaign.exists({_id:c._id,status:'sending'});
+                    if(stillActive&&eligible(live)&&live.email===r.email){
+                        try{const info=await transport().sendMail({from:process.env.SMTP_FROM,to:r.email,subject:personalize(c.subject,r).replace(/[\r\n]/g,' '),text:personalize(c.body,r),disableFileAccess:true,disableUrlAccess:true});
+                            update=info.accepted?.length?{status:'sent',messageId:info.messageId,error:''}:{status:'failed',error:'Serwer SMTP odrzucił odbiorcę.'};
+                        }catch(e){update={status:['EENVELOPE','EAUTH'].includes(e.code)?'failed':'unknown',error:'Błąd SMTP ('+String(e.code||'SMTP')+'). Sprawdź skrzynkę i konfigurację.'};}
+                    }
+                    const fields={'recipients.$.at':new Date()};for(const [k,v] of Object.entries(update))fields['recipients.$.'+k]=v;
+                    await Campaign.updateOne({_id:c._id,'recipients._id':r._id},{$set:fields});
+                }
+            }
+            await Campaign.updateMany({status:{$in:['queued','sending']},recipients:{$not:{$elemMatch:{status:{$in:['pending','sending']}}}}},{$set:{status:'completed',finishedAt:new Date()}});
+        }catch(e){console.error('Business queue:',e.message);}finally{working=false;}
+    }
+    async function start(){await Promise.all([...Object.values(models),Settings].map(m=>m.init()));timer=setInterval(tick,Math.max(5,Number(process.env.BUSINESS_MAIL_INTERVAL_SECONDS)||10)*1000);timer.unref();}
+    function stop(){clearInterval(timer);if(mailer)mailer.close();}
+    return {models,Settings,Audit,payload,personalize,eligible,tick,start,stop};
+})();
+
 app.use('/api', (req,res,next) => { if(req.user.role !== 'admin' && req.path !== '/v3/data') return res.status(403).json({success:false,message:'Ta operacja wymaga administratora.'}); next(); });
 async function wfSyncClient(task){
  const key=wfPhone(task.clientPhone);if(!key)return null;
@@ -2791,7 +2967,7 @@ const publicDir = path.join(__dirname, 'Public');
 
 app.get(['/oproznianie.html', '/oproznianie'], (req, res) => res.redirect(301, '/oproznianie-utylizacja.html'));
 app.get(['/polityka-prywatności.html'], (req, res) => res.redirect(301, '/polityka-prywatnosci.html'));
-app.use(['/revmi', '/revmi.html', '/api'], (req, res, next) => { res.setHeader('X-Robots-Tag', 'noindex, nofollow'); next(); });
+app.use(['/revmi', '/revmi.html', '/manage', '/manage.html', '/api'], (req, res, next) => { res.setHeader('X-Robots-Tag', 'noindex, nofollow'); next(); });
 
 app.use(
     express.static(publicDir, {
@@ -2799,7 +2975,7 @@ app.use(
         maxAge: IS_PRODUCTION ? '1h' : 0,
 
         setHeaders: (res, filePath) => {
-            if (path.basename(filePath) === 'revmi.html') {
+            if (['revmi.html','manage.html'].includes(path.basename(filePath))) {
                 res.setHeader('Cache-Control', 'no-store');
             }
         }
@@ -3016,6 +3192,8 @@ async function start() {
         )
     ]);
 
+    await business.start();
+
     app.listen(PORT, () => {
         console.log(
             `RevMi działa na porcie ${PORT}${
@@ -3041,6 +3219,7 @@ async function shutdown(signal) {
         `${signal}: zamykanie serwera…`
     );
 
+    business.stop();
     await mongoose.disconnect();
     process.exit(0);
 }
@@ -3052,4 +3231,4 @@ process.on('SIGTERM', () => {
 process.on('SIGINT', () => {
     shutdown('SIGINT');
 });
-module.exports = { app, Task, Client, Employee, Fleet, Expense, Income, Activity, sessionStore, wfLedger, wfMonth, wfMoney, WF_TRANSITIONS };
+module.exports = { business, app, Task, Client, Employee, Fleet, Expense, Income, Activity, sessionStore, wfLedger, wfMonth, wfMoney, WF_TRANSITIONS };
