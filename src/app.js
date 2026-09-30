@@ -94,7 +94,14 @@ function createApp({ sessionStore } = {}) {
     app.use('/api', (req, res) => res.status(404).json({ success: false, message: 'Nie znaleziono endpointu API' }));
 
     /* Panel RevMi (PWA) */
-    app.get(['/revmi', '/revmi.html', '/panel', '/admin'], (req, res) => res.redirect(301, '/revmi/'));
+    // Uwaga: Express domyślnie nie rozróżnia „/revmi” i „/revmi/”, dlatego sprawdzamy
+    // dokładną ścieżkę — inaczej „/revmi/” przekierowywałoby samo na siebie (pętla).
+    app.get(['/revmi', '/revmi.html', '/panel', '/admin'], (req, res, next) => {
+        const pathname = req.originalUrl.split('?')[0];
+        if (pathname.endsWith('/')) return next();
+        res.setHeader('Cache-Control', 'no-store');
+        res.redirect(302, '/revmi/');
+    });
     app.use('/revmi', (req, res, next) => {
         res.setHeader('X-Robots-Tag', 'noindex, nofollow');
         if (req.path === '/sw.js') {
