@@ -1,4 +1,0 @@
-User-agent: *
-Disallow: /api/
-Disallow: /revmi
-Sitemap: https://www.revserwis.pl/sitemap.xml
