@@ -1,0 +1,282 @@
+{
+  "groups": [
+    { "key": "dom", "name": "Dom i mieszkanie", "icon": "fa-house" },
+    { "key": "teren", "name": "Budowa, teren i ogród", "icon": "fa-tree-city" },
+    { "key": "transport", "name": "Transport", "icon": "fa-truck-fast" },
+    { "key": "firmy", "name": "Firmy i obiekty", "icon": "fa-building" }
+  ],
+  "divisions": [
+    {
+      "slug": "revhome", "name": "RevHome", "icon": "fa-house-chimney", "group": "dom",
+      "tagline": "Przeprowadzki i wszystko wokół mieszkania",
+      "lead": "Przeprowadzki, opróżnienia, transport i wnoszenie mebli, montaż, magazynowanie i sprzątanie. Przygotujemy mieszkanie do wynajmu lub sprzedaży — jedna ekipa, jeden termin.",
+      "seo": "Przeprowadzki, opróżnianie mieszkań i przygotowanie do wynajmu — Słupsk",
+      "services": ["Przeprowadzki", "Opróżnienia", "Transport mebli", "Wniesienie mebli", "Wyniesienie mebli", "Montaż i demontaż mebli", "Magazynowanie", "Sprzątanie", "Przygotowanie mieszkania do wynajmu", "Przygotowanie mieszkania do sprzedaży"],
+      "audience": ["Osoby prywatne", "Właściciele mieszkań na wynajem", "Spadkobiercy", "Biura nieruchomości"],
+      "highlight": { "title": "Mieszkanie pod wynajem — przygotowanie od A do Z", "text": "Właściciel przekazuje klucze, a my przygotowujemy lokal dla nowego najemcy.", "steps": ["Opróżniamy", "Wywozimy", "Sprzątamy", "Myjemy", "Transportujemy potrzebne wyposażenie", "Przechowujemy rzeczy właściciela"] },
+      "faq": [
+        ["Czy mogę zlecić przygotowanie mieszkania, nie będąc na miejscu?", "Tak. Wystarczy przekazanie kluczy i lista: co zostaje, co jedzie na wywóz, a co do przechowania. Po pracy możemy wysłać zdjęcia."],
+        ["Czy rozkręcacie i skręcacie meble?", "Tak, montaż i demontaż mebli możemy dołączyć do przeprowadzki lub transportu."],
+        ["Co z rzeczami, których nie chcę wyrzucać, a nie mam gdzie trzymać?", "Przechowamy je w ramach działu RevStorage — odbierzemy, zmagazynujemy i dowieziemy, kiedy będą potrzebne."]
+      ],
+      "pages": ["przeprowadzki.html", "oproznianie-utylizacja.html", "przygotowanie-nieruchomosci-do-sprzedazy.html"],
+      "related": ["revclean", "revstorage", "revcargo"]
+    },
+    {
+      "slug": "revclean", "name": "RevClean", "icon": "fa-broom", "group": "dom",
+      "tagline": "Sprzątanie mieszkań, domów, biur i lokali",
+      "lead": "Sprzątamy mieszkania, domy, biura, magazyny, garaże i piwnice. Także po remoncie, po przeprowadzce, po najemcach i przed sprzedażą nieruchomości.",
+      "seo": "Sprzątanie mieszkań, biur i lokali, sprzątanie po remoncie — Słupsk",
+      "services": ["Sprzątanie mieszkań", "Sprzątanie domów", "Sprzątanie biur", "Sprzątanie magazynów", "Sprzątanie garaży", "Sprzątanie piwnic", "Sprzątanie po remoncie", "Sprzątanie po przeprowadzce", "Sprzątanie przed sprzedażą nieruchomości", "Sprzątanie po najemcach", "Gruntowne czyszczenie pustych lokali"],
+      "audience": ["Osoby prywatne", "Właściciele najmu", "Biura i firmy", "Zarządcy nieruchomości"],
+      "highlight": { "title": "Pusty lokal gotowy do oddania", "text": "Po najemcach, po remoncie albo przed sprzedażą — gruntownie sprzątamy pusty lokal, a jeśli trzeba, najpierw go opróżniamy i wywozimy rzeczy.", "steps": ["Opróżnienie (opcjonalnie)", "Gruntowne sprzątanie", "Odbiór lokalu"] },
+      "faq": [
+        ["Czy sprzątacie po remoncie?", "Tak. Pył, resztki materiałów i zabrudzenia po pracach — zakres ustalamy na podstawie zdjęć i metrażu."],
+        ["Czy macie własne środki i sprzęt?", "Tak, przyjeżdżamy z podstawowym sprzętem i środkami. Specjalne wymagania (np. konkretne preparaty) ustal z nami przed zleceniem."],
+        ["Czy sprzątacie regularnie?", "Stałe sprzątanie biur i obiektów realizujemy w ramach działu RevFacility — w formie miesięcznej obsługi."]
+      ],
+      "pages": ["czyszczenie-hal-i-garazy.html", "przygotowanie-nieruchomosci-do-sprzedazy.html"],
+      "related": ["revhome", "revfacility", "revoffice"]
+    },
+    {
+      "slug": "revstorage", "name": "RevStorage", "icon": "fa-box-archive", "group": "dom",
+      "tagline": "Magazynowanie bez wynajmowania własnego magazynu",
+      "lead": "Magazynowanie rzeczy bez konieczności wynajmowania własnego magazynu. Klient nie musi nawet przywozić rzeczy — RevSerwis odbiera, przewozi i magazynuje.",
+      "seo": "Magazynowanie i przechowywanie rzeczy, mebli i wyposażenia — Słupsk",
+      "services": ["Krótkoterminowe przechowywanie", "Długoterminowe przechowywanie", "Przechowywanie mebli", "Przechowywanie wyposażenia firm", "Przechowywanie rzeczy z przeprowadzki", "Przechowywanie sezonowe", "Odbiór rzeczy z domu", "Dostarczenie rzeczy z magazynu"],
+      "audience": ["Osoby w trakcie przeprowadzki lub remontu", "Właściciele sprzedawanych nieruchomości", "Firmy", "Sklepy i hotele (sezonowo)"],
+      "highlight": { "title": "Najprostszy model: odbieramy → przewozimy → magazynujemy", "text": "Nie musisz organizować transportu ani wynajmować boksu. Przyjeżdżamy po rzeczy, przechowujemy je przez ustalony czas i dowozimy, kiedy chcesz.", "steps": ["Odbieramy z domu lub firmy", "Przewozimy i zabezpieczamy", "Magazynujemy", "Dowozimy na żądanie"] },
+      "faq": [
+        ["Na jak długo mogę przechować rzeczy?", "Krótko- lub długoterminowo — okres ustalamy indywidualnie i możemy go przedłużyć."],
+        ["Czy muszę sam przywieźć rzeczy?", "Nie. Odbieramy je spod wskazanego adresu i dowozimy z powrotem."],
+        ["Jak liczona jest cena?", "Zależy od ilości rzeczy, okresu przechowania oraz tego, czy potrzebujesz odbioru i dowozu. Warunki potwierdzamy w ofercie."]
+      ],
+      "pages": ["przeprowadzki.html"],
+      "related": ["revhome", "revwarehouse", "revcargo"]
+    },
+    {
+      "slug": "revmoto", "name": "RevMoto", "icon": "fa-motorcycle", "group": "dom",
+      "tagline": "Kupujesz motocykl? My go odbierzemy i dostarczymy pod dom.",
+      "lead": "Osobna specjalizacja: transport motocykli, skuterów, quadów i crossów, a także małych maszyn, przyczep i sprzętu ogrodowego — lokalnie, w Polsce i z krajów UE.",
+      "seo": "Transport motocykli, quadów, skuterów i crossów — Polska i UE",
+      "services": ["Motocykle", "Skutery", "Quady", "Crossy", "Małe maszyny", "Przyczepy", "Sprzęt ogrodowy"],
+      "audience": ["Kupujący z ogłoszenia", "Serwisy i komisy", "Zawodnicy i kluby", "Właściciele sprzętu ogrodowego"],
+      "highlight": { "title": "Kupujesz motocykl? My go odbierzemy i dostarczymy pod dom.", "text": "Odbieramy pojazd od sprzedającego, z salonu lub serwisu, mocujemy pasami transportowymi i dowozimy pod wskazany adres. Przewozimy także pojazdy niejezdne.", "steps": ["Podajesz trasę i pojazd", "Odbieramy i mocujemy", "Dowozimy pod dom"] },
+      "faq": [
+        ["Czy przewozicie niesprawne pojazdy?", "Tak — napisz o tym w zgłoszeniu, przygotujemy sposób załadunku."],
+        ["Czy odbierzecie motocykl od sprzedającego w innym mieście?", "Tak, realizujemy trasy po Polsce i z krajów UE. Formalności (dokumenty, płatność) ustalasz ze sprzedającym."],
+        ["Czy przewieziecie kilka pojazdów jednocześnie?", "Zależy od ich rozmiaru. Podaj liczbę i rodzaj — potwierdzimy w wycenie."]
+      ],
+      "pages": [],
+      "related": ["revcargo", "revassist", "revstorage"]
+    },
+    {
+      "slug": "revassist", "name": "RevAssist", "icon": "fa-bolt", "group": "dom",
+      "tagline": "Potrzebujesz coś przewieźć dzisiaj? Zadzwoń.",
+      "lead": "Szybkie usługi pomocnicze: awaryjny transport rzeczy, odbiór kupionego przedmiotu, dostarczenie mebli, pomoc przy przeprowadzce lub opróżnianiu i transport rzeczy po awarii.",
+      "seo": "Szybki transport lokalny i awaryjny przewóz rzeczy — Słupsk",
+      "services": ["Awaryjny transport rzeczy", "Odbiór zakupionego przedmiotu", "Dostarczenie mebli", "Pomoc przy przeprowadzce", "Pomoc przy opróżnianiu", "Transport rzeczy po awarii", "Szybki transport lokalny"],
+      "audience": ["Osoby prywatne", "Kupujący z ogłoszeń i sklepów", "Właściciele po zalaniu lub awarii", "Małe firmy"],
+      "highlight": { "title": "Potrzebujesz coś przewieźć dzisiaj? Zadzwoń.", "text": "Przy pilnych sprawach najszybciej jest zadzwonić lub napisać na WhatsApp ze zdjęciem — sprawdzimy, czy damy radę przyjechać jeszcze dziś.", "steps": ["Dzwonisz lub piszesz", "Potwierdzamy termin i cenę", "Przyjeżdżamy"] },
+      "faq": [
+        ["Czy przyjedziecie tego samego dnia?", "Często tak, szczególnie w rejonie Słupska — zależy od dostępności ekipy. Najszybciej sprawdzisz to telefonicznie."],
+        ["Czy odbierzecie rzecz kupioną na OLX lub Marketplace?", "Tak. Podaj adres odbioru i dostawy oraz zdjęcie przedmiotu."]
+      ],
+      "pages": ["transport.html", "odbior-odpadow.html"],
+      "related": ["revcargo", "revhome", "revmoto"]
+    },
+    {
+      "slug": "revbud", "name": "RevBud", "icon": "fa-helmet-safety", "group": "teren",
+      "tagline": "Rozbiórki, skuwanie i przygotowanie do remontu",
+      "lead": "Rozbiórki, skuwanie tynków i posadzek, demontaż ścian działowych, sufitów, podłóg, drzwi, okien, kuchni i łazienek. Wynosimy gruz i materiały, a pomieszczenia zostawiamy gotowe do remontu.",
+      "seo": "Rozbiórki, skuwanie tynków i posadzek, demontaż łazienek — Słupsk",
+      "services": ["Rozbiórki", "Skuwanie tynków", "Skuwanie posadzek", "Demontaż ścian działowych", "Demontaż sufitów", "Demontaż podłóg", "Demontaż drzwi", "Demontaż okien", "Demontaż mebli kuchennych", "Demontaż łazienek", "Wynoszenie materiałów budowlanych", "Wynoszenie gruzu", "Przygotowanie pomieszczeń do remontu"],
+      "audience": ["Inwestorzy i właściciele mieszkań", "Ekipy remontowe", "Deweloperzy i flipperzy", "Zarządcy budynków"],
+      "highlight": { "title": "Pomieszczenie gotowe do remontu", "text": "Bierzemy na siebie najcięższą część: demontaż, skuwanie, wynoszenie i wywóz gruzu. Ekipa remontowa wchodzi do czystego, pustego pomieszczenia.", "steps": ["Demontaż", "Skuwanie", "Wyniesienie i wywóz gruzu", "Pomieszczenie gotowe"] },
+      "faq": [
+        ["Czy wynosicie gruz z wyższych pięter?", "Tak, wynoszenie gruzu i materiałów jest częścią usługi. Podaj piętro i informację o windzie."],
+        ["Czy rozbiórka ściany wymaga formalności?", "Ściany działowe zwykle nie wymagają pozwoleń, ale przy ścianach nośnych i większych przeróbkach potrzebna jest opinia konstruktora — to po stronie inwestora. Ścian nośnych nie wyburzamy bez dokumentacji."],
+        ["Czy rozbieracie też obiekty na zewnątrz?", "Tak — wiaty, altany, szopy i blaszaki. Zobacz szczegóły rozbiórek małych obiektów."]
+      ],
+      "pages": ["rozbiorki-i-wyburzenia.html", "prace-ziemne-i-koparkowe.html"],
+      "related": ["revsite", "revclean", "revgarden"]
+    },
+    {
+      "slug": "revgarden", "name": "RevGarden", "icon": "fa-tree", "group": "teren",
+      "tagline": "Koszenie, wycinka, karczowanie i porządek na działce",
+      "lead": "Koszenie trawy (także wysokiej), wycinka drzew, cięcie gałęzi, karczowanie, usuwanie krzewów i korzeni, przycinanie żywopłotów, rozdrabnianie i wywóz gałęzi. Przygotujemy działkę pod sprzedaż lub budowę.",
+      "seo": "Koszenie, wycinka drzew, karczowanie i porządkowanie działek — Słupsk",
+      "services": ["Koszenie trawy", "Koszenie wysokiej trawy", "Wycinka drzew", "Cięcie gałęzi", "Karczowanie", "Usuwanie krzewów", "Przycinanie żywopłotów", "Porządkowanie działek", "Usuwanie korzeni", "Rozdrabnianie gałęzi", "Wywóz gałęzi", "Przygotowanie działki pod sprzedaż", "Przygotowanie działki pod budowę"],
+      "audience": ["Właściciele domów i działek", "Sprzedający działki", "Inwestorzy przed budową", "Wspólnoty i zarządcy"],
+      "highlight": { "title": "Działka gotowa pod budowę lub sprzedaż", "text": "Wykaszamy, wycinamy, karczujemy, rozdrabniamy i wywozimy gałęzie. Teren zostaje czysty i gotowy na kolejny etap.", "steps": ["Wykaszanie", "Wycinka i karczowanie", "Rozdrabnianie i wywóz", "Teren gotowy"] },
+      "faq": [
+        ["Czy wycinka drzewa wymaga zgłoszenia?", "Zależy od gatunku, obwodu pnia i miejsca. Formalności w gminie należą do właściciela działki — podpowiemy, co sprawdzić."],
+        ["Co dzieje się z gałęziami?", "Możemy je rozdrobnić, wywieźć albo zostawić drewno pocięte na opał."],
+        ["Czy kosicie regularnie?", "Tak. Stałe koszenie i utrzymanie terenu oferujemy również w ramach miesięcznej obsługi RevFacility."]
+      ],
+      "pages": ["wycinka-drzew-i-krzewow.html", "usuwanie-pni-i-korzeni.html", "porzadkowanie-dzialek-i-posesji.html"],
+      "related": ["revfacility", "revsite", "revbud"]
+    },
+    {
+      "slug": "revsite", "name": "RevSite", "icon": "fa-person-digging", "group": "teren",
+      "tagline": "Obsługa placów budowy",
+      "lead": "Transport materiałów i narzędzi, odbiór materiałów, przewóz pracowników, opróżnianie, wywóz pozostałości, porządkowanie terenu i pomoc przy rozbiórkach — wsparcie logistyczne dla budowy.",
+      "seo": "Obsługa placu budowy: transport materiałów, wywóz, porządkowanie — Słupsk",
+      "services": ["Transport materiałów", "Transport narzędzi", "Odbiór materiałów", "Przewóz pracowników", "Opróżnianie", "Wywóz pozostałości", "Transport wyposażenia", "Porządkowanie terenu", "Pomoc przy rozbiórkach"],
+      "audience": ["Firmy budowlane", "Ekipy wykończeniowe", "Inwestorzy indywidualni", "Deweloperzy"],
+      "highlight": { "title": "Logistyka budowy bez własnego busa", "text": "Odbieramy materiały z hurtowni, przewozimy narzędzia i ludzi, a na koniec etapu sprzątamy teren i wywozimy pozostałości.", "steps": ["Materiały na budowę", "Ludzie i narzędzia", "Porządek i wywóz"] },
+      "faq": [
+        ["Czy przewozicie pracowników na budowę?", "Tak, przewóz ekipy możemy ustalić jednorazowo lub na stałe."],
+        ["Czy odbierzecie zamówienie z hurtowni budowlanej?", "Tak. Podaj adres hurtowni, numer zamówienia i wagę lub wymiary materiałów."]
+      ],
+      "pages": ["prace-ziemne-i-koparkowe.html", "odbior-odpadow.html"],
+      "related": ["revbud", "revcargo", "revgarden"]
+    },
+    {
+      "slug": "revwinter", "name": "RevWinter", "icon": "fa-snowflake", "group": "teren", "soon": true,
+      "tagline": "Zimowe utrzymanie posesji i firm — wkrótce",
+      "lead": "Wkrótce zaczynamy działania: odśnieżanie parkingów, podjazdów, chodników i dachów, usuwanie lodu, posypywanie, wywóz śniegu oraz zimowe utrzymanie posesji i firm. Zapisz się już teraz.",
+      "seo": "Odśnieżanie parkingów i posesji, zimowe utrzymanie firm — Słupsk",
+      "services": ["Odśnieżanie parkingów", "Odśnieżanie podjazdów", "Odśnieżanie chodników", "Odśnieżanie dachów (po ocenie warunków i bezpieczeństwa)", "Usuwanie lodu", "Posypywanie", "Wywóz śniegu", "Zimowe utrzymanie posesji", "Zimowe utrzymanie firm"],
+      "audience": ["Firmy i sklepy z parkingiem", "Wspólnoty i zarządcy", "Hotele i pensjonaty", "Właściciele domów"],
+      "highlight": { "title": "RevSerwis Winter Care — abonament zimowy", "text": "Firma płaci miesięcznie za gotowość i obsługę terenu. Gdy pada śnieg, nie szukasz nikogo — przyjeżdżamy według ustalonych zasad.", "steps": ["Ustalamy teren i zakres", "Stała miesięczna opłata", "Gotowość przez cały sezon"] },
+      "faq": [
+        ["Kiedy startuje RevWinter?", "Przygotowujemy dział na najbliższy sezon zimowy. Zostaw kontakt — odezwiemy się z ofertą przed startem."],
+        ["Jak działa abonament Winter Care?", "Płacisz stałą kwotę miesięcznie za gotowość i obsługę wskazanego terenu. Zakres (np. parking, chodniki, posypywanie) ustalamy w umowie."],
+        ["Czy odśnieżacie dachy?", "Tylko po ocenie warunków i bezpieczeństwa na miejscu — nie każdy dach da się bezpiecznie odśnieżyć."]
+      ],
+      "pages": [],
+      "related": ["revfacility", "revhotel", "revb2b"]
+    },
+    {
+      "slug": "revcargo", "name": "RevCargo", "icon": "fa-truck-ramp-box", "group": "transport",
+      "tagline": "Transport ładunków — od palety po meble",
+      "lead": "Transport palet, materiałów budowlanych, mebli, AGD i RTV, maszyn, narzędzi, elementów konstrukcyjnych, drzwi i okien, wyposażenia sklepów i biur oraz zakupów wielkogabarytowych.",
+      "seo": "Transport palet, mebli, AGD, maszyn i materiałów budowlanych — Słupsk, Polska",
+      "services": ["Transport palet", "Transport materiałów budowlanych", "Transport mebli", "Transport sprzętu AGD", "Transport RTV", "Transport maszyn", "Transport narzędzi", "Transport elementów konstrukcyjnych", "Transport drzwi i okien", "Transport wyposażenia sklepów", "Transport wyposażenia biur", "Transport zakupów wielkogabarytowych"],
+      "audience": ["Sklepy i salony", "Hurtownie i producenci", "Firmy budowlane", "Klienci prywatni"],
+      "highlight": { "title": "Jednorazowo albo na stałe", "text": "Przewieziemy pojedynczy ładunek albo ustalimy stałe trasy i dostawy na wezwanie dla Twojej firmy — z fakturą VAT.", "steps": ["Pojedynczy kurs", "Stała trasa", "Dostawy na wezwanie"] },
+      "faq": [
+        ["Jakie ładunki przewozicie?", "Pojazdami do 3,5 t — palety, meble, AGD, materiały, maszyny i elementy, które mieszczą się w aucie. Podaj wymiary i wagę, a potwierdzimy możliwość przewozu."],
+        ["Czy wnosicie towar?", "Tak, wniesienie możemy dołączyć do transportu."],
+        ["Czy realizujecie stałe dostawy dla firm?", "Tak — stałe trasy, kursy na wezwanie i wsparcie sezonowe."]
+      ],
+      "pages": ["transport.html"],
+      "related": ["revwarehouse", "revshop", "revassist"]
+    },
+    {
+      "slug": "revevent", "name": "RevEvent", "icon": "fa-champagne-glasses", "group": "transport",
+      "tagline": "Transport na wydarzenia i transfery — RevTours",
+      "lead": "Transport osób i sprzętu na wydarzenia: scenografia, wyposażenie, DJ, zespoły, wesela i imprezy oraz transfery lotniskowe. Ludzie i sprzęt na miejscu na czas.",
+      "seo": "Transport na wesela i imprezy, przewóz zespołów i DJ, transfery lotniskowe",
+      "services": ["Transport osób", "Transport sprzętu", "Transport scenografii", "Transport wyposażenia", "Transport DJ-a", "Transport zespołów", "Transport na wesela", "Transport na imprezy", "Transfery lotniskowe"],
+      "audience": ["Pary młode i goście weselni", "DJ-e i zespoły", "Organizatorzy eventów", "Firmy (wyjazdy, integracje)"],
+      "highlight": { "title": "RevTours / RevEvent — goście i sprzęt jednym telefonem", "text": "Przywieziemy zespół razem ze sprzętem, rozwieziemy gości po weselu i obsłużymy transfery z lotniska.", "steps": ["Plan tras i godzin", "Transport ludzi i sprzętu", "Powroty po wydarzeniu"] },
+      "faq": [
+        ["Czy rozwozicie gości po weselu?", "Tak. Ustalamy godziny i kierunki kursów przed wydarzeniem."],
+        ["Czy przewieziecie zespół razem z instrumentami?", "Tak, transport ludzi i sprzętu możemy połączyć — podaj liczbę osób i ilość sprzętu."]
+      ],
+      "pages": ["przewozy-osob.html"],
+      "related": ["revcargo", "revhotel", "revb2b"]
+    },
+    {
+      "slug": "revfacility", "name": "RevFacility", "icon": "fa-building-shield", "group": "firmy",
+      "tagline": "Jedna firma do wszystkiego — miesięczna obsługa obiektu",
+      "lead": "Obsługa firm i nieruchomości: odśnieżanie, koszenie, mycie kostki, sprzątanie, opróżnianie, drobne prace porządkowe, transport, wywóz rzeczy, przygotowanie lokalu i sezonowe utrzymanie terenu — w formie stałej, miesięcznej obsługi.",
+      "seo": "Obsługa nieruchomości i utrzymanie terenu firm — abonament miesięczny",
+      "services": ["Odśnieżanie", "Koszenie", "Mycie kostki", "Sprzątanie", "Opróżnianie", "Drobne prace porządkowe", "Transport", "Wywóz rzeczy", "Przygotowanie lokalu", "Sezonowe utrzymanie terenu"],
+      "audience": ["Właściciele obiektów i lokali", "Wspólnoty i zarządcy", "Sklepy, biura, magazyny", "Hotele i pensjonaty"],
+      "highlight": { "title": "Miesięczna obsługa obiektu", "text": "Zamiast kilku wykonawców — jeden kontakt i stała miesięczna opłata. Ustalamy zakres prac i harmonogram, a my pilnujemy terenu przez cały rok.", "steps": ["Oględziny i zakres", "Harmonogram i stała opłata", "Obsługa przez cały rok"] },
+      "faq": [
+        ["Co obejmuje abonament?", "Zakres ustalamy indywidualnie: np. koszenie latem, odśnieżanie zimą, mycie kostki wiosną, sprzątanie i wywóz rzeczy na zgłoszenie."],
+        ["Czy mogę zamówić pojedynczą usługę?", "Tak, ale stała obsługa daje priorytet terminów i przewidywalny koszt."],
+        ["Czy wystawiacie faktury VAT?", "Tak — dla abonamentu i pojedynczych zleceń."]
+      ],
+      "pages": ["mycie-cisnieniowe.html", "odbior-odpadow.html", "porzadkowanie-dzialek-i-posesji.html"],
+      "related": ["revwinter", "revclean", "revgarden"]
+    },
+    {
+      "slug": "revb2b", "name": "RevB2B", "icon": "fa-handshake", "group": "firmy",
+      "tagline": "Zewnętrzny dział transportowo-techniczny dla Twojej firmy",
+      "lead": "Firma zamiast zatrudniać własnego kierowcę, kupować busa, zatrudniać magazyniera i ekipę porządkową — korzysta z RevSerwis. Transport, ludzie, magazyn, przeprowadzki, opróżnienia, utrzymanie terenu i zima w jednej umowie.",
+      "seo": "Outsourcing transportu i obsługi technicznej dla firm — RevSerwis B2B",
+      "services": ["Transport", "Pracownicy do pomocy", "Magazyn", "Przeprowadzki firm", "Opróżnienia", "Utrzymanie terenu", "Obsługa zimowa"],
+      "audience": ["Małe i średnie firmy", "Sieci sklepów i salony", "Hotele i obiekty", "Zarządcy nieruchomości"],
+      "highlight": { "title": "Transport + pracownicy + magazyn + teren + zima", "text": "Jedna umowa zamiast etatu kierowcy, busa, magazynu i ekipy porządkowej. Płacisz za to, czego faktycznie potrzebujesz.", "steps": ["Analiza potrzeb firmy", "Model współpracy i rozliczeń", "Stała obsługa z jednym kontaktem"] },
+      "faq": [
+        ["Jak wygląda rozliczenie?", "Za zlecenie, okresowo albo abonamentowo — model dobieramy do skali i rytmu Twojej firmy."],
+        ["Czy macie jeden kontakt dla firmy?", "Tak, zlecenia zgłaszasz w jednym miejscu, a my organizujemy ludzi, auto i magazyn."],
+        ["Od czego zacząć?", "Wyślij formularz kontaktowy jako firma albo zadzwoń — umówimy krótką rozmowę o potrzebach."]
+      ],
+      "pages": ["transport.html"],
+      "related": ["revfacility", "revwarehouse", "revoffice"]
+    },
+    {
+      "slug": "revoffice", "name": "RevOffice", "icon": "fa-briefcase", "group": "firmy",
+      "tagline": "Przeprowadzki i obsługa biur",
+      "lead": "Przeprowadzki biurowe, transport wyposażenia i dokumentacji, wynoszenie starych mebli, opróżnianie biur, magazynowanie wyposażenia, sprzątanie po przeprowadzce i przygotowanie nowego biura.",
+      "seo": "Przeprowadzki biur, opróżnianie biur i transport dokumentacji — Słupsk",
+      "services": ["Przeprowadzki biurowe", "Transport wyposażenia", "Wynoszenie starych mebli", "Opróżnianie biur", "Transport dokumentacji", "Magazynowanie wyposażenia", "Sprzątanie po przeprowadzce", "Przygotowanie nowego biura"],
+      "audience": ["Biura i kancelarie", "Firmy usługowe", "Instytucje", "Coworkingi"],
+      "highlight": { "title": "Przeprowadzka biura bez przestoju", "text": "Planujemy przenosiny tak, aby biuro jak najkrócej stało w miejscu — także po godzinach lub w weekend.", "steps": ["Plan i oznakowanie", "Transport po godzinach", "Nowe biuro gotowe do pracy"] },
+      "faq": [
+        ["Czy pracujecie po godzinach i w weekendy?", "Tak, termin dopasowujemy do pracy biura."],
+        ["Co z dokumentacją?", "Przewozimy ją w zamkniętych kartonach. Szczegóły zabezpieczenia ustalamy przed przeprowadzką."]
+      ],
+      "pages": ["przeprowadzki.html"],
+      "related": ["revb2b", "revclean", "revstorage"]
+    },
+    {
+      "slug": "revshop", "name": "RevShop", "icon": "fa-store", "group": "firmy",
+      "tagline": "Obsługa sklepów i lokali",
+      "lead": "Transport, montaż i demontaż wyposażenia, przeprowadzki sklepów, opróżnianie lokali, transport towaru, odbiór wyposażenia, likwidacja sklepu i przygotowanie lokalu dla nowego najemcy.",
+      "seo": "Przeprowadzki i likwidacja sklepów, transport wyposażenia — Słupsk",
+      "services": ["Transport wyposażenia", "Montaż i demontaż wyposażenia", "Przeprowadzki sklepów", "Opróżnianie lokali", "Transport towaru", "Odbiór wyposażenia", "Likwidacja sklepu", "Przygotowanie lokalu dla nowego najemcy"],
+      "audience": ["Sklepy i butiki", "Sieci handlowe", "Właściciele lokali użytkowych", "Gastronomia"],
+      "highlight": { "title": "Od otwarcia do oddania lokalu", "text": "Wnosimy i montujemy wyposażenie przy otwarciu, przewozimy towar, a przy zmianie lokalu — demontujemy, opróżniamy i przygotowujemy go dla nowego najemcy.", "steps": ["Otwarcie i montaż", "Bieżący transport towaru", "Likwidacja i oddanie lokalu"] },
+      "faq": [
+        ["Czy pracujecie poza godzinami otwarcia?", "Tak, prace w sklepie planujemy tak, by nie przeszkadzały w sprzedaży."],
+        ["Co dzieje się z niepotrzebnym wyposażeniem?", "Możemy je przewieźć, przechować w RevStorage albo wywieźć."]
+      ],
+      "pages": ["oproznianie-utylizacja.html"],
+      "related": ["revcargo", "revwarehouse", "revb2b"]
+    },
+    {
+      "slug": "revwarehouse", "name": "RevWarehouse", "icon": "fa-warehouse", "group": "firmy",
+      "tagline": "Obsługa magazynów",
+      "lead": "Transport wewnętrzny, przenoszenie towarów, opróżnianie i przeprowadzki magazynów, przewóz palet, załadunek i rozładunek, magazynowanie, odbiór towaru i dostawy lokalne.",
+      "seo": "Obsługa magazynów: załadunek, rozładunek, przewóz palet — Słupsk",
+      "services": ["Transport wewnętrzny", "Przenoszenie towarów", "Opróżnianie magazynów", "Przeprowadzki magazynowe", "Przewóz palet", "Załadunek i rozładunek", "Magazynowanie", "Odbiór towaru", "Dostawy lokalne"],
+      "audience": ["Hurtownie", "Sklepy internetowe", "Producenci", "Firmy logistyczne (wsparcie w szczycie)"],
+      "highlight": { "title": "Ręce do pracy, gdy przychodzi dostawa", "text": "Rozładunek, przeniesienie i dostawy lokalne — jednorazowo albo jako stałe wsparcie w szczycie sezonu.", "steps": ["Rozładunek", "Przeniesienie i składowanie", "Dostawy lokalne"] },
+      "faq": [
+        ["Czy pomagacie przy rozładunku tira?", "Tak, możemy zapewnić ekipę do załadunku i rozładunku. Podaj ilość palet lub kartonów i godzinę dostawy."],
+        ["Czy przeniesiecie cały magazyn?", "Tak — przeprowadzki magazynowe planujemy etapami, aby ograniczyć przestój."]
+      ],
+      "pages": ["czyszczenie-hal-i-garazy.html"],
+      "related": ["revcargo", "revstorage", "revb2b"]
+    },
+    {
+      "slug": "revhotel", "name": "RevHotel", "icon": "fa-hotel", "group": "firmy",
+      "tagline": "Hotele, pensjonaty, apartamenty, Airbnb i domki",
+      "lead": "Obsługa obiektów noclegowych: transport i wymiana wyposażenia, opróżnianie, dostawy, wywóz, przygotowanie obiektu, transport pościeli i wyposażenia, sezonowe przygotowanie, odśnieżanie, koszenie i mycie kostki.",
+      "seo": "Obsługa hoteli, pensjonatów i apartamentów Airbnb — Pomorze",
+      "services": ["Transport wyposażenia", "Wymiana mebli", "Opróżnianie", "Dostawy", "Wywóz wyposażenia", "Przygotowanie obiektu", "Transport pościeli i wyposażenia", "Sezonowe przygotowanie obiektu", "Odśnieżanie", "Koszenie", "Mycie kostki"],
+      "audience": ["Hotele", "Pensjonaty", "Apartamenty i Airbnb", "Domki letniskowe"],
+      "highlight": { "title": "Obiekt gotowy na sezon", "text": "Przed sezonem wymieniamy wyposażenie, sprzątamy teren i myjemy kostkę, w sezonie dowozimy i wywozimy, a zimą odśnieżamy.", "steps": ["Przed sezonem", "W sezonie", "Po sezonie i zimą"] },
+      "faq": [
+        ["Czy obsługujecie apartamenty na wynajem krótkoterminowy?", "Tak — Airbnb, apartamenty i domki letniskowe."],
+        ["Czy możliwa jest stała współpraca?", "Tak, cały rok albo tylko w sezonie — z jednym kontaktem i rozliczeniem okresowym."]
+      ],
+      "pages": ["przewozy-osob.html", "mycie-cisnieniowe.html"],
+      "related": ["revfacility", "revevent", "revwinter"]
+    }
+  ],
+  "redirects": {
+    "transport-motocykli.html": "revmoto.html",
+    "magazynowanie-mienia.html": "revstorage.html",
+    "stale-dostawy-dla-firm.html": "revcargo.html",
+    "trasy-dla-hoteli-i-pensjonatow.html": "revhotel.html",
+    "dla-firm.html": "revb2b.html"
+  }
+}
