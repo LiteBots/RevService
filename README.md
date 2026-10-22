@@ -296,6 +296,7 @@ scripts/                 build, klasy CSS, ikony, klucze VAPID
 tests/                   testy (node --test)
 ```
 
+
 ## Treści „Realizacje” i „Opinie”
 
 Uzupełnij `Public/assets/content.json` — sekcje pojawią się automatycznie:
