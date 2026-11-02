@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Wycena online RevBot — przeprowadzki, opróżnianie, transport | RevSerwis</title>
+<meta name="description" content="Wycena online w 30 sekund: wybierz usługę, opisz zlecenie i dodaj do 10 zdjęć. RevBot przygotuje bezpłatne widełki cenowe — przeprowadzki, opróżnianie i wywóz, transport, odśnieżanie, ogród.">
+<link rel="canonical" href="https://www.revserwis.pl/wycena.html">
+<meta name="theme-color" content="#030303">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:site_name" content="RevSerwis">
+<meta property="og:title" content="Wycena online RevBot | RevSerwis">
+<meta property="og:description" content="Opisz zlecenie, dodaj zdjęcia i od razu poznaj bezpłatne widełki cenowe.">
+<meta property="og:url" content="https://www.revserwis.pl/wycena.html">
+<meta property="og:image" content="https://www.revserwis.pl/assets/brand/og-revserwis.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script defer src="assets/ai-services.js?v=8.0.0"></script>
+<script defer src="assets/quote-ai.js?v=8.0.0"></script>
+<script defer src="assets/site.js?v=8.0.0"></script>
+<style>
+:root{
+  --bg:#030303;--card:#0b0c0d;--card2:#111315;--line:rgba(255,255,255,.09);--line2:rgba(255,255,255,.16);
+  --text:#f6f7f8;--muted:#9aa1a9;--dim:#6b7178;--brand:#03F0BE;--brand-d:#02c79e;--brand-a:rgba(3,240,190,.12);--brand-b:rgba(3,240,190,.28);
+  --warn:#fbbf24;--danger:#f87171;--r:14px;--r-sm:10px;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*,::before,::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-padding-bottom:110px}
+body{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.45;min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-20% -10% auto;height:70vh;pointer-events:none;background:radial-gradient(60% 60% at 50% 0%,rgba(3,240,190,.14),transparent 70%);z-index:0}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* Nagłówek */
+.q-top{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:rgba(3,3,3,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.q-brand{display:flex;align-items:center;gap:9px;text-decoration:none;font-weight:800;letter-spacing:-.01em}
+.q-brand img{width:32px;height:32px;border-radius:9px}
+.q-brand b{color:var(--brand)}
+.q-top-actions{display:flex;gap:8px}
+.q-ic{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:38px;min-width:38px;padding:0 12px;border-radius:999px;border:1px solid var(--line2);background:var(--card);text-decoration:none;font-size:14px;font-weight:700}
+.q-ic.wa{color:#25d366}
+@media (max-width:420px){.q-ic span{display:none}}
+
+/* Układ */
+.q-wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:14px 14px calc(120px + var(--safe-b))}
+.q-head{padding:6px 2px 12px}
+.q-head h1{font-size:clamp(22px,6vw,30px);line-height:1.15;letter-spacing:-.02em;font-weight:800}
+.q-head h1 span{color:var(--brand)}
+.q-head p{color:var(--muted);font-size:14px;margin-top:6px}
+.q-badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.q-badges span{font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:4px 10px}
+.q-badges i{color:var(--brand);margin-right:4px}
+
+.q-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-top:10px}
+.q-label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:9px}
+.q-label small{text-transform:none;letter-spacing:0;font-weight:600;color:var(--dim)}
+
+/* Usługi */
+.q-services{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media (min-width:640px){.q-services{grid-template-columns:repeat(6,1fr)}}
+.q-svc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:78px;padding:10px 6px;border-radius:12px;border:1px solid var(--line);background:var(--card2);cursor:pointer;text-align:center;font-size:12.5px;font-weight:700;line-height:1.15;transition:border-color .15s,background .15s,transform .1s}
+.q-svc i{font-size:20px;color:var(--brand)}
+.q-svc small{display:block;font-size:10.5px;font-weight:600;color:var(--dim);margin-top:2px}
+.q-svc[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-a);box-shadow:0 0 0 1px var(--brand) inset}
+.q-svc:active{transform:scale(.98)}
+.q-more{margin-top:8px;display:none}
+.q-more.show{display:block}
+.q-select{width:100%;height:46px;border-radius:var(--r-sm);border:1px solid var(--line2);background:var(--card2);padding:0 12px;font-size:16px}
+
+.q-variants,.q-chips{display:flex;flex-wrap:wrap;gap:6px}
+.q-variants{margin-top:10px}
+.q-chip{border:1px solid var(--line2);background:transparent;border-radius:999px;padding:8px 12px;font-size:13.5px;font-weight:600;cursor:pointer;min-height:38px}
+.q-chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:#04110d}
+.q-fields{display:grid;gap:12px;margin-top:12px}
+.q-fields:empty{display:none}
+.q-fields{grid-template-columns:1fr 1fr}
+.q-f{grid-column:1/-1}
+.q-f.num{grid-column:auto}
+.q-f>span{display:block;font-size:13px;font-weight:600;color:var(--muted);margin-bottom:6px}
+.q-step{display:inline-flex;align-items:center;border:1px solid var(--line2);border-radius:999px;overflow:hidden;height:40px}
+.q-step button{width:42px;height:100%;border:0;background:transparent;font-size:18px;cursor:pointer;color:var(--brand)}
+.q-step output{min-width:70px;flex:1;text-align:center;font-weight:700;font-size:14px}
+.q-step.unset output{color:var(--dim);font-weight:600}
+.q-two{display:grid;gap:10px}
+@media (min-width:560px){.q-two{grid-template-columns:1fr 1fr}}
+
+/* Pola */
+.q-in{position:relative}
+.q-in i{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:14px;pointer-events:none}
+.q-input,.q-text{width:100%;border-radius:var(--r-sm);border:1px solid var(--line2);background:var(--card2);font-size:16px;transition:border-color .15s}
+.q-input{height:48px;padding:0 12px 0 38px}
+.q-input.plain{padding-left:12px}
+.q-text{min-height:92px;padding:11px 12px;resize:vertical;line-height:1.45}
+.q-input:focus,.q-text:focus,.q-select:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px var(--brand-a)}
+.q-input::placeholder,.q-text::placeholder{color:var(--dim)}
+.q-invalid{border-color:var(--danger)!important}
+.q-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
+input[type=date].q-input{padding-left:38px;color-scheme:dark}
+
+/* Zdjęcia */
+.q-photos{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.q-ph{position:relative;flex:0 0 76px;height:76px;border-radius:11px;overflow:hidden;border:1px solid var(--line)}
+.q-ph img{width:100%;height:100%;object-fit:cover}
+.q-ph button{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(0,0,0,.72);color:#fff;font-size:14px;cursor:pointer;line-height:1}
+.q-add{flex:0 0 76px;height:76px;border-radius:11px;border:1.5px dashed var(--brand-b);background:var(--brand-a);color:var(--brand);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:700;cursor:pointer}
+.q-add i{font-size:20px}
+.q-add.busy{opacity:.6;pointer-events:none}
+
+.q-check{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);margin-top:12px;cursor:pointer}
+.q-check input{width:20px;height:20px;accent-color:var(--brand);flex:0 0 auto;margin-top:1px}
+.q-check a{color:var(--brand)}
+.q-link{background:none;border:0;color:var(--brand);font-size:13px;font-weight:700;cursor:pointer;padding:0}
+.q-hp{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
+.q-err{color:var(--danger);font-size:13px;margin-top:8px;min-height:0}
+.q-err:empty{display:none}
+
+/* Dolny pasek */
+.q-bar{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:10px 14px calc(10px + var(--safe-b));background:linear-gradient(to top,rgba(3,3,3,.98) 60%,rgba(3,3,3,0));}
+.q-bar-in{max-width:760px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.q-go{flex:1;height:54px;border:0;border-radius:14px;background:var(--brand);color:#03130e;font-weight:800;font-size:16.5px;display:flex;align-items:center;justify-content:center;gap:9px;cursor:pointer;box-shadow:0 10px 30px rgba(3,240,190,.25)}
+.q-go:disabled{opacity:.55;cursor:wait}
+.q-bar-note{font-size:11.5px;color:var(--dim);text-align:center;margin-top:6px}
+
+/* Wynik i ładowanie */
+.q-sheet{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.72);display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.q-sheet[hidden]{display:none}
+.q-sheet-in{width:100%;max-width:760px;max-height:92vh;overflow:auto;background:#0b0c0d;border:1px solid var(--line2);border-bottom:0;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + var(--safe-b));animation:up .25s ease}
+@media (min-width:760px){.q-sheet{align-items:center}.q-sheet-in{border-radius:22px;border-bottom:1px solid var(--line2)}}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.q-load{text-align:center;padding:28px 6px 18px}
+.q-orb{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;background:conic-gradient(var(--brand),transparent 70%);animation:spin 1s linear infinite;-webkit-mask:radial-gradient(circle 28px,transparent 98%,#000);mask:radial-gradient(circle 28px,transparent 98%,#000)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.q-load h2{font-size:19px}
+.q-load p{color:var(--muted);font-size:14px;margin-top:6px;min-height:20px}
+.q-res-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.q-res-top h2{font-size:15px;color:var(--muted);font-weight:700}
+.q-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--line2);background:transparent;cursor:pointer;font-size:16px}
+.q-price{font-size:clamp(30px,9vw,42px);font-weight:800;letter-spacing:-.02em;margin:6px 0 2px}
+.q-price span{color:var(--brand)}
+.q-conf{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;border-radius:999px;padding:4px 10px;border:1px solid var(--line2)}
+.q-conf.high{color:var(--brand);border-color:var(--brand-b)}
+.q-conf.medium{color:var(--warn);border-color:rgba(251,191,36,.35)}
+.q-conf.low{color:var(--danger);border-color:rgba(248,113,113,.35)}
+.q-res p.q-sum{color:var(--text);font-size:15px;margin:12px 0}
+.q-res h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:16px 0 8px}
+.q-res ul{list-style:none;display:grid;gap:7px}
+.q-res li{font-size:14px;color:#d8dde2;padding-left:22px;position:relative}
+.q-res li::before{content:"";position:absolute;left:4px;top:8px;width:7px;height:7px;border-radius:50%;background:var(--brand)}
+.q-items{display:grid;gap:6px}
+.q-items div{display:flex;justify-content:space-between;gap:10px;font-size:14px;padding:9px 11px;border-radius:10px;background:var(--card2)}
+.q-items b{white-space:nowrap}
+.q-note{font-size:12.5px;color:var(--dim);margin-top:14px;padding:10px 12px;border-radius:10px;border:1px solid var(--line)}
+.q-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.q-btn{display:flex;align-items:center;justify-content:center;gap:8px;height:48px;border-radius:12px;font-weight:800;text-decoration:none;border:1px solid var(--line2);background:var(--card2);cursor:pointer;font-size:15px}
+.q-btn.primary{background:var(--brand);color:#03130e;border-color:var(--brand);grid-column:1/-1}
+.q-btn.wa{color:#25d366}
+.q-num{font-size:12px;color:var(--dim);margin-top:10px;text-align:center}
+.q-foot{text-align:center;color:var(--dim);font-size:12px;margin-top:22px}
+.q-foot a{color:var(--muted)}
+.q-step{width:100%}
+/* Zgoda na cookies (wspólny skrypt strony) */
+.rv-cookie{position:fixed;left:12px;right:12px;bottom:calc(96px + var(--safe-b));z-index:60;max-width:520px;margin:0 auto;background:#121416;border:1px solid var(--line2);border-radius:16px;padding:14px;box-shadow:0 20px 50px rgba(0,0,0,.6);font-size:13px;color:var(--muted)}
+.rv-cookie h2{font-size:15px;color:var(--text);margin-bottom:4px}
+.rv-cookie a{color:var(--brand)}
+.rv-cookie button{margin-top:10px;margin-right:8px;height:38px;padding:0 14px;border-radius:10px;border:1px solid var(--line2);background:transparent;font-weight:700;cursor:pointer}
+.rv-cookie button:last-child{background:var(--brand);color:#03130e;border-color:var(--brand)}
+</style>
+</head>
+<body>
+<header class="q-top">
+  <a class="q-brand" href="index.html" aria-label="RevSerwis — strona główna"><img src="assets/brand/revserwis-mark.png" alt="" width="32" height="32"><span>Rev<b>Serwis</b></span></a>
+  <div class="q-top-actions">
+    <a class="q-ic wa" href="https://wa.me/48735396534?text=Dzie%C5%84%20dobry%2C%20chcia%C5%82bym%20zapyta%C4%87%20o%20wycen%C4%99." rel="noopener" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i><span>WhatsApp</span></a>
+    <a class="q-ic" href="tel:+48735396534" aria-label="Zadzwoń 735 396 534"><i class="fa-solid fa-phone" aria-hidden="true"></i><span>735 396 534</span></a>
+  </div>
+</header>
+
+<main class="q-wrap" id="main-content">
+  <div class="q-head">
+    <h1>Wycena online <span>w 30 sekund</span></h1>
+    <p>Wybierz usługę, opisz zlecenie i dodaj zdjęcia. RevBot przeanalizuje je i poda bezpłatne widełki cenowe.</p>
+    <div class="q-badges"><span><i class="fa-solid fa-check"></i>Bezpłatnie</span><span><i class="fa-solid fa-camera"></i>Do 10 zdjęć</span><span><i class="fa-solid fa-lock"></i>Bez zobowiązań</span></div>
+  </div>
+
+  <form id="quoteForm" novalidate autocomplete="on">
+    <section class="q-card" aria-labelledby="lblSvc">
+      <div class="q-label" id="lblSvc">Czego potrzebujesz?</div>
+      <div class="q-services" id="services" role="group" aria-labelledby="lblSvc"></div>
+      <div class="q-more" id="moreBox"><label class="sr-only" for="moreSelect">Inne usługi</label><select class="q-select" id="moreSelect"></select></div>
+      <div class="q-variants" id="variants"></div>
+      <div class="q-fields" id="fields"></div>
+    </section>
+
+    <section class="q-card" aria-labelledby="lblWhere">
+      <div class="q-label" id="lblWhere">Gdzie i kiedy?</div>
+      <div class="q-two">
+        <label class="q-in"><span class="sr-only" id="addrLabel">Adres</span><i class="fa-solid fa-location-dot" aria-hidden="true"></i><input class="q-input" id="address" name="address" autocomplete="street-address" placeholder="Adres lub miejscowość" aria-labelledby="addrLabel"></label>
+        <label class="q-in" id="destWrap" hidden><span class="sr-only">Dokąd</span><i class="fa-solid fa-flag-checkered" aria-hidden="true"></i><input class="q-input" id="destination" name="destination" placeholder="Dokąd? (miejscowość, adres lub kraj)"></label>
+      </div>
+      <div class="q-two" style="margin-top:10px">
+        <label class="q-in"><span class="sr-only">Data</span><i class="fa-regular fa-calendar" aria-hidden="true"></i><input class="q-input" type="date" id="date" name="date"></label>
+        <div class="q-chips" role="group" aria-label="Termin"><button type="button" class="q-chip" data-when="0" aria-pressed="true">Standardowo</button><button type="button" class="q-chip" data-when="1" aria-pressed="false">Pilne (48 h)</button><button type="button" class="q-chip" data-when="2" aria-pressed="false">Elastycznie</button></div>
+      </div>
+    </section>
+
+    <section class="q-card" aria-labelledby="lblDesc">
+      <div class="q-label" id="lblDesc">Opis i zdjęcia <small id="photoCount">0/10 zdjęć</small></div>
+      <label class="sr-only" for="description">Opis zlecenia</label>
+      <textarea class="q-text" id="description" name="description" maxlength="2000" placeholder="Np. 3 pokoje, 4. piętro bez windy, szafa, pianino, ok. 30 kartonów…"></textarea>
+      <div class="q-photos" id="photos" style="margin-top:10px"><button type="button" class="q-add" id="addPhoto"><i class="fa-solid fa-camera" aria-hidden="true"></i>Dodaj<br>zdjęcia</button></div>
+      <input type="file" id="fileInput" accept="image/*" multiple hidden>
+    </section>
+
+    <section class="q-card" aria-labelledby="lblContact">
+      <div class="q-label" id="lblContact">Kontakt <small>do przesłania wyceny</small></div>
+      <div class="q-two">
+        <label class="q-in"><span class="sr-only">Imię</span><i class="fa-regular fa-user" aria-hidden="true"></i><input class="q-input" id="name" name="name" autocomplete="name" placeholder="Imię" maxlength="140"></label>
+        <label class="q-in"><span class="sr-only">Telefon</span><i class="fa-solid fa-phone" aria-hidden="true"></i><input class="q-input" id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Telefon" maxlength="40"></label>
+      </div>
+      <div class="q-row"><button type="button" class="q-link" id="moreContact">+ e-mail / firma</button></div>
+      <div class="q-two" id="moreContactBox" hidden style="margin-top:8px">
+        <label class="q-in"><span class="sr-only">E-mail</span><i class="fa-regular fa-envelope" aria-hidden="true"></i><input class="q-input" id="email" type="email" autocomplete="email" placeholder="E-mail (opcjonalnie)" maxlength="160"></label>
+        <label class="q-in"><span class="sr-only">Firma / NIP</span><i class="fa-regular fa-building" aria-hidden="true"></i><input class="q-input" id="company" placeholder="Firma / NIP (opcjonalnie)" maxlength="200"></label>
+      </div>
+      <input class="q-hp" type="text" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="q-check"><input type="checkbox" id="onsite"><span>Chcę <b>płatnej, dokładnej wyceny z dojazdem</b> (oględziny na miejscu).</span></label>
+      <label class="q-check"><input type="checkbox" id="consent"><span>Rozumiem, że wycena jest wstępna, a dane posłużą do kontaktu w sprawie zlecenia (<a href="polityka-prywatnosci.html" target="_blank">polityka prywatności</a>).</span></label>
+      <p class="q-err" id="formError" role="alert"></p>
+    </section>
+  </form>
+  <p class="q-foot">Wolisz porozmawiać? <a href="tel:+48735396534">735 396 534</a> · <a href="kontakt.html">formularz kontaktowy</a> · <a href="index.html">strona główna</a><br>Rev Serwis Kacper Taczała · NIP 8393269274 · Słupsk</p>
+</main>
+
+<div class="q-bar"><div class="q-bar-in"><button type="submit" form="quoteForm" class="q-go" id="goBtn"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Wyceń z RevBotem</button></div><p class="q-bar-note">Bezpłatnie · wynik od razu na ekranie</p></div>
+
+<div class="q-sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle"><div class="q-sheet-in" id="sheetIn"></div></div>
+
+<noscript><p style="padding:20px;text-align:center">Formularz wymaga JavaScript. Zadzwoń: <a href="tel:+48735396534">735 396 534</a> albo napisz: <a href="mailto:kontakt@revserwis.pl">kontakt@revserwis.pl</a>.</p></noscript>
+</body>
+</html>
