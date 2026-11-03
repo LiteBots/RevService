@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Allow: /favicon.ico
+Allow: /favicon.svg
+Allow: /favicon-48x48.png
+Disallow: /api/
+Disallow: /revmi/
+Disallow: /wycena-klasyczna.html
+
+Sitemap: https://www.revserwis.pl/sitemap.xml
