@@ -1,0 +1,26 @@
+{
+  "google": { "rating": "5,0", "count": 14, "url": "https://www.google.com/maps?cid=2360414228630652549" },
+  "fixly": { "rating": "5,0", "count": 9, "url": "https://fixly.pl/profil/vxs6xmhe" },
+  "reviews": [
+    { "src": "google", "author": "Monika Zlobinska", "date": "2026-11", "service": "Opróżnianie", "text": "Rzetelna i pracowita Ekipa. Panowie nie mieli łatwego zadania, ale świetnie sobie poradzili i sprawnie opróżnili zagraconą piwnicę. Firma godna zaufania i polecenia." },
+    { "src": "fixly", "author": "Patrycja", "city": "Łeba", "date": "2026-08", "service": "Odbiór odpadów", "text": "Bardzo polecam tego Pana! Wszystko zostało załatwione szybko, sprawnie i bez żadnych problemów. Pan przyjechał na czas, zabrał wszystkie śmieci . Bardzo dobry kontakt, pełen profesjonalizm i uczciwe podejście do klienta. Na pewno jeszcze skorzystam z usług i szczerze polecam! 👍" },
+    { "src": "google", "author": "Jan Matejek", "date": "2026-10", "service": "Przeprowadzki", "text": "Panowie precyzyjnie zabezpieczali meble, przenosili ostrożnie. Pełen profesjonalizm. Mimo wielu godzin noszenia cały czas miło i z klasą odnosili się do wszystkich naszych potrzeb. Dobra robota polecam." },
+    { "src": "fixly", "author": "LUCYNA", "city": "Ustka", "date": "2026-09", "service": "Przewóz osób", "text": "Przewóz pomimo zmniejszonego taboru odbył się bardzo sprawnie, kierowcy bardzo pomocni przy załadunku i rozładunku bagaży." },
+    { "src": "google", "author": "Ewa Giedrojć", "date": "2026-10", "service": "Odbiór odpadów", "text": "Chciałabym bardzo podziękować za sprawną, profesjonalną i przede wszystkim bardzo miłą obsługę przy wywozie starego tapczanu. Panowie, którzy przyjechali, okazali się niezwykle uczynni, kulturalni i pomocni. Młodzi, sympatyczni i bardzo zaangażowani – bez żadnego problemu pomogli przy wyniesieniu tapczanu, a dodatkowo byli gotowi pomóc mi również w innej sprawie. Bardzo doceniam ich życzliwość, chęć pomocy i podejście do klienta. Wszystko przebiegło sprawnie i w bardzo miłej atmosferze. Serdecznie dziękuję i zdecydowanie polecam! Oby więcej takich pracowników. 😊" },
+    { "src": "fixly", "author": "Wojtek", "date": "2026-08", "service": "Przeprowadzki", "text": "Tempo, ostrożność, zabezpieczenie oraz kontakt z chłopakami na najwyższym możliwym poziomie. Polecam w 100%" },
+    { "src": "google", "author": "velorie", "date": "2026-09", "service": "Opróżnianie", "text": "Bardzo polecam tą firmę, odpowiedź na wycenę otrzymałam w ciągu 30 minut. Realizacja pracy przebiegła bardzo sprawnie i profesjonalnie. Polecam" },
+    { "src": "google", "author": "krzysztof wiśniewski", "date": "2026-09", "service": "Przeprowadzki", "text": "Bardzo sprawna i profesjonalna obsługa. Wszystko przebiegło szybko, bezproblemowo i w miłej atmosferze. Ekipa punktualna, pomocna i ostrożna. Zdecydowanie polecam!" },
+    { "src": "fixly", "author": "Karol", "city": "Bytów", "date": "2026-08", "service": "Transport", "text": "Ekspresowa dostawa, bardzo dobry kontakt. Wszystko jak być powinno, polecam!" },
+    { "src": "google", "author": "Weronika K", "date": "2026-10", "service": "", "text": "Super robota, chłopaki na czas, wszystko przebiegło pomyślnie!!" },
+    { "src": "fixly", "author": "Mirek", "date": "2026-08", "service": "Przeprowadzki", "text": "Ładunek nie został uszkodzony wszystko bezpiecznie dotarło. Polecam:)" },
+    { "src": "google", "author": "Shader'sFivem Partner", "date": "2026-11", "service": "Opróżnianie", "text": "Usługa opróżniania domu bardzo szybko i skutecznie, serdecznie polecam." },
+    { "src": "fixly", "author": "Adrian", "city": "Ustka", "date": "2026-10", "service": "Transport", "text": "Klasa światowa szybko sprawnie. Panowie goni polecenia" },
+    { "src": "google", "author": "Zenon Skibinski", "date": "2026-10", "service": "Transport", "text": "Polecam . Panowie sprawnie przewieźli kanapę nic nie uszkodzili." },
+    { "src": "google", "author": "D P", "date": "2026-10", "service": "", "text": "Polecam! Punktualnie,sprawnie,szybko i bardzo rzetelnie." },
+    { "src": "fixly", "author": "Adrian", "date": "2026-08", "service": "Przeprowadzki", "text": "Sprawnie szybko" },
+    { "src": "google", "author": "MikA", "date": "2026-10", "service": "Transport", "text": "Bardzo polecam Szybko, dokładnie, nic nie uszkodzone" },
+    { "src": "google", "author": "julek glaza", "date": "2026-10", "service": "", "text": "Szybko i sprawnie polecam" },
+    { "src": "fixly", "author": "Andrzej", "city": "Warszawa", "date": "2026-08", "service": "Transport", "text": "" },
+    { "src": "google", "author": "Klaudiusz Kapiszka", "date": "2026-10", "service": "", "text": "" }
+  ]
+}
